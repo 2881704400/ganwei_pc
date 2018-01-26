@@ -1,0 +1,82 @@
+@import 'variables.scss';
+/* 初始化样式 reset */
+body, p, ul{
+    margin: 0;
+    padding: 0;
+}
+
+h1, h2, h3, h4, h5, h6, dl, dd{
+    margin: 0;
+    padding: 0;;
+}
+
+ol, ul, dl{
+    list-style: none;
+}
+
+a{
+    text-decoration: none;
+    color: $textColor;
+}
+
+/* 清楚浮动 */
+.clear:after{
+    content: '';
+    display: block;
+    clear: both;
+    height: 0;
+    overflow: hidden;
+    visibility: hidden;
+}
+.clear{
+    zoom: 1;
+}
+
+/* 滚动条样式定义 */
+$sclbr: 0.16rem;
+/*滚动条整体部分*/
+::-webkit-scrollbar{
+    width: 0.32rem;
+    height: 0.32rem;
+    background-color: #f5f5f5;
+}
+/*定义滚动条的轨道，内阴影及圆角*/
+::-webkit-scrollbar-track{
+    box-shadow: 0 0 6px 0 rgba(0,0,0,0.2) inset;
+    border-radius: $sclbr;
+    background-color: #f5f5f5;
+}
+/*内层轨道，滚动条中间部分（除去）*/
+::-webkit-scrollbar-track-piece{
+    border-radius: $sclbr;
+}
+/*定义滑块，内阴影及圆角*/
+::-webkit-scrollbar-thumb{
+    border-radius: $sclbr;
+    box-shadow: 0 0 6px 0 rgba(0,0,0,.2) inset;
+    background-color: rgba(106, 171, 190, 0.8);
+}
+/*滚动条轨道两端的按钮，允许通过点击微调小方块的位置*/
+::-webkit-scrollbar-button{
+    width: 0;
+    height: 0;
+    border-radius: $sclbr;
+}
+ /*边角，及两个滚动条的交汇处*/
+::-webkit-scrollbar-corner{
+    border-radius: $sclbr;
+}
+ /*两个滚动条的交汇处上用于通过拖动调整元素大小的小控件*/
+::-webkit-resizer{
+    border-radius: $sclbr;
+}
+
+
+/* 自定义公共样式 */
+html{
+    *{
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+    }
+}
