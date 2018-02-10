@@ -1,8 +1,16 @@
+var boxw = $('.box').width();
+var boxh = $('.box').height();
+var th = $('.box .t').height();
+var lh = $('.box .l').height();
+var bh = $('.box .b').height();
 // ----------------canvas动画---------------------------
 var canvas = document.getElementById('canvas-bg');
 var ctx = canvas.getContext('2d');
 var w = canvas.width = window.innerWidth || document.body.clientWidth;
 var h = canvas.height = window.innerHeight || document.body.clientHeight;
+
+var icon = document.querySelector('.icon');
+console.log(icon)
 
 // ---------------start---------------
 // -------------默认配置--------------
@@ -18,7 +26,7 @@ canvas2.width = 100;
 canvas2.height = 100;
 var half = canvas2.width / 2,
     gradient2 = ctx2.createRadialGradient(half, half, 0, half, half, half);
-gradient2.addColorStop(0.025, 'green');
+gradient2.addColorStop(0.025, '#ccc');
 gradient2.addColorStop(0.1, 'hsl(' + hue + ', 61%, 33%)');
 gradient2.addColorStop(0.25, 'hsl(' + hue + ', 64%, 6%)');
 gradient2.addColorStop(1, 'transparent');
@@ -66,6 +74,13 @@ var Star = function (opt, ct, st, flag) {
     //星星移动速度
     this.alpha = opt.alpha !== undefined ? opt.alpha : random(2, 10) / 10;
 
+    // 星星坐标
+    this.x = opt.x !== undefined ? opt.x : this.radius;
+    this.xv = 0;
+    this.y = opt.y !== undefined ? opt.y : this.radius;
+    this.yv = 0;
+    this.deg = 0;
+
     if (flag === true) {
         ct++;
         st.push(this);
@@ -98,6 +113,36 @@ Star.prototype.draw = function (xFun, yFun, xF, yF) {
     this.timePassed += this.speed;
 }
 
+Star.prototype.drawStream = function () {
+    var twinkle = random(10);
+    if (twinkle === 1 && this.alpha > 0) {
+        this.alpha -= 0.05;
+    } else if (twinkle === 2 && this.alpha < 1) {
+        this.alpha += 0.05;
+    }
+    ctx.globalAlpha = this.alpha;
+
+    // this.xv += this.speed;
+    // if (this.x < (w-boxw)/2 + boxw) {
+    //     this.x += this.xv;
+    //     ctx.drawImage(canvas2, this.x - this.radius / 2, this.y - this.radius / 2, this.radius, this.radius);
+    // }else if (this.x < (w-boxw)/2 + boxw + 500) {
+        // this.x += 1;
+        // this.deg += 0.6;
+        // ctx.save();
+        // ctx.translate(w/2 + 1000, h/2);
+        // ctx.rotate(-this.deg*Math.PI/180);
+        // ctx.translate(-(w / 2+1000), -h / 2);
+        ctx.drawImage(icon, this.x - this.radius / 2, this.y - this.radius / 2, this.radius, this.radius);
+        // ctx.restore();
+    // } else {
+    //     // this.radius = 500;
+    //     ctx.drawImage(canvas2, this.x - this.radius / 2, this.y - this.radius / 2, this.radius, this.radius);
+    // }
+    
+    this.timePassed += this.speed;
+}
+
 for (var i = 0; i < maxStars; i++) {
     new Star({});
 }
@@ -118,7 +163,7 @@ function aniDefault() {
     });
 }
 
-// ---------------------粒子收缩起始配置---------------------
+// ---------------------粒子爆炸效果配置---------------------
 var showCount = 0;
 var showStars = [];
 var showConf = {
@@ -138,7 +183,7 @@ for (var i = 0; i < showConf.maxStars; i++) {
     new Star(showConf, showCount, showStars, true);
 }
 
-// -----------------------流星飞过初始配置-------------------
+// -----------------------粒子流星飞过配置-------------------
 var meteorCount = 0;
 var meteorStars = [];
 var meteorConf = {
@@ -146,7 +191,7 @@ var meteorConf = {
     orbitRadius: 1,
     radius: 12,
     orbitX: 0,
-    orbitY: h / 2 + 50,
+    orbitY: h / 2 + 70,
     speed: 0.0007,
     rf: null
 };
@@ -154,7 +199,29 @@ for (var i = 0; i < meteorConf.maxStars; i++) {
     new Star(meteorConf, meteorCount, meteorStars, true);
 }
 
-// ------------------------粒子聚合爆炸散开---------------------
+// ---------------------流光效果配置-----------------------
+var streamCount = 0;
+var streamStars = [];
+var streamConf = {
+    maxStars: 40,
+    x: 0,
+    y: 0,
+    radius: 100,
+    orbitX: w/2,
+    orbitY: h / 2,
+    speed: 1,
+    rf: null
+};
+for (var i = 0; i <= streamConf.maxStars; i++) {
+    streamConf.radius = random(40, 260);
+    streamConf.x = random(0, 200);
+    streamConf.y = random((h - boxh)/ 2 + 224, (h - boxh) / 2 + 264);
+    // streamConf.y = random(streamH/2 - 20, streamH/2 + 20);
+    new Star(streamConf, streamCount, streamStars, true);
+}
+
+
+// ------------------------粒子爆炸效果---------------------
 function aniShow(stArr) {
     ctx.globalCompositeOperation = 'source-over';
     ctx.globalAlpha = 0.6; //尾巴
@@ -217,7 +284,7 @@ function aniShow(stArr) {
 }
 
 
-// --------------------流星飞过----------------------------
+// --------------------粒子流星飞过----------------------------
 function aniMeteor (stArr) {
     ctx.globalCompositeOperation = 'lighter';
     for (var i = 1, l = stArr.length; i < l; i++) {
@@ -231,15 +298,46 @@ function aniMeteor (stArr) {
             item.orbitX += random(40, 60) + item.orbitX / 18.7;
         });
 
-        if (performance.now() > 2900) {
-            // new Earth()
+        if (performance.now() > 3200) {
             $('.title .line').removeClass('hide').addClass('ani');
             $('.title .txt-en').removeClass('hide').addClass('ani');
         }
 
-        if (performance.now() > 3140) {
+        if (performance.now() > 4000) {
             window.cancelAnimationFrame(meteorConf.rf);
         }
+
+    });
+}
+
+aniStream(streamStars);
+// --------------------流光效果----------------------------
+function aniStream(stArr) {
+    ctx.globalCompositeOperation = 'source-over';
+    ctx.globalAlpha = 0.6; //尾巴
+    ctx.fillStyle = 'hsla(' + hue + ', 64%, 6%, 2)';
+    ctx.fillRect(0, 0, w, h)
+
+    ctx.globalCompositeOperation = 'lighter';
+    for (var i = 1, l = stArr.length; i < l; i++) {
+        stArr[i].drawStream(2, 0, 20, 1);
+    };
+
+    streamConf.rf = window.requestAnimationFrame(function () {
+        aniStream(stArr);
+
+        // stArr.forEach(function (item, index) {
+        //     item.orbitX += random(40, 60) + item.orbitX / 18.7;
+        // });
+
+        // if (performance.now() > 3200) {
+        //     $('.title .line').removeClass('hide').addClass('ani');
+        //     $('.title .txt-en').removeClass('hide').addClass('ani');
+        // }
+
+        // if (performance.now() > 4000) {
+        //     window.cancelAnimationFrame(meteorConf.rf);
+        // }
 
     });
 }
@@ -260,3 +358,64 @@ function flyInto () {
 }
 
 $('.title img.icon').on('click', flyInto);
+
+
+
+
+
+var dom = document.getElementById("earth");
+// var myChart = echarts.init(dom);
+var app = {};
+var option = null;
+option = {
+    backgroundColor: '#000',
+    globe: {
+        globeRadius: 100, //地球半径
+        globeOuterRadius: 150, //地球外半径
+        environment: 'rgba(255,255,255,0)', //背景色，可为图片
+        baseTexture: "./static/data-gl/asset/world.topo.bathy.200401.jpg", //地球的纹理图片
+        heightTexture: "./static/data-gl/asset/world.topo.bathy.20040123.jpg", //地球的高度纹理
+        //displacementTexture:"data-gl/asset/world.topo.bathy.200401.jpg",//地球顶点的置换纹理
+        displacementScale: 0, //地球顶点位移的大小
+        displacementQuality: 'medium', //地球顶点位移的质量
+        shading: 'realistic', //着色效果
+        realisticMaterial: {
+            roughness: 0.5
+        },
+        postEffect: {
+            enable: true
+        },
+        light: {
+            main: {
+                intensity: 5,
+                shadow: true,
+                shadowQuality: 'ultra'
+            },
+            // ambientCubemap: {
+            //     texture: './static/data-gl/asset/data-1491838644249-ry33I7YTe.hdr',
+            //     exposure: 2,
+            //     diffuseIntensity: 2,
+            //     specularIntensity: 2
+            // }
+        },
+        top: 0
+    }
+};;
+
+if(option && typeof option === "object") {
+    // myChart.setOption(option, true);
+}
+// setInterval(drawGlobe,100);
+
+function drawGlobe() {
+    var earth=document.getElementById("earth");
+    var boxHeight = earth.style.top;
+    // console.log(boxHeight)
+    boxHeight=boxHeight.replace("px","");console.log(boxHeight)
+    if(boxHeight<=0){
+        earth.style.top='300px';
+    }else{
+        earth.style.top=parseInt(boxHeight)-1+'px';
+    }
+    
+}

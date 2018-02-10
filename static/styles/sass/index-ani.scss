@@ -1,5 +1,5 @@
 @keyframes ani-icon{
-    @for $i from 0 through 100 {
+    @for $i from 0 through 10 {
         #{$i * 1%} {
             box-shadow: 0 0 #{1px * (100 - $i)} #{1px * (100 - $i)} rgba(0,0,255,(100 - $i) * 0.01);
             transform: translate3d(#{50px * (100 - $i)}, -#{180px * (100 - $i)}, -#{160px * (100 - $i)});
