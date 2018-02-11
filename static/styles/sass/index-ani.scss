@@ -1,11 +1,11 @@
-@keyframes ani-icon{
-    @for $i from 0 through 10 {
-        #{$i * 1%} {
-            box-shadow: 0 0 #{1px * (100 - $i)} #{1px * (100 - $i)} rgba(0,0,255,(100 - $i) * 0.01);
-            transform: translate3d(#{50px * (100 - $i)}, -#{180px * (100 - $i)}, -#{160px * (100 - $i)});
-        }
-    }
-}
+// @keyframes ani-icon{
+//     @for $i from 0 through 10 {
+//         #{$i * 1%} {
+//             box-shadow: 0 0 #{1px * (100 - $i)} #{1px * (100 - $i)} rgba(0,0,255,(100 - $i) * 0.01);
+//             transform: translate3d(#{50px * (100 - $i)}, -#{180px * (100 - $i)}, -#{160px * (100 - $i)});
+//         }
+//     }
+// }
 
 @keyframes ani-txt{
     0%{
@@ -38,22 +38,9 @@
 }
 
 @keyframes ani-txten{
-    0%{
-        transform: scale(0) translate3d(0, 2000px, -10000px);
-    }
-    60%{
-        transform: scale(1) translate3d(0, 20px, 0);
-    }
-    70%{
-        transform: scale(1) translate3d(0, -10px, 0);
-    }
-    80%{
-        transform: scale(1) translate3d(0, 10px, 0);
-    }
-    90%{
-        transform: scale(1) translate3d(0, -5px, 0px);
-    }
-    100%{
-        transform: scale(1) translate3d(0, 0, 0px);
+    @for $i from 0 through 10 {
+        #{$i * 10%}{
+            transform: translate3d(#{-400px * (10 - $i)}, 0px, 0px);
+        }
     }
 }

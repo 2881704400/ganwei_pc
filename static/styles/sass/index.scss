@@ -75,7 +75,7 @@ body{
             animation-duration: 1000ms;
 
             &.hide{
-                // opacity: 0;
+                opacity: 0;
             }
         }
 
@@ -84,8 +84,6 @@ body{
 
             .icon{
                 max-width: 10%;
-                // height: 100%;
-                // box-shadow: 0 0 200px 200px rgba(255,255,255,1);
 
                 &.ani{
                     animation-timing-function: ease-in;
@@ -98,6 +96,7 @@ body{
                 height: 100%;
 
                 &.ani{
+                    animation-duration: 1800ms;
                     animation-name: ani-txt;
                 }
             }
@@ -118,12 +117,12 @@ body{
             }
         }
 
-        .box{
+        .b{
             .txt-en{
                 max-width: 100%;
 
                 &.ani{
-                    animation-duration: 800ms;
+                    animation-duration: 400ms;
                     animation-name: ani-txten;
                 }
             }
@@ -132,22 +131,15 @@ body{
     }
 }
 
-#canvas-stream{
+.star-light{
     position: absolute;
-    z-index: 1;
-    left: 0;
-    top: 50%;
-    margin-top: -250px;
-    background-color: transparent;
-}
-
-#earth{
-    position: absolute;
-    z-index: 10;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    z-index: 99;
+    width: 0px;
+    height: 0px;
+    left: -10px;
+    top: 49%;
+    border-radius: 50%;
+    opacity: 0;
 }
 
 #mv-flyto{
