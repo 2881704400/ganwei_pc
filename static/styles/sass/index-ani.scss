@@ -44,3 +44,23 @@
         }
     }
 }
+
+@keyframes ani-earth {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes ani-earthup {
+    0%{
+        opacity: 1;
+        transform: translate3d(0px, 0px, 0px) scale(1);
+    }
+    100%{
+        opacity: 0;
+        transform: translate3d(0px, -1400px, -100px) scale(0.1) rotate(10deg);
+    }
+}

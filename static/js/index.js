@@ -213,6 +213,10 @@ function aniShow(stArr) {
 
         if (performance.now() > 2600) {
             step1(160);
+            $('img.earth').animate({
+                'opacity': '1',
+                'top': '50%'
+            }, 600);
         }
 
         if (performance.now() > 2800) {
@@ -320,6 +324,8 @@ function step3(time) {
     });
 }
 
+// ----------------------------
+var earth = $('img.earth');
 
 var flyto = document.querySelector('#mv-flyto');
 flyto.width = w;
@@ -333,4 +339,21 @@ function flyInto() {
     });
 }
 
-$('.title img.icon').on('click', flyInto);
+
+
+$('.title img.icon').on('click', () => {
+    $(earth).addClass('ani');
+    setTimeout(() => {
+        flyInto();
+        $(earth).css('display', 'none');
+    }, 700)
+    
+});
+
+$(earth).css({
+    'width': w / 2,
+    'height': w / 2,
+    'left': '50%',
+    'margin-left': -w / 4,
+    'top': '100%'
+});
