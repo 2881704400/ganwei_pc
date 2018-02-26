@@ -213,10 +213,6 @@ function aniShow(stArr) {
 
         if (performance.now() > 2600) {
             step1(160);
-            $('img.earth').animate({
-                'opacity': '1',
-                'top': '50%'
-            }, 600);
         }
 
         if (performance.now() > 2800) {
@@ -226,6 +222,9 @@ function aniShow(stArr) {
         if (performance.now() > 3140) {
             window.cancelAnimationFrame(showConf.rf);
             aniDefault();
+            $('a-scene').animate({
+                'opacity': '1'
+            }, 5000);
         }
         
     });
@@ -325,7 +324,6 @@ function step3(time) {
 }
 
 // ----------------------------
-var earth = $('img.earth');
 
 var flyto = document.querySelector('#mv-flyto');
 flyto.width = w;
@@ -342,18 +340,29 @@ function flyInto() {
 
 
 $('.title img.icon').on('click', () => {
-    $(earth).addClass('ani');
-    setTimeout(() => {
-        flyInto();
-        $(earth).css('display', 'none');
-    }, 700)
+    earthMove();
+    // setTimeout(() => {
+    //     flyInto();
+    // }, 700)
     
 });
 
-$(earth).css({
-    'width': w / 2,
-    'height': w / 2,
-    'left': '50%',
-    'margin-left': -w / 4,
-    'top': '100%'
-});
+function earthMove () {
+    var userH = $('#camera').attr('user-height');
+    var scale = $('#sphere').attr('radius');
+    var ut = null;
+    ut = setInterval(function () {
+        userH -= 0.05;
+        scale -= 0.026;
+        if (userH <= 0) {
+            clearInterval(ut);
+            flyInto();
+        }
+        $('#camera').attr('user-height', userH);
+        $('#sphere').attr('radius', scale);
+    }, 1);
+    $('a-scene').animate({
+        'opacity': '0'
+    }, 8400);
+}
+

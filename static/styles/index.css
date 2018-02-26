@@ -134,38 +134,6 @@
   100% {
     -webkit-transform: translate3d(0px, 0px, 0px);
             transform: translate3d(0px, 0px, 0px); } }
-@-webkit-keyframes ani-earth {
-  0% {
-    -webkit-transform: rotate(0deg);
-            transform: rotate(0deg); }
-  100% {
-    -webkit-transform: rotate(360deg);
-            transform: rotate(360deg); } }
-@keyframes ani-earth {
-  0% {
-    -webkit-transform: rotate(0deg);
-            transform: rotate(0deg); }
-  100% {
-    -webkit-transform: rotate(360deg);
-            transform: rotate(360deg); } }
-@-webkit-keyframes ani-earthup {
-  0% {
-    opacity: 1;
-    -webkit-transform: translate3d(0px, 0px, 0px) scale(1);
-            transform: translate3d(0px, 0px, 0px) scale(1); }
-  100% {
-    opacity: 0;
-    -webkit-transform: translate3d(0px, -1400px, -100px) scale(0.1) rotate(10deg);
-            transform: translate3d(0px, -1400px, -100px) scale(0.1) rotate(10deg); } }
-@keyframes ani-earthup {
-  0% {
-    opacity: 1;
-    -webkit-transform: translate3d(0px, 0px, 0px) scale(1);
-            transform: translate3d(0px, 0px, 0px) scale(1); }
-  100% {
-    opacity: 0;
-    -webkit-transform: translate3d(0px, -1400px, -100px) scale(0.1) rotate(10deg);
-            transform: translate3d(0px, -1400px, -100px) scale(0.1) rotate(10deg); } }
 @media -sass-debug-info{filename{font-family:file\:\/\/C\:\/nloves\/work-jinjia\/static\/styles\/sass\/index\.scss}line{font-family:\000036}}
 html, body {
   margin: 0;
@@ -333,5 +301,9 @@ img.earth {
   img.earth.ani {
     -webkit-animation: ani-earthup 1s ease-in;
             animation: ani-earthup 1s ease-in; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/C\:\/nloves\/work-jinjia\/static\/styles\/sass\/index\.scss}line{font-family:\00003172}}
+.a-enter-vr {
+  display: none; }
 
 /*# sourceMappingURL=index.css.map */
