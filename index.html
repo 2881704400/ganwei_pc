@@ -1,50 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>index</title>
-    <link rel="stylesheet" href="./static/styles/index.css">
-    <script src="https://aframe.io/releases/0.4.0/aframe.min.js"></script>
-</head>
-
-<body>
-    <canvas id="canvas-bg" width="700" height="700"></canvas>
-    <div class="title">
-        <div class="box">
-            <div class="t">
-                <img class="icon hide" src="./static/imgs/icon.png" alt="">
-                <img class="txt hide" src="./static/imgs/txt.png" alt="">
-            </div>
-            <div class="l">
-                <img class="line hide" src="./static/imgs/line.png" alt="">
-            </div>
-            <div class="b">
-                <img class="txt-en hide" src="./static/imgs/txt_en.png" alt="">
-            </div>
-        </div>
-    </div>
-    <img src="./static/imgs/icon2.png" alt="" class="star-light">
-
-    <a-scene style="position:absolute; z-index:1; opacity:0;">
-
-        <a-camera position='0 0 3' user-height='2.9' id="camera"></a-camera>
-        
-        <a-sphere src="./static/imgs/earth_atmos.jpg" radius="2.5" segments-height="53" id="sphere">
-            <a-animation attribute="rotation" dur="100000" fill="forwards" to="0 360 0" easing="linear" repeat="indefinite"></a-animation>
-        </a-sphere>
-        
-    </a-scene>
-
-    <video id="mv-flyto" src="./static/mv/flyto.mp4"></video>
-
-    <script src="./static/js/jquery-3.3.1.js"></script>
-    <script src="./static/js/tween.js"></script>
-    <script src="./static/js/animation.js"></script>
-    <script src="./static/js/index.js"></script>
-</body>
-
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>gw-bsweb</title>
+  </head>
+  <body>
+    <div id="app"></div>
+    <!-- built files will be auto injected -->
+  </body>
 </html>
