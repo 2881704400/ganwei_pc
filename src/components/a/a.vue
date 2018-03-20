@@ -1,12 +1,11 @@
 <template>
-  <div id="app" class="gw">
-    <router-view v-cloak />
+  <div class="a">
+      a
   </div>
 </template>
 
 <script>
 export default {
-  name: 'App',
   data () {
     return {}
   }

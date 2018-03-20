@@ -55,7 +55,9 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     new HtmlWebpackPlugin({
       filename: 'index.html',
       template: 'index.html',
-      inject: true
+      inject: true,
+      title: '敢为软件-dev',
+      favicon: path.resolve(__dirname, '../src/assets/img/logo.png')
     }),
     // copy custom static assets
     new CopyWebpackPlugin([

@@ -1,0 +1,21 @@
+/*
+reset：浏览器默认样式重置
+valuables：sass变量
+mixin：sass宏mixin
+*/
+@import '../reset', './valuables', './mixin';
+
+html{
+  height: 100%;
+  body{
+    height: 100%;
+    [v-cloak]{
+      display: none;
+    }
+    .gw{
+      height: 100%;
+      overflow: hidden;
+      font-family: 'Avenir', Helvetica, Arial, sans-serif;
+    }
+  }
+}
