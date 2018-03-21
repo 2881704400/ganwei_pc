@@ -5,8 +5,8 @@ const Login = r => require.ensure([], () => r(require('@page/Login')), 'login')
 // 首页组件
 const Index = r => require.ensure([], () => r(require('@page/Index')), 'index')
 // home组件
-const Home = r => require.ensure([], () => r(require('@page/Home/home')), 'home')
-const a = r => require.ensure([], () => r(require('@page/a/a')), 'a')
+const Home = r => require.ensure([], () => r(require('@page/home/Home')), 'page')
+const Equips = r => require.ensure([], () => r(require('@page/equips/Equips')), 'page')
 const b = r => require.ensure([], () => r(require('@page/b/b')), 'a')
 
 Vue.use(Router)
@@ -17,7 +17,7 @@ export default new Router({
   routes: [
     {
       path: '/',
-      redirect: '/index/'
+      redirect: '/login'
     },
     {
       path: '/login',
@@ -25,7 +25,7 @@ export default new Router({
       component: Login
     },
     {
-      path: '/index/',
+      path: '/index',
       name: 'index',
       component: Index,
       children: [
@@ -38,8 +38,8 @@ export default new Router({
           component: Home
         },
         {
-          path: 'a',
-          component: a
+          path: 'equips',
+          component: Equips
         },
         {
           path: 'b',

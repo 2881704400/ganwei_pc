@@ -21,3 +21,18 @@
     -webkit-line-clamp: $lines;
     overflow: hidden;
 }
+// flex兼容
+@mixin flexBox () {
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+}
+@mixin flexGrow ($grow: 0) {
+    -webkit-box-flex: $grow;
+    flex-grow: $grow;
+}
+@mixin jusContent ($jus: flex-start) {
+    justify-content: $jus;
+}
