@@ -1,16 +1,21 @@
 <template>
   <div class="gw-index">
     <header class="header">
-      <div class="header-logo">logo</div>
+      <div class="header-logo">
+        <img class="logo" src="" alt="logo">
+        <div class="txt">
+          <h1>敢为软件</h1>
+          <p>ganwei software</p>
+        </div>
+      </div>
       <div class="header-opt">
-        <span class="user" title="当前登陆用户"><span class="iconfont">&#xe62d;</span> admin</span>
+        <span class="user" title="当前登陆用户"><span class="iconfont">&#xe62d;</span>admin</span>
         <span class="iconfont" title="换肤">&#xe91e;</span>
-        <router-link
+        <span
         class="iconfont"
         title="注销登陆"
-        tag="span"
-        to="/login"
-        >&#xe641;</router-link>
+        @click="logout"
+        >&#xe641;</span>
       </div>
     </header>
     <div class="main">
@@ -31,7 +36,8 @@
             ></router-link>
           </template>
         </ul> -->
-        <Tree :data="navList"></Tree>
+        <!-- <Tree :data="navList"></Tree> -->
+        <nav-tree :list="navList"></nav-tree>
         <div class="fold" @click="foldAside">
           {{foldBtnText}}
         </div>
@@ -42,7 +48,7 @@
 </template>
 
 <script>
-import NavLi from './index/NavLi'
+import NavTree from './index/NavTree'
 export default {
   data () {
     return {
@@ -67,7 +73,15 @@ export default {
         },
         {
           title: '实时快照',
-          url: 'b'
+          url: 'b',
+          children: [
+            {
+              title: '22b'
+            },
+            {
+              title: '22b2'
+            }
+          ]
         },
         {
           title: '系统配置',
@@ -95,7 +109,7 @@ export default {
     }
   },
   components: {
-    NavLi
+    NavTree
   },
   methods: {
     foldAside () {
@@ -127,6 +141,11 @@ export default {
       } else {
         this.$router.push('/')
       }
+    },
+    logout () {
+      window.localStorage.removeItem('gw_appkey')
+      window.localStorage.removeItem('gw_infokey')
+      this.$router.push('/')
     }
   },
   created () {
