@@ -20,15 +20,14 @@
     </header>
     <div class="main">
       <aside class="nav-left" :class="[isFold ? 'close' : 'open']">
-        <Tree
-        class="nav-list"
-        :data="navList"
-        v-on:on-toggle-expand="navItemExpand"
-        :render="renderNavItem"
-        v-on:on-select-change="navItemSelect"
-        ></Tree>
-        <div class="fold" @click="foldAside">
-          {{foldBtnText}}
+        <nav class="nav-list">
+          <Tree
+          :data="navList"
+          :render="renderNavItem"
+          ></Tree>
+        </nav>
+        <div class="fold" :class="[isFold ? 'close' : 'open']" @click="foldAside">
+          <span class="ivu-icon" :class="[isFold ? 'ivu-icon-arrow-left-b' : 'ivu-icon-arrow-right-b']"></span>
         </div>
       </aside>
       <router-view class="main-body"></router-view>
@@ -228,7 +227,7 @@ export default {
           },
           class: 'nav-item',
           on: {
-            click: () => {
+            click: (ev) => {
               if (this.hasChildClick < 1) {
                 this.hasChildClick = 1
                 this.loadNavList(data, (rt) => {
@@ -267,7 +266,13 @@ export default {
               'lineHeight': '60px',
               'marginLeft': '16px'
             }
-          }, data.title)
+          }, data.title),
+          h('Spin', {
+            props: {
+              fix: true
+            },
+            style: [data.loading ? {'z-index': '71'} : {'z-index': '-1'}]
+          })
         ])
       } else {
         return h('div', {
