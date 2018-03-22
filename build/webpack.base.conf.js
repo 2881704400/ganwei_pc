@@ -61,8 +61,17 @@ module.exports = {
         }
       },
       {
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader', 'postcss-loader'],
+        exclude: [resolve('src/assets/fonts'), resolve('node_modules/iview')]
+      },
+      {
         test: /\.scss$/,
-        loader: 'vue-style-loader'
+        use: [
+          {
+            loader: 'vue-style-loader'
+          }
+        ]
       },
       {
         test: /\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/,

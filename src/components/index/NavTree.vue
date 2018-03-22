@@ -1,7 +1,7 @@
 <template>
-  <ul>
-    <li v-for="(item, index) in list" :key="index">
-      <span v-text="item.title"></span>
+  <ul class="nav-tree">
+    <li v-for="(item, index) in list" :key="index" :class="[(item.children && item.children.length) ? 'has-child' : 'no-child']">
+      <span class="title" v-text="item.title"></span>
       <tree v-if="item.children && item.children.length" :list="item.children"></tree>
     </li>
   </ul>
@@ -21,3 +21,5 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" src="../../assets/styles/sass/nav-tree.scss"></style>

@@ -23,16 +23,16 @@
             .logo{
                 width: $headerLogoSize;
                 height: $headerLogoSize;
-                background-color: teal;
                 text-align: right;
             }
             .txt{
                 display: flex;
                 flex-direction: column;
                 align-items: center;
-                margin-left: 8px;
+                margin-left: 14px;
                 h1{
                     font-size: 30px;
+                    font-weight: normal;
                 }
                 p{
                     margin-top: 4px;
@@ -51,7 +51,7 @@
                 line-height: $headH - 24px;
                 cursor: pointer;
                 margin: 12px 4px;
-                font-size: 18px;
+                font-size: 24px;
                 padding: 0 8px;
                 transition: all 200ms;
                 &:hover{
@@ -59,11 +59,11 @@
                 }
                 &.user{
                     span{
+                        font-size: 24px;
                         margin-right: 6px;
                     }
                     padding-right: 28px;
                     margin-right: 12px;
-                    // box-shadow: -1px 0px 0px 0px rgba(255,255,255,0.3) inset;
                 }
             }
         }
@@ -71,39 +71,45 @@
     .main{
         @include flexBox;
         position: absolute;
-        top: 0;
+        top: $headH;
         bottom: 0;
         left: 0;
         right: 0;
-        height: 100%;
-        margin-top: $headH;
         flex-wrap: nowrap;
         .nav-left{
             position: relative;
             width: $asideW;
             height: 100%;
             background-color: $asideBgc;
-            // box-shadow: 1px 0px 6px 2px rgba(0,0,0,0.2);
             margin-right: $foldBtnW;
             transition: margin 600ms;
             overflow-y: auto;
+            overflow-x: auto;
+            // padding-right: $foldBtnW;
+            &::-webkit-scrollbar{
+                display: none;
+            }
             &.close{
-                margin-left: -$asideW;
+                margin-left: -$asideW + $foldBtnW;
             }
             &.open{
                 margin-left: 0px;
             }
-            ul{
-                li{
-                    color: #000;
-                    cursor: pointer;
-                    text-align: left;
-                    // height: 60px;
-                    line-height: 60px;
-                    font-size: 16px;
-                    padding-left: 16px;
-                    &.router-link-active{
-                        box-shadow: 4px 0px 0px 0px turquoise inset;
+            .nav-list{
+                .ivu-tree-children{
+                    overflow: hidden;
+                    .nav-item{
+                        color: #000;
+
+                        &:hover{
+                            color: palegreen;
+                        }
+                    }
+                    li{
+                        margin: 0 auto;
+                        .ivu-tree-arrow{
+                            display: none;
+                        }
                     }
                 }
             }
@@ -111,7 +117,8 @@
                 width: $foldBtnW;
                 height: $foldBtnH;
                 position: absolute;
-                left: $asideW;
+                // left: $asideW;
+                right: 0;
                 border-radius: 0px 6px 6px 0px;
                 background-color: turquoise;
                 top: 50%;
@@ -121,6 +128,7 @@
                 line-height: $foldBtnH / 2;
                 text-align: center;
                 font-size: 14px;
+                z-index: 70;
             }
         }
         .main-body{
