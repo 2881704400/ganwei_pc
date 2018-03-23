@@ -127,7 +127,7 @@ export default {
             console.log(data)
             this.$router.push('/')
           } else {
-            console.log(data.data)
+            console.log('密钥验证成功,当前连接服务：', data.data)
           }
         }).catch(err => {
           console.log(err)

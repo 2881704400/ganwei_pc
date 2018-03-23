@@ -27,9 +27,11 @@ export default {
         let data = rt.data.HttpData
         switch (data.code) {
           case 200:
-            // 成功
+            // 登陆成功
             window.localStorage.setItem('gw_appkey', data.data.appkey)
             window.localStorage.setItem('gw_infokey', data.data.infokey)
+            // 设置登陆验证session密钥
+            this.Axios.defaults.headers.common['Authorization'] = window.localStorage.getItem('gw_appkey') + '-' + window.localStorage.getItem('gw_infokey')
             this.$router.push('/index')
             break
           case 1003:

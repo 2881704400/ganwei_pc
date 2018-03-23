@@ -2,16 +2,23 @@ import Vue from 'vue'
 import Router from 'vue-router'
 // 登陆组件
 const Login = r => require.ensure([], () => r(require('@page/Login')), 'login')
-// 首页组件
+// Index组件
 const Index = r => require.ensure([], () => r(require('@page/Index')), 'index')
-// home组件
+// 首页组件
 const Home = r => require.ensure([], () => r(require('@page/home/Home')), 'page')
+// 设备数据组件
 const Equips = r => require.ensure([], () => r(require('@page/equips/Equips')), 'page')
+// 实时快照组件
 const Snapshot = r => require.ensure([], () => r(require('@page/snapshot/Snapshot')), 'page')
+// 系统配置组件
 const SystemConf = r => require.ensure([], () => r(require('@page/systemConf/SystemConf')), 'page')
+// 事件查询组件
 const EventQuery = r => require.ensure([], () => r(require('@page/eventQuery/EventQuery')), 'page')
+// 报警排表组件
 const Schedule = r => require.ensure([], () => r(require('@page/schedule/Schedule')), 'page')
+// 定时任务组件
 const TimeTask = r => require.ensure([], () => r(require('@page/timeTask/TimeTask')), 'page')
+// 设备联动组件
 const EquipLinkage = r => require.ensure([], () => r(require('@page/equipLinkage/EquipLinkage')), 'page')
 
 Vue.use(Router)
