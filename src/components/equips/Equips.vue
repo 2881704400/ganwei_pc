@@ -29,4 +29,4 @@ export default {
 }
 </script>
 
-<style lang="scss" src="../../assets/styles/sass/equips.scss"></style>
+<style lang="scss" src="@assets/styles/sass/equips.scss"></style>

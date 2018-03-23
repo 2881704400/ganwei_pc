@@ -5,15 +5,24 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    appkey: '',
-    infokey: ''
+    gwToken: '',
+    loginMsg: ''
   },
   mutations: {
-    setAppkey (state, key) {
-      state.appkey = key
+    getStorageToken (state) {
+      let token = window.localStorage.getItem('gw_token')
+      state.gwToken = token
     },
-    setInfokey (state, key) {
-      state.infokey = key
+    getStorageLoginMsg (state) {
+      state.loginMsg = window.localStorage.getItem('login_msg')
+    }
+  },
+  actions: {
+    setToken ({commit}) {
+      commit('getStorageToken')
+    },
+    setLoginMsg ({commit}) {
+      commit('getStorageLoginMsg')
     }
   }
 })

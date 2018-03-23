@@ -1,0 +1,67 @@
+[
+    {
+        "title": "首页",
+        "href": "home",
+        "iconClass": "ios-home-outline",
+        "loading": false,
+        "hasChild": false,
+        "children": []
+    },
+    {
+        "title": "设备数据",
+        "href": "equips",
+        "iconClass": "ios-monitor-outline",
+        "loading": false,
+        "expand": false,
+        "hasChild": true,
+        "children": []
+    },
+    {
+        "title": "实时快照",
+        "href": "snapshot",
+        "iconClass": "ios-camera-outline",
+        "loading": false,
+        "hasChild": false,
+        "children": []
+    },
+    {
+        "title": "系统配置",
+        "href": "systemConf",
+        "iconClass": "ios-gear-outline",
+        "loading": false,
+        "hasChild": false,
+        "children": []
+    },
+    {
+        "title": "事件查询",
+        "href": "eventQuery",
+        "iconClass": "ios-search-strong",
+        "loading": false,
+        "hasChild": false,
+        "children": []
+    },
+    {
+        "title": "报警排表",
+        "href": "schedule",
+        "iconClass": "ios-calendar-outline",
+        "loading": false,
+        "hasChild": false,
+        "children": []
+    },
+    {
+        "title": "定时任务",
+        "href": "timeTask",
+        "iconClass": "ios-clock-outline",
+        "loading": false,
+        "hasChild": false,
+        "children": []
+    },
+    {
+        "title": "设备联动",
+        "href": "equipLinkage",
+        "iconClass": "ios-toggle-outline",
+        "loading": false,
+        "hasChild": false,
+        "children": []
+    }
+]

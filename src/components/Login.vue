@@ -19,22 +19,27 @@ export default {
     login () {
       // 登录操作
       let reqData = 'username=' + this.userName + '&userpwd=' + this.userPwd
-      this.Axios.post('/api/server/getkey', reqData, {
-        headers: {
-          'content-type': 'application/x-www-form-urlencoded'
-        }
-      }).then(rt => {
+      this.Axios.post('/api/server/getkey', reqData).then(rt => {
         let data = rt.data.HttpData
         switch (data.code) {
           case 200:
-            // 登陆成功
-            window.localStorage.setItem('gw_appkey', data.data.appkey)
-            window.localStorage.setItem('gw_infokey', data.data.infokey)
+            // 登陆成功操作
+            let key = data.data
+            window.localStorage.setItem('gw_appkey', key.appkey)
+            window.localStorage.setItem('gw_infokey', key.infokey)
+            let gwToken = key.appkey + '-' + key.infokey
+            window.localStorage.setItem('gw_token', gwToken)
+            window.localStorage.setItem('login_msg', data.message)
+            this.$store.dispatch('setToken')
+            this.$store.dispatch('setLoginMsg')
             // 设置登陆验证session密钥
-            this.Axios.defaults.headers.common['Authorization'] = window.localStorage.getItem('gw_appkey') + '-' + window.localStorage.getItem('gw_infokey')
+            this.Axios.defaults.headers.common['Authorization'] = this.$store.state.gwToken
             this.$router.push('/index')
             break
           case 1003:
+            console.log(data)
+            break
+          case 1007:
             console.log(data)
             break
           default:

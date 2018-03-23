@@ -2,7 +2,7 @@
   <div class="gw-index">
     <header class="header">
       <div class="header-logo">
-        <img class="logo" src="../assets/img/logo.png" alt="logo">
+        <img class="logo" src="@assets/img/logo.png" alt="logo">
         <div class="txt">
           <h1>敢为软件</h1>
           <p>ganwei software</p>
@@ -38,118 +38,55 @@
 </template>
 
 <script>
+import leftNavData from '@assets/data/leftNav.json'
 export default {
   data () {
     return {
       navEquipsClickTime: 0,
-      navList: [
-        {
-          title: '首页',
-          href: 'home',
-          iconClass: 'ios-home-outline',
-          children: []
-        },
-        {
-          title: '设备数据',
-          href: 'equips',
-          iconClass: 'ios-monitor-outline',
-          loading: false,
-          expand: false,
-          hasChild: true,
-          children: []
-        },
-        {
-          title: '实时快照',
-          href: 'snapshot',
-          iconClass: 'ios-camera-outline',
-          loading: false,
-          children: []
-        },
-        {
-          title: '系统配置',
-          href: 'systemConf',
-          iconClass: 'ios-gear-outline',
-          loading: false,
-          children: []
-        },
-        {
-          title: '事件查询',
-          href: 'eventQuery',
-          iconClass: 'ios-search-strong',
-          loading: false,
-          children: []
-        },
-        {
-          title: '报警排表',
-          href: 'schedule',
-          iconClass: 'ios-calendar-outline',
-          loading: false,
-          children: []
-        },
-        {
-          title: '定时任务',
-          href: 'timeTask',
-          iconClass: 'ios-clock-outline',
-          loading: false,
-          children: []
-        },
-        {
-          title: '设备联动',
-          href: 'equipLinkage',
-          iconClass: 'ios-toggle-outline',
-          loading: false,
-          children: []
-        }
-      ],
-      isFold: false,
-      foldBtnText: '收起'
+      navList: leftNavData,
+      isFold: false
     }
   },
   methods: {
     foldAside () {
-      // 侧边栏折叠
+      // 侧边栏收起展开
       this.isFold = !this.isFold
-      setTimeout(() => {
-        this.foldBtnText = this.isFold ? '打开' : '收起'
-      }, 600)
     },
     hasRightKey () {
       // 判断appkey和infokey是否存在正确
-      if (window.localStorage['gw_appkey'] && window.localStorage['gw_infokey']) {
-        this.Axios.get('/api/server/auth_name', {
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-            'Authorization': window.localStorage.getItem('gw_appkey') + '-' + window.localStorage.getItem('gw_infokey')
-          }
-        }).then(rt => {
+      if (window.localStorage['gw_token']) {
+        this.$store.dispatch('setToken')
+        this.Axios.defaults.headers.common['Authorization'] = this.$store.state.gwToken
+        this.Axios.get('/api/server/auth_name').then(rt => {
           let data = rt.data.HttpData
           if (data.code !== 200) {
             console.log(data)
-            this.$router.push('/')
+            this.$router.push('/login')
           } else {
-            console.log('密钥验证成功,当前连接服务：', data.data)
+            console.log('密钥验证成功,当前连接的服务:[', data.data, ']')
           }
         }).catch(err => {
           console.log(err)
+          console.log('密钥验证失败，请检查登陆设置!')
         })
       } else {
         this.$router.push('/')
       }
     },
     logout () {
+      // 退出登陆
       window.localStorage.removeItem('gw_appkey')
       window.localStorage.removeItem('gw_infokey')
-      this.$router.push('/')
+      window.localStorage.removeItem('gw_token')
+      window.localStorage.removeItem('login_msg')
+      this.Axios.defaults.headers.common['Authorization'] = ''
+      this.$router.push('/login')
     },
     loadNavList (navItem, callback) {
       if (navItem.hasChild) {
         navItem.loading = true
         // 异步获取列表节点
-        this.Axios.post('/api/real/equip_tree', null, {
-          headers: {
-            Authorization: window.localStorage['gw_appkey'] + '-' + window.localStorage['gw_infokey']
-          }
-        }).then(res => {
+        this.Axios.post('/api/real/equip_tree').then(res => {
           let data = res.data.HttpData
           if (data.code === 200) {
             let d = []
@@ -169,7 +106,7 @@ export default {
       }
     },
     dealNavList (arrData, result) {
-      // 处理树状列表
+      // 处理设备数据子列表
       arrData.forEach((dt, index) => {
         if (dt.GWEquipTreeItems && dt.GWEquipTreeItems.length) {
           result.push({
@@ -237,13 +174,8 @@ export default {
         }
       })
     },
-    navItemExpand (item) {
-      console.log(item)
-    },
-    navItemSelect (nodeArr) {
-      console.log(nodeArr)
-    },
     renderNavItem (h, {root, node, data}) {
+      // leftNav节点渲染
       if (data.hasChild) {
         return h('div', {
           style: {
