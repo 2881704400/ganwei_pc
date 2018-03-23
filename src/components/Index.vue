@@ -30,7 +30,9 @@
           <span class="ivu-icon" :class="[isFold ? 'ivu-icon-arrow-left-b' : 'ivu-icon-arrow-right-b']"></span>
         </div>
       </aside>
-      <router-view class="main-body"></router-view>
+      <section class="main-body">
+        <router-view class="router-page"></router-view>
+      </section>
     </div>
   </div>
 </template>
