@@ -10,10 +10,10 @@
       </div>
       <div class="header-opt">
         <span class="user" title="当前登陆用户"><span class="iconfont">&#xe62d;</span>admin</span>
-        <span class="iconfont" title="换肤">&#xe91e;</span>
+        <span class="iconfont" title="设置">&#xe653;</span>
         <span
         class="iconfont"
-        title="注销登陆"
+        title="退出登陆"
         @click="logout"
         >&#xe641;</span>
       </div>
@@ -39,17 +39,18 @@
 export default {
   data () {
     return {
-      navLevel: 0,
-      hasChildClick: 0,
+      navEquipsClickTime: 0,
       navList: [
         {
           title: '首页',
-          url: 'home',
+          href: 'home',
+          iconClass: 'ios-home-outline',
           children: []
         },
         {
           title: '设备数据',
-          url: 'equips',
+          href: 'equips',
+          iconClass: 'ios-monitor-outline',
           loading: false,
           expand: false,
           hasChild: true,
@@ -57,29 +58,45 @@ export default {
         },
         {
           title: '实时快照',
-          url: 'b',
+          href: 'snapshot',
+          iconClass: 'ios-camera-outline',
           loading: false,
           children: []
         },
         {
           title: '系统配置',
-          url: 'c'
+          href: 'systemConf',
+          iconClass: 'ios-gear-outline',
+          loading: false,
+          children: []
         },
         {
           title: '事件查询',
-          url: 'd'
+          href: 'eventQuery',
+          iconClass: 'ios-search-strong',
+          loading: false,
+          children: []
         },
         {
           title: '报警排表',
-          url: 'e'
+          href: 'schedule',
+          iconClass: 'ios-calendar-outline',
+          loading: false,
+          children: []
         },
         {
           title: '定时任务',
-          url: 'f'
+          href: 'timeTask',
+          iconClass: 'ios-clock-outline',
+          loading: false,
+          children: []
         },
         {
           title: '设备联动',
-          url: 'g'
+          href: 'equipLinkage',
+          iconClass: 'ios-toggle-outline',
+          loading: false,
+          children: []
         }
       ],
       isFold: false,
@@ -160,7 +177,8 @@ export default {
               return h('div', {
                 style: {
                   fontSize: '14px',
-                  cursor: 'pointer'
+                  cursor: 'pointer',
+                  position: 'relative'
                 },
                 class: 'nav-item',
                 on: {
@@ -190,14 +208,21 @@ export default {
         } else {
           result.push({
             title: dt.Name,
+            href: 'equips',
             children: [],
             render: (h, {root, node, data}) => {
               return h('div', {
                 style: {
                   fontSize: '14px',
-                  cursor: 'pointer'
+                  cursor: 'pointer',
+                  position: 'relative'
                 },
-                class: 'nav-item'
+                class: 'nav-item',
+                on: {
+                  click: () => {
+                    this.$router.push(data.href)
+                  }
+                }
               }, [
                 h('span', {
                   style: {
@@ -228,8 +253,8 @@ export default {
           class: 'nav-item',
           on: {
             click: (ev) => {
-              if (this.hasChildClick < 1) {
-                this.hasChildClick = 1
+              if (this.navEquipsClickTime < 1) {
+                this.navEquipsClickTime = 1
                 this.loadNavList(data, (rt) => {
                   rt.forEach(item => {
                     data.children.push(item)
@@ -258,13 +283,19 @@ export default {
           }),
           h('Icon', {
             props: {
-              type: 'ios-folder-outline'
+              type: data.iconClass,
+              size: 22
+            },
+            style: {
+              verticalAlign: 'middle',
+              width: '22px'
             }
           }),
           h('span', {
             style: {
-              'lineHeight': '60px',
-              'marginLeft': '16px'
+              verticalAlign: 'middle',
+              lineHeight: '60px',
+              marginLeft: '16px'
             }
           }, data.title),
           h('Spin', {
@@ -282,17 +313,28 @@ export default {
             position: 'relative',
             cursor: 'pointer'
           },
-          class: 'nav-item'
+          class: 'nav-item',
+          on: {
+            click: () => {
+              this.$router.push(data.href)
+            }
+          }
         }, [
           h('Icon', {
             props: {
-              type: 'ios-folder-outline'
+              type: data.iconClass,
+              size: 22
+            },
+            style: {
+              verticalAlign: 'middle',
+              width: '22px'
             }
           }),
           h('span', {
             style: {
-              'lineHeight': '60px',
-              'marginLeft': '16px'
+              verticalAlign: 'middle',
+              lineHeight: '60px',
+              marginLeft: '16px'
             }
           }, data.title)
         ])

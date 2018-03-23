@@ -1,6 +1,6 @@
 <template>
-  <div class="equips">
-      设备数据
+  <div class="snapashot">
+      实时快照
   </div>
 </template>
 
@@ -11,3 +11,7 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+.snapshot{}
+</style>

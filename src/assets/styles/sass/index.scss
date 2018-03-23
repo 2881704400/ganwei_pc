@@ -29,10 +29,12 @@
                 display: flex;
                 flex-direction: column;
                 align-items: center;
+                justify-content: center;
                 margin-left: 14px;
                 h1{
-                    font-size: 30px;
-                    font-weight: normal;
+                    font-size: 22px;
+                    letter-spacing: 10px;
+                    margin-right: -10px;
                 }
                 p{
                     margin-top: 4px;
@@ -58,12 +60,13 @@
                     color: turquoise;
                 }
                 &.user{
+                    padding-right: 28px;
+                    margin-right: 12px;
+                    box-shadow: -1px 0px 0px 0px rgba(255, 255, 255, 0.4) inset;
                     span{
                         font-size: 24px;
                         margin-right: 6px;
                     }
-                    padding-right: 28px;
-                    margin-right: 12px;
                 }
             }
         }
@@ -114,10 +117,24 @@
                     .ivu-tree-children{
                         overflow: hidden;
                         .nav-item{
+                            color: #333;
+                            $activeW: 6px;
+                            $activeH: 6px;
+                            $activeBgc: #333;
                             color: #000;
-    
                             &:hover{
-                                color: blue;
+                                &:before{
+                                    content: '';
+                                    display: block;
+                                    position: absolute;
+                                    width: $activeW;
+                                    height: $activeH;
+                                    right: 2px;
+                                    margin-top: -$activeH / 2;
+                                    top: 50%;
+                                    border-radius: 50%;
+                                    background-color: $activeBgc;
+                                }
                             }
                         }
                         li{

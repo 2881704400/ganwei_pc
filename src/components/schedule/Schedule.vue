@@ -1,6 +1,6 @@
 <template>
-  <div class="equips">
-      设备数据
+  <div class="schedule">
+      报警排表
   </div>
 </template>
 
@@ -11,3 +11,7 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+.schedule{}
+</style>

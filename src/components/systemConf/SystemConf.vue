@@ -1,6 +1,6 @@
 <template>
-  <div class="equips">
-      设备数据
+  <div class="system-conf">
+      系统配置
   </div>
 </template>
 
@@ -11,3 +11,7 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+.system-conf{}
+</style>

@@ -7,7 +7,12 @@ const Index = r => require.ensure([], () => r(require('@page/Index')), 'index')
 // home组件
 const Home = r => require.ensure([], () => r(require('@page/home/Home')), 'page')
 const Equips = r => require.ensure([], () => r(require('@page/equips/Equips')), 'page')
-const b = r => require.ensure([], () => r(require('@page/b/b')), 'a')
+const Snapshot = r => require.ensure([], () => r(require('@page/snapshot/Snapshot')), 'page')
+const SystemConf = r => require.ensure([], () => r(require('@page/systemConf/SystemConf')), 'page')
+const EventQuery = r => require.ensure([], () => r(require('@page/eventQuery/EventQuery')), 'page')
+const Schedule = r => require.ensure([], () => r(require('@page/schedule/Schedule')), 'page')
+const TimeTask = r => require.ensure([], () => r(require('@page/timeTask/TimeTask')), 'page')
+const EquipLinkage = r => require.ensure([], () => r(require('@page/equipLinkage/EquipLinkage')), 'page')
 
 Vue.use(Router)
 
@@ -42,18 +47,38 @@ export default new Router({
           component: Equips
         },
         {
-          path: 'b',
-          component: b
+          path: 'snapshot',
+          component: Snapshot
         },
         {
-          path: '*',
-          redirect: '/index'
+          path: 'systemConf',
+          component: SystemConf
+        },
+        {
+          path: 'eventQuery',
+          component: EventQuery
+        },
+        {
+          path: 'schedule',
+          component: Schedule
+        },
+        {
+          path: 'timeTask',
+          component: TimeTask
+        },
+        {
+          path: 'equipLinkage',
+          component: EquipLinkage
         }
+        // {
+        //   path: '*',
+        //   redirect: '/index'
+        // }
       ]
-    },
-    {
-      path: '/*',
-      redirect: '/login'
     }
+    // {
+    //   path: '/*',
+    //   redirect: '/login'
+    // }
   ]
 })
