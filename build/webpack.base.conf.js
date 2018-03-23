@@ -62,11 +62,6 @@ module.exports = {
         }
       },
       {
-        test: /\.css$/,
-        use: ['style-loader', 'css-loader', 'postcss-loader'],
-        exclude: [resolve('src/assets/fonts'), resolve('node_modules/iview')]
-      },
-      {
         test: /\.scss$/,
         use: [
           {
