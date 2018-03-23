@@ -14,7 +14,6 @@ Vue.config.productionTip = false
 
 Vue.use(iView)
 Vue.prototype.Axios = Axios
-// Vue.prototype.Axios.defaults.headers.common['Authorization'] = ''
 
 /* eslint-disable no-new */
 new Vue({

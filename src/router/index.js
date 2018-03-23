@@ -50,6 +50,7 @@ export default new Router({
           component: Home
         },
         {
+          name: 'equip',
           path: 'equips',
           component: Equips
         },

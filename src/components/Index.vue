@@ -9,7 +9,7 @@
         </div>
       </div>
       <div class="header-opt">
-        <span class="user" title="当前登陆用户"><span class="iconfont">&#xe62d;</span>admin</span>
+        <span class="user" title="当前登陆用户"><span class="iconfont">&#xe62d;</span>{{$store.state.loginMsg}}</span>
         <span class="iconfont" title="设置">&#xe653;</span>
         <span
         class="iconfont"
@@ -42,7 +42,6 @@ import leftNavData from '@assets/data/leftNav.json'
 export default {
   data () {
     return {
-      navEquipsClickTime: 0,
       navList: leftNavData,
       isFold: false
     }
@@ -55,7 +54,7 @@ export default {
     hasRightKey () {
       // 判断appkey和infokey是否存在正确
       if (window.localStorage['gw_token']) {
-        this.$store.dispatch('setToken')
+        this.$store.dispatch('reflashSet')
         this.Axios.defaults.headers.common['Authorization'] = this.$store.state.gwToken
         this.Axios.get('/api/server/auth_name').then(rt => {
           let data = rt.data.HttpData
@@ -75,11 +74,9 @@ export default {
     },
     logout () {
       // 退出登陆
-      window.localStorage.removeItem('gw_appkey')
-      window.localStorage.removeItem('gw_infokey')
       window.localStorage.removeItem('gw_token')
       window.localStorage.removeItem('login_msg')
-      this.Axios.defaults.headers.common['Authorization'] = ''
+      // this.Axios.defaults.headers.common['Authorization'] = ''
       this.$router.push('/login')
     },
     loadNavList (navItem, callback) {
@@ -91,10 +88,11 @@ export default {
           if (data.code === 200) {
             let d = []
             d.push(data.data)
-            // console.log(d)
+            console.log(d)
             let resultData = []
             this.dealNavList(d, resultData)
             callback(resultData)
+            console.log('获取设备列表成功!')
           } else {
             console.log(res)
           }
@@ -147,6 +145,7 @@ export default {
         } else {
           result.push({
             title: dt.Name,
+            equipNo: dt.EquipNo,
             href: 'equips',
             children: [],
             render: (h, {root, node, data}) => {
@@ -159,7 +158,12 @@ export default {
                 class: 'nav-item',
                 on: {
                   click: () => {
-                    this.$router.push(data.href)
+                    this.$router.push({
+                      path: 'equips#' + data.equipNo,
+                      params: {
+                        equipNo: data.equipNo
+                      }
+                    })
                   }
                 }
               }, [
@@ -187,8 +191,8 @@ export default {
           class: 'nav-item',
           on: {
             click: (ev) => {
-              if (this.navEquipsClickTime < 1) {
-                this.navEquipsClickTime = 1
+              if (this.$store.state.navEquipsClickTime < 1) {
+                this.$store.commit('clickEquips', 1)
                 this.loadNavList(data, (rt) => {
                   rt.forEach(item => {
                     data.children.push(item)
