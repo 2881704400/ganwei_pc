@@ -1,10 +1,21 @@
 <template>
-  <div class="login" style="color: #333;">
-    <br><br><br>
-    用户名：<input type="text" v-model="userName"><br><br><br>
-    密码：<input type="password" v-model="userPwd" @keyup.enter="login"><br><br>
-    <button @click="login">登陆</button>
-  </div>
+  <Row class="login" >
+     <Col span="12" class="loginLogo">
+        <img src="../assets/img/logos.png" alt="">
+     </Col>
+     <Col span="12" class="loginForm">
+        <Row>
+          <Col span="4"><i class="ivu-icon ivu-icon-ios-personadd-outline"></i></Col>
+          <Col span="20"> <input type="text" v-model="userName" placeholder="用户名"></Col>
+        </Row>
+        <Row>
+          <Col span="4"><i class="ivu-icon ivu-icon-ios-locked-outline"></i></Col>
+          <Col span="20"><input type="password" v-model="userPwd" @keyup.enter="login" placeholder="密码"></Col>
+        </Row>
+        <br>
+        <button @click="login">登陆</button> 
+     </Col>    
+  </Row>
 </template>
 
 <script>
@@ -53,3 +64,6 @@ export default {
   mounted () {}
 }
 </script>
+
+
+<style lang="scss" src="../assets/styles/sass/login.scss"></style>
