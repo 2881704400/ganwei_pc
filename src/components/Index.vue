@@ -9,7 +9,7 @@
         </div>
       </div>
       <div class="header-opt">
-        <span class="user" title="当前登陆用户"><span class="iconfont">&#xe62d;</span>{{$store.state.loginMsg}}</span>
+        <span class="user" title="当前登陆用户"><span class="iconfont">&#xe62e;</span>{{$store.state.loginMsg}}</span>
         <span class="iconfont" title="设置">&#xe653;</span>
         <span
         class="iconfont"
@@ -110,14 +110,16 @@ export default {
           result.push({
             title: dt.Name,
             children: [],
+            selected: false,
             render: (h, {root, node, data}) => {
               return h('div', {
                 style: {
                   fontSize: '14px',
                   cursor: 'pointer',
-                  position: 'relative'
+                  position: 'relative',
+                  paddingLeft: '20px'
                 },
-                class: 'nav-item',
+                class: ['nav-item', data.selected ? 'selected' : ''],
                 on: {
                   click: () => {
                     this.$set(data, 'expand', !data.expand)
@@ -148,28 +150,33 @@ export default {
             equipNo: dt.EquipNo,
             href: 'equips',
             children: [],
+            selected: false,
             render: (h, {root, node, data}) => {
               return h('div', {
                 style: {
                   fontSize: '14px',
                   cursor: 'pointer',
-                  position: 'relative'
+                  position: 'relative',
+                  paddingLeft: '12px'
                 },
-                class: 'nav-item',
+                class: ['nav-item', data.selected ? 'selected' : ''],
                 on: {
                   click: () => {
+                    if (data.selected) return false
+                    root.forEach (ele => {
+                      ele.node.selected = false
+                    })
+                    data.selected = true
                     this.$router.push({
-                      path: 'equips#' + data.equipNo,
-                      params: {
-                        equipNo: data.equipNo
-                      }
+                      path: 'equips#' + data.equipNo
                     })
                   }
                 }
               }, [
                 h('span', {
                   style: {
-                    lineHeight: '50px'
+                    lineHeight: '50px',
+                    marginLeft: '30px'
                   }
                 }, data.title)
               ])
@@ -188,7 +195,7 @@ export default {
             position: 'relative',
             cursor: 'pointer'
           },
-          class: 'nav-item',
+          class: ['nav-item', data.selected ? 'selected' : ''],
           on: {
             click: (ev) => {
               if (this.$store.state.navEquipsClickTime < 1) {
@@ -203,6 +210,11 @@ export default {
               } else {
                 this.$set(data, 'expand', !data.expand)
               }
+              if (data.selected) return false
+              root.forEach(ele => {
+                ele.node.selected = false
+              })
+              data.selected = true
             }
           }
         }, [
@@ -249,11 +261,17 @@ export default {
             fontSize: '16px',
             paddingLeft: '34px',
             position: 'relative',
-            cursor: 'pointer'
+            cursor: 'pointer',
+            transition: 'all 400ms'
           },
-          class: 'nav-item',
+          class: ['nav-item', data.selected ? 'selected' : ''],
           on: {
             click: () => {
+              if (data.selected) return false
+              root.forEach(ele => {
+                ele.node.selected = false
+              })
+              data.selected = true
               this.$router.push(data.href)
             }
           }

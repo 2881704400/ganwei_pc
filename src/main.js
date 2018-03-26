@@ -7,7 +7,6 @@ import store from './store'
 import Axios from 'axios'
 import iView from 'iview'
 import 'iview/dist/styles/iview.css'
-import './assets/fonts/iconfont.css'
 import './assets/styles/sass/public.scss'
 
 Vue.config.productionTip = false

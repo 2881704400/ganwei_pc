@@ -2,15 +2,28 @@
   <div class="equips">
       设备号:
       {{equipNo}}
-    <Tabs :value="activeTab">
+    <Tabs
+    :value="activeTab"
+    type="card"
+    class="tabs"
+    >
       <TabPane label="值" name="valData">
-        <table>
+        <table class="gw-table">
           <thead>
             <tr>
               <th v-for="(th, index) of valTH" :key="index" v-text="th"></th>
             </tr>
           </thead>
-          <tbody></tbody>
+          <tbody>
+            <tr v-for="(line, lineIdx) of valData" :key="lineIdx">
+              <td></td>
+              <td></td>
+              <td v-text="line.m_YXNm"></td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+          </tbody>
         </table>
       </TabPane>
       <TabPane label="状态" name="stateData">状态量</TabPane>
@@ -25,9 +38,10 @@ export default {
   name: 'equips',
   data () {
     return {
-      active: 'valData',
+      activeTab: 'valData',
       valTH: ['报警状态', '值ID', '名称', '当前值', '图表数据', '备注'],
-      valData: []
+      valData: [],
+      statuData: []
     }
   },
   computed: mapState({
@@ -41,7 +55,11 @@ export default {
         let data = res.data.HttpData
         if (data.code === 200) {
           let d = data.data
-          console.log(d)
+          this.valData.splice(0, this.valData.length)
+          for (let key in d.YXItemDict) {
+            this.valData.push(d.YXItemDict[key])
+          }
+          console.log(this.valData)
         } else {
           console.log(data)
         }
