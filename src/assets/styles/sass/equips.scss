@@ -11,35 +11,40 @@
         }
     }
     .gw-table{
-        display: flex;
-        flex-direction: column;
+        width: 100%;
         thead{
-            display: flex;
-            flex-grow: 1;
-            flex-direction: column;
             tr{
-                display: flex;
-                flex-grow: 1;
                 th{
                     height: $tbTHH;
                     color: $tbTHTextColor;
                     font-size: $tbTHTextSize;
-                    flex-grow: 1;
                     line-height: $tbTHH;
-                    text-align: left;
+                    text-align: center;
                 }
             }
         }
         tbody{
-            display: flex;
-            flex-grow: 1;
-            flex-direction: column;
             tr{
-                display: flex;
-                flex-grow: 1;
+                &:nth-child(odd){
+                    background-color: $tbTRBgc;
+                }
                 td{
-                    display: flex;
-                    flex-grow: 1;
+                    height: $tbTDH;
+                    line-height: $tbTDH;
+                    font-size: $tbTDTextSize;
+                    text-align: center;
+                    &:nth-child(1){
+                        span{
+                            display: inline-block;
+                            width: 16px;
+                            height: 16px;
+                            border-radius: 50%;
+                            background-color: #35b467;
+                            &.warning{
+                                background-color: #eb303a;
+                            }
+                        }
+                    }
                 }
             }
         }

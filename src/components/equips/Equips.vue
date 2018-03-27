@@ -1,13 +1,17 @@
 <template>
   <div class="equips">
-      设备号:
-      {{equipNo}}
+    <p v-if="noData">暂无数据</p>
     <Tabs
-    :value="activeTab"
+    v-else
+    v-model="activeTab"
     type="card"
     class="tabs"
     >
-      <TabPane label="值" name="valData">
+      <TabPane
+      label="值"
+      name="valData"
+      :disabled="valDisable"
+      >
         <table class="gw-table">
           <thead>
             <tr>
@@ -16,17 +20,41 @@
           </thead>
           <tbody>
             <tr v-for="(line, lineIdx) of valData" :key="lineIdx">
-              <td></td>
-              <td></td>
-              <td v-text="line.m_YXNm"></td>
-              <td></td>
-              <td></td>
-              <td></td>
+              <td>
+                <span :class="{warning : !line.m_YCValue}"></span>
+              </td>
+              <td v-text="line.m_iYCNo"></td>
+              <td v-text="line.m_YCNm"></td>
+              <td v-text="line.m_YCState"></td>
+              <td v-text="line.m_AdviceMsg"></td>
             </tr>
           </tbody>
         </table>
       </TabPane>
-      <TabPane label="状态" name="stateData">状态量</TabPane>
+      <TabPane
+      label="状态"
+      name="stateData"
+      :disabled="statuDisable"
+      >
+        <table class="gw-table">
+          <thead>
+            <tr>
+              <th v-for="(th, index) of statuTH" :key="index" v-text="th"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(line, lineIdx) of statuData" :key="lineIdx">
+              <td>
+                <span :class="{warning : !line.m_YXValue}"></span>
+              </td>
+              <td v-text="line.m_iYXNo"></td>
+              <td v-text="line.m_YXNm"></td>
+              <td v-text="line.m_YXState"></td>
+              <td v-text="line.m_AdviceMsg"></td>
+            </tr>
+          </tbody>
+        </table>
+      </TabPane>
       <TabPane label="操作" name="opt">设置</TabPane>
     </Tabs>
   </div>
@@ -38,13 +66,21 @@ export default {
   name: 'equips',
   data () {
     return {
+      noData: true,
       activeTab: 'valData',
       valTH: ['报警状态', '值ID', '名称', '当前值', '图表数据', '备注'],
+      statuTH: ['报警状态', '状态ID', '名称', '当前状态', '备注'],
       valData: [],
       statuData: []
     }
   },
   computed: mapState({
+    valDisable () {
+      return this.valData.length > 0 ? false : true
+    },
+    statuDisable () {
+      return this.statuData.length > 0 ? false : true
+    },
     equipNo: state => state.curEquip.equipNo
   }),
   methods: {
@@ -54,20 +90,32 @@ export default {
       }).then(res => {
         let data = res.data.HttpData
         if (data.code === 200) {
+          this.noData = false
           let d = data.data
           this.valData.splice(0, this.valData.length)
-          for (let key in d.YXItemDict) {
-            this.valData.push(d.YXItemDict[key])
+          this.statuData.splice(0, this.statuData.length)
+          for (let key in d.YCItemDict) {
+            this.valData.push(d.YCItemDict[key])
           }
-          console.log(this.valData)
+          if (this.valData.length < 1) {
+            this.activeTab = 'statuData'
+          }
+          for (let key in d.YXItemDict) {
+            this.statuData.push(d.YXItemDict[key])
+          }
+          if (this.statuData.length < 1) {
+            this.activeTab = 'opt'
+          }
+          console.log(d)
         } else {
+          this.noData = true
           console.log(data)
         }
       }).catch(err => {
         console.log(err)
         console.log('密钥验证失败，请检查登陆信息!')
       })
-    }
+    },
   },
   beforeRouteEnter (to, from, next) {
     next(vm => {
