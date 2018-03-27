@@ -55,6 +55,7 @@ export default new Router({
         },
         {
           path: 'snapshot',
+          name: 'snapshot',
           component: Snapshot
         },
         {

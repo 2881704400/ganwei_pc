@@ -31,6 +31,9 @@
         </div>
       </aside>
       <section class="main-body">
+        <!-- <div class="title">
+          <span>home</span>>><span>{{curPath}}</span>
+        </div> -->
         <router-view class="router-page"></router-view>
       </section>
     </div>
@@ -43,7 +46,8 @@ export default {
   data () {
     return {
       navList: leftNavData,
-      isFold: false
+      isFold: false,
+      curPath: ''
     }
   },
   methods: {

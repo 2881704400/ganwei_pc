@@ -1,0 +1,22 @@
+.gw-tabs{
+    .tabs-nav{
+        ul{
+            display: flex;
+            li{
+                width: 123px;
+                height: 53px;
+                text-align: center;
+                line-height: 53px;
+                box-shadow: 0px 0px 1px #bababa inset;
+                transition: all 440ms;
+                cursor: pointer;
+                &.active{
+                    box-shadow: 0px 0px 1px #bababa inset, 0px 3px 0px #09b7f7 inset;
+                }
+            }
+        }
+    }
+    .tabs-container{
+        box-shadow: 0px 0px 1px #bababa;
+    }
+}
