@@ -106,6 +106,7 @@ export default {
           if (this.statuData.length < 1) {
             this.activeTab = 'opt'
           }
+          console.log(d)
         } else {
           this.noData = true
           console.log(data)

@@ -38,7 +38,6 @@ export default new Router({
     },
     {
       path: '/index',
-      name: 'index',
       component: Index,
       children: [
         {

@@ -40,9 +40,120 @@
 						</table>
 					</div>
 				</TabPane>
-				<TabPane label="警告">标签二的内容</TabPane>
-				<TabPane label="信息信息">标签三的内容</TabPane>
-				<TabPane label="设置设置设置">标签三的内容</TabPane>
+				<TabPane label="警告">
+					<div class="common-table">
+						<table>
+							<thead>
+								<tr>
+									<th>类型</th>
+									<th>时间</th>
+									<th>事件</th>
+									<th>确认</th>
+									<th>处理意见</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td><i class="iconfont icon-dian color-error"></i></td>
+									<td>2017-03-26 15:18:11</td>
+									<td>设备数量</td>
+									<td><button @click="sureModal = true">请确认</button></td>
+									<td>过低</td>
+								</tr>
+								<tr>
+									<td><i class="iconfont icon-dian color-warn"></i></td>
+									<td>2017-03-26 15:18:11</td>
+									<td>设备数量</td>
+									<td><button @click="sureModal = true">请确认</button></td>
+									<td>过低</td>
+								</tr>
+								<tr>
+									<td><i class="iconfont icon-dian color-info"></i></td>
+									<td>2017-03-26 15:18:11</td>
+									<td>设备数量</td>
+									<td><button @click="sureModal = true">请确认</button></td>
+									<td>过低</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</TabPane>
+				<TabPane label="信息">
+					<div class="common-table">
+						<table>
+							<thead>
+								<tr>
+									<th>类型</th>
+									<th>时间</th>
+									<th>事件</th>
+									<th>确认</th>
+									<th>处理意见</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td><i class="iconfont icon-dian color-error"></i></td>
+									<td>2017-03-26 15:18:11</td>
+									<td>设备数量</td>
+									<td><button @click="sureModal = true">请确认</button></td>
+									<td>过低</td>
+								</tr>
+								<tr>
+									<td><i class="iconfont icon-dian color-warn"></i></td>
+									<td>2017-03-26 15:18:11</td>
+									<td>设备数量</td>
+									<td><button @click="sureModal = true">请确认</button></td>
+									<td>过低</td>
+								</tr>
+								<tr>
+									<td><i class="iconfont icon-dian color-info"></i></td>
+									<td>2017-03-26 15:18:11</td>
+									<td>设备数量</td>
+									<td><button @click="sureModal = true">请确认</button></td>
+									<td>过低</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</TabPane>
+				<TabPane label="设置">
+					<div class="common-table">
+						<table>
+							<thead>
+								<tr>
+									<th>类型</th>
+									<th>时间</th>
+									<th>事件</th>
+									<th>确认</th>
+									<th>处理意见</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td><i class="iconfont icon-dian color-error"></i></td>
+									<td>2017-03-26 15:18:11</td>
+									<td>设备数量</td>
+									<td><button @click="sureModal = true">请确认</button></td>
+									<td>过低</td>
+								</tr>
+								<tr>
+									<td><i class="iconfont icon-dian color-warn"></i></td>
+									<td>2017-03-26 15:18:11</td>
+									<td>设备数量</td>
+									<td><button @click="sureModal = true">请确认</button></td>
+									<td>过低</td>
+								</tr>
+								<tr>
+									<td><i class="iconfont icon-dian color-info"></i></td>
+									<td>2017-03-26 15:18:11</td>
+									<td>设备数量</td>
+									<td><button @click="sureModal = true">请确认</button></td>
+									<td>过低</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</TabPane>
 			</Tabs>
 		</div>
 		<Modal v-model="sureModal" title="设备配置" @on-ok="ok" @on-cancel="cancel" class="common-moal">
@@ -72,7 +183,6 @@
 </script>
 
 <style lang="scss">
-	@import url("//at.alicdn.com/t/font_600686_rr0m2659ffajor.css");
 	.snapshot {}
 	
 	.common-moal .ivu-modal-content {
@@ -157,7 +267,6 @@
 		font-size: 16px;
 		font-weight: 500;
 		text-align: left;
-		min-width: 168px;
 	}
 	
 	.common-table table tbody tr td:first-child {

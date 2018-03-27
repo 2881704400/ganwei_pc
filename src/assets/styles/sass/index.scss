@@ -81,6 +81,7 @@
         flex-wrap: nowrap;
         overflow: hidden;
         .nav-left{
+            flex-shrink: 0;
             position: relative;
             width: $asideW;
             height: 100%;

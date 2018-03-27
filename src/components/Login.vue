@@ -56,9 +56,18 @@ export default {
       }).catch(err => {
         console.log(err)
       })
+    },
+    test () {
+      this.Axios.get('http://localhost:7005/api/test/nloves').then(rt => {
+        console.log(rt)
+      }).catch(err => {
+        console.log(err)
+      })
     }
   },
-  mounted () {}
+  mounted () {
+    this.test()
+  }
 }
 </script>
 
