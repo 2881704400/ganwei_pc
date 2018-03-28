@@ -38,7 +38,6 @@ export default new Router({
     },
     {
       path: '/index',
-      name: 'index',
       component: Index,
       children: [
         {
@@ -56,6 +55,7 @@ export default new Router({
         },
         {
           path: 'snapshot',
+          name: 'snapshot',
           component: Snapshot
         },
         {

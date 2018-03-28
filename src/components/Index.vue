@@ -9,7 +9,7 @@
         </div>
       </div>
       <div class="header-opt">
-        <span class="user" title="当前登陆用户"><span class="iconfont">&#xe62d;</span>{{$store.state.loginMsg}}</span>
+        <span class="user" title="当前登陆用户"><span class="iconfont">&#xe62e;</span>{{$store.state.loginMsg}}</span>
         <span class="iconfont" title="设置">&#xe653;</span>
         <span
         class="iconfont"
@@ -22,6 +22,7 @@
       <aside class="nav-left" :class="[isFold ? 'close' : 'open']">
         <nav class="nav-list">
           <Tree
+          v-if="navList.length"
           :data="navList"
           :render="renderNavItem"
           ></Tree>
@@ -31,6 +32,9 @@
         </div>
       </aside>
       <section class="main-body">
+        <!-- <div class="title">
+          <span>home</span>>><span>{{curPath}}</span>
+        </div> -->
         <router-view class="router-page"></router-view>
       </section>
     </div>
@@ -38,12 +42,12 @@
 </template>
 
 <script>
-import leftNavData from '@assets/data/leftNav.json'
 export default {
   data () {
     return {
-      navList: leftNavData,
-      isFold: false
+      navList: [],
+      isFold: false,
+      curPath: ''
     }
   },
   methods: {
@@ -51,7 +55,8 @@ export default {
       // 侧边栏收起展开
       this.isFold = !this.isFold
     },
-    hasRightKey () {
+    getAuth () {
+      
       // 判断appkey和infokey是否存在正确
       if (window.localStorage['gw_token']) {
         this.$store.dispatch('reflashSet')
@@ -76,8 +81,8 @@ export default {
       // 退出登陆
       window.localStorage.removeItem('gw_token')
       window.localStorage.removeItem('login_msg')
-      // this.Axios.defaults.headers.common['Authorization'] = ''
-      this.$router.push('/login')
+      this.navList.splice(0, this.navList.length)
+      this.$router.replace('/login')
     },
     loadNavList (navItem, callback) {
       if (navItem.hasChild) {
@@ -110,14 +115,16 @@ export default {
           result.push({
             title: dt.Name,
             children: [],
+            selected: false,
             render: (h, {root, node, data}) => {
               return h('div', {
                 style: {
                   fontSize: '14px',
                   cursor: 'pointer',
-                  position: 'relative'
+                  position: 'relative',
+                  paddingLeft: '20px'
                 },
-                class: 'nav-item',
+                class: ['nav-item', data.selected ? 'selected' : ''],
                 on: {
                   click: () => {
                     this.$set(data, 'expand', !data.expand)
@@ -148,28 +155,33 @@ export default {
             equipNo: dt.EquipNo,
             href: 'equips',
             children: [],
+            selected: false,
             render: (h, {root, node, data}) => {
               return h('div', {
                 style: {
                   fontSize: '14px',
                   cursor: 'pointer',
-                  position: 'relative'
+                  position: 'relative',
+                  paddingLeft: '12px'
                 },
-                class: 'nav-item',
+                class: ['nav-item', data.selected ? 'selected' : ''],
                 on: {
                   click: () => {
+                    if (data.selected) return false
+                    root.forEach (ele => {
+                      ele.node.selected = false
+                    })
+                    data.selected = true
                     this.$router.push({
-                      path: 'equips#' + data.equipNo,
-                      params: {
-                        equipNo: data.equipNo
-                      }
+                      path: 'equips#' + data.equipNo
                     })
                   }
                 }
               }, [
                 h('span', {
                   style: {
-                    lineHeight: '50px'
+                    lineHeight: '50px',
+                    marginLeft: '30px'
                   }
                 }, data.title)
               ])
@@ -188,7 +200,7 @@ export default {
             position: 'relative',
             cursor: 'pointer'
           },
-          class: 'nav-item',
+          class: ['nav-item', data.selected ? 'selected' : ''],
           on: {
             click: (ev) => {
               if (this.$store.state.navEquipsClickTime < 1) {
@@ -203,6 +215,11 @@ export default {
               } else {
                 this.$set(data, 'expand', !data.expand)
               }
+              if (data.selected) return false
+              root.forEach(ele => {
+                ele.node.selected = false
+              })
+              data.selected = true
             }
           }
         }, [
@@ -249,11 +266,17 @@ export default {
             fontSize: '16px',
             paddingLeft: '34px',
             position: 'relative',
-            cursor: 'pointer'
+            cursor: 'pointer',
+            transition: 'all 400ms'
           },
-          class: 'nav-item',
+          class: ['nav-item', data.selected ? 'selected' : ''],
           on: {
             click: () => {
+              if (data.selected) return false
+              root.forEach(ele => {
+                ele.node.selected = false
+              })
+              data.selected = true
               this.$router.push(data.href)
             }
           }
@@ -280,7 +303,11 @@ export default {
     }
   },
   created () {
-    this.hasRightKey()
+    this.getAuth()
+    let leftNav = require('@assets/data/leftNav.json')
+    leftNav.map(item => {
+      this.navList.push(item)
+    })
   }
 }
 </script>

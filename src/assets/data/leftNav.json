@@ -5,7 +5,8 @@
         "iconClass": "ios-home-outline",
         "loading": false,
         "hasChild": false,
-        "children": []
+        "children": [],
+        "selected": false
     },
     {
         "title": "设备数据",
@@ -14,7 +15,8 @@
         "loading": false,
         "expand": false,
         "hasChild": true,
-        "children": []
+        "children": [],
+        "selected": false
     },
     {
         "title": "实时快照",
@@ -22,7 +24,8 @@
         "iconClass": "ios-camera-outline",
         "loading": false,
         "hasChild": false,
-        "children": []
+        "children": [],
+        "selected": false
     },
     {
         "title": "系统配置",
@@ -30,7 +33,8 @@
         "iconClass": "ios-gear-outline",
         "loading": false,
         "hasChild": false,
-        "children": []
+        "children": [],
+        "selected": false
     },
     {
         "title": "事件查询",
@@ -38,7 +42,8 @@
         "iconClass": "ios-search-strong",
         "loading": false,
         "hasChild": false,
-        "children": []
+        "children": [],
+        "selected": false
     },
     {
         "title": "报警排表",
@@ -46,7 +51,8 @@
         "iconClass": "ios-calendar-outline",
         "loading": false,
         "hasChild": false,
-        "children": []
+        "children": [],
+        "selected": false
     },
     {
         "title": "定时任务",
@@ -54,7 +60,8 @@
         "iconClass": "ios-clock-outline",
         "loading": false,
         "hasChild": false,
-        "children": []
+        "children": [],
+        "selected": false
     },
     {
         "title": "设备联动",
@@ -62,6 +69,7 @@
         "iconClass": "ios-toggle-outline",
         "loading": false,
         "hasChild": false,
-        "children": []
+        "children": [],
+        "selected": false
     }
 ]
