@@ -53,12 +53,22 @@ export default {
       })
       this.$set(nv, 'isActive', true)
       console.log(nv)
+    },
+    getData () {
+      this.Axios.post('/api/Linkage/getLinkList', {})
+      .then(rt => {
+        console.log(rt.data.HttpData)
+      }).catch(err => {
+        console.log(err)
+      })
     }
   },
   components: {
     gwTabs
   },
-  mounted () { }
+  mounted () {
+    this.getData()
+  }
 }
 </script>
 
