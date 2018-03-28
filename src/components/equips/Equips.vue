@@ -25,7 +25,7 @@ export default {
   name: 'equips',
   data () {
     return {
-      active: 'valData',
+      activeTab: 'valData',
       valTH: ['报警状态', '值ID', '名称', '当前值', '图表数据', '备注'],
       valData: []
     }
