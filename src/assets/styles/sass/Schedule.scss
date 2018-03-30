@@ -5,6 +5,8 @@
     $activehover: #eee;
     $selectEquipColor: #2d8cf0; 
     $contentTop: 40px;
+    $IconFontSize: 22px;
+
     width: 100%;height: 100%;padding: 2rem;
     .schedule_top{
         h2{font-size: 1rem;color: #333;text-align: left;margin-bottom: 2rem;}
@@ -22,11 +24,14 @@
         &>.ivu-tabs.ivu-tabs-card>.ivu-tabs-bar>.ivu-tabs-nav-container{height: 40px;}
         & .ivu-tabs-nav{border: 1px solid #ddd;border-left: 0;}
         & .ivu-table th,& .ivu-table-stripe .ivu-table-body tr:nth-child(2n) td,
-        & .ivu-table-stripe .ivu-table-stripe .ivu-table-fixed-body tr:nth-child(2n) td{
-        background: white; }
+        & .ivu-table-stripe .ivu-table-stripe .ivu-table-fixed-body tr:nth-child(2n) td{background: white; }
         & .ivu-table-stripe .ivu-table-body tr:nth-child(2n+1) td,
-        & .ivu-table-stripe .ivu-table-stripe .ivu-table-fixed-body tr:nth-child(2n+1) td{
-        background: #F9F9F9;}
+        & .ivu-table-stripe .ivu-table-stripe .ivu-table-fixed-body tr:nth-child(2n+1) td{background: #F9F9F9;}
+        .ivu-select{width: 90%;height: 100%;}
+        .ivu-select-single .ivu-select-selection{ border: 0;background: transparent;}
+        .ivu-select-arrow{display: none;}
+  
+
         .publicSchedule{ 
             position: absolute;left: 0;top: 40px;right: 0;bottom: 0;border-top: 1px solid #eee;
             &>div{height: 100%;}
@@ -59,10 +64,12 @@
                             &:nth-child(2n+1){background: #{$singleColor};}
                             &>a:hover{color: #{$selectEquipColor} !important;background: #{$activehover};}
                             &.selectEquipName{background: #{$activehover};a{color: #{$selectEquipColor} !important;}}
-                            &>div{width: 100%;height: 100%;border: 0;position: relative;overflow: hidden;text-align: center;
-                                input{border: 0;outline: none;text-indent: 10px;}
+                            
+                            &>div{width: 100%;height: 100%;border: 0;position: relative;overflow: hidden;
+                                &>.alignCenter{text-align: center;}
+                                input{width: 100%;border: 0;outline: none;text-indent: 10px;}
                                 a{color: #666;width: 100%;height: 100%;display: inline-block;text-indent: 10%;}
-                                i{font-size: 22px;line-height: 40px;cursor: pointer;}
+                                i{font-size: #{$IconFontSize};line-height: 40px;cursor: pointer;}
                             }
 
                         }
@@ -79,7 +86,14 @@
                     &>li{width: 160px;height: #{$scheduleLiHeight};line-height: #{$scheduleLiHeight};margin-left: 5%;display: inline-block;float: left; }
                 }
             }
+        
+            //管理范围
+            &>.AlmReportTable{
+                &>thead>tr>th{width: 33.33%;}
+                select{border: 0;width: 100%;}
+                &>tbody>tr>td>i{font-size: #{$IconFontSize};margin: 0 10px;}
 
+            }
 
 
         }
