@@ -1,0 +1,91 @@
+.schedule{
+    $scheduleLiHeight: 40px;
+    $singleColor: #F9F9F9;
+    $doubleColor: white;
+    $activehover: #eee;
+    $selectEquipColor: #2d8cf0; 
+    $contentTop: 40px;
+    width: 100%;height: 100%;padding: 2rem;
+    .schedule_top{
+        h2{font-size: 1rem;color: #333;text-align: left;margin-bottom: 2rem;}
+        h2 i{font-size: 1.5rem;position: relative;top: .25rem;margin-right: 0.5rem;}
+    }
+    .schedule_bottom{
+        height: 90%;
+        &>.ivu-tabs.ivu-tabs-card{height: 100%;}
+        &>.ivu-tabs.ivu-tabs-card>.ivu-tabs-bar{margin-bottom: 0;border: 0;}
+        &>.ivu-tabs.ivu-tabs-card>.ivu-tabs-bar .ivu-tabs-tab{
+        min-width: 80px;height: 40px;margin-right: 0;border-radius: 0;border: 0;text-align: center;
+        border-left: 1px solid #ddd; background: #F9F9F9; padding: 8px 16px;}
+        &>.ivu-tabs.ivu-tabs-card>.ivu-tabs-bar .ivu-tabs-tab-active:before{
+        content: '';display: block; width: 100%;height: 1px;background: #3399ff;position: absolute;top: 0;left: 0; }
+        &>.ivu-tabs.ivu-tabs-card>.ivu-tabs-bar>.ivu-tabs-nav-container{height: 40px;}
+        & .ivu-tabs-nav{border: 1px solid #ddd;border-left: 0;}
+        & .ivu-table th,& .ivu-table-stripe .ivu-table-body tr:nth-child(2n) td,
+        & .ivu-table-stripe .ivu-table-stripe .ivu-table-fixed-body tr:nth-child(2n) td{
+        background: white; }
+        & .ivu-table-stripe .ivu-table-body tr:nth-child(2n+1) td,
+        & .ivu-table-stripe .ivu-table-stripe .ivu-table-fixed-body tr:nth-child(2n+1) td{
+        background: #F9F9F9;}
+        .publicSchedule{ 
+            position: absolute;left: 0;top: 40px;right: 0;bottom: 0;border-top: 1px solid #eee;
+            &>div{height: 100%;}
+            //人员
+            .userTable{
+                width: 100%;position: relative;border-collapse:collapse;text-align: center;
+                tr{height: #{$scheduleLiHeight};line-height: #{$scheduleLiHeight};}
+                tbody tr:nth-child(2n){background: #{$doubleColor};}
+                tbody tr:nth-child(2n+1){background: #{$singleColor};}
+                tbody tr:hover,.active{background: #{$activehover};}
+                tbody tr td{
+                    min-width: 10%;font-size: 0.8rem;border: 0;position: relative;
+                    .larmTabulate_txt i{font-size: 1.6rem;line-height: 40px;position: absolute;margin-left: 10px;opacity: 0;}
+                    .larmTabulate_input input{width: 100%;height: 40px;text-align: center;border: 1px solid #eee;
+                        border-right: 0;text-indent: 20px;outline: none;}
+                }
+                tbody tr td:hover i{opacity: 1;cursor: pointer;}
+            }  
+            //设备分组范围
+            &>.EquipmentLeft{
+                width: 25%;display: inline-block;position: absolute; left: 0;top: 0;bottom: 0;
+                &>div{height: #{$contentTop};line-height: #{$contentTop};text-indent: 10%;border-left: 1px solid #eee;
+                    &>.rightBtn{text-align: right;Button{font-size: 14px;cursor: pointer;outline: none;}}
+                }
+                &>ul{
+                        width: 100%;position: absolute; left: 0;top: #{$contentTop};right: 0;bottom: 0;overflow-y: auto; border-right: 1px solid #eee;
+                        &>li{
+                            height: #{$scheduleLiHeight};line-height: #{$scheduleLiHeight};    border-left: 1px solid #eee;
+                            &:nth-child(2n){background: #{$doubleColor};}
+                            &:nth-child(2n+1){background: #{$singleColor};}
+                            &>a:hover{color: #{$selectEquipColor} !important;background: #{$activehover};}
+                            &.selectEquipName{background: #{$activehover};a{color: #{$selectEquipColor} !important;}}
+                            &>div{width: 100%;height: 100%;border: 0;position: relative;overflow: hidden;text-align: center;
+                                input{border: 0;outline: none;text-indent: 10px;}
+                                a{color: #666;width: 100%;height: 100%;display: inline-block;text-indent: 10%;}
+                                i{font-size: 22px;line-height: 40px;cursor: pointer;}
+                            }
+
+                        }
+                }
+            }
+            &>.EquipmentRight{
+                width: 75%;display: inline-block;position: absolute; right: 0;top: 0;bottom: 0;
+                &>div{height: #{$contentTop};line-height: #{$contentTop};text-indent: 5%;
+                     &>.rightBtn{text-align: right;padding-right: 2%;Button{font-size: 14px;margin-left: 20px;cursor: pointer;outline: none;}}
+                     
+                }
+                &>ul{ 
+                    width: 100%;position: absolute; left: 0;top: #{$contentTop};right: 0;bottom: 0;overflow-y: auto;
+                    &>li{width: 160px;height: #{$scheduleLiHeight};line-height: #{$scheduleLiHeight};margin-left: 5%;display: inline-block;float: left; }
+                }
+            }
+
+
+
+        }
+
+
+    }
+}
+
+.ivu-modal{top: 30%;}
