@@ -25,6 +25,7 @@
                             </tr>
                         </tbody>
                     </table>
+                    <!--  -->
                 </TabPane>
 
                 <TabPane label="设备分组范围" name="Equipment" class="publicSchedule">
