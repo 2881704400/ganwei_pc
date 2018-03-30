@@ -136,11 +136,12 @@
 				</TabPane>
 				<TabPane label="循环任务">
 					<div class="table-toolbar">
-							<span>设备列表</span>
+							<!--<span>循环任务</span>-->
+							<button>修改</button>
 							<button>删除</button>
 							<button>添加</button>
 						</div>
-						<div class="common-table">
+						<div class="common-smalltable">
 						<table>
 							<thead>
 								<tr>
