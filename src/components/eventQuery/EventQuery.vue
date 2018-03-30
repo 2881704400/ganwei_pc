@@ -1,9 +1,11 @@
 <template>
   <div class="event-query">
-     <Row>
+     <Row class="wrap">
         <Col span="3" class="itemList">
-
-          左侧列表
+			 <p  v-for="(item,$index) in itemList" @click="loadInformation(item.m_iEquipNo,$index)" :class="$index==active?'clickActive':''">
+              {{item.m_EquipNm}}
+          </p>
+          
         </Col>
         <Col span="21" class="itemDetail">
         	
@@ -86,15 +88,89 @@
 
 <script>
 export default {
-  data () {
-    return {}
+   data () {
+    return {
+      itemList:[],//左侧列表
+      equipItem:[],//右侧设备配置
+      yCItemDict:[],//右侧模拟量数据
+      yXItemDict:[],//右侧状态量数据
+      get_setparm:[],//右侧设置配置
+      active:0
+    }
+  },mounted (){
+    this.init()
+
+  },methods:{
+    init(){
+      this.Axios.post("/api/real/equip_state",{userName:window.localStorage.login_msg}).then(res=>{
+        let response=res.data.HttpData.data;
+        this.itemList=response;
+        // console.log(response[0])
+        this.loadInformation(response[0].m_iEquipNo,0)
+      })
+     },
+    // loadInformation(id,index){
+    //   this.active=index;
+    //   this.Axios.post("/oApi/GWService.asmx/GetSystemConfig",{table_name:'Equip',equip_no_list:id}).then(res1=>{//加载设备配置
+    //      let response=res1.data.d;
+    //      this.equipItem=JSON.parse(response);
+    //     console.log(this.equipItem)
+    //   });
+    //   this.Axios.post("/oApi/GWService.asmx/GetSystemConfig",{table_name:'ycp',equip_no_list:id}).then(res2=>{//加载模拟量配置
+    //     let data2=res2.data.d;
+    //     this.yCItemDict=JSON.parse(data2);
+    //   });
+    //   this.Axios.post("/oApi/GWService.asmx/GetSystemConfig",{table_name:'yxp',equip_no_list:id}).then(res3=>{//加载模拟量配置
+    //     let data3=res3.data.d;
+    //     this.yXItemDict=JSON.parse(data3);
+    //   });
+    //    this.Axios.post("/oApi/GWService.asmx/GetSystemConfig",{table_name:'SetParm',equip_no_list:id}).then(res4=>{//加载设置配置
+    //     let data4=res4.data.d;
+    //     this.get_setparm=JSON.parse(data4);
+    //   });
+    // }
   }
 }
 </script>
 
 <style scope>
-.event-query{}
-.system-conf .itemList{border:1px solid red;color:red;}
+.event-query{width:100%;height:100%;}
+.event-query .wrap{width:100%;height:90%;}
+.event-query .wrap .itemDetail{height:100%;overflow: hidden;padding-left: 15px;}
+.event-query .wrap .itemList{height:100%;overflow-y: scroll;}
+ .itemList::-webkit-scrollbar {/*滚动条整体样式*/
+            width: 4px;     /*高宽分别对应横竖滚动条的尺寸*/
+            height: 4px;
+        }
+.itemList::-webkit-scrollbar-thumb {/*滚动条里面小方块*/
+    border-radius: 5px;
+    -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+    background: rgba(0,0,0,0.2);
+}
+.itemList::-webkit-scrollbar-track {/*滚动条里面轨道*/
+    -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+    border-radius: 0;
+    background: rgba(0,0,0,0.1);
+}
+.itemList p{width:80%;
+  height:50px;
+  line-height: 50px;
+  background: #f9f9f9;
+  margin:10px auto;
+  font-size:15px;
+  text-align: center;
+}
+.itemList p:hover{
+  border:1px solid #09b7f7;
+  box-sizing: border-box;
+  color:#09b7f7;
+  cursor:pointer;
+}
+.clickActive{
+   border:1px solid #09b7f7;
+  box-sizing: border-box;
+  color:#09b7f7;
+}
 .common-moal .ivu-modal-content {
     border-radius: 0px;
   }
