@@ -22,6 +22,7 @@
       <aside class="nav-left" :class="[isFold ? 'close' : 'open']">
         <nav class="nav-list">
           <Tree
+          v-if="navList.length"
           :data="navList"
           :render="renderNavItem"
           ></Tree>
@@ -31,6 +32,9 @@
         </div>
       </aside>
       <section class="main-body">
+        <!-- <div class="title">
+          <span>home</span>>><span>{{curPath}}</span>
+        </div> -->
         <router-view class="router-page"></router-view>
       </section>
     </div>
@@ -38,12 +42,12 @@
 </template>
 
 <script>
-import leftNavData from '@assets/data/leftNav.json'
 export default {
   data () {
     return {
-      navList: leftNavData,
-      isFold: false
+      navList: [],
+      isFold: false,
+      curPath: ''
     }
   },
   methods: {
@@ -51,7 +55,8 @@ export default {
       // 侧边栏收起展开
       this.isFold = !this.isFold
     },
-    hasRightKey () {
+    getAuth () {
+      
       // 判断appkey和infokey是否存在正确
       if (window.localStorage['gw_token']) {
         this.$store.dispatch('reflashSet')
@@ -76,8 +81,8 @@ export default {
       // 退出登陆
       window.localStorage.removeItem('gw_token')
       window.localStorage.removeItem('login_msg')
-      // this.Axios.defaults.headers.common['Authorization'] = ''
-      this.$router.push('/login')
+      this.navList.splice(0, this.navList.length)
+      this.$router.replace('/login')
     },
     loadNavList (navItem, callback) {
       if (navItem.hasChild) {
@@ -298,7 +303,11 @@ export default {
     }
   },
   created () {
-    this.hasRightKey()
+    this.getAuth()
+    let leftNav = require('@assets/data/leftNav.json')
+    leftNav.map(item => {
+      this.navList.push(item)
+    })
   }
 }
 </script>
