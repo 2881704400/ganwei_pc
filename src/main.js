@@ -7,14 +7,12 @@ import store from './store'
 import Axios from 'axios'
 import iView from 'iview'
 import 'iview/dist/styles/iview.css'
-import './assets/fonts/iconfont.css'
 import './assets/styles/sass/public.scss'
 
 Vue.config.productionTip = false
 
 Vue.use(iView)
 Vue.prototype.Axios = Axios
-// Vue.prototype.Axios.defaults.headers.common['Authorization'] = ''
 
 /* eslint-disable no-new */
 new Vue({

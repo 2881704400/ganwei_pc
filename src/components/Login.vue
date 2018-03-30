@@ -36,16 +36,13 @@ export default {
           case 200:
             // 登陆成功操作
             let key = data.data
-            window.localStorage.setItem('gw_appkey', key.appkey)
-            window.localStorage.setItem('gw_infokey', key.infokey)
             let gwToken = key.appkey + '-' + key.infokey
             window.localStorage.setItem('gw_token', gwToken)
             window.localStorage.setItem('login_msg', data.message)
-            this.$store.dispatch('setToken')
-            this.$store.dispatch('setLoginMsg')
+            this.$store.dispatch('reflashSet')
             // 设置登陆验证session密钥
             this.Axios.defaults.headers.common['Authorization'] = this.$store.state.gwToken
-            this.$router.push('/index')
+            this.$router.replace('/index')
             break
           case 1003:
             console.log(data)
@@ -60,8 +57,7 @@ export default {
         console.log(err)
       })
     }
-  },
-  mounted () {}
+  }
 }
 </script>
 
