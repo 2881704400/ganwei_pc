@@ -82,20 +82,25 @@
 	font-size: 14px;
 }
 
+.common-moal-content h1{
+	font-size: 16px;
+	margin-bottom: 10px;
+}
+
 .color-error {
 	color: #eb303a;
 }
 
 .color-warn {
-	color: #F29100;
+	color: #EC8B2E;
 }
 
 .color-info {
-	color: #35b458;
+	color: #4CC7ED;
 }
 
 .color-set {
-	color: #eb303a;
+	color: #F8D055;
 }
 
 .common-table table {
@@ -117,8 +122,33 @@
 }
 
 .common-table table thead tr th:first-child {
+	width: 10%;
 	text-align: center;
 }
+
+.common-table table thead tr th:nth-child(3) {
+	width: 40%;
+}
+
+.common-table table thead tr th:nth-child(4) {
+	width: 10%;
+	text-align: center;
+}
+
+.common-table table tbody {  
+   display:block;  
+   height:768px;  
+   overflow-y:auto;
+}    
+.common-table table thead, tbody tr {  
+   display:table;  
+   width:100%;
+   table-layout:fixed;  
+}  
+ 
+.common-table table thead {  
+   width: calc( 100% - 1em )  
+}  
 
 .common-table table tbody tr td {
 	padding: 11px 10px;
@@ -129,6 +159,16 @@
 }
 
 .common-table table tbody tr td:first-child {
+	width: 10%;
+	text-align: center;
+}
+
+.common-table table tbody tr td:nth-child(3) {
+	width: 40%;
+}
+
+.common-table table tbody tr td:nth-child(4) {
+	width: 10%;
 	text-align: center;
 }
 
@@ -315,6 +355,21 @@
 	background: #fff;
 	border: 1px solid #dddee1;
 }
+
+/*.common-tab .ivu-tabs-card>.ivu-tabs-content >button{
+	color: #f00;
+    margin: 0;
+    height: 49px;
+    padding: 13px 25px 16px;
+    min-width: 123px;
+    border: 0px;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    border-radius: 0;
+    position: relative;
+    top: -49px;
+    opacity: 0;
+}*/
 
 .tab-content-border .ivu-tabs-card>.ivu-tabs-content>.ivu-tabs-tabpane {
 	background: #fff;

@@ -1,203 +1,53 @@
 <template>
 	<div class="snapashot">
 		<div class="common-tab">
-			<Tabs type="card">
-				<TabPane label="全部">
-					<div class="common-table">
-						<table>
-							<thead>
-								<tr>
-									<th>类型</th>
-									<th>时间</th>
-									<th>事件</th>
-									<th>确认</th>
-									<th>处理意见</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<td><i class="iconfont icon-dian color-error"></i></td>
-									<td>2017-03-26 15:18:11</td>
-									<td>设备数量</td>
-									<td><button @click="sureModal = true">请确认</button></td>
-									<td>过低</td>
-								</tr>
-								<tr>
-									<td><i class="iconfont icon-dian color-warn"></i></td>
-									<td>2017-03-26 15:18:11</td>
-									<td>设备数量</td>
-									<td><button @click="sureModal = true">请确认</button></td>
-									<td>过低</td>
-								</tr>
-								<tr>
-									<td><i class="iconfont icon-dian color-info"></i></td>
-									<td>2017-03-26 15:18:11</td>
-									<td>设备数量</td>
-									<td><button @click="sureModal = true">请确认</button></td>
-									<td>过低</td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-				</TabPane>
-				<TabPane label="故障">
-					<div class="common-table">
-						<table>
-							<thead>
-								<tr>
-									<th>类型</th>
-									<th>时间</th>
-									<th>事件</th>
-									<th>确认</th>
-									<th>处理意见</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<td><i class="iconfont icon-dian color-error"></i></td>
-									<td>2017-03-26 15:18:11</td>
-									<td>设备数量</td>
-									<td><button @click="sureModal = true">请确认</button></td>
-									<td>过低</td>
-								</tr>
-								<tr>
-									<td><i class="iconfont icon-dian color-warn"></i></td>
-									<td>2017-03-26 15:18:11</td>
-									<td>设备数量</td>
-									<td><button @click="sureModal = true">请确认</button></td>
-									<td>过低</td>
-								</tr>
-								<tr>
-									<td><i class="iconfont icon-dian color-info"></i></td>
-									<td>2017-03-26 15:18:11</td>
-									<td>设备数量</td>
-									<td><button @click="sureModal = true">请确认</button></td>
-									<td>过低</td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-				</TabPane>
-				<TabPane label="警告">
-					<div class="common-table">
-						<table>
-							<thead>
-								<tr>
-									<th>类型</th>
-									<th>时间</th>
-									<th>事件</th>
-									<th>确认</th>
-									<th>处理意见</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<td><i class="iconfont icon-dian color-error"></i></td>
-									<td>2017-03-26 15:18:11</td>
-									<td>设备数量</td>
-									<td><button @click="sureModal = true">请确认</button></td>
-									<td>过低</td>
-								</tr>
-								<tr>
-									<td><i class="iconfont icon-dian color-warn"></i></td>
-									<td>2017-03-26 15:18:11</td>
-									<td>设备数量</td>
-									<td><button @click="sureModal = true">请确认</button></td>
-									<td>过低</td>
-								</tr>
-								<tr>
-									<td><i class="iconfont icon-dian color-info"></i></td>
-									<td>2017-03-26 15:18:11</td>
-									<td>设备数量</td>
-									<td><button @click="sureModal = true">请确认</button></td>
-									<td>过低</td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-				</TabPane>
-				<TabPane label="信息">
-					<div class="common-table">
-						<table>
-							<thead>
-								<tr>
-									<th>类型</th>
-									<th>时间</th>
-									<th>事件</th>
-									<th>确认</th>
-									<th>处理意见</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<td><i class="iconfont icon-dian color-error"></i></td>
-									<td>2017-03-26 15:18:11</td>
-									<td>设备数量</td>
-									<td><button @click="sureModal = true">请确认</button></td>
-									<td>过低</td>
-								</tr>
-								<tr>
-									<td><i class="iconfont icon-dian color-warn"></i></td>
-									<td>2017-03-26 15:18:11</td>
-									<td>设备数量</td>
-									<td><button @click="sureModal = true">请确认</button></td>
-									<td>过低</td>
-								</tr>
-								<tr>
-									<td><i class="iconfont icon-dian color-info"></i></td>
-									<td>2017-03-26 15:18:11</td>
-									<td>设备数量</td>
-									<td><button @click="sureModal = true">请确认</button></td>
-									<td>过低</td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-				</TabPane>
-				<TabPane label="设置">
-					<div class="common-table">
-						<table>
-							<thead>
-								<tr>
-									<th>类型</th>
-									<th>时间</th>
-									<th>事件</th>
-									<th>确认</th>
-									<th>处理意见</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<td><i class="iconfont icon-dian color-error"></i></td>
-									<td>2017-03-26 15:18:11</td>
-									<td>设备数量</td>
-									<td><button @click="sureModal = true">请确认</button></td>
-									<td>过低</td>
-								</tr>
-								<tr>
-									<td><i class="iconfont icon-dian color-warn"></i></td>
-									<td>2017-03-26 15:18:11</td>
-									<td>设备数量</td>
-									<td><button @click="sureModal = true">请确认</button></td>
-									<td>过低</td>
-								</tr>
-								<tr>
-									<td><i class="iconfont icon-dian color-info"></i></td>
-									<td>2017-03-26 15:18:11</td>
-									<td>设备数量</td>
-									<td><button @click="sureModal = true">请确认</button></td>
-									<td>过低</td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-				</TabPane>
+			<Tabs type="card" @on-click="updateCardInfo" v-model="tabPaneValue">
+				<template v-for="(item,index) of btnInfo">
+					<!--<button  @click="navClickFun">{{item.spanName}}</button>-->
+					<TabPane :label="item.spanName" extra="item.ID" :name="item.btnValue" :class="{active : item.isActive}" v-if="item.btnStatus">
+						<div class="common-table">
+							<table>
+								<thead>
+									<tr>
+										<th>类型</th>
+										<th>时间</th>
+										<th>事件</th>
+										<th>确认</th>
+										<th>处理意见</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr v-for="(item,index) of tableInfo" :key="index">
+										<td>
+											<!--<i class="iconfont icon-dian color-error"></i>-->{{item.Level}}</td>
+										<td>{{item.formatTime}}</td>
+										<td>{{item.EventMsg}}</td>
+										<td><button @click="showModalFun(item.EventMsg,item.Time)" v-show="!item.bConfirmed">请确认</button><i class="iconfont icon-gouxuan" v-show="item.bConfirmed"></i></td>
+										<td>{{item.Proc_advice_Msg}}</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</TabPane>
+				</template>
 			</Tabs>
 		</div>
-		<Modal v-model="sureModal" title="设备配置" @on-ok="ok" @on-cancel="cancel" class="common-moal">
-			<p>Content of dialog</p>
-			<p>Content of dialog</p>
-			<p>Content of dialog</p>
+		<Modal v-model="sureModal" title="确认处理该事件吗？" @on-ok="sureModalFun" @on-cancel="cancel" class="common-moal">
+			<div class="common-moal-content">
+				<h1 v-model="EventMsg">事件：{{EventMsg}}</h1>
+				<input type="hidden" v-model="Time" />
+				<p>请输入处理意见（100字以内）：</p>
+				<Input type="textarea" :rows="4" v-model='msgValue'></Input>
+				<p>
+					<Checkbox v-model="isSendSms" label="是">是否发送短信？</Checkbox>
+				</p>
+				<p>
+					<CheckboxGroup v-model="atorMobiles">
+					<Checkbox v-for="(item,index) of atorMsgInfo" v-show="isSendSms" :label="item.MobileTel" :key="index">{{item.MobileTel}}({{item.Administrator}})</Checkbox>
+					 </CheckboxGroup>
+				</p>
+			</div>
+
 		</Modal>
 	</div>
 </template>
@@ -206,58 +56,171 @@
 	export default {
 		data() {
 			return {
-				sureModal: false
+				btnInfo: [],
+				tableInfo: [],
+				atorMsgInfo: [],
+				event_Level_list: '',
+				msgValue: '',
+				sureModal: false,
+				isSendSms: false,
+				atorMobiles: [],
+				EventMsg: '',
+				Time: '',
+				tabPaneValue: '-1',
 			}
 		},
+		mounted() {
+			this.getAlarmConfig()
+		},
 		methods: {
-			getRealTimeEvent() {
+			updateCardInfo() {
+				this.getRealTimeEvent();
+			},
+			
+			//获取事件的报警配置
+			getAlarmConfig() {
 				this.Axios.post('/api/GWServiceWebAPI/get_AlarmConfig')
 					.then(res => {
-						let data = res.data.HttpData
-						console.log(data)
-						if(data.code === 200) {
-							this.listAdd = data.map(item => {
-								return {
-									value: item.equip_no,
-									label: item.equip_nm,
-									loading: false,
-									children: []
+						let data = res.data.HttpData;
+						if(data.code == 200) {
+							let resultData = data.data;
+							let listAddData = [{
+								spanId: -1,
+								spanName: "全部",
+								btnStatus: true,
+								btnValue: "-1",
+								isActive: true
+							}];
+							for(var i = 0; i < resultData.length; i++) {
+								var btnStatus = resultData[i].IsShow == 1 ? true : false;
+								var btnValue = [];
+								for(var j = resultData[i].SnapshotLevelMin; j <= resultData[i].SnapshotLevelMax; j++) {
+									btnValue += j + ",";
 								}
-							})
-							console.log(this.listAdd)
+								this.event_Level_list += btnValue;
+								btnValue = btnValue.substring(0, btnValue.length - 1);
+								listAddData.push({
+									spanId: resultData[i].ID,
+									spanName: resultData[i].SnapshotName,
+									btnStatus: btnStatus,
+									btnValue: btnValue,
+									isActive: false
+								});
+							}
+							this.event_Level_list = this.event_Level_list.substring(0, this.event_Level_list.length - 1);
+							this.btnInfo = listAddData;
+							this.getRealTimeEvent();
+							setInterval(this.getRealTimeEvent, 5000)
 						}
 					}).catch(err => {
 						console.log(err)
 					})
 			},
-			getEquips() {
-				this.Axios.post('/api/real/equip_state')
-					.then(res => {
-						let rt = res.data.HttpData
-						if(rt.code === 200) {
-							let data = rt.data
-							this.listAdd = data.map(item => {
-								return {
-									value: item.m_iEquipNo,
-									label: item.m_EquipNm,
-									loading: false,
-									children: []
+			//获取当前系统报警的实时事件
+			getRealTimeEvent() {
+				var tabPaneValue=this.tabPaneValue;
+				if(tabPaneValue=="-1"){
+					tabPaneValue=this.event_Level_list;
+				}
+				this.Axios.post('/api/GWServiceWebAPI/get_RealTimeEvent', {
+					event_Level_list: tabPaneValue
+				}).then(res => {
+					let data = res.data.HttpData;
+					if(data.code == 200) {
+						let resultData = data.data;
+						let tableListData = [];
+						for(var i = 0; i < resultData.length; i++) {
+							var strLevel = "";
+							var btnInfo = this.btnInfo;
+							for(var j = 0; j < btnInfo.length; j++) {
+								var btnInfoArr=btnInfo[j].btnValue.split(",");
+								for(var m=0;m<btnInfoArr.length;m++){
+									if(btnInfoArr[m]==resultData[i].Level){
+										strLevel = btnInfo[j].spanName;
+										break;
+									}
 								}
-							})
-							console.log(this.listAdd)
-						} else {
-							this.$Message.warning(rt.message)
+							}
+							tableListData.push({
+								EventMsg: resultData[i].EventMsg,
+								Proc_advice_Msg: resultData[i].Proc_advice_Msg,
+								Time: resultData[i].Time,
+								formatTime: this.formatDate(resultData[i].Time),
+								Level: strLevel,
+								bConfirmed: resultData[i].bConfirmed,
+								Equipno: resultData[i].Equipno,
+								Ycyxno: resultData[i].Ycyxno
+							});
 						}
-					})
-					.catch(err => {
-						console.log(err)
-					})
+						this.tableInfo = tableListData;
+						this.atorMsgDataFun();
+					}
+				}).catch(err => {
+					console.log(err)
+				})
+			},
+			atorMsgDataFun() {
+				this.Axios.post('/api/GWServiceWebAPI/get_DataByTableName', {
+					TableName: "Administrator"
+				}).then(res => {
+					let data = res.data.HttpData;
+					if(data.code == 200) {
+						let resultData = data.data;
+						let atorMsgInfoData = [];
+						for(var i = 0; i < resultData.length; i++) {
+							atorMsgInfoData.push({
+								Administrator: resultData[i].Administrator,
+								MobileTel: resultData[i].MobileTel
+							});
+						}
+						this.atorMsgInfo = atorMsgInfoData;
+					}
+				}).catch(err => {
+					console.log(err)
+				})
+			},
+			showModalFun(EventMsg, Time) {
+				this.EventMsg=EventMsg;
+				this.Time=Time;
+				console.log(EventMsg, Time);
+				this.sureModal = true;
+			},
+			sureModalFun() {
+				console.log(this.msgValue,this.isSendSms,this.atorMobiles,this.EventMsg,this.Time);
+//				this.sureModal = true;
+//				 string msg = json.msg;
+//          string shortmsg = json.shortmsg;
+//          string tel = json.tel;
+//          string evtname = json.evtname;
+//          string time = json.time;
+				this.Axios.post('/api/GWServiceWebAPI/set_EventConfirm', {
+					msg: this.msgValue,
+					shortmsg: this.isSendSms,
+					tel: this.atorMobiles.join(','),
+					evtname: this.EventMsg,
+					time: this.Time
+				}).then(res => {
+					let data = res.data.HttpData;
+					if(data.code == 200) {
+						let resultData = data.data;
+						this.getRealTimeEvent();
+						this.cancel();
+					}else{
+						alert("提交失败！");
+					}
+				}).catch(err => {
+					console.log(err)
+				})
+			},
+			formatDate(time) {
+				var newTime = time.replace("T", " ")
+				return newTime.substring(0, 19);
 			},
 			ok() {
-				this.$Message.info('Clicked ok');
+//				this.$Message.info('Clicked ok');
 			},
 			cancel() {
-				this.$Message.info('Clicked cancel');
+//				this.$Message.info('Clicked cancel');
 			}
 		}
 	}
