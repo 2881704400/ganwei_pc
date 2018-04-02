@@ -38,7 +38,81 @@
 export default {
   data() {
     return {
-      navList: [],
+      navList: [
+        {
+            "title": "首页",
+            "href": "home",
+            "iconClass": "ios-home-outline",
+            "loading": false,
+            "hasChild": false,
+            "children": [],
+            "selected": true
+        },
+        {
+            "title": "设备数据",
+            "href": "equips",
+            "iconClass": "ios-monitor-outline",
+            "loading": false,
+            "expand": false,
+            "hasChild": true,
+            "children": [],
+            "selected": false
+        },
+        {
+            "title": "实时快照",
+            "href": "snapshot",
+            "iconClass": "ios-camera-outline",
+            "loading": false,
+            "hasChild": false,
+            "children": [],
+            "selected": false
+        },
+        {
+            "title": "系统配置",
+            "href": "systemConf",
+            "iconClass": "ios-gear-outline",
+            "loading": false,
+            "hasChild": false,
+            "children": [],
+            "selected": false
+        },
+        {
+            "title": "事件查询",
+            "href": "eventQuery",
+            "iconClass": "ios-search-strong",
+            "loading": false,
+            "hasChild": false,
+            "children": [],
+            "selected": false
+        },
+        {
+            "title": "报警排表",
+            "href": "schedule",
+            "iconClass": "ios-calendar-outline",
+            "loading": false,
+            "hasChild": false,
+            "children": [],
+            "selected": false
+        },
+        {
+            "title": "定时任务",
+            "href": "timeTask",
+            "iconClass": "ios-clock-outline",
+            "loading": false,
+            "hasChild": false,
+            "children": [],
+            "selected": false
+        },
+        {
+            "title": "设备联动",
+            "href": "equipLinkage",
+            "iconClass": "ios-toggle-outline",
+            "loading": false,
+            "hasChild": false,
+            "children": [],
+            "selected": false
+        }
+    ],
       isFold: false,
       curPath: ""
     };
@@ -75,12 +149,20 @@ export default {
     },
     logout() {
       // 退出登陆
-      window.localStorage.removeItem("gw_token");
-      window.localStorage.removeItem("login_msg");
-      this.navList.splice(0, this.navList.length);
-      this.$router.replace("/login");
+      this.$Modal.confirm({
+        title: '操作提示',
+        content: '是否注销当前登陆？',
+        onOk: () => {
+          window.localStorage.removeItem("gw_token")
+          window.localStorage.removeItem("login_msg")
+          // this.navList.splice(0, this.navList.length)
+          this.$store.commit('clickEquips', 0)
+          this.$router.replace("/login")
+        }
+      })
     },
     loadNavList(navItem, callback) {
+      console.log(1)
       if (navItem.hasChild) {
         navItem.loading = true;
         // 异步获取列表节点
@@ -342,10 +424,6 @@ export default {
   },
   created() {
     this.getAuth();
-    let leftNav = require("@assets/data/leftNav.json");
-    leftNav.map(item => {
-      this.navList.push(item);
-    });
   }
 };
 </script>

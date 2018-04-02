@@ -44,6 +44,8 @@ export default {
             this.Axios.defaults.headers.common['Authorization'] = this.$store.state.gwToken
             this.$router.replace('/index')
             break
+          case 1002:
+            this.$Message.error(data.message)
           case 1003:
             console.log(data)
             break

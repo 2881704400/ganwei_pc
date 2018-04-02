@@ -12,6 +12,10 @@
         opacity: 1;
     }
     .gw-tabs{
+        position: relative;
+        .spin-icon-load{
+            animation: ani-demo-spin 1s linear infinite;
+        }
         table{
             width: 100%;
             box-shadow: 0px 0px 1px #bababa;
