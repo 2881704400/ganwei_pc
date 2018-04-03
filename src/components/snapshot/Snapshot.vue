@@ -43,8 +43,8 @@
 				</p>
 				<p>
 					<CheckboxGroup v-model="atorMobiles">
-					<Checkbox v-for="(item,index) of atorMsgInfo" v-show="isSendSms" :label="item.MobileTel" :key="index">{{item.MobileTel}}({{item.Administrator}})</Checkbox>
-					 </CheckboxGroup>
+						<Checkbox v-for="(item,index) of atorMsgInfo" v-show="isSendSms" :label="item.MobileTel" :key="index">{{item.MobileTel}}({{item.Administrator}})</Checkbox>
+					</CheckboxGroup>
 				</p>
 			</div>
 
@@ -76,7 +76,7 @@
 			updateCardInfo() {
 				this.getRealTimeEvent();
 			},
-			
+
 			//获取事件的报警配置
 			getAlarmConfig() {
 				this.Axios.post('/api/GWServiceWebAPI/get_AlarmConfig')
@@ -104,11 +104,13 @@
 									spanName: resultData[i].SnapshotName,
 									btnStatus: btnStatus,
 									btnValue: btnValue,
+									btnCount: 0,
 									isActive: false
 								});
 							}
 							this.event_Level_list = this.event_Level_list.substring(0, this.event_Level_list.length - 1);
 							this.btnInfo = listAddData;
+							this.getRealTimeEventCount();
 							this.getRealTimeEvent();
 							setInterval(this.getRealTimeEvent, 5000)
 						}
@@ -116,11 +118,33 @@
 						console.log(err)
 					})
 			},
+			//获取当前实时报警事件的总数
+			getRealTimeEventCount() {
+				let btnInfoLevels = "";
+				for(let i = 0; i < this.btnInfo.length; i++) {
+					btnInfoLevels += this.btnInfo[i].btnValue + ";"
+				}
+				btnInfoLevels = btnInfoLevels.substring(0, btnInfoLevels.length - 1);
+				this.Axios.post('/api/GWServiceWebAPI/get_RealTimeEventCount', {
+					levels: btnInfoLevels
+				}).then(res => {
+					let data = res.data.HttpData;
+					if(data.code == 200) {
+						let resultData = data.data;
+						let resultDataArr = resultData.toString().split(",");
+						for(let i = 0; i < resultDataArr.length; i++) {
+							this.btnInfo[i].spanName = this.btnInfo[i].spanName+" "+resultDataArr[i]
+						}
+					}
+				}).catch(err => {
+					console.log(err)
+				})
+			},
 			//获取当前系统报警的实时事件
 			getRealTimeEvent() {
-				var tabPaneValue=this.tabPaneValue;
-				if(tabPaneValue=="-1"){
-					tabPaneValue=this.event_Level_list;
+				var tabPaneValue = this.tabPaneValue;
+				if(tabPaneValue == "-1") {
+					tabPaneValue = this.event_Level_list;
 				}
 				this.Axios.post('/api/GWServiceWebAPI/get_RealTimeEvent', {
 					event_Level_list: tabPaneValue
@@ -133,9 +157,9 @@
 							var strLevel = "";
 							var btnInfo = this.btnInfo;
 							for(var j = 0; j < btnInfo.length; j++) {
-								var btnInfoArr=btnInfo[j].btnValue.split(",");
-								for(var m=0;m<btnInfoArr.length;m++){
-									if(btnInfoArr[m]==resultData[i].Level){
+								var btnInfoArr = btnInfo[j].btnValue.split(",");
+								for(var m = 0; m < btnInfoArr.length; m++) {
+									if(btnInfoArr[m] == resultData[i].Level) {
 										strLevel = btnInfo[j].spanName;
 										break;
 									}
@@ -180,19 +204,21 @@
 				})
 			},
 			showModalFun(EventMsg, Time) {
-				this.EventMsg=EventMsg;
-				this.Time=Time;
-				console.log(EventMsg, Time);
+				this.EventMsg = EventMsg;
+				this.Time = Time;
+				this.msgValue = "";
+				this.isSendSms = false;
+				this.atorMobiles = [];
 				this.sureModal = true;
 			},
 			sureModalFun() {
-				console.log(this.msgValue,this.isSendSms,this.atorMobiles,this.EventMsg,this.Time);
-//				this.sureModal = true;
-//				 string msg = json.msg;
-//          string shortmsg = json.shortmsg;
-//          string tel = json.tel;
-//          string evtname = json.evtname;
-//          string time = json.time;
+				console.log(this.msgValue, this.isSendSms, this.atorMobiles, this.EventMsg, this.Time);
+				//				this.sureModal = true;
+				//				 string msg = json.msg;
+				//          string shortmsg = json.shortmsg;
+				//          string tel = json.tel;
+				//          string evtname = json.evtname;
+				//          string time = json.time;
 				this.Axios.post('/api/GWServiceWebAPI/set_EventConfirm', {
 					msg: this.msgValue,
 					shortmsg: this.isSendSms,
@@ -205,7 +231,7 @@
 						let resultData = data.data;
 						this.getRealTimeEvent();
 						this.cancel();
-					}else{
+					} else {
 						alert("提交失败！");
 					}
 				}).catch(err => {
@@ -217,10 +243,10 @@
 				return newTime.substring(0, 19);
 			},
 			ok() {
-//				this.$Message.info('Clicked ok');
+				//				this.$Message.info('Clicked ok');
 			},
 			cancel() {
-//				this.$Message.info('Clicked cancel');
+				//				this.$Message.info('Clicked cancel');
 			}
 		}
 	}
