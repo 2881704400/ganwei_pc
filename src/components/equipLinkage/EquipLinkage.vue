@@ -1,7 +1,7 @@
 <template>
   <div class="equip-linkage">
     <gw-tabs :navList="tabs" @tabsNavClick="tabClick">
-      <div v-for="(tab, index) of tabs" :slot="tab.name" :key="index">
+      <div :slot="tabs[0].name" class="linkage">
         <Spin fix v-if="loadData">
             <Icon type="load-c" size=18 class="spin-icon-load"></Icon>
             <div>Loading</div>
@@ -9,11 +9,11 @@
         <table>
           <thead>
             <tr>
-              <th v-for="(head, cIndex) of tab.data.tbTitle" :key="cIndex" v-text="head"></th>
+              <th v-for="(head, cIndex) of linkTable.tbTitle" :key="cIndex" v-text="head"></th>
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(item, cIndex) of tab.data.list" :key="cIndex + '-tr'">
+            <tr v-for="(item, cIndex) of linkTable.list" :key="cIndex + '-tr'">
               <td v-text="item.equipName"></td>
               <td v-text="item.cType"></td>
               <td v-text="item.cCurren"></td>
@@ -33,7 +33,58 @@
         </table>
         <div class="btnbar">
           <a class="btn add" href="javascript:;" @click="showAdd = !showAdd">添加</a>
-          <!-- <a class="btn save" href="javascript:;" @click="save(tab)">保存</a> -->
+        </div>
+      </div>
+      <div :slot="tabs[1].name" class="scene">
+        <Spin fix v-if="sceneLoading">
+            <Icon type="load-c" size=18 class="spin-icon-load"></Icon>
+            <div>Loading</div>
+        </Spin>
+        <Collapse
+        accordion
+        >
+          <Panel
+          class="panel"
+          v-for="(scene, index) of sceneData"
+          :key="index"
+          :name="scene.equip_no + '-' + scene.set_no"
+          >
+              {{scene.set_nm}}
+              <Form slot="content"
+              :label-width="120"
+              label-position="left"
+              class="form"
+              >
+                <FormItem label="场景名称">
+                  <Input v-model="scene.set_nm"></Input>
+                </FormItem>
+                <FormItem label="场景控制项">
+                  <ul>
+                    <li v-for="(opt, optIndex) of scene.children"
+                    :key="optIndex"
+                    >
+                      <div class="show">
+                        <span>{{optIndex+1}}.</span><span>{{opt.parentEquip.m_EquipNm}}</span>:<span>{{opt.set_nm}}</span>
+                      </div>
+                      <div class="btnbox">
+                        <ButtonGroup>
+                          <Button type="primary" icon="arrow-graph-up-left" title="在前面插入一项" @click="actModal(index, optIndex, false)"></Button>
+                          <Button type="primary" icon="arrow-graph-down-left" title="在后面插入一项" @click="actModal(index, optIndex, true)"></Button>
+                          <Button type="error" icon="ios-trash-outline" title="删除" @click="deleteAct(optIndex, scene.children)"></Button>
+                        </ButtonGroup>
+                      </div>
+                    </li>
+                  </ul>
+                  <div class="btnbar">
+                    <a href="javascript:;" class="btn submit" v-if="scene.children.length < 1" @click="actModal(index, 0, false)">新增</a>
+                    <a href="javascript:;" class="btn submit" @click="submitScene(scene)">保存修改</a>
+                  </div>
+                </FormItem>
+              </Form>
+          </Panel>
+        </Collapse>
+        <div class="btnbar">
+          <a class="btn add" href="javascript:;">添加场景</a>
         </div>
       </div>
     </gw-tabs>
@@ -80,16 +131,62 @@
         </FormItem>
       </Form>
     </Modal>
+    <Modal v-model="showAct"
+    @on-ok="insertAct(insertForm)"
+    >
+      <div slot="header">插入控制</div>
+      <Form :label-width="180"
+      :model="insertForm"
+      >
+        <FormItem>
+          <RadioGroup v-model="insertForm.type">
+          <Radio label="设备控制"></Radio>
+          <Radio label="设置延时"></Radio>
+        </RadioGroup>
+        </FormItem>
+        <template v-if="insertForm.type === '设备控制'">
+          <FormItem label="选择控制设备：">
+            <Select v-model="insertForm.actEquip"
+            @on-change="judgeSetVal"
+            >
+              <Option
+              v-for="(item, index) of insertForm.insertList"
+              :value="item.value"
+              :key="index"
+              >{{ item.label }}</Option>
+            </Select>
+          </FormItem>
+          <FormItem label="设置值：" v-if="insertForm.setVal">
+            <Input v-model="insertForm.actVal" placeholder="设置值"></Input>
+          </FormItem>
+        </template>
+        <template v-if="insertForm.type === '设置延时'">
+          <FormItem label="时长(毫秒)：">
+            <p>{{insertForm.totalTime}}ms</p>
+          </FormItem>
+          <FormItem label="延时间隔：">
+            <TimePicker
+            v-model="insertForm.delayTime"
+            type="time"
+            placeholder="设置时间"
+            format="HH:mm:ss:SS"
+            @on-change="calDelayTime"
+            ></TimePicker>
+          </FormItem>
+        </template>
+      </Form>
+    </Modal>
   </div>
 </template>
 
 <script>
-import gwTabs from "@page/public/GwTabs";
+import gwTabs from "@page/public/GwTabs"
 export default {
   data() {
     return {
       loadData: false,
       showAdd: false,
+      showAct: false,
       showDelete: false,
       listAdd: [],
       typeList: [
@@ -139,42 +236,28 @@ export default {
         {
           name: "linkage",
           title: "联动设置",
-          isActive: true,
-          data: {
-            tbTitle: [
-              "触发设备",
-              "触发类型",
-              "触发点",
-              "延时(ms)",
-              "联动设备",
-              "联动命令",
-              "命令参数",
-              "备注信息",
-              "操作"
-            ],
-            list: []
-          }
+          isActive: true
         },
         {
-          name: "edit",
+          name: "scene",
           title: "场景编辑",
-          isActive: false,
-          data: {
-            tbTitle: [
-              "全选",
-              "触发设备",
-              "触发类型",
-              "触发点",
-              "延时(ms)",
-              "联动设备",
-              "联动命令",
-              "命令参数",
-              "备注信息"
-            ],
-            list: []
-          }
+          isActive: false
         }
       ],
+      linkTable: {
+        tbTitle: [
+          "触发设备",
+          "触发类型",
+          "触发点",
+          "延时(ms)",
+          "联动设备",
+          "联动命令",
+          "命令参数",
+          "备注信息",
+          "操作"
+        ],
+        list: []
+      },
       formData: {
         isEdit: false,
         layout: 0,
@@ -183,16 +266,36 @@ export default {
         selectedLinkages: [],
         optCode: '',
         remarks: ''
+      },
+      setList: [],
+      equipList: [],
+      sceneLoading: false,
+      sceneData: [],
+      insertForm: {
+        isAfter: true,
+        curIndex: 0,
+        insertList: [],
+        setVal: false,
+        actEquip: 0,
+        actVal: 0,
+        type: '设备控制',
+        delayTime: '00:00:00:00',
+        totalTime: 0
       }
-    };
+    }
   },
   methods: {
     tabClick(navList, nv) {
-      navList.map(nv => {
+      navList.forEach(nv => {
         nv.isActive = false
       })
       this.$set(nv, "isActive", true)
-      console.log(nv)
+      if (nv.name === "linkage" && this.linkTable.list.length < 1) {
+        this.initAddList()
+      } else if (nv.name === "scene" && this.setList.length < 1) {
+        this.initSceneList()
+      }
+      // console.log(nv)
     },
     addLinkage (data) {
       let reqData = {
@@ -217,7 +320,7 @@ export default {
             if (rt.code === 200) {
               if (rt.data === 1) {
                 this.$Message.success('添加成功')
-                this.initTableList(this.tabs[0].data)
+                this.initTableList(this.linkTable)
               } else {
                 this.$Message.warning('操作失败，请重试！')
               }
@@ -235,7 +338,7 @@ export default {
             if (rt.code === 200) {
               if (rt.data === 1) {
                 this.$Message.success('修改成功')
-                this.initTableList(this.tabs[0].data)
+                this.initTableList(this.linkTable)
               } else {
                 this.$Message.warning('修改失败，请重试！')
               }
@@ -273,7 +376,7 @@ export default {
               let rt = res.data.HttpData
               if (rt.code === 200 && rt.data === 1) {
                 this.$Message.success('删除成功')
-                this.initTableList(this.tabs[0].data)
+                this.initTableList(this.linkTable)
               } else {
                 this.$Message.warning('操作失败，请重试！')
               }
@@ -374,6 +477,79 @@ export default {
           console.log(err)
         })
     },
+    actModal (parentIndex, childIndex, isAfter) {
+      this.insertForm.isAfter = isAfter
+      this.insertForm.scenIndex = parentIndex
+      this.insertForm.actIndex = childIndex
+      this.showAct = !this.showAct
+    },
+    judgeSetVal (option) {
+      if (option.split('-')[2] === 'V') {
+        this.insertForm.setVal = true
+      } else {
+        this.insertForm.setVal = false
+      }
+    },
+    calDelayTime (time) {
+      this.insertForm.totalTime = parseInt(time.split(':')[0]) * 3600000 + parseInt(time.split(':')[1]) * 60000 + parseInt(time.split(':')[2]) * 1000 + parseInt(time.split(':')[3])
+    },
+    insertAct (data) {
+      console.log(data)
+      let insertIndex = data.isAfter ? (data.actIndex + 1) : data.actIndex
+      if (data.type === '设备控制') {
+        let equipNo = parseInt(data.actEquip.split('-')[0]),
+          setNo = parseInt(data.actEquip.split('-')[1])
+        let newItem = data.insertList.filter(equip => {
+          return equip.equip_no === equipNo && equip.set_no === setNo
+        })[0]
+        console.log(newItem)
+        this.sceneData[data.scenIndex].children.splice(insertIndex, 0, newItem)
+      }
+      else if (data.type === '设置延时') {
+        this.sceneData[data.scenIndex].children.splice(insertIndex, 0, {
+          isDelay: true,
+          parentEquip: {
+            m_EquipNm: "间隔操作"
+          },
+          set_nm: "延时间隔" + data.totalTime + "ms",
+          time: data.totalTime
+        })
+      }
+    },
+    deleteAct (actIndex, actList) {
+      actList.splice(actIndex, 1)
+    },
+    submitScene (scene) {
+      // console.log(scene)
+      let dataStr = ''
+      scene.children.forEach((item, index) => {
+        if (item.isDelay) {
+          dataStr += (index === 0) ? item.time : '+' + item.time
+        } else {
+          dataStr += (index === 0) ? (item.equip_no + ',' + item.set_no) : ('+' + item.equip_no + ',' + item.set_no)
+        }
+      })
+      let reqData = {
+        equipNo: scene.equip_no,
+        setNo: scene.set_no,
+        sceneName: scene.set_nm,
+        dataStr: dataStr
+      }
+      // console.log(reqData)
+      this.Axios.post('/api/datas/updateScene', reqData)
+       .then(res => {
+         let rt = res.data.HttpData
+         if (rt.code === 200 && rt.data > 0) {
+            this.$Message.success('保存成功！')
+         } else {
+            this.$Message.warning('操作失败，请重试！')
+            console.log(rt)
+         }
+       })
+       .catch(err => {
+         console.log(err)
+       })
+    },
     initTableList (dt) {
       this.loadData = true
       this.Axios.all([this.Axios.post('/api/Datas/getLinkageList'), this.Axios.post('/api/Datas/getYcpList'), this.Axios.post('/api/Datas/getYxpList'), this.Axios.post('/api/Datas/getSetparmList')])
@@ -439,7 +615,7 @@ export default {
           console.log(err)
         })
     },
-    initAddList() {
+    initAddList () {
       // 获取新增设置菜单相关数据
       if (this.listAdd.length < 1 || this.formData.linkageEquips.length < 1) {
         this.loadData = true
@@ -478,19 +654,102 @@ export default {
                 this.loadData = false
                 // console.log(this.formData.linkageEquips)
               }
-              this.initTableList(this.tabs[0].data)
+              this.initTableList(this.linkTable)
           }))
           .catch(err => {
             console.log(err)
           })
       }
+    },
+    initSceneList () {
+      this.sceneLoading = true
+      this.Axios.all([this.Axios.post('/api/datas/getSetparmList'), this.Axios.post('/api/real/equip_state')])
+        .then(this.Axios.spread((res, equipRes) => {
+          let rt = res.data.HttpData,
+            equipRt = equipRes.data.HttpData
+          if (rt.code === 200 && equipRt.code === 200) {
+            this.setList = rt.data
+            this.equipList = equipRt.data
+            this.sceneData = this.setList.filter(item => {
+              return item.set_type === "J"
+            }).map(item => {
+              let keyArr = item.value.split('+').map(key => {
+                return key.split(',')
+              })
+              this.$set(item, 'childKey', keyArr)
+              this.$set(item, 'children', [])
+              item.childKey.forEach(k => {
+                if (k.length < 2) {
+                  let time = parseInt(k[0])
+                  item.children.push({
+                    isDelay: true,
+                    time: time,
+                    set_nm: '延时间隔' + time + '毫秒'
+                  })
+                } else {
+                  this.setList.forEach(equip => {
+                    let equipNo = parseInt(k[0]),
+                    setNo = parseInt(k[1])
+                    if (equip.equip_no === equipNo && equip.set_no === setNo) {
+                      item.children.push(equip)
+                    }
+                  })
+                }
+              })
+              item.children.map(child => {
+                if (child.isDelay) {
+                  child.parentEquip = {
+                    m_EquipNm: '间隔操作'
+                  }
+                } else {
+                  this.equipList.forEach(equip => {
+                    if (equip.m_iEquipNo === child.equip_no) {
+                      child.parentEquip = equip
+                    }
+                  })
+                }
+                return child
+              })
+              return item
+            })
+            // console.log(this.setList)
+            this.insertForm.insertList = this.setList.map(equip => {
+              equip.value = equip.equip_no + '-' + equip.set_no + '-' + equip.set_type
+              this.$set(equip, 'label', equip.set_nm)
+              if (!equip.parentEquip) {
+                equip.parentEquip = this.equipList.filter(item => {
+                  return equip.equip_no === item.m_iEquipNo
+                })[0]
+              }
+              return equip
+            })
+            // 过滤目前不可操作设备
+            this.insertForm.insertList = this.insertForm.insertList.filter(equip => {
+              if (this.equipList.some(eqp => {
+                return equip.equip_no === eqp.m_iEquipNo
+              })) {
+                return equip
+              }
+            })
+            // console.log(this.sceneData)
+          } else {
+            this.$Message.warning('初始化数据失败，请重试！')
+            console.log(rt, equipRt)
+          }
+          this.sceneLoading = false
+        }))
+        .catch(err => {
+          console.log(err)
+        })
     }
   },
   components: {
     gwTabs
   },
   mounted() {
-    this.initAddList()
+    this.tabs.forEach(item => {
+      item.name === "linkage" ? this.initAddList() : this.initSceneList()
+    })
   }
 }
 </script>

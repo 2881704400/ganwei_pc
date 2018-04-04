@@ -46,6 +46,7 @@ export default {
             break
           case 1002:
             this.$Message.error(data.message)
+            console.log(data)
           case 1003:
             console.log(data)
             break
