@@ -184,7 +184,7 @@
 	}
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 	.snapshot {}
 	
 	.common-moal .ivu-modal-content {

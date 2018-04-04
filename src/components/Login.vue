@@ -42,7 +42,7 @@ export default {
             this.$store.dispatch('reflashSet')
             // 设置登陆验证session密钥
             this.Axios.defaults.headers.common['Authorization'] = this.$store.state.gwToken
-            this.$router.push('/index')
+            this.$router.replace('/index')
             break
           case 1003:
             console.log(data)
@@ -57,7 +57,12 @@ export default {
         console.log(err)
       })
     }
-}}
+
+}
+
+  
+}
+
 </script>
 
 

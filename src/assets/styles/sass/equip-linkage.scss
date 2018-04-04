@@ -11,4 +11,50 @@
         transition: all 1s;
         opacity: 1;
     }
+    .gw-tabs{
+        table{
+            width: 100%;
+            box-shadow: 0px 0px 1px #bababa;
+            tr{
+                font-size: 16px;
+                height: 53px;
+                line-height: 53px;
+            }
+            thead{
+                tr{
+                    th{
+                        font-weight: normal;
+                        color: #858585;
+                    }
+                }
+            }
+            tbody{
+                tr{
+                    &:nth-child(odd){
+                        background-color: #f9f9f9;
+                    }
+                    td{
+                        text-align: center;
+                        color: #323232;
+                    }
+                }
+            }
+        }
+        .btnbar{
+            display: flex;
+            padding: 12px;
+            justify-content: center;
+            .btn{
+                height: 31px;
+                width: 71px;
+                background-color: #05a3e5;
+                text-align: center;
+                color: #fff;
+                line-height: 31px;
+                font-size: 14px;
+                box-shadow: 0px 0px 2px rgba(0,0,0,0.2);
+                margin: 0 12px;
+            }
+        }
+    }
 }
