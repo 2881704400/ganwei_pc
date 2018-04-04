@@ -4,7 +4,7 @@
 			<Tabs type="card" @on-click="updateCardInfo" v-model="tabPaneValue">
 				<template v-for="(item,index) of btnInfo">
 					<!--<button  @click="navClickFun">{{item.spanName}}</button>-->
-					<TabPane :label="item.spanName" extra="item.ID" :name="item.btnValue" :class="{active : item.isActive}" v-if="item.btnStatus">
+					<TabPane :label="item.btnCount" extra="item.ID" :name="item.btnValue" :class="{active : item.isActive}" v-if="item.btnStatus">
 						<div class="common-table">
 							<table>
 								<thead>
@@ -89,6 +89,7 @@
 								spanName: "全部",
 								btnStatus: true,
 								btnValue: "-1",
+								btnCount: "",
 								isActive: true
 							}];
 							for(var i = 0; i < resultData.length; i++) {
@@ -104,7 +105,7 @@
 									spanName: resultData[i].SnapshotName,
 									btnStatus: btnStatus,
 									btnValue: btnValue,
-									btnCount: 0,
+									btnCount: "",
 									isActive: false
 								});
 							}
@@ -122,7 +123,9 @@
 			getRealTimeEventCount() {
 				let btnInfoLevels = "";
 				for(let i = 0; i < this.btnInfo.length; i++) {
-					btnInfoLevels += this.btnInfo[i].btnValue + ";"
+					if(this.btnInfo[i].btnValue!="-1"){
+						btnInfoLevels += this.btnInfo[i].btnValue + ";"
+					}
 				}
 				btnInfoLevels = btnInfoLevels.substring(0, btnInfoLevels.length - 1);
 				this.Axios.post('/api/GWServiceWebAPI/get_RealTimeEventCount', {
@@ -132,9 +135,12 @@
 					if(data.code == 200) {
 						let resultData = data.data;
 						let resultDataArr = resultData.toString().split(",");
+						let sumValue=0;
 						for(let i = 0; i < resultDataArr.length; i++) {
-							this.btnInfo[i].spanName = this.btnInfo[i].spanName+" "+resultDataArr[i]
+							this.btnInfo[i+1].btnCount = this.btnInfo[i+1].spanName+" "+resultDataArr[i];
+							sumValue+=parseInt(resultDataArr[i]);
 						}
+						this.btnInfo[0].btnCount = this.btnInfo[0].spanName+" "+sumValue;
 					}
 				}).catch(err => {
 					console.log(err)
@@ -213,12 +219,6 @@
 			},
 			sureModalFun() {
 				console.log(this.msgValue, this.isSendSms, this.atorMobiles, this.EventMsg, this.Time);
-				//				this.sureModal = true;
-				//				 string msg = json.msg;
-				//          string shortmsg = json.shortmsg;
-				//          string tel = json.tel;
-				//          string evtname = json.evtname;
-				//          string time = json.time;
 				this.Axios.post('/api/GWServiceWebAPI/set_EventConfirm', {
 					msg: this.msgValue,
 					shortmsg: this.isSendSms,
@@ -243,10 +243,10 @@
 				return newTime.substring(0, 19);
 			},
 			ok() {
-				//				this.$Message.info('Clicked ok');
+				
 			},
 			cancel() {
-				//				this.$Message.info('Clicked cancel');
+				
 			}
 		}
 	}
