@@ -6,7 +6,7 @@
 					<div class="three-content">
 						<div class="table-toolbar">
 							<span>普通任务列表</span>
-							<button>保存</button>
+							<button @click="saveCommonTaskFun()">保存</button>
 							<button>删除</button>
 							<button>增加</button>
 						</div>
@@ -58,7 +58,9 @@
 								</thead>
 								<tbody>
 									<tr v-for="(item,index) of CommonTaskSystemControl" :key="index">
-										<td><Input size="large" :value="item.Time"></Input></td>
+										<td>
+											<Input size="large" :value="formatDate(item.Time)"></Input>
+										</td>
 										<td>
 											<Select v-model="item.proc_code" size="large" filterable>
 								                <Option v-for="(itemProc,indexProc) in ProcCmdList" :value="itemProc.proc_code" :key="indexProc">{{ itemProc.cmd_nm }}</Option>

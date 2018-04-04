@@ -3,6 +3,7 @@ export default {
 		return {
 			selecteTable: 0,
 			CommonTaskTableID: "",
+			CommonTaskSystemID: '',
 			systemProcCode: '',
 			CommonTaskList: [],
 			CommonTaskSystemControl: [],
@@ -174,6 +175,29 @@ export default {
 				console.log(err)
 			})
 		},
+		//系统控制:表格内容编辑事件
+		updateCommonSystemFun(index, newContent, TableType) {
+			if(TableType == "Time") {
+				this.CommonTaskSystemControl[index].Time = newContent.target.value;
+			} else if(TableType == "proc_code") {
+				this.CommonTaskSystemControl[index].proc_code = newContent.target.value;
+			} else {
+				this.CommonTaskSystemControl[index].TimeDur = newContent.target.value;
+			}
+			this.CommonTaskSystemControl[index].isUpdateFlag=true;
+		},
+		//系统控制:选中点击行,背景变色
+		SelecteTableFun(index, TableID) {
+			for(var i = 0; i < this.CommonTaskSystemControl.length; i++) {
+				this.CommonTaskSystemControl[i].isCommonSpan = true;
+			}
+			if(this.selecteTable == index) {
+				if(this.CommonTaskSystemControl[index].isCommonSpan) {
+					this.CommonTaskSystemControl[index].isCommonSpan = false;
+				}
+			}
+			this.selecteTable = index;
+		},
 		//------获取普通任务:系统控制---------
 		getCommonTaskSystemControl() {
 			this.Axios.post('/api/GWServiceWebAPI/get_DataByTableNameAndID', {
@@ -187,10 +211,12 @@ export default {
 					for(var i = 0; i < resultData.length; i++) {
 						CommonTaskSystemControlData.push({
 							TableID: resultData[i].TableID,
-							Time: this.formatDate(resultData[i].Time),
+							Time: resultData[i].Time,
 							proc_code: resultData[i].proc_code,
 							cmd_nm: resultData[i].cmd_nm,
-							TimeDur: this.formatDate(resultData[i].TimeDur),
+							TimeDur: resultData[i].TimeDur,
+							isCommonSpan: true,
+							isUpdateFlag: false
 						});
 					}
 					this.CommonTaskSystemControl = CommonTaskSystemControlData;
@@ -199,15 +225,43 @@ export default {
 				console.log(err)
 			})
 		},
-		//表格内容编辑事件
+		//普通任务列表:保存编辑信息
+		saveCommonTaskFun() {
+			let CommonTaskList=this.CommonTaskList;
+			for(let i=0;i<CommonTaskList.length;i++){
+				if(CommonTaskList[i].isUpdateFlag){
+					this.Axios.post('/api/GWServiceWebAPI/set_BatchUpdate', {
+						tableName: "GWProcTimeTList",
+						cellName: "TableName",
+						cellDataList: " TableName='"+CommonTaskList[i].TableName+"', Comment='"+CommonTaskList[i].Comment+"'",
+						ifDataList: " TableID ="+CommonTaskList[i].TableID
+					}).then(res => {
+						let data = res.data.HttpData;
+						if(data.code == 200) {
+							let resultData = data.data;
+							if(resultData=="1"){
+								alert("保存成功");
+							}else{
+								alert("保存失败");
+							}
+							
+						}
+					}).catch(err => {
+						console.log(err)
+					})
+				}
+			}
+		},
+		//普通任务列表:表格内容编辑事件
 		updateCommonFun(index, newContent, TableType) {
 			if(TableType == "TableName") {
 				this.CommonTaskList[index].TableName = newContent.target.value;
 			} else {
 				this.CommonTaskList[index].Comment = newContent.target.value;
 			}
+			this.CommonTaskList[index].isUpdateFlag=true;
 		},
-		//选中点击行，获取相应数据
+		//普通任务列表:选中点击行，获取相应数据
 		SelecteTableFun(index, TableID) {
 			for(var i = 0; i < this.CommonTaskList.length; i++) {
 				this.CommonTaskList[i].isCommonSpan = true;
@@ -239,12 +293,13 @@ export default {
 							TableID: resultData[i].TableID,
 							TableName: resultData[i].TableName,
 							Comment: resultData[i].Comment,
-							isCommonSpan: true
+							isCommonSpan: true,
+							isUpdateFlag: false
 						});
 					}
 					this.CommonTaskList = CommonTaskListData;
 					this.getCommonTaskSystemControl(),
-						this.getCommonTaskEquipControl()
+					this.getCommonTaskEquipControl()
 				}
 			}).catch(err => {
 				console.log(err)
