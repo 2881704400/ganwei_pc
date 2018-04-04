@@ -9,23 +9,16 @@
         </div>
       </div>
       <div class="header-opt">
-        <span class="user" title="当前登陆用户"><span class="iconfont">&#xe62e;</span>{{$store.state.loginMsg}}</span>
+        <span class="user" title="当前登陆用户">
+          <span class="iconfont">&#xe62e;</span>{{$store.state.loginMsg}}</span>
         <span class="iconfont" title="设置">&#xe653;</span>
-        <span
-        class="iconfont"
-        title="退出登陆"
-        @click="logout"
-        >&#xe641;</span>
+        <span class="iconfont" title="退出登陆" @click="logout">&#xe641;</span>
       </div>
     </header>
     <div class="main">
       <aside class="nav-left" :class="[isFold ? 'close' : 'open']">
         <nav class="nav-list">
-          <Tree
-          v-if="navList.length"
-          :data="navList"
-          :render="renderNavItem"
-          ></Tree>
+          <Tree v-if="navList.length" :data="navList" :render="renderNavItem"></Tree>
         </nav>
         <div class="fold" :class="[isFold ? 'close' : 'open']" @click="foldAside">
           <span class="ivu-icon" :class="[isFold ? 'ivu-icon-arrow-left-b' : 'ivu-icon-arrow-right-b']"></span>
@@ -43,72 +36,159 @@
 
 <script>
 export default {
-  data () {
+  data() {
     return {
-      navList: [],
+      navList: [
+        {
+            "title": "首页",
+            "href": "home",
+            "iconClass": "ios-home-outline",
+            "loading": false,
+            "hasChild": false,
+            "children": [],
+            "selected": true
+        },
+        {
+            "title": "设备数据",
+            "href": "equips",
+            "iconClass": "ios-monitor-outline",
+            "loading": false,
+            "expand": false,
+            "hasChild": true,
+            "children": [],
+            "selected": false
+        },
+        {
+            "title": "实时快照",
+            "href": "snapshot",
+            "iconClass": "ios-camera-outline",
+            "loading": false,
+            "hasChild": false,
+            "children": [],
+            "selected": false
+        },
+        {
+            "title": "系统配置",
+            "href": "systemConf",
+            "iconClass": "ios-gear-outline",
+            "loading": false,
+            "hasChild": false,
+            "children": [],
+            "selected": false
+        },
+        {
+            "title": "事件查询",
+            "href": "eventQuery",
+            "iconClass": "ios-search-strong",
+            "loading": false,
+            "hasChild": false,
+            "children": [],
+            "selected": false
+        },
+        {
+            "title": "报警排表",
+            "href": "schedule",
+            "iconClass": "ios-calendar-outline",
+            "loading": false,
+            "hasChild": false,
+            "children": [],
+            "selected": false
+        },
+        {
+            "title": "定时任务",
+            "href": "timeTask",
+            "iconClass": "ios-clock-outline",
+            "loading": false,
+            "hasChild": false,
+            "children": [],
+            "selected": false
+        },
+        {
+            "title": "设备联动",
+            "href": "equipLinkage",
+            "iconClass": "ios-toggle-outline",
+            "loading": false,
+            "hasChild": false,
+            "children": [],
+            "selected": false
+        }
+    ],
       isFold: false,
-      curPath: ''
-    }
+      curPath: ""
+    };
   },
   methods: {
-    foldAside () {
+    foldAside() {
       // 侧边栏收起展开
-      this.isFold = !this.isFold
+      this.isFold = !this.isFold;
     },
-    getAuth () {
-      
+    getAuth() {
       // 判断appkey和infokey是否存在正确
-      if (window.localStorage['gw_token']) {
-        this.$store.dispatch('reflashSet')
-        this.Axios.defaults.headers.common['Authorization'] = this.$store.state.gwToken
-        this.Axios.get('/api/server/auth_name').then(rt => {
-          let data = rt.data.HttpData
-          if (data.code !== 200) {
-            console.log(data)
-            this.$router.push('/login')
-          } else {
-            console.log('密钥验证成功,当前连接的服务:[', data.data, ']')
-          }
-        }).catch(err => {
-          console.log(err)
-          console.log('密钥验证失败，请检查登陆设置!')
-        })
+      if (window.localStorage["gw_token"]) {
+        this.$store.dispatch("reflashSet");
+        this.Axios.defaults.headers.common[
+          "Authorization"
+        ] = this.$store.state.gwToken;
+        this.Axios.get("/api/server/auth_name")
+          .then(rt => {
+            let data = rt.data.HttpData;
+            if (data.code !== 200) {
+              console.log(data);
+              this.$router.push("/login");
+            } else {
+              console.log("密钥验证成功,当前连接的服务:[", data.data, "]");
+            }
+          })
+          .catch(err => {
+            console.log(err);
+            console.log("密钥验证失败，请检查登陆设置!");
+          });
       } else {
-        this.$router.push('/')
+        this.$router.push("/");
       }
     },
-    logout () {
+    logout() {
       // 退出登陆
-      window.localStorage.removeItem('gw_token')
-      window.localStorage.removeItem('login_msg')
-      this.navList.splice(0, this.navList.length)
-      this.$router.replace('/login')
+      this.$Modal.confirm({
+        title: '操作提示',
+        content: '是否注销当前登陆？',
+        onOk: () => {
+          window.localStorage.removeItem("gw_token")
+          window.localStorage.removeItem("login_msg")
+          // this.navList.splice(0, this.navList.length)
+          this.$store.commit('clickEquips', 0)
+          this.$router.replace("/login")
+        }
+      })
     },
-    loadNavList (navItem, callback) {
+    loadNavList(navItem, callback) {
+      console.log(1)
       if (navItem.hasChild) {
-        navItem.loading = true
+        navItem.loading = true;
         // 异步获取列表节点
-        this.Axios.post('/api/real/equip_tree').then(res => {
-          let data = res.data.HttpData
-          if (data.code === 200) {
-            let d = []
-            d.push(data.data)
-            console.log(d)
-            let resultData = []
-            this.dealNavList(d, resultData)
-            callback(resultData)
-            console.log('获取设备列表成功!')
-          } else {
-            console.log(res)
-          }
-        }).catch(err => {
-          console.log(err)
-        })
+        this.Axios.post("/api/real/equip_tree")
+          .then(res => {
+            let data = res.data.HttpData;
+            if (data.code === 200) {
+              let d = [];
+              d.push(data.data);
+              console.log(d);
+              let resultData = [];
+              this.dealNavList(d, resultData);
+              callback(resultData);
+              console.log("获取设备列表成功!");
+            } else {
+              console.log(res);
+            }
+          })
+          .catch(err => {
+            console.log(err);
+          });
       } else {
-        return false
+        return false;
       }
     },
-    dealNavList (arrData, result) {
+    dealNavList(arrData, result) {
       // 处理设备数据子列表
       arrData.forEach((dt, index) => {
         if (dt.GWEquipTreeItems && dt.GWEquipTreeItems.length) {
@@ -116,200 +196,236 @@ export default {
             title: dt.Name,
             children: [],
             selected: false,
-            render: (h, {root, node, data}) => {
-              return h('div', {
-                style: {
-                  fontSize: '14px',
-                  cursor: 'pointer',
-                  position: 'relative',
-                  paddingLeft: '20px'
-                },
-                class: ['nav-item', data.selected ? 'selected' : ''],
-                on: {
-                  click: () => {
-                    this.$set(data, 'expand', !data.expand)
-                  }
-                }
-              }, [
-                h('Icon', {
+            render: (h, { root, node, data }) => {
+              return h(
+                "div",
+                {
                   style: {
-                    width: '20px',
-                    height: '20px',
-                    lineHeight: '20px',
-                    textAlign: 'center'
+                    fontSize: "14px",
+                    cursor: "pointer",
+                    position: "relative",
+                    paddingLeft: "20px"
                   },
-                  class: ['ivu-icon', data.expand ? 'ivu-icon-arrow-down-b' : 'ivu-icon-arrow-right-b']
-                }),
-                h('span', {
-                  style: {
-                    lineHeight: '50px'
+                  class: ["nav-item", data.selected ? "selected" : ""],
+                  on: {
+                    click: () => {
+                      this.$set(data, "expand", !data.expand);
+                    }
                   }
-                }, data.title)
-              ])
+                },
+                [
+                  h("Icon", {
+                    style: {
+                      width: "20px",
+                      height: "20px",
+                      lineHeight: "20px",
+                      textAlign: "center"
+                    },
+                    class: [
+                      "ivu-icon",
+                      data.expand
+                        ? "ivu-icon-arrow-down-b"
+                        : "ivu-icon-arrow-right-b"
+                    ]
+                  }),
+                  h(
+                    "span",
+                    {
+                      style: {
+                        lineHeight: "50px"
+                      }
+                    },
+                    data.title
+                  )
+                ]
+              );
             }
-          })
-          this.dealNavList(dt.GWEquipTreeItems, result[index].children)
+          });
+          this.dealNavList(dt.GWEquipTreeItems, result[index].children);
         } else {
           result.push({
             title: dt.Name,
             equipNo: dt.EquipNo,
-            href: 'equips',
+            href: "equips",
             children: [],
             selected: false,
-            render: (h, {root, node, data}) => {
-              return h('div', {
-                style: {
-                  fontSize: '14px',
-                  cursor: 'pointer',
-                  position: 'relative',
-                  paddingLeft: '12px'
-                },
-                class: ['nav-item', data.selected ? 'selected' : ''],
-                on: {
-                  click: () => {
-                    if (data.selected) return false
-                    root.forEach (ele => {
-                      ele.node.selected = false
-                    })
-                    data.selected = true
-                    this.$router.push({
-                      path: 'equips#' + data.equipNo
-                    })
-                  }
-                }
-              }, [
-                h('span', {
+            render: (h, { root, node, data }) => {
+              return h(
+                "div",
+                {
                   style: {
-                    lineHeight: '50px',
-                    marginLeft: '30px'
+                    fontSize: "14px",
+                    cursor: "pointer",
+                    position: "relative",
+                    paddingLeft: "12px"
+                  },
+                  class: ["nav-item", data.selected ? "selected" : ""],
+                  on: {
+                    click: () => {
+                      if (data.selected) return false;
+                      root.forEach(ele => {
+                        ele.node.selected = false;
+                      });
+                      data.selected = true;
+                      this.$router.push({
+                        path: "equips#" + data.equipNo
+                      });
+                    }
                   }
-                }, data.title)
-              ])
+                },
+                [
+                  h(
+                    "span",
+                    {
+                      style: {
+                        lineHeight: "50px",
+                        marginLeft: "30px"
+                      }
+                    },
+                    data.title
+                  )
+                ]
+              );
             }
-          })
+          });
         }
-      })
+      });
     },
-    renderNavItem (h, {root, node, data}) {
+    renderNavItem(h, { root, node, data }) {
       // leftNav节点渲染
       if (data.hasChild) {
-        return h('div', {
-          style: {
-            fontSize: '16px',
-            paddingLeft: '34px',
-            position: 'relative',
-            cursor: 'pointer'
-          },
-          class: ['nav-item', data.selected ? 'selected' : ''],
-          on: {
-            click: (ev) => {
-              if (this.$store.state.navEquipsClickTime < 1) {
-                this.$store.commit('clickEquips', 1)
-                this.loadNavList(data, (rt) => {
-                  rt.forEach(item => {
-                    data.children.push(item)
-                  })
-                  data.loading = false
-                  this.$set(data, 'expand', !data.expand)
-                })
-              } else {
-                this.$set(data, 'expand', !data.expand)
+        return h(
+          "div",
+          {
+            style: {
+              fontSize: "16px",
+              paddingLeft: "34px",
+              position: "relative",
+              cursor: "pointer"
+            },
+            class: ["nav-item", data.selected ? "selected" : ""],
+            on: {
+              click: ev => {
+                if (this.$store.state.navEquipsClickTime < 1) {
+                  this.$store.commit("clickEquips", 1);
+                  this.loadNavList(data, rt => {
+                    rt.forEach(item => {
+                      data.children.push(item);
+                    });
+                    data.loading = false;
+                    this.$set(data, "expand", !data.expand);
+                  });
+                } else {
+                  this.$set(data, "expand", !data.expand);
+                }
+                if (data.selected) return false;
+                root.forEach(ele => {
+                  ele.node.selected = false;
+                });
+                data.selected = true;
               }
-              if (data.selected) return false
-              root.forEach(ele => {
-                ele.node.selected = false
-              })
-              data.selected = true
             }
-          }
-        }, [
-          h('Icon', {
-            style: {
-              width: '20px',
-              height: '20px',
-              lineHeight: '20px',
-              position: 'absolute',
-              top: '50%',
-              left: '10px',
-              marginTop: '-10px',
-              textAlign: 'center'
-            },
-            class: ['ivu-icon', data.expand ? 'ivu-icon-arrow-down-b' : 'ivu-icon-arrow-right-b']
-          }),
-          h('Icon', {
-            props: {
-              type: data.iconClass,
-              size: 22
-            },
-            style: {
-              verticalAlign: 'middle',
-              width: '22px'
-            }
-          }),
-          h('span', {
-            style: {
-              verticalAlign: 'middle',
-              lineHeight: '60px',
-              marginLeft: '16px'
-            }
-          }, data.title),
-          h('Spin', {
-            props: {
-              fix: true
-            },
-            style: [data.loading ? {'z-index': '71'} : {'z-index': '-1'}]
-          })
-        ])
-      } else {
-        return h('div', {
-          style: {
-            fontSize: '16px',
-            paddingLeft: '34px',
-            position: 'relative',
-            cursor: 'pointer',
-            transition: 'all 400ms'
           },
-          class: ['nav-item', data.selected ? 'selected' : ''],
-          on: {
-            click: () => {
-              if (data.selected) return false
-              root.forEach(ele => {
-                ele.node.selected = false
-              })
-              data.selected = true
-              this.$router.push(data.href)
-            }
-          }
-        }, [
-          h('Icon', {
-            props: {
-              type: data.iconClass,
-              size: 22
+          [
+            h("Icon", {
+              style: {
+                width: "20px",
+                height: "20px",
+                lineHeight: "20px",
+                position: "absolute",
+                top: "50%",
+                left: "10px",
+                marginTop: "-10px",
+                textAlign: "center"
+              },
+              class: [
+                "ivu-icon",
+                data.expand ? "ivu-icon-arrow-down-b" : "ivu-icon-arrow-right-b"
+              ]
+            }),
+            h("Icon", {
+              props: {
+                type: data.iconClass,
+                size: 22
+              },
+              style: {
+                verticalAlign: "middle",
+                width: "22px"
+              }
+            }),
+            h(
+              "span",
+              {
+                style: {
+                  verticalAlign: "middle",
+                  lineHeight: "60px",
+                  marginLeft: "16px"
+                }
+              },
+              data.title
+            ),
+            h("Spin", {
+              props: {
+                fix: true
+              },
+              style: [data.loading ? { "z-index": "71" } : { "z-index": "-1" }]
+            })
+          ]
+        );
+      } else {
+        return h(
+          "div",
+          {
+            style: {
+              fontSize: "16px",
+              paddingLeft: "34px",
+              position: "relative",
+              cursor: "pointer",
+              transition: "all 400ms"
             },
-            style: {
-              verticalAlign: 'middle',
-              width: '22px'
+            class: ["nav-item", data.selected ? "selected" : ""],
+            on: {
+              click: () => {
+                if (data.selected) return false;
+                root.forEach(ele => {
+                  ele.node.selected = false;
+                });
+                data.selected = true;
+                this.$router.push(data.href);
+              }
             }
-          }),
-          h('span', {
-            style: {
-              verticalAlign: 'middle',
-              lineHeight: '60px',
-              marginLeft: '16px'
-            }
-          }, data.title)
-        ])
+          },
+          [
+            h("Icon", {
+              props: {
+                type: data.iconClass,
+                size: 22
+              },
+              style: {
+                verticalAlign: "middle",
+                width: "22px"
+              }
+            }),
+            h(
+              "span",
+              {
+                style: {
+                  verticalAlign: "middle",
+                  lineHeight: "60px",
+                  marginLeft: "16px"
+                }
+              },
+              data.title
+            )
+          ]
+        );
       }
     }
   },
-  created () {
-    this.getAuth()
-    let leftNav = require('@assets/data/leftNav.json')
-    leftNav.map(item => {
-      this.navList.push(item)
-    })
+  created() {
+    this.getAuth();
   }
-}
+};
 </script>
 
 <style lang="scss" src="../assets/styles/sass/index.scss"></style>
