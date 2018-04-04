@@ -40,6 +40,7 @@
 						</table>
 					</div>
 				</TabPane>
+
 				<TabPane label="警告">
 					<div class="common-table">
 						<table>
@@ -154,6 +155,7 @@
 						</table>
 					</div>
 				</TabPane>
+
 			</Tabs>
 		</div>
 		<Modal v-model="sureModal" title="设备配置" @on-ok="ok" @on-cancel="cancel" class="common-moal">
@@ -182,7 +184,7 @@
 	}
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 	.snapshot {}
 	
 	.common-moal .ivu-modal-content {
@@ -267,6 +269,9 @@
 		font-size: 16px;
 		font-weight: 500;
 		text-align: left;
+
+		min-width: 168px;
+
 	}
 	
 	.common-table table tbody tr td:first-child {
