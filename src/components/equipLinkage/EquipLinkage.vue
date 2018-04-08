@@ -6,7 +6,7 @@
             <Icon type="load-c" size=18 class="spin-icon-load"></Icon>
             <div>Loading</div>
         </Spin>
-        <table>
+        <table class="gw-table">
           <thead>
             <tr>
               <th v-for="(head, cIndex) of linkTable.tbTitle" :key="cIndex" v-text="head"></th>
@@ -46,7 +46,7 @@
           <Panel
           class="panel"
           v-for="(scene, index) of sceneData"
-          :key="index"
+          :key="index + '-' + scene.set_no"
           :name="scene.equip_no + '-' + scene.set_no"
           >
               {{scene.set_nm}}
@@ -78,20 +78,21 @@
                   <div class="btnbar">
                     <a href="javascript:;" class="btn submit" v-if="scene.children.length < 1" @click="actModal(index, 0, false)">新增</a>
                     <a href="javascript:;" class="btn submit" @click="submitScene(scene)">保存修改</a>
+                    <a href="javascript:;" class="btn delete" @click="deleteScene(scene)">删除</a>
                   </div>
                 </FormItem>
               </Form>
           </Panel>
         </Collapse>
         <div class="btnbar">
-          <a class="btn add" href="javascript:;">添加场景</a>
+          <a class="btn add" href="javascript:;" @click="showAddScene = !showAddScene">添加场景</a>
         </div>
       </div>
     </gw-tabs>
     <Modal v-model="showAdd"
     @on-ok="addLinkage(formData)"
     >
-      <div slot="header">新增联动设置</div>
+      <div slot="header">联动设置</div>
       <Form :label-width="180"
       :model="formData"
       >
@@ -117,12 +118,6 @@
           >
           </Cascader>
         </FormItem>
-        <!-- <FormItem label="命令菜蔬：">
-          <Input
-          v-model="formData.optCode"
-          placeholder="命令参数"
-          ></Input>
-        </FormItem> -->
         <FormItem label="备注信息：">
           <Input
           v-model="formData.remarks"
@@ -176,6 +171,23 @@
         </template>
       </Form>
     </Modal>
+    <Modal v-model="showAddScene"
+    >
+      <div slot="header">添加场景</div>
+      <Form :label-width="180"
+      :model="newScene"
+      :rules="ruleNewScene"
+      ref="sceneValidate"
+      >
+        <FormItem label="场景名称：" prop="title">
+          <Input v-model="newScene.title" placeholder="输入场景名称"></Input>
+        </FormItem>
+      </Form>
+      <div slot="footer">
+        <Button type="text" size="large" @click="showAddScene = false">取消</Button>
+        <Button type="primary" size="large" @click="addScene(sceneData, newScene)">确定</Button>
+      </div>
+    </Modal>
   </div>
 </template>
 
@@ -188,6 +200,7 @@ export default {
       showAdd: false,
       showAct: false,
       showDelete: false,
+      showAddScene: false,
       listAdd: [],
       typeList: [
         {
@@ -281,6 +294,17 @@ export default {
         type: '设备控制',
         delayTime: '00:00:00:00',
         totalTime: 0
+      },
+      newScene: {
+        title: ''
+      },
+      ruleNewScene: {
+        title: [
+          {
+            required: true,
+            message: '名称不能为空'
+          }
+        ]
       }
     }
   },
@@ -494,7 +518,7 @@ export default {
       this.insertForm.totalTime = parseInt(time.split(':')[0]) * 3600000 + parseInt(time.split(':')[1]) * 60000 + parseInt(time.split(':')[2]) * 1000 + parseInt(time.split(':')[3])
     },
     insertAct (data) {
-      console.log(data)
+      // console.log(data)
       let insertIndex = data.isAfter ? (data.actIndex + 1) : data.actIndex
       if (data.type === '设备控制') {
         let equipNo = parseInt(data.actEquip.split('-')[0]),
@@ -502,7 +526,7 @@ export default {
         let newItem = data.insertList.filter(equip => {
           return equip.equip_no === equipNo && equip.set_no === setNo
         })[0]
-        console.log(newItem)
+        // console.log(newItem)
         this.sceneData[data.scenIndex].children.splice(insertIndex, 0, newItem)
       }
       else if (data.type === '设置延时') {
@@ -549,6 +573,71 @@ export default {
        .catch(err => {
          console.log(err)
        })
+    },
+    addScene (sceneList, newItem) {
+      if (sceneList.some(item => {
+        return item.set_nm === newItem.title
+      })) {
+        this.$Message.warning('该场景名称已存在，请重试！')
+      }
+      else {
+        this.$refs['sceneValidate'].validate(flag => {
+          if (flag) {
+            let setNo = 0
+            sceneList.forEach(item => {
+              setNo += (sceneList.some(scene => {
+                return scene.set_no === setNo
+              })) ? 1 : 0
+            })
+            let reqData = {
+              title: newItem.title,
+              setNo: setNo
+            }
+            this.Axios.post('/api/datas/addScene', reqData)
+              .then(res => {
+                let rt = res.data.HttpData
+                if (rt.data > 0) {
+                  this.$Message.success('场景添加成功')
+                  this.initSceneList()
+                }
+                else {
+                  console.log(rt)
+                  this.$Message.warning('场景添加失败，请重试！')
+                }
+              })
+              .catch(err => {
+                console.log(err)
+              })
+            this.showAddScene = false
+          }
+        })
+      }
+    },
+    deleteScene (scene) {
+      console.log(this.sceneData)
+      this.$Modal.confirm({
+        title: '删除场景',
+        content: '是否删除该场景？',
+        onOk: () => {
+          let reqData = {
+            setNo: scene.set_no
+          }
+          this.Axios.post('/api/datas/deleteScene', reqData)
+            .then(res => {
+              let rt = res.data.HttpData
+              if (rt.code === 200 && rt.data > 0) {
+                this.$Message.success('删除成功！')
+                this.initSceneList()
+              }
+              else {
+                this.$Message.warning('操作失败，请重试！')
+              }
+            })
+            .catch(err => {
+              console.log(err)
+            })
+        }
+      })
     },
     initTableList (dt) {
       this.loadData = true
@@ -673,9 +762,15 @@ export default {
             this.sceneData = this.setList.filter(item => {
               return item.set_type === "J"
             }).map(item => {
-              let keyArr = item.value.split('+').map(key => {
-                return key.split(',')
-              })
+              let keyArr = []
+              if (item.value !== null) {
+                keyArr = item.value.split('+').map(key => {
+                  return key.split(',')
+                })
+              }
+              else {
+                keyArr = [['']]
+              }
               this.$set(item, 'childKey', keyArr)
               this.$set(item, 'children', [])
               item.childKey.forEach(k => {

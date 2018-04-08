@@ -1,50 +1,18 @@
 @import './valuables', './mixin';
 .equips{
     // background-color: #333;
-    .ivu-tabs{
-        .ivu-tabs-bar{
-            margin-bottom: 0;
-        }
-        .ivu-tabs-tabpane{
-            border: 1px solid #dddee1;
-            border-top: none;
-        }
-    }
     .gw-table{
-        width: 100%;
-        thead{
-            tr{
-                th{
-                    height: $tbTHH;
-                    color: $tbTHTextColor;
-                    font-size: $tbTHTextSize;
-                    line-height: $tbTHH;
-                    text-align: center;
-                }
-            }
-        }
-        tbody{
-            tr{
-                &:nth-child(odd){
-                    background-color: $tbTRBgc;
-                }
-                td{
-                    height: $tbTDH;
-                    line-height: $tbTDH;
-                    font-size: $tbTDTextSize;
-                    text-align: center;
-                    &:nth-child(1){
-                        span{
-                            display: inline-block;
-                            width: 16px;
-                            height: 16px;
-                            border-radius: 50%;
-                            background-color: #35b467;
-                            &.warning{
-                                background-color: #eb303a;
-                            }
-                        }
-                    }
+        td.status{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            span{
+                width: 16px;
+                height: 16px;
+                border-radius: 50%;
+                background-color: #35b468;
+                &.warning{
+                    background-color: #eb303a;
                 }
             }
         }
