@@ -680,13 +680,16 @@ export default {
               this.$set(item, 'children', [])
               item.childKey.forEach(k => {
                 if (k.length < 2) {
-                  let time = parseInt(k[0])
-                  item.children.push({
-                    isDelay: true,
-                    time: time,
-                    set_nm: '延时间隔' + time + '毫秒'
-                  })
-                } else {
+                  if (k[0] !== '') {
+                    let time = parseInt(k[0])
+                    item.children.push({
+                      isDelay: true,
+                      time: time,
+                      set_nm: '延时间隔' + time + '毫秒'
+                    })
+                  }
+                }
+                else {
                   this.setList.forEach(equip => {
                     let equipNo = parseInt(k[0]),
                     setNo = parseInt(k[1])
@@ -701,7 +704,8 @@ export default {
                   child.parentEquip = {
                     m_EquipNm: '间隔操作'
                   }
-                } else {
+                }
+                else {
                   this.equipList.forEach(equip => {
                     if (equip.m_iEquipNo === child.equip_no) {
                       child.parentEquip = equip
