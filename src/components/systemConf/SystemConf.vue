@@ -1161,10 +1161,13 @@ export default {
 .color-set {
   color: #eb303a;
 }
-
+.common-table{
+  height:650px;
+  overflow-y: scroll;
+}
 .common-table table {
   width:100%;
-  height:80%;
+  /*height:80%;*/
   margin: 0;
   padding: 0;
   /*border:1px solid #dddee1;*/
