@@ -8,6 +8,10 @@
           
         </Col>
         <Col span="21" class="itemDetail">
+          <div>
+            <DatePicker type="datetimerange" format="yyyy/MM/dd HH:mm" :option="option1" placeholder="请选择日期时间" style="width: 500px"></DatePicker>
+
+          </div>
         	
           <div class="common-tab">
               <Tabs type="card">
@@ -79,6 +83,7 @@
                       </table>
                     </div>
                 </TabPane>
+
               </Tabs>
             </div>
         </Col>

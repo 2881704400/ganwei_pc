@@ -31,8 +31,12 @@
                   <td>{{item.equip_no}}</td>
                   <td>{{item.equip_nm}}</td>
                   <td>{{item.related_pic}}</td>
-                  <td>{{contentEq[0]}}</td>
-                  <td>{{contentEq[1]}}</td>
+                  <td v-if="contentEq.length>0">{{contentEq[0]}}</td>
+                  <td v-else></td>
+                   <td v-if="contentEq.length>0">{{contentEq[1]}}</td>
+                  <td v-else></td>
+                  <!-- <td>{{contentEq[0]}}</td> -->
+                  <!-- <td>{{contentEq[1]}}</td> -->
                   <td>{{item.PlanNo}}</td>
 
                   <td v-for="item in alarmArrEq">
@@ -82,8 +86,12 @@
                 <td>{{item.val_max}}</td>
                 <td>{{item.unit}}</td>
                 <td>{{item.related_pic}}</td>
-                <td>{{contentYc[0][$index]}}</td>
-                <td>{{contentYc[1][$index]}}</td>
+                <td v-if="contentYc.length>0">{{contentYc[0][$index]}}</td>
+                <td v-else></td>
+                <!-- <td>{{contentYc[0][$index]}}</td> -->
+                <td v-if="contentYc.length>0">{{contentYc[1][$index]}}</td>
+                <td v-else></td>
+                <!-- <td>{{contentYc[1][$index]}}</td> -->
                 <td>{{item.PlanNo}}</td>
                 <td>
                  <Icon  v-if="item.mapping" type="ios-checkmark-outline" size="20" style="color:#2d8cf0;"></Icon>
@@ -130,8 +138,12 @@
             <td>{{item.evt_01}}</td>
             <td>{{item.evt_10}}</td>
             <td>{{item.related_pic}}</td>
-            <td>{{contentYx[0][$index]}}</td>
-            <td>{{contentYx[1][$index]}}</td>
+            <td v-if="contentYx.length>0">{{contentYx[0][$index]}}</td>
+                <td v-else></td>
+            <!-- <td>{{contentYx[0][$index]}}</td> -->
+            <td v-if="contentYx.length>0">{{contentYx[1][$index]}}</td>
+                <td v-else></td>
+            <!-- <td>{{contentYx[1][$index]}}</td> -->
             <td>{{item.PlanNo}}</td>
             <td v-for="item in alarmArrYx">
               <Icon  v-if="item=='true'" type="ios-checkmark-outline" size="20" style="color:#2d8cf0;"></Icon>
@@ -173,7 +185,7 @@
           <td>{{item.minor_instruction}}</td>
           <td>
 
-           <Icon  v-if="item.record" type="ios-checkmark-outline" size="20" style="color:#2d8cf0;"></Icon>
+           <Icon  v-if="item.record=='True'||item.record=='true'" type="ios-checkmark-outline" size="20" style="color:#2d8cf0;"></Icon>
            <Icon  size="20"  v-else type="ios-circle-outline" ></Icon>
          </td>
          <td>{{item.action}}
@@ -181,7 +193,7 @@
          </td>
          <td>{{item.value}}</td>
          <td>
-          <Icon  v-if="item.canexecution" type="ios-checkmark-outline" size="20" style="color:#2d8cf0;"></Icon>
+          <Icon  v-if="item.canexecution=='True'||item.canexecution=='true'" type="ios-checkmark-outline" size="20" style="color:#2d8cf0;"></Icon>
           <Icon  size="20"  v-else type="ios-circle-outline" ></Icon>
         </td>
          <td class="operta" @click.stop="edict(3,$index)">编辑</td>
@@ -804,8 +816,10 @@ export default {
               {name:"操作命令",value:this.get_setparm[index].main_instruction,listName:'main_instruction'},
               {name:"操作参数",value:this.get_setparm[index].minor_instruction,listName:'minor_instruction'},
            ]
+
           this.switchBArr[0]=this.get_setparm[index].record
           this.switchBArr[1]=this.get_setparm[index].canexecution
+          console.log(this.switchBArr)
           this.configIndex=num;
           break;
         }
@@ -816,54 +830,226 @@ export default {
         {
           case 0:
             // console.log(this.uploadInfor);
-            let updateJSON=[];
+            var updateJSON=[];
             for (var i=0;i<this.uploadInfor.length;i++){
-              let item={
+              var item={
                   "id":this.equipId,
                   "listName":this.uploadInfor[i].listName,
-                  "vlaue":this.uploadInfor[i].value
+                  "vlaue":"'"+this.uploadInfor[i].value+"'"
               }
               updateJSON.push(item)
             }
-            let alarCode={
-               "id":this.equipId,
-                "listName":"",
-                "vlaue":this.getAlarmCode()
-            };//报警字段
-            updateJSON.push(alarCode)
-            let lateVideo={
+            var alarCode={
                "id":this.equipId,
                 "listName":"alarm_scheme",
-                "vlaue":this.loadDefVideo
+                "vlaue":"'"+this.getAlarmCode()+"'"
+            };//报警字段
+            updateJSON.push(alarCode)
+            var lateVideo={
+               "id":this.equipId,
+                "listName":"related_video",
+                "vlaue":"'"+this.loadDefVideo+"'"
             };
             updateJSON.push(lateVideo)
-            let zichan={
+            var zichan={
                 "id":this.equipId,
                 "listName":"ZiChanID",
-                "vlaue":this.loadDefZic
+                "vlaue":"'"+this.loadDefZic+"'"
             };
             updateJSON.push(zichan)
-            let planNo={
+            var planNo={
                 "id":this.equipId,
                 "listName":"PlanNo",
-                "vlaue":this.loadDefPlan
+                "vlaue":"'"+this.loadDefPlan+"'"
             };
             updateJSON.push(planNo)
-             console.log(updateJSON);
+            this.Axios.post("/api/real/update_equip",{update:JSON.stringify(updateJSON)}).then(res=>{
+                var int=res.data.HttpData.data;
+                if(int!=0&&res.data.HttpStatus==200){
+                    this.$Message.success('修改成功');
+                }else{
+                    this.$Message.error('修改失败');
+                }
+
+         
+          
+          
+            });
+             // console.log(updateJSON);
           break;
           case 1:
+            // console.log(this.uploadInfor);
+            // console.log(this.loadDefVideo);
+            // console.log(this.loadDefZic);
+            // console.log(this.loadDefPlan);
+            // // console.log(this.switchArr);
+            // console.log(this.curve_rcd);//曲线记录
+            // console.log(this.scaleTran)//比例变换,
+            var updateJSON=[];
+            for(var i=0;i<this.uploadInfor.length;i++){
+              var item={
+                "id":this.equipId,
+                "yc_no":this.uploadInfor[1].value,
+                "listName":this.uploadInfor[i].listName,
+                "vlaue":"'"+this.uploadInfor[i].value+"'"
+              }
+              updateJSON.push(item)
+            }
+            var alarCode={
+               "id":this.equipId,
+               "yc_no":this.uploadInfor[1].value,
+                "listName":"alarm_scheme",
+                "vlaue":"'"+this.getAlarmCode()+"'"
+            };//报警字段
+            updateJSON.push(alarCode)
+            var lateVideo={
+               "id":this.equipId,
+               "yc_no":this.uploadInfor[1].value,
+                "listName":"related_video",
+                "vlaue":"'"+this.loadDefVideo+"'"
+            };
+            updateJSON.push(lateVideo)
+            var zichan={
+                "id":this.equipId,
+                "yc_no":this.uploadInfor[1].value,
+                "listName":"ZiChanID",
+                "vlaue":"'"+this.loadDefZic+"'"
+            };
+            updateJSON.push(zichan)
+            var planNo={
+                "id":this.equipId,
+                "yc_no":this.uploadInfor[1].value,
+                "listName":"PlanNo",
+                "vlaue":"'"+this.loadDefPlan+"'"
+            };
+            updateJSON.push(planNo)
+            var curve_rcd={
+              "id":this.equipId,
+              "yc_no":this.uploadInfor[1].value,
+                "listName":"curve_rcd",
+                "vlaue":"'"+this.curve_rcd+"'"
+            }
+            updateJSON.push(curve_rcd);
+            var scaleTran={
+                "id":this.equipId,
+                "yc_no":this.uploadInfor[1].value,
+                "listName":"scaleTran",
+                "vlaue":"'"+this.scaleTran+"'"
+            }
+             updateJSON.push(scaleTran);
+             this.Axios.post("/api/real/update_ycp",{update:JSON.stringify(updateJSON)}).then(res=>{
+                 var int=res.data.HttpData.data;
+                if(int!=0&&res.data.HttpStatus==200){
+                    this.$Message.success('修改成功');
+                }else{
+                    this.$Message.error('修改失败');
+                }
+         
+          
+          
+              });
+            // console.log(updateJSON)
             
-            console.log(this.uploadInfor)
-            console.log(this.loadDefVideo);
-            console.log(this.loadDefZic)
-            console.log(this.loadDefPlan)
-            console.log(this.switchArr)
           break;
           case 2:
-            console.log(this.uploadInfor)
+          var updateJSON=[];
+            for(var i=0;i<this.uploadInfor.length;i++){
+              var item={
+                "id":this.equipId,
+                "yx_no":this.uploadInfor[1].value,
+                "listName":this.uploadInfor[i].listName,
+                "vlaue":"'"+this.uploadInfor[i].value+"'"
+              }
+              updateJSON.push(item)
+            }
+            var alarCode={
+               "id":this.equipId,
+               "yx_no":this.uploadInfor[1].value,
+                "listName":"alarm_scheme",
+                "vlaue":"'"+this.getAlarmCode()+"'"
+            };//报警字段
+            updateJSON.push(alarCode)
+            var lateVideo={
+               "id":this.equipId,
+               "yx_no":this.uploadInfor[1].value,
+                "listName":"related_video",
+                "vlaue":"'"+this.loadDefVideo+"'"
+            };
+            updateJSON.push(lateVideo)
+            var zichan={
+                "id":this.equipId,
+                "yx_no":this.uploadInfor[1].value,
+                "listName":"ZiChanID",
+                "vlaue":"'"+this.loadDefZic+"'"
+            };
+            updateJSON.push(zichan)
+            var planNo={
+                "id":this.equipId,
+                "yx_no":this.uploadInfor[1].value,
+                "listName":"PlanNo",
+                "vlaue":"'"+this.loadDefPlan+"'"
+            };
+            updateJSON.push(planNo)
+            
+            var negate={
+                "id":this.equipId,
+                "yx_no":this.uploadInfor[1].value,
+                "listName":"inversion",
+                "vlaue":"'"+this.negate+"'"
+            }
+             updateJSON.push(negate);
+             this.Axios.post("/api/real/update_yxp",{update:JSON.stringify(updateJSON)}).then(res=>{
+                   var int=res.data.HttpData.data;
+                if(int!=0&&res.data.HttpStatus==200){
+                    this.$Message.success('修改成功');
+                }else{
+                    this.$Message.error('修改失败');
+                }
+          
+          
+              });
+            // console.log(updateJSON)
+            // console.log(this.uploadInfor)
+
           break;
           case 3:
-            console.log(this.uploadInfor)
+             var updateJSON=[];
+            for(var i=0;i<this.uploadInfor.length;i++){
+              var item={
+                "id":this.equipId,
+                "yx_no":this.uploadInfor[1].value,
+                "listName":this.uploadInfor[i].listName,
+                "vlaue":"'"+this.uploadInfor[i].value+"'"
+              }
+              updateJSON.push(item)
+            }
+            var record={
+                "id":this.equipId,
+                "yx_no":this.uploadInfor[1].value,
+                "listName":"record",
+                "vlaue":"'"+this.switchBArr[0]+"'"
+            }//是否记录
+             updateJSON.push(record);
+             var canexecution={
+                "id":this.equipId,
+                "yx_no":this.uploadInfor[1].value,
+                "listName":"canexecution",
+                "vlaue":"'"+this.switchBArr[1]+"'"
+            }//是否可执行
+             updateJSON.push(canexecution);
+             this.Axios.post("/api/real/update_setparm",{update:JSON.stringify(updateJSON)}).then(res=>{
+                   var int=res.data.HttpData.data;
+                if(int!=0&&res.data.HttpStatus==200){
+                    this.$Message.success('修改成功');
+                }else{
+                    this.$Message.error('修改失败');
+                }
+         
+          
+          
+              });
+            // console.log(updateJSON)
+            // console.log(this.uploadInfor)
           break;
         }
       },getAlarmCode(){
