@@ -2,11 +2,7 @@
   <div class="gw-index">
     <header class="header">
       <div class="header-logo">
-        <img class="logo" src="@assets/img/logo.png" alt="logo">
-        <div class="txt">
-          <h1>敢为软件</h1>
-          <p>ganwei software</p>
-        </div>
+        <img class="logo" src="@assets/img/logos0.png" alt="logo">
       </div>
       <div class="header-opt">
         <span class="user" title="当前登陆用户"><span class="iconfont">&#xe62e;</span>{{$store.state.loginMsg}}</span>
@@ -250,7 +246,7 @@ export default {
             style: {
               verticalAlign: 'middle',
               lineHeight: '60px',
-              marginLeft: '16px'
+              marginLeft: '10px'
             }
           }, data.title),
           h('Spin', {
@@ -284,18 +280,18 @@ export default {
           h('Icon', {
             props: {
               type: data.iconClass,
-              size: 22
+              size: 26
             },
             style: {
               verticalAlign: 'middle',
-              width: '22px'
+              width: 'auto'
             }
           }),
           h('span', {
             style: {
               verticalAlign: 'middle',
               lineHeight: '60px',
-              marginLeft: '16px'
+              marginLeft: '10px'
             }
           }, data.title)
         ])
