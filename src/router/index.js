@@ -17,7 +17,7 @@ const EventQuery = r => require.ensure([], () => r(require('@page/eventQuery/Eve
 // 报警排表组件
 const Schedule = r => require.ensure([], () => r(require('@page/schedule/Schedule')), 'page')
 // 定时任务组件
-const TimeTask = r => require.ensure([], () => r(require('@page/timeTask/TimeTask')), 'page')
+const TimeTask = r => require.ensure([], () => r(require('@page/timeTask/TimeTask.vue')), 'page')
 // 设备联动组件
 const EquipLinkage = r => require.ensure([], () => r(require('@page/equipLinkage/EquipLinkage')), 'page')
 

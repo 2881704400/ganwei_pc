@@ -96,6 +96,10 @@
 	color: #F8D055;
 }
 
+.bg_disabled{
+	background: #DDDDDD !important;
+}
+
 .common-table table {
 	width: 100%;
 	margin: 0;

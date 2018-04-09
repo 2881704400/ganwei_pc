@@ -7,8 +7,8 @@
 						<div class="table-toolbar">
 							<span>普通任务列表</span>
 							<button @click="saveCommonTaskFun()">保存</button>
-							<button>删除</button>
-							<button>增加</button>
+							<button @click="delCommonTask()">删除</button>
+							<button @click="addCommonTask()">增加</button>
 						</div>
 						<div class="common-smalltable">
 							<table>
@@ -44,8 +44,8 @@
 					<div class="three-content">
 						<div class="table-toolbar">
 							<span>系统控制</span>
-							<button>删除</button>
-							<button>增加</button>
+							<button @click="delSystemFun()" :class="{bg_disabled:SystemStatus}">删除</button>
+							<button @click="addSystemTask()">增加</button>
 						</div>
 						<div class="common-smalltable">
 							<table>
@@ -57,16 +57,23 @@
 									</tr>
 								</thead>
 								<tbody>
-									<tr v-for="(item,index) of CommonTaskSystemControl" :key="index">
+									<tr v-for="(item,index) of CommonTaskSystemControl" :key="index" :class="{activeTable:index==selecteSystem}" @click="SelecteSystemFun(index)">
 										<td>
-											<Input size="large" :value="formatDate(item.Time)"></Input>
+											<div class="spanContent" v-show="item.isCommonSpan">{{item.Time.split("T")[1]}}</div>
+											<Input size="large" v-show="!item.isCommonSpan" :value="formatDate(item.Time)" @input="updateCommonSystemFun(index,$event,'Time')"></Input>
 										</td>
 										<td>
-											<Select v-model="item.proc_code" size="large" filterable>
+											<div class="spanContent" v-show="item.isCommonSpan">
+												<font v-for="(itemProc,indexProc) in ProcCmdList" v-show="item.proc_code==itemProc.proc_code">{{ itemProc.cmd_nm }}</font>
+											</div>
+											<Select v-model="item.proc_code" v-show="!item.isCommonSpan" size="large" filterable @change="updateCommonSystemFun(index,$event,'proc_code')">
 								                <Option v-for="(itemProc,indexProc) in ProcCmdList" :value="itemProc.proc_code" :key="indexProc">{{ itemProc.cmd_nm }}</Option>
 								            </Select>
 										</td>
-										<td><Input size="large" :value="item.TimeDur"></Input></td>
+										<td>
+											<div class="spanContent" v-show="item.isCommonSpan">{{item.TimeDur.split("T")[1]}}</div>
+											<Input size="large" v-show="!item.isCommonSpan" :value="formatDate(item.TimeDur)" @input="updateCommonSystemFun(index,$event,'TimeDur')"></Input>
+										</td>
 									</tr>
 								</tbody>
 							</table>
@@ -75,8 +82,8 @@
 					<div class="three-content">
 						<div class="table-toolbar">
 							<span>设备列表</span>
-							<button>删除</button>
-							<button>增加</button>
+							<button @click="delEquipFun()" :class="{bg_disabled:EquipStatus}">删除</button>
+							<button @click="addEquipFun()">增加</button>
 						</div>
 						<div class="common-smalltable">
 							<table>
@@ -88,14 +95,23 @@
 									</tr>
 								</thead>
 								<tbody>
-									<tr v-for="(item,index) of CommonTaskEquipControl" :key="index">
-										<td><Input :value="item.Time"></Input></td>
-										<td style="padding: 0;">
-											<Select v-model="item.set_nm"  filterable>
-								                <Option v-for="(itemEquip,indexEquip) in EquipControlList" :value="itemEquip.set_nm" :key="indexEquip">{{ itemEquip.set_nm }}</Option>
+									<tr v-for="(item,index) of CommonTaskEquipControl" :key="index" :class="{activeTable:index==selecteEquip}" @click="SelecteEquipFun(index)">
+										<td>
+											<div class="spanContent" v-show="item.isCommonSpan">{{item.Time.split("T")[1]}}</div>
+											<Input v-show="!item.isCommonSpan" :value="formatDate(item.Time)" @input="updateCommonEquipFun(index,$event,'Time')"></Input>
+										</td>
+										<td>
+											<div class="spanContent" v-show="item.isCommonSpan">
+												<font v-for="(itemEquip,indexEquip) in EquipControlList" v-show="item.set_no==itemEquip.set_no">{{ itemEquip.set_nm }}</font>
+											</div>
+											<Select v-model="item.set_nom" v-show="!item.isCommonSpan" filterable @input="updateCommonEquipFun(index,$event,'set_no')">
+								                <Option v-for="(itemEquip,indexEquip) in EquipControlList" :value="itemEquip.set_nom" :key="indexEquip">{{ itemEquip.set_nm }}</Option>
 								            </Select>
 										</td>
-										<td><Input :value="item.TimeDur"></Input></td>
+										<td>
+											<div class="spanContent" v-show="item.isCommonSpan">{{item.TimeDur.split("T")[1]}}</div>
+											<Input v-show="!item.isCommonSpan" :value="formatDate(item.TimeDur)" @input="updateCommonEquipFun(index,$event,'TimeDur')"></Input>
+										</td>
 									</tr>
 								</tbody>
 							</table>
