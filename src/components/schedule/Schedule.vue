@@ -10,7 +10,16 @@
             <Tabs value="User" type="card" :animated="false" @on-click="tabsEvent">
 
                 <TabPane label="人员" name="User" class="publicSchedule">
-                    <Button type="primary" class="AlmReportBtn" @click.stop="addAdministratorModal"><i class="iconfont icon-scheduleADD"></i>添加</Button>
+                   
+                    <p class="Schedule_search">
+                        <Button type="primary" class="AddLine" @click.stop="addAdministratorModal"><i class="iconfont icon-scheduleADD"></i>添加</Button>
+                       <span>
+                          <i slot="prepend" class="ivu-icon ivu-icon-ios-search"></i>
+                          <input type="text" placeholder="请输入人员姓名" v-model = "filtersValue" @input="conditions(Alarm_user)"/>
+                       </span>
+                      <button class="btn_search" @click="nullString(Alarm_user)">清空</button>
+                    </p>
+
                     <table class="userTable">
                         <thead>
                             <tr>
@@ -23,46 +32,27 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="(item_parent,index_parent) in Alarm_user">
+                            <tr v-for="(item_parent,index_parent) in filtersArray">
                                 <td>
-                                    <div class="larmTabulate_txt" v-show="!item_parent.isShow">
                                         {{item_parent.Administrator}}
-                                    </div>
-                                    <div class="larmTabulate_input" v-show="item_parent.isShow">
-                                        <input type="text" v-model="item_parent.Administrator" />
-                                    </div>
                                 </td>
                                 <td>
-                                    <div class="larmTabulate_txt" v-show="!item_parent.isShow">
                                         {{item_parent.Telphone}}
-                                    </div>
-                                    <div class="larmTabulate_input" v-show="item_parent.isShow">
-                                        <input type="text" v-model="item_parent.Telphone" />
-                                    </div>
                                 </td>
                                 <td>
-                                    <div class="larmTabulate_txt" v-show="!item_parent.isShow">
+
                                         {{item_parent.MobileTel}}
-                                    </div>
-                                    <div class="larmTabulate_input" v-show="item_parent.isShow">
-                                        <input type="text" v-model="item_parent.MobileTel" />
-                                    </div>
+
                                 </td>
                                 <td>
-                                    <div class="larmTabulate_txt" v-show="!item_parent.isShow">
+
                                         {{item_parent.EMail}}
-                                    </div>
-                                    <div class="larmTabulate_input" v-show="item_parent.isShow">
-                                        <input type="text" v-model="item_parent.EMail" />
-                                    </div>
+
                                 </td>
                                 <td>
-                                    <div class="larmTabulate_txt" v-show="!item_parent.isShow">
+
                                         {{item_parent.AckLevel}}
-                                    </div>
-                                    <div class="larmTabulate_input" v-show="item_parent.isShow">
-                                        <input type="text" v-model="item_parent.AckLevel" />
-                                    </div>
+
                                 </td>
                                 <td>
                                     <i class="iconfont icon-scheduleMODIFY" title="修改" @click.stop="modifyFAdministrator(item_parent)" v-show="!item_parent.isShow"></i>
@@ -155,7 +145,15 @@
                 </TabPane>
 
                 <TabPane label="管理范围" name="Administration" class="publicSchedule">
-                    <Button type="primary" @click.stop="addAlmReport()" class="AlmReportBtn"><i class="iconfont icon-scheduleADD"></i>添加</Button>
+                    <p class="Schedule_search">
+                       <Button type="primary" @click.stop="addAlmReport()" class="AddLine"><i class="iconfont icon-scheduleADD"></i>添加</Button>
+                       <span>
+                          <i slot="prepend" class="ivu-icon ivu-icon-ios-search"></i>
+                          <input type="text" placeholder="请输入人员姓名" v-model = "filtersValue" @input="conditions(AlmReportData)"/>
+                       </span>
+                      <button class="btn_search" @click="nullString(AlmReportData)">清空</button>
+                    </p>
+
                     <table class="userTable AlmReportTable">
                         <thead>
                             <tr>
@@ -165,7 +163,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="(item_parent,index_parent) in AlmReportData">
+                            <tr v-for="(item_parent,index_parent) in filtersArray">
                                 <td>
                                     {{item_parent.Administrator}}
                                 </td>
@@ -208,7 +206,18 @@
                 </TabPane>
 
                 <TabPane label="周排表" name="Tablerow" class="publicSchedule">
-                    <Button type="primary" class="AlmReportBtn" @click.stop="addWeekAlmReport"><i class="iconfont icon-scheduleADD"></i>添加</Button>
+                    
+                    <p class="Schedule_search">
+                       <Button class="AddLine" type="primary"  @click.stop="addWeekAlmReport"><i class="iconfont icon-scheduleADD"></i>添加</Button>
+                       <span>
+                          <i slot="prepend" class="ivu-icon ivu-icon-ios-search"></i>
+                          <input type="text" placeholder="请输入人员姓名" v-model = "filtersValue" @input="conditions(WeekAlmReport)"/>
+                       </span>
+                      <button class="btn_search" @click="nullString(WeekAlmReport)">清空</button>
+                    </p>
+
+   
+
                     <table class="userTable">
                         <thead>
                             <tr>
@@ -220,7 +229,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="(item,index) in WeekAlmReport">
+                            <tr v-for="(item,index) in filtersArray">
                                 <td>
                                     {{item.Administrator}}
                                 </td>
@@ -264,13 +273,15 @@
                             <span>开始时间</span>
                             </Col>
                             <Col span="19">
-                            <input placeholder="开始时间"  style="width: 100%;height: 100%;" v-model="Week_stime" />
+                            <!-- <input placeholder="开始时间"  style="width: 100%;height: 100%;" v-model="Week_stime" /> -->
+                            <TimePicker format="HH:mm" type="time" placeholder="开始时间" style="width: 100%;outline: none;"  v-model="Week_stime"></TimePicker>
                             </Col>
                             <Col span="5">
                             <span>结束时间</span>
                             </Col>
                             <Col span="19">
-                            <input  placeholder="开始时间" style="width: 100%;height: 100%;" v-model="Week_etime" />
+                            <!-- <input  placeholder="开始时间" style="width: 100%;height: 100%;" v-model="Week_etime" /> -->
+                            <TimePicker format="HH:mm" type="time" placeholder="结束时间" style="width: 100%;outline: none;"  v-model="Week_etime"></TimePicker>
                             </Col>
                         </Row>
                     </Modal>
@@ -278,7 +289,15 @@
                 </TabPane>
 
                 <TabPane label="特定日期排表" name="Datetablerow" class="publicSchedule">
-                    <Button type="primary" class="AlmReportBtn" @click.stop="addSpeAlmReport"><i class="iconfont icon-scheduleADD"></i>添加</Button>
+                    
+                    <p class="Schedule_search">
+                       <Button type="primary" class="AddLine" @click.stop="addSpeAlmReport"><i class="iconfont icon-scheduleADD"></i>添加</Button>
+                       <span>
+                          <i slot="prepend" class="ivu-icon ivu-icon-ios-search"></i>
+                          <input type="text" placeholder="请输入人员姓名" v-model = "filtersValue" @input="conditions(SpeAlmReport)"/>
+                       </span>
+                      <button class="btn_search" @click="nullString(SpeAlmReport)">清空</button>
+                    </p>                    
                     <table class="userTable">
                         <thead>
                             <tr>
@@ -289,7 +308,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="(item,index) in SpeAlmReport">
+                            <tr v-for="(item,index) in filtersArray">
                                 <td>
                                     {{item.Administrator}}
                                 </td>
@@ -341,8 +360,10 @@
 
 <script>
 import { formatDate } from "../../assets/js/date.js";
+// import $ from "jquery";
 
 export default {
+  
   data() {
     return {
       //人员
@@ -398,16 +419,25 @@ export default {
       Spe_id: "",
       Spe_admin: "",
       Spe_begin_time: "",
-      Spe_end_time: ""
+      Spe_end_time: "",
+
+      //过滤
+      filtersArray:[],
+      filtersValue: '',
     };
   },
   mounted() {
     this.getAdministrator();
+    this.filtersArray = this.Alarm_user;
+    //mCustomScrollbar(scrollbarStyle);
   },
   methods: {
     tabsEvent: function(name) {
+
+      this.filtersValue = "";
       switch (name) {
         case "User":
+          this.filtersArray = this.Alarm_user;
           this.getAdministrator();
           break;
         case "Equipment":
@@ -415,15 +445,18 @@ export default {
           this.getEquip();
           break;
         case "Administration":
+          this.filtersArray = this.AlmReportData;
           this.getEquipGroup();
           this.getAlmReport();
           this.getAdministrator();
           break;
         case "Tablerow":
+          this.filtersArray = this.WeekAlmReport;
           this.getAdministrator();
           this.getWeekAlmReport();
           break;
         case "Datetablerow":
+          this.filtersArray = this.SpeAlmReport;
           this.getAdministrator();
           this.getSpeAlmReport();
           break;
@@ -1056,8 +1089,8 @@ export default {
       let WeekAlmReportLocal = {
         id: weekID,
         Administrator: this.Spe_admin,
-        begin_time: this.Spe_begin_time,
-        end_time: this.Spe_end_time,
+        begin_time: formatDate(this.Spe_begin_time,"yyyy/MM/dd hh:mm:ss"),
+        end_time: formatDate(this.Spe_end_time,"yyyy/MM/dd hh:mm:ss"),
         isShow: false
       };
       //数据库更新
@@ -1215,8 +1248,27 @@ export default {
         return equipName;
       });
       return equipName;
+    },
+    conditions: function(items){
+
+        var searchRegex = new RegExp(this.filtersValue, 'gi');
+        var arr=[],i=0;
+        if(this.filtersValue != "")
+        { 
+          items.forEach(function(ele, index) {
+              if(searchRegex.test(ele.Administrator))
+                {arr[i] = ele;i++;}
+          });
+         }
+         this.filtersArray = this.filtersValue == ""?items:arr;  
+    },
+    nullString: function(items){
+      this.filtersValue = "";
+      this.filtersArray = items; 
     }
-  }
+  },
+
+
 };
 
 
