@@ -8,6 +8,7 @@ import Axios from 'axios'
 import iView from 'iview'
 import 'iview/dist/styles/iview.css'
 import './assets/styles/sass/public.scss'
+import 'signalr'
 
 Vue.config.productionTip = false
 

@@ -249,12 +249,14 @@ export default {
         {
           name: "linkage",
           title: "联动设置",
-          isActive: true
+          isActive: true,
+          isShow: true
         },
         {
           name: "scene",
           title: "场景编辑",
-          isActive: false
+          isActive: false,
+          isShow: true
         }
       ],
       linkTable: {
@@ -641,7 +643,9 @@ export default {
     },
     initTableList (dt) {
       this.loadData = true
-      this.Axios.all([this.Axios.post('/api/Datas/getLinkageList'), this.Axios.post('/api/Datas/getYcpList'), this.Axios.post('/api/Datas/getYxpList'), this.Axios.post('/api/Datas/getSetparmList')])
+      this.Axios.all([this.Axios.post('/api/Datas/getLinkageList'), this.Axios.post('/api/Datas/getYcpList'), this.Axios.post('/api/Datas/getYxpList'), this.Axios.post('/api/Datas/getSetparmList', {
+        findEquip: false
+      })])
         .then(this.Axios.spread((res, ycpRes, yxpRes, parmRes) => {
           let rt = res.data.HttpData,
             ycpRt = ycpRes.data.HttpData,
@@ -708,7 +712,7 @@ export default {
       // 获取新增设置菜单相关数据
       if (this.listAdd.length < 1 || this.formData.linkageEquips.length < 1) {
         this.loadData = true
-        this.Axios.all([this.Axios.post('/api/real/equip_state'), this.Axios.post('/api/Datas/getSetparmList', {all: true})])
+        this.Axios.all([this.Axios.post('/api/real/equip_state'), this.Axios.post('/api/Datas/getSetparmList', {findEquip: false})])
           .then(this.Axios.spread((equipRes, parmRes) => {
             let equipRt = equipRes.data.HttpData,
               parmRt = parmRes.data.HttpData
@@ -752,7 +756,7 @@ export default {
     },
     initSceneList () {
       this.sceneLoading = true
-      this.Axios.all([this.Axios.post('/api/datas/getSetparmList'), this.Axios.post('/api/real/equip_state')])
+      this.Axios.all([this.Axios.post('/api/datas/getSetparmList', {findEquip: false}), this.Axios.post('/api/real/equip_state')])
         .then(this.Axios.spread((res, equipRes) => {
           let rt = res.data.HttpData,
             equipRt = equipRes.data.HttpData
