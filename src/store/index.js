@@ -7,7 +7,6 @@ export default new Vuex.Store({
   state: {
     gwToken: '',
     loginMsg: '',
-    navEquipsClickTime: 0,
     curEquip: {
       equipNo: ''
     }
@@ -19,9 +18,6 @@ export default new Vuex.Store({
     },
     getStorageLoginMsg (state) {
       state.loginMsg = window.localStorage.getItem('login_msg')
-    },
-    clickEquips (state, number) {
-      state.navEquipsClickTime = number
     },
     setEquipNo (state, nom) {
       state.curEquip.equipNo = nom

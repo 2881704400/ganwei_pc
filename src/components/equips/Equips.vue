@@ -17,7 +17,11 @@
               </td>
               <td v-text="line.m_iYCNo"></td>
               <td v-text="line.m_YCNm"></td>
-              <td v-text="line.m_YCState"></td>
+              <td v-text="line.m_YCValue + line.m_Unit"></td>
+              <td>
+                <Button type="primary"
+                icon="stats-bars"></Button>
+              </td>
               <td v-text="line.m_AdviceMsg"></td>
             </tr>
           </tbody>
@@ -43,8 +47,15 @@
           </tbody>
         </table>
       </div>
-      <div :slot="tabData[2].name">
-        设置tab页
+      <div :slot="tabData[2].name" class="tab-set">
+        <Card title="操作命令" :dis-hover="true">
+          <Button type="primary" icon="ios-search"
+          v-for="(btn, btnIndex) of tabData[2].setList"
+          :key="btnIndex"
+          v-text="btn.set_nm"
+          @click="setEquip(btn)"
+          ></Button>
+        </Card>
       </div>
     </gw-tabs>
   </div>
@@ -62,25 +73,29 @@ export default {
           name: 'ycData',
           title: '模拟量',
           isActive: false,
-          isShow: true,
-          tbHead: ['报警状态', '值ID', '名称', '当前值', '图表数据', '备注'],
+          isShow: false,
+          tbHead: ['报警状态', '模拟量ID', '名称', '当前值', '图表数据', '备注'],
           tbList: []
         },
         {
           name: 'yxData',
           title: '状态量',
           isActive: false,
-          isShow: true,
-          tbHead: ['报警状态', '状态ID', '名称', '当前状态', '备注'],
+          isShow: false,
+          tbHead: ['报警状态', '状态量ID', '名称', '当前状态', '备注'],
           tbList: []
         },
         {
           name: 'setData',
           title: '设置',
-          isShow: true,
-          isActive: false
+          isShow: false,
+          isActive: false,
+          hasSet: false,
+          setList: []
         }
-      ]
+      ],
+      serverHub: null,
+      HUBNAME: 'hub'
     }
   },
   components: {
@@ -105,21 +120,35 @@ export default {
         if (rt.code === 200) {
           let data = rt.data
           console.log(data)
+          this.tabData[0].tbList.splice(0, this.tabData[0].tbList.length)
+          this.tabData[1].tbList.splice(0, this.tabData[1].tbList.length)
           for (let key in data.YCItemDict) {
             this.tabData[0].tbList.push(data.YCItemDict[key])
+          }
+          if (this.tabData[0].tbList.length > 0) {
+            this.tabClick(this.tabData, this.tabData[0])
+            this.tabData[0].isShow = true
+          }
+          else {
+            this.tabData[0].isActive = false
+            this.tabData[0].isShow = false
           }
           for (let key in data.YXItemDict) {
             this.tabData[1].tbList.push(data.YXItemDict[key])
           }
-          // this.tabData.forEach(item => {
-          //   if (!this.tabData.some(tb => {
-          //     return tb.isActive === true
-          //   })) {
-          //     item.isActive = item.tbList.length > 0 ? true : false
-          //   }
-          //   item.isShow = item.tbList.length > 0 ? true : false
-          // })
-          // console.log(this.tabData)
+          if (this.tabData[1].tbList.length > 0) {
+            this.tabData[1].isShow = true
+            if (!this.tabData[0].isActive) {
+              this.tabClick(this.tabData, this.tabData[1])
+            }
+          }
+          else {
+            this.tabData[1].isActive = false
+            this.tabData[1].isShow = false
+          }
+          this.tabData[2].equipInfo = data.EquipItem
+          this.getSetopt(this.tabData[2].equipInfo.m_iEquipNo)
+          // this.connectSignalr()
         } else {
           this.$Message.warning('数据获取失败，请重试！')
           console.log(rt)
@@ -128,14 +157,100 @@ export default {
         this.$Message.warning('token验证失败，请检查登陆信息!')
         console.log(err)
       })
+    },
+    getSetopt (equipNo) {
+      const reqData = {
+        findEquip: true,
+        equipNo: equipNo
+      }
+      this.Axios.post('/api/datas/getSetparmList', reqData)
+        .then(res => {
+          let rt = res.data.HttpData
+          if (rt.code === 200) {
+            let data = rt.data
+            if (data.length > 0) {
+              this.tabData[2].hasSet = true
+              this.tabData[2].isShow = true
+              this.tabData[2].setList = data
+              if (!this.tabData[0].isShow && !this.tabData[1].isShow) {
+                this.tabClick(this.tabData, this.tabData[2])
+              }
+            }
+            else {
+              this.tabData[2].hasSet = false
+              this.tabData[2].isShow = false
+            }
+            // console.log(this.tabData[2].setList)
+          }
+          else {
+            this.$Message.warning('获取设置操作列表失败，请重试！')
+            console.log(rt)
+          }
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+    setEquip (equip) {
+      // console.log(equip)
+      this.$Modal.confirm({
+        title: '执行操作',
+        content: '<p>确定执行操作：<span style="color:#f90">' + equip.set_nm + '</span></p>',
+        onOk: () => {
+          const reqData = {
+            equip_no: '' + equip.equip_no,
+            main_instr: equip.main_instruction,
+            mino_instr: equip.minor_instruction,
+            value: equip.value
+          }
+          this.Axios.post('/api/real/setup', reqData)
+            .then(res => {
+              const rt = res.data.HttpData
+              if (rt.code === 201) {
+                // console.log(rt)
+                this.$Message.success(rt.message)
+                // this.getAllState()
+              } else {
+                console.log(rt)
+                this.$Message.warning('操作失败，请重试')
+              }
+            })
+            .catch(err => {
+              console.log(err)
+            })
+        }
+      })
+    },
+    connectSignalr () {
+      let hub = $.hubConnection('http://localhost:7005')
+      let proxy = this.createHubProxy(hub) //需要先注册方法再连接
+      hub.start().done((connection) =>{
+        console.log('Now connected, connection ID=' + connection.id)
+      }).fail((error)=>{
+        console.log('连接失败' + error);
+      })
+      hub.error(function (error) {
+        console.log('SignalR error: ' + error)
+      })
+      hub.connectionSlow(function () {
+        console.log('We are currently experiencing difficulties with the connection.')
+      });
+      hub.disconnected(function () {
+        console.log('disconnected')
+      });
+      // return proxy
+    },
+    createHubProxy (hub) {
+      const clientMethodSets = []
+
+      let proxy = hub.createHubProxy(this.HUBNAME)
+      // 注册客户端方法
+      clientMethodSets.map((item)=>{
+        proxy.on(item.name,item.method)
+      })
+      return proxy
     }
   },
-  // beforeRouteEnter (to, from, next) {
-  //   next(vm => {
-  //     vm.$store.commit('setEquipNo', to.hash.substr(1))
-  //     vm.getAllState()
-  //   })
-  // },
   beforeRouteUpdate (to, from, next) {
     this.$store.commit('setEquipNo', to.hash.substr(1))
     this.getAllState()
