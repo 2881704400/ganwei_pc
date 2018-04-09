@@ -7,7 +7,8 @@
       <div class="header-opt">
         <span class="user" title="当前登陆用户">
           <span class="iconfont">&#xe62e;</span>{{$store.state.loginMsg}}</span>
-        <span class="iconfont" title="设置">&#xe653;</span>
+        <span class="iconfont icon-Menu" :title="isFold ?'展开面板':'收缩面板'" :class="[isFold ? 'close' : 'open']" @click="foldAside"></span>
+        <span class="iconfont icon-set" title="设置"></span>
         <span class="iconfont" title="退出登陆" @click="logout">&#xe641;</span>
       </div>
     </header>
@@ -16,9 +17,10 @@
         <nav class="nav-list">
           <Tree v-if="navList.length" :data="navList" :render="renderNavItem"></Tree>
         </nav>
-        <div class="fold" :class="[isFold ? 'close' : 'open']" @click="foldAside">
+        <!-- <div class="fold" :class="[isFold ? 'close' : 'open']" @click="foldAside">
           <span class="ivu-icon" :class="[isFold ? 'ivu-icon-arrow-left-b' : 'ivu-icon-arrow-right-b']"></span>
-        </div>
+            <span class="iconfont icon-Menu"></span>
+        </div> -->
       </aside>
       <section class="main-body">
         <!-- <div class="title">
@@ -38,7 +40,7 @@ export default {
         {
             "title": "首页",
             "href": "home",
-            "iconClass": "ios-home-outline",
+            "iconClass": " iconfont icon-MenuHome",
             "loading": false,
             "hasChild": false,
             "children": [],
@@ -47,7 +49,7 @@ export default {
         {
             "title": "设备数据",
             "href": "equips",
-            "iconClass": "ios-monitor-outline",
+            "iconClass": " iconfont icon-MenuEquips",
             "loading": false,
             "expand": false,
             "hasChild": true,
@@ -57,7 +59,7 @@ export default {
         {
             "title": "实时快照",
             "href": "snapshot",
-            "iconClass": "ios-camera-outline",
+            "iconClass": " iconfont icon-MenuSnapshot",
             "loading": false,
             "hasChild": false,
             "children": [],
@@ -66,7 +68,7 @@ export default {
         {
             "title": "系统配置",
             "href": "systemConf",
-            "iconClass": "ios-gear-outline",
+            "iconClass": " iconfont icon-MenuSystemConf",
             "loading": false,
             "hasChild": false,
             "children": [],
@@ -75,7 +77,7 @@ export default {
         {
             "title": "事件查询",
             "href": "eventQuery",
-            "iconClass": "ios-search-strong",
+            "iconClass": " iconfont icon-MenuEventQuery",
             "loading": false,
             "hasChild": false,
             "children": [],
@@ -84,7 +86,7 @@ export default {
         {
             "title": "报警排表",
             "href": "schedule",
-            "iconClass": "ios-calendar-outline",
+            "iconClass": " iconfont icon-MenuSchedule",
             "loading": false,
             "hasChild": false,
             "children": [],
@@ -93,7 +95,7 @@ export default {
         {
             "title": "定时任务",
             "href": "timeTask",
-            "iconClass": "ios-clock-outline",
+            "iconClass": " iconfont icon-MenuTimeTask",
             "loading": false,
             "hasChild": false,
             "children": [],
@@ -102,7 +104,7 @@ export default {
         {
             "title": "设备联动",
             "href": "equipLinkage",
-            "iconClass": "ios-toggle-outline",
+            "iconClass": " iconfont icon-MenuEquipLinkage",
             "loading": false,
             "hasChild": false,
             "children": [],
@@ -302,6 +304,7 @@ export default {
       });
     },
     renderNavItem(h, { root, node, data }) {
+      
       // leftNav节点渲染
       if (data.hasChild) {
         return h(
@@ -356,7 +359,7 @@ export default {
             h("Icon", {
               props: {
                 type: data.iconClass,
-                size: 22
+                size: 28
               },
               style: {
                 verticalAlign: "middle",
@@ -369,7 +372,7 @@ export default {
                 style: {
                   verticalAlign: "middle",
                   lineHeight: "60px",
-                  marginLeft: "16px"
+                  marginLeft: "20px"
                 }
               },
               data.title
@@ -409,7 +412,7 @@ export default {
             h("Icon", {
               props: {
                 type: data.iconClass,
-                size: 22
+                size: 28
               },
               style: {
                 verticalAlign: "middle",
@@ -422,7 +425,7 @@ export default {
                 style: {
                   verticalAlign: "middle",
                   lineHeight: "60px",
-                  marginLeft: "16px"
+                  marginLeft: "20px"
                 }
               },
               data.title

@@ -9,6 +9,7 @@ import iView from 'iview'
 import 'iview/dist/styles/iview.css'
 import './assets/styles/sass/public.scss'
 
+
 Vue.config.productionTip = false
 
 Vue.use(iView)

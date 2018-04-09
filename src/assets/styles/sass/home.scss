@@ -1,0 +1,31 @@
+.home{
+
+    $MenuColor: #999;
+    $MenuColorHover: #05A2E5;
+
+   &>h1{font-size: 1.5rem;font-weight: 200;height: 15%;padding-top: 2%;text-align: center;}
+   &>ul{
+       padding-top: 20px;text-align: center;
+       &>li{
+        width: 15%;max-width: 200px;margin: 0 2.5%;display: inline-block;border: 0;
+        &>div{width: 100%;white-space: nowrap;padding: 0 10px;cursor: pointer;
+            color: #{ $MenuColor};font-size: 0.9rem;display: inline-block;
+            border-radius: 6px;outline: none;border: 0;
+            h4{font-size: 1rem;color: white;font-weight: 500;text-align: left;padding: 10px 0;}
+            &>div{padding: 10px 0;}
+            .infoTop{color: white;text-align: left;}
+            .infoTop>span{font-size: 2rem;}
+            .infoBottom{color: white;}
+            .infoBottom p{font-size: 0.8rem;margin: 5px 0;text-align: left;}
+            .infoBottom span{margin-left: 10px;}
+        }
+        &>.snaBtn0{background: #EF4B56;}
+        &>.snaBtn1{background: #F1B90C;}
+        &>.snaBtn2{background: #02A1A7;}
+        &>.snaBtn3{background: #43A7DB;}
+        &>.snaBtn4{background: #6D417C;}
+        &>a:hover{color: #{ $MenuColorHover};border: 1px solid #{ $MenuColorHover};}
+       }
+    }
+  
+}
