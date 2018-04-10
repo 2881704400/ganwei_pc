@@ -113,13 +113,13 @@ export default {
       // console.log(nv)
     },
     getAllState () {
-      this.Axios.post('/api/real/equip_item_state', {
+      this.Axios.post('/zkxapi/real/equip_item_state', {
         equip_no: this.equipNo
       }).then(res => {
         let rt = res.data.HttpData
         if (rt.code === 200) {
           let data = rt.data
-          console.log(data)
+          // console.log(data)
           this.tabData[0].tbList.splice(0, this.tabData[0].tbList.length)
           this.tabData[1].tbList.splice(0, this.tabData[1].tbList.length)
           for (let key in data.YCItemDict) {
@@ -148,7 +148,7 @@ export default {
           }
           this.tabData[2].equipInfo = data.EquipItem
           this.getSetopt(this.tabData[2].equipInfo.m_iEquipNo)
-          // this.connectSignalr()
+          this.connectServer()
         } else {
           this.$Message.warning('数据获取失败，请重试！')
           console.log(rt)
@@ -203,7 +203,7 @@ export default {
             mino_instr: equip.minor_instruction,
             value: equip.value
           }
-          this.Axios.post('/api/real/setup', reqData)
+          this.Axios.post('/zkxapi/real/setup', reqData)
             .then(res => {
               const rt = res.data.HttpData
               if (rt.code === 201) {
@@ -221,34 +221,35 @@ export default {
         }
       })
     },
-    connectSignalr () {
-      let hub = $.hubConnection('http://localhost:7005')
-      let proxy = this.createHubProxy(hub) //需要先注册方法再连接
-      hub.start().done((connection) =>{
-        console.log('Now connected, connection ID=' + connection.id)
-      }).fail((error)=>{
-        console.log('连接失败' + error);
-      })
-      hub.error(function (error) {
-        console.log('SignalR error: ' + error)
-      })
-      hub.connectionSlow(function () {
-        console.log('We are currently experiencing difficulties with the connection.')
-      });
-      hub.disconnected(function () {
-        console.log('disconnected')
-      });
-      // return proxy
+    connectServer() {
+      // this.Axios.post('/api/Nloves/nsa')
+      //   .then(res => {
+      //     let rt = res
+      //     console.log(rt)
+      //   })
+      //   .catch(err => {
+      //     console.log(err)
+      //   })
+        var $this = this;
+        var conn = $.hubConnection("http://localhost:7003/", { qs: "clientId=123" })
+        $this.proxy = conn.createHubProxy("ServerHub");
+        $this.getMsg();
+        conn.start().done((data) => {
+            $this.sendMsg();
+        }).fail((data) => {
+        });
     },
-    createHubProxy (hub) {
-      const clientMethodSets = []
+    sendMsg() {
+        var $this = this;
+        $this.proxy.invoke("Connect", $this.value).done((msg) => {
 
-      let proxy = hub.createHubProxy(this.HUBNAME)
-      // 注册客户端方法
-      clientMethodSets.map((item)=>{
-        proxy.on(item.name,item.method)
-      })
-      return proxy
+        });
+    },
+    getMsg() {
+        var $this = this;
+        $this.proxy.on("clientMethod", (data) => {
+            $this.showmsg = data;
+        })
     }
   },
   beforeRouteUpdate (to, from, next) {

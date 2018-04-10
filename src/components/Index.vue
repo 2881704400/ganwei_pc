@@ -274,7 +274,6 @@ export default {
                   class: ["nav-item", data.selected ? "selected" : ""],
                   on: {
                     click: () => {
-                      console.log(root)
                       if (data.selected) return false;
                       root.forEach(ele => {
                         ele.node.selected = false;

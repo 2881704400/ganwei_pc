@@ -64,7 +64,9 @@
                     :key="optIndex"
                     >
                       <div class="show">
-                        <span>{{optIndex+1}}.</span><span>{{opt.parentEquip.m_EquipNm}}</span>:<span>{{opt.set_nm}}</span>
+                        <span>{{optIndex+1}}.</span>
+                        <span v-text="opt.parentEquip.equip_nm"></span>:
+                        <span>{{opt.set_nm}}</span>
                       </div>
                       <div class="btnbox">
                         <ButtonGroup>
@@ -712,7 +714,7 @@ export default {
       // 获取新增设置菜单相关数据
       if (this.listAdd.length < 1 || this.formData.linkageEquips.length < 1) {
         this.loadData = true
-        this.Axios.all([this.Axios.post('/api/real/equip_state'), this.Axios.post('/api/Datas/getSetparmList', {findEquip: false})])
+        this.Axios.all([this.Axios.post('/api/datas/getEquipList'), this.Axios.post('/api/Datas/getSetparmList', {findEquip: false})])
           .then(this.Axios.spread((equipRes, parmRes) => {
             let equipRt = equipRes.data.HttpData,
               parmRt = parmRes.data.HttpData
@@ -723,23 +725,25 @@ export default {
                 // 触发设备列表
                 this.listAdd = equipData.map(item => {
                   return {
-                    value: item.m_iEquipNo,
-                    label: item.m_EquipNm,
+                    value: item.equip_no,
+                    label: item.equip_nm,
                     loading: false,
                     children: []
                   }
                 })
+                // console.table(equipRt.data)
+                // console.table(parmData)
                 // 联动关联设备列表
                 this.formData.linkageEquips = equipData.filter((equip, index) => {
                   if (parmData.some(parm => {
-                    return equip.m_iEquipNo === parm.equip_no
+                    return equip.equip_no === parm.equip_no
                   })) {
                     return equip
                   }
                 }).map(equip => {
                   return {
-                      value: equip.m_iEquipNo,
-                      label: equip.m_EquipNm,
+                      value: equip.equip_no,
+                      label: equip.equip_nm,
                       loading: false,
                       children: []
                     }
@@ -756,7 +760,7 @@ export default {
     },
     initSceneList () {
       this.sceneLoading = true
-      this.Axios.all([this.Axios.post('/api/datas/getSetparmList', {findEquip: false}), this.Axios.post('/api/real/equip_state')])
+      this.Axios.all([this.Axios.post('/api/datas/getSetparmList', {findEquip: false}), this.Axios.post('/api/datas/getEquipList')])
         .then(this.Axios.spread((res, equipRes) => {
           let rt = res.data.HttpData,
             equipRt = equipRes.data.HttpData
@@ -806,7 +810,7 @@ export default {
                 }
                 else {
                   this.equipList.forEach(equip => {
-                    if (equip.m_iEquipNo === child.equip_no) {
+                    if (equip.equip_no === child.equip_no) {
                       child.parentEquip = equip
                     }
                   })
@@ -821,7 +825,7 @@ export default {
               this.$set(equip, 'label', equip.set_nm)
               if (!equip.parentEquip) {
                 equip.parentEquip = this.equipList.filter(item => {
-                  return equip.equip_no === item.m_iEquipNo
+                  return equip.equip_no === item.equip_no
                 })[0]
               }
               return equip
@@ -829,7 +833,7 @@ export default {
             // 过滤目前不可操作设备
             this.insertForm.insertList = this.insertForm.insertList.filter(equip => {
               if (this.equipList.some(eqp => {
-                return equip.equip_no === eqp.m_iEquipNo
+                return equip.equip_no === eqp.equip_no
               })) {
                 return equip
               }
@@ -851,7 +855,13 @@ export default {
   },
   mounted() {
     this.tabs.forEach(item => {
-      item.name === "linkage" ? this.initAddList() : this.initSceneList()
+      let curTab = item.isActive ? item.name : null
+      if (curTab === "linkage") {
+        this.initAddList()
+      }
+      else if (curTab === "scene") {
+        this.initSceneList()
+      }
     })
   }
 }
