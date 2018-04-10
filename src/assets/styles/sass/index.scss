@@ -17,9 +17,9 @@
             width: $asideW;
             height: 100%;
             display: flex;
-            color: #fff;
             justify-content: center;
             align-items: center;
+            flex-grow: 0;
             .logo{
                 width: $headerLogoSize;
                

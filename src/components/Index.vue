@@ -160,34 +160,42 @@ export default {
       })
     },
     loadNavList(navItem, callback) {
-      console.log(1)
       if (navItem.hasChild) {
         navItem.loading = true;
         // 异步获取列表节点
-        this.Axios.post("/api/real/equip_tree")
-          .then(res => {
-            let data = res.data.HttpData;
-            if (data.code === 200) {
-              let d = [];
-              d.push(data.data);
-              console.log(d);
-              let resultData = [];
-              this.dealNavList(d, resultData);
-              callback(resultData);
-              console.log("获取设备列表成功!");
+        this.Axios.all([this.Axios.post("/api/real/equip_tree"), this.Axios.post('/api/datas/getEquipList')])
+          .then(this.Axios.spread((treeRes, equipRes) => {
+            let treeRt = treeRes.data.HttpData,
+              equipRt = equipRes.data.HttpData
+            if (treeRt.code === 200 && equipRt.code === 200) {
+              let treeData = []
+              let equipData = equipRt.data
+              treeData = treeRt.data.GWEquipTreeItems
+              let resultData = []
+              this.dealNavList(treeData, equipData, resultData)
+              callback(resultData)
+              console.log("获取设备列表成功!")
             } else {
-              console.log(res);
+              this.$Message.warning('获取设备列表失败，请重试！')
+              console.log(treeRes)
             }
-          })
+          }))
           .catch(err => {
-            console.log(err);
-          });
+            console.log(err)
+          })
       } else {
         return false;
       }
     },
-    dealNavList(arrData, result) {
+    dealNavList(arrData, equipList, result) {
       // 处理设备数据子列表
+      arrData = arrData.filter(item => {
+        if (equipList.some(equip => {
+          return equip.equip_no === parseInt(item.EquipNo) || item.EquipNo === ''
+        })) {
+          return item
+        }
+      })
       arrData.forEach((dt, index) => {
         if (dt.GWEquipTreeItems && dt.GWEquipTreeItems.length) {
           result.push({
@@ -239,8 +247,14 @@ export default {
               );
             }
           });
-          this.dealNavList(dt.GWEquipTreeItems, result[index].children);
+          this.dealNavList(dt.GWEquipTreeItems, equipList, result[index].children);
         } else {
+          let equipNo = parseInt(dt.EquipNo)
+          if (equipNo === 300) {
+            dt.Name = '场景控制'
+          } else if (equipNo === 1005) {
+            dt.Name = '虚拟设备'
+          }
           result.push({
             title: dt.Name,
             equipNo: dt.EquipNo,
@@ -422,7 +436,7 @@ export default {
     }
   },
   created() {
-    this.getAuth();
+    this.getAuth()
   }
 };
 </script>

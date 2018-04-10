@@ -15,7 +15,13 @@ module.exports = {
         pathRewrite: {
           // '^/api': '/api'
         }
-      }
+      },
+      '/oApi': {
+          target: 'http://192.168.0.196:7006',
+          pathRewrite: {
+            '^/oApi': '/'
+          }
+        }
     },
 
     // Various Dev Server settings

@@ -34,25 +34,19 @@
                         <tbody>
                             <tr v-for="(item_parent,index_parent) in filtersArray">
                                 <td>
-                                        {{item_parent.Administrator}}
+                                  {{item_parent.Administrator}}
                                 </td>
                                 <td>
-                                        {{item_parent.Telphone}}
+                                  {{item_parent.Telphone}}
                                 </td>
                                 <td>
-
-                                        {{item_parent.MobileTel}}
-
+                                  {{item_parent.MobileTel}}
                                 </td>
                                 <td>
-
-                                        {{item_parent.EMail}}
-
+                                  {{item_parent.EMail}}
                                 </td>
                                 <td>
-
-                                        {{item_parent.AckLevel}}
-
+                                  {{item_parent.AckLevel}}
                                 </td>
                                 <td>
                                     <i class="iconfont icon-scheduleMODIFY" title="修改" @click.stop="modifyFAdministrator(item_parent)" v-show="!item_parent.isShow"></i>
@@ -137,8 +131,10 @@
                             </Col>
                         </Row>
                         <ul>
-                            <li v-for="(equipNameItem,equipIndex) in equipName"><input type="checkbox" :id='"checkConf_"+equipIndex' v-model="equipNameItem.equipNameShow" @click.stop="radioCheckbox(equipNameItem)" />
-                                <label :for='"checkConf_"+equipIndex'>{{equipNameItem.equip_nm}}</label>
+                            <li v-for="(equipNameItem,equipIndex) in equipName">
+                              <Checkbox  :label="equipNameItem.equipNameShow" :id='"checkConf_"+equipIndex'  @click.stop="radioCheckbox(equipNameItem)"></Checkbox>
+                              <!-- <input type="checkbox" :id='"checkConf_"+equipIndex' v-model="equipNameItem.equipNameShow" @click.stop="radioCheckbox(equipNameItem)" /> -->
+                              <label :for='"checkConf_"+equipIndex'>{{equipNameItem.equip_nm}}</label>
                             </li>
                         </ul>
                     </div>
