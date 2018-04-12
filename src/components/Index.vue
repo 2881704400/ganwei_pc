@@ -2,7 +2,7 @@
   <div class="gw-index">
     <header class="header">
       <div class="header-logo">
-        <img class="logo" src="@assets/img/head_logo.png" alt="logo">
+        <img class="logo" src="@assets/img/logos0.png" alt="logo">
       </div>
       <div class="header-opt">
         <span class="user" title="当前登陆用户">
@@ -53,15 +53,6 @@ export default {
             "loading": false,
             "expand": false,
             "hasChild": true,
-            "children": [],
-            "selected": false
-        },
-        {
-            "title": "实时快照",
-            "href": "snapshot",
-            "iconClass": " iconfont icon-MenuSnapshot",
-            "loading": false,
-            "hasChild": false,
             "children": [],
             "selected": false
         },
@@ -154,7 +145,6 @@ export default {
           window.localStorage.removeItem("gw_token")
           window.localStorage.removeItem("login_msg")
           // this.navList.splice(0, this.navList.length)
-          this.$store.commit('clickEquips', 0)
           this.$router.replace("/login")
         }
       })

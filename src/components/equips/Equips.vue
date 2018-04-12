@@ -148,7 +148,7 @@ export default {
           }
           this.tabData[2].equipInfo = data.EquipItem
           this.getSetopt(this.tabData[2].equipInfo.m_iEquipNo)
-          this.connectServer()
+          // this.connectServer()
         } else {
           this.$Message.warning('数据获取失败，请重试！')
           console.log(rt)
@@ -238,18 +238,6 @@ export default {
             $this.sendMsg();
         }).fail((data) => {
         });
-    },
-    sendMsg() {
-        var $this = this;
-        $this.proxy.invoke("Connect", $this.value).done((msg) => {
-
-        });
-    },
-    getMsg() {
-        var $this = this;
-        $this.proxy.on("clientMethod", (data) => {
-            $this.showmsg = data;
-        })
     }
   },
   beforeRouteUpdate (to, from, next) {

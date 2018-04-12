@@ -11,15 +11,9 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/api': {
-        target: 'http://192.168.0.247:7003',
+        target: 'http://192.168.0.274:7003',
         pathRewrite: {
           '^/api': '/api'
-        }
-      },
-      '/signalr': {
-        target: 'http://192.168.0.247:7003',
-        pathRewrite: {
-          '^/signalr': '/'
         }
       },
       '/zkxapi': {
@@ -29,7 +23,7 @@ module.exports = {
         }
       },
       '/oApi': {
-          target: 'http://192.168.0.247:7003',
+          target: 'http://192.168.0.196:7006',
           pathRewrite: {
             '^/oApi': '/'
           }
