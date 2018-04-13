@@ -20,7 +20,7 @@
               <td v-text="line.m_YCValue + line.m_Unit"></td>
               <td>
                 <Button type="primary"
-                icon="stats-bars"></Button>
+                icon="stats-bars" @click="toggleModal"></Button>
               </td>
               <td v-text="line.m_AdviceMsg"></td>
             </tr>
@@ -58,6 +58,13 @@
         </Card>
       </div>
     </gw-tabs>
+    <Modal
+    v-model="showChart"
+    title='实时曲线'
+    >
+      暂无数据
+      <!-- <div slot="footer"></div> -->
+    </Modal>
   </div>
 </template>
 
@@ -74,7 +81,7 @@ export default {
           title: '模拟量',
           isActive: false,
           isShow: false,
-          tbHead: ['报警状态', '模拟量ID', '名称', '当前值', '图表数据', '备注'],
+          tbHead: ['报警状态', '模拟量ID', '名称', '当前值', '实时数据', '备注'],
           tbList: []
         },
         {
@@ -95,7 +102,8 @@ export default {
         }
       ],
       serverHub: null,
-      HUBNAME: 'hub'
+      HUBNAME: 'hub',
+      showChart: false
     }
   },
   components: {
@@ -238,6 +246,9 @@ export default {
             $this.sendMsg();
         }).fail((data) => {
         });
+    },
+    toggleModal () {
+      this.showChart = !this.showChart
     }
   },
   beforeRouteUpdate (to, from, next) {
