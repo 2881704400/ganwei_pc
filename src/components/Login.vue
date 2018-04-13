@@ -85,7 +85,12 @@ export default {
         console.log(err)
       })
     }
-
+    ,error (nodesc,msg) {
+        this.$Notice.error({
+            title: '登陆提示',
+            desc: msg
+        });
+    }
 }
 
   
