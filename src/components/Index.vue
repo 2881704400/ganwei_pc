@@ -436,6 +436,7 @@ export default {
     }
   },
   created() {
+    console.log(this.$route)
     this.getAuth()
   }
 };

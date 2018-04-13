@@ -45,22 +45,26 @@ export default {
             this.$router.replace('/index')
             break
           case 1002:
-            this.$Message.error(data.message)
-            console.log(data)
+           this.error(true,data.message);break;
           case 1003:
-            console.log(data)
+            this.error(true,data.message);
             break
           case 1007:
-            console.log(data)
+            this.error(true,data.message);
             break
           default:
-            console.log(data)
+            this.error(true,data.message);
         }
       }).catch(err => {
         console.log(err)
       })
     }
-
+    ,error (nodesc,msg) {
+        this.$Notice.error({
+            title: '登陆提示',
+            desc: msg
+        });
+    }
 }
 
   

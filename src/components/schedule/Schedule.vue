@@ -86,6 +86,7 @@
                         </Row>
                     </Modal>
 
+
                 </TabPane>
 
                 <TabPane label="设备分组范围" name="Equipment" class="publicSchedule">
@@ -131,10 +132,10 @@
                             </Col>
                         </Row>
                         <ul>
-                            <li v-for="(equipNameItem,equipIndex) in equipName">
-                              <Checkbox  :label="equipNameItem.equipNameShow" :id='"checkConf_"+equipIndex'  @click.stop="radioCheckbox(equipNameItem)"></Checkbox>
+                            <li v-for="(equipNameItem,equipIndex) in equipName" :key="equipNameItem.group_no">
+                               <Checkbox  v-model="equipNameItem.equipNameShow" :id='"checkConf_"+equipIndex'  @on-change="radioCheckbox(equipNameItem)">{{equipNameItem.equip_nm}}</Checkbox>
                               <!-- <input type="checkbox" :id='"checkConf_"+equipIndex' v-model="equipNameItem.equipNameShow" @click.stop="radioCheckbox(equipNameItem)" /> -->
-                              <label :for='"checkConf_"+equipIndex'>{{equipNameItem.equip_nm}}</label>
+                              <!-- <label :for='"checkConf_"+equipIndex'>{{equipNameItem.equip_nm}}</label> -->
                             </li>
                         </ul>
                     </div>
@@ -147,7 +148,7 @@
                           <i slot="prepend" class="ivu-icon ivu-icon-ios-search"></i>
                           <input type="text" placeholder="请输入人员姓名" v-model = "filtersValue" @input="conditions(AlmReportData)"/>
                        </span>
-                      <button class="btn_search" @click="nullString(AlmReportData)">清空</button>
+                       <button class="btn_search" @click="nullString(AlmReportData)">清空</button>
                     </p>
 
                     <table class="userTable AlmReportTable">
@@ -688,7 +689,7 @@ export default {
         ele.equipNameShow = false;
       });
       //设置勾选
-      var selectEquip = value || this.selectEquip;
+      var selectEquip = value || this.selectEquip; //value 是进入
       if (this.equipUser != null && this.equipName != null) {
         var stringValue;
         this.equipUser.forEach(function(ele, index) {
@@ -697,6 +698,7 @@ export default {
           }
         });
         this.equipName.forEach(function(ele1, index1) {
+          // console.log(stringValue+"====="+stringValue.split("#").indexOf(ele1.equip_no.toString()));
           if (
             stringValue != undefined &&
             stringValue.split("#").indexOf(ele1.equip_no.toString()) > -1
@@ -756,13 +758,16 @@ export default {
       equipUser.forEach(function(ele, index) {
         if (ele.group_no == selectEquip) {
           if (dt.equipNameShow) {
-            //勾消 -- 往字符串去除内容
-            ele.equipcomb = ele.equipcomb.replace("#" + dt.equip_no + "#", "#");
-          } else {
-            //勾选 --  往字符串添加内容
+           
             ele.equipcomb == null || ele.equipcomb == ""
-              ? (ele.equipcomb += "#" + dt.equip_no + "#")
+              ? (ele.equipcomb = "#" + dt.equip_no + "#")
               : (ele.equipcomb += dt.equip_no + "#");
+             
+           
+          } else {
+
+            ele.equipcomb = ele.equipcomb.replace("#" + dt.equip_no + "#", "#");
+            
           }
           stringListEquip = ele.equipcomb;
         }
@@ -780,6 +785,7 @@ export default {
         equipcomb: stringListEquip,
         ifValue: selectEquip
       };
+
       this.XHRPost(
         "updateEquipGroup",
         WeekAlmReportInsert,
