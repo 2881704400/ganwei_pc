@@ -1,5 +1,6 @@
 @import './valuables', './mixin';
 .equips{
+    height: 100%;
     .gw-table{
         td.status{
             display: flex;

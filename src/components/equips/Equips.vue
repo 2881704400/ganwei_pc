@@ -65,16 +65,19 @@
       暂无数据
       <!-- <div slot="footer"></div> -->
     </Modal>
+    <gw-loading v-if="isLoading"></gw-loading>
   </div>
 </template>
 
 <script>
 import { mapState } from 'vuex'
 import gwTabs from "@page/public/GwTabs"
+import gwLoading from "@page/public/GwLoading"
 export default {
   name: 'equips',
   data () {
     return {
+      isLoading: true,
       tabData: [
         {
           name: 'ycData',
@@ -107,7 +110,8 @@ export default {
     }
   },
   components: {
-    gwTabs
+    gwTabs,
+    gwLoading
   },
   computed: mapState({
     equipNo: state => state.curEquip.equipNo
@@ -197,6 +201,9 @@ export default {
         })
         .catch(err => {
           console.log(err)
+        })
+        .then(() => {
+          this.isLoading = false
         })
     },
     setEquip (equip) {
