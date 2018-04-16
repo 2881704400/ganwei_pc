@@ -131,7 +131,7 @@ export default {
         let rt = res.data.HttpData
         if (rt.code === 200) {
           let data = rt.data
-          // console.log(data)
+          console.log(data)
           this.tabData[0].tbList.splice(0, this.tabData[0].tbList.length)
           this.tabData[1].tbList.splice(0, this.tabData[1].tbList.length)
           for (let key in data.YCItemDict) {
@@ -161,6 +161,7 @@ export default {
           this.tabData[2].equipInfo = data.EquipItem
           this.getSetopt(this.tabData[2].equipInfo.m_iEquipNo)
           // this.connectServer()
+          // console.log(this.tabData)
         } else {
           this.$Message.warning('数据获取失败，请重试！')
           console.log(rt)
@@ -222,9 +223,8 @@ export default {
             .then(res => {
               const rt = res.data.HttpData
               if (rt.code === 201) {
-                // console.log(rt)
                 this.$Message.success(rt.message)
-                // this.getAllState()
+                this.getAllState()
               } else {
                 console.log(rt)
                 this.$Message.warning('操作失败，请重试')
