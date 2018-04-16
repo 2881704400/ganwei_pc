@@ -32,7 +32,7 @@
                 <td>{{item.Time}}</td>
                 <td><p >{{item.EventMsg}}</p></td>
                 <td>
-                  <Button type="info" @click="initAlert(item)" v-show="!item.bConfirmed">请确认</Button>
+                  <Button type="info" @click="initModal(item)" v-show="!item.bConfirmed">请确认</Button>
                   <i v-show="item.bConfirmed" class="iconfont icon-ok" style="font-size: 1.5rem;"></i>
                 </td>
                 <td>{{item.Proc_advice_Msg}}</td>
@@ -104,107 +104,134 @@ export default {
          }
     },
     requestTitle: function(){
-        var element = this.titles,numberAsgument= this.numberAsgument,eventAsgument = this.eventAsgument,events = this.events,
-        getString=this.getString,getArray = this.getArray,requestNumber= this.requestNumber,
-        querySuccess = this.querySuccess,requestEvent= this.requestEvent;
+        var element = this;
         let url = "/api/Db/SelectData?tableName=GWSnapshotConfig";
         this.XHRGet(url, _success_Title_query);
         function _success_Title_query(response) {
-          element.length = 0;
+          element.titles.length = 0;
           let arrayLike = response.data.HttpData.data;
-          let getAlmReportLength = arrayLike.length;
-          for (var i = 0; i < getAlmReportLength; i++) {
-              let AlmReport_data = {
-                  SnapshotName: arrayLike[i].SnapshotName, 
-                  SnapshotLevelMin: arrayLike[i].SnapshotLevelMin, 
-                  SnapshotLevelMax: arrayLike[i].SnapshotLevelMax, 
-                  MaxCount: arrayLike[i].MaxCount,
-                  IsShow: arrayLike[i].IsShow,
-                  IconRes: arrayLike[i].IconRes,
-                  Reserve1: arrayLike[i].Reserve1,
-                  Reserve2: arrayLike[i].Reserve2,
-                  Reserve3: arrayLike[i].Reserve3,
-                  IsActive: false,
-              }  
-              element.push(AlmReport_data);
+          let code = response.data.HttpData.code;
+          if(code == 200)
+          {
+              let getAlmReportLength = arrayLike.length;
+              for (var i = 0; i < getAlmReportLength; i++) {
+                  let AlmReport_data = {
+                      SnapshotName: arrayLike[i].SnapshotName, 
+                      SnapshotLevelMin: arrayLike[i].SnapshotLevelMin, 
+                      SnapshotLevelMax: arrayLike[i].SnapshotLevelMax, 
+                      MaxCount: arrayLike[i].MaxCount,
+                      IsShow: arrayLike[i].IsShow,
+                      IconRes: arrayLike[i].IconRes,
+                      Reserve1: arrayLike[i].Reserve1,
+                      Reserve2: arrayLike[i].Reserve2,
+                      Reserve3: arrayLike[i].Reserve3,
+                      IsActive: false,
+                  }  
+                  element.titles.push(AlmReport_data);
+              }
+              element.numberAsgument = element.getString(element.titles);
+              element.eventAsgument = element.getArray(element.titles);
+              element.requestNumber(element.numberAsgument);
+              element.requestEvent(element.eventAsgument);
           }
-          numberAsgument = getString(element);
-          eventAsgument = getArray(element);
-          requestNumber(numberAsgument);
-          var eventSet = setInterval(function(){
-            requestEvent(eventAsgument);
-            if(events.length>0)
-              {clearInterval(eventSet); querySuccess(); }//换算已处理
-          },500);
-        
+          else
+          {element.requestTitle();}
         }
     },
     requestNumber: function(value){
-      var WeekAlmReportInsert = {levels: value},element = this.numbers;
+      var WeekAlmReportInsert = {levels: value},element = this;
       this.XHRPost("get_RealTimeEventCount",WeekAlmReportInsert,_success_Number_update);
       function _success_Number_update(response) {
-          element.length = 0;
+          element.numbers.length = 0;
           let arrayLike = response.data.HttpData.data;
-          let getAlmReportLength = arrayLike.split(",");
-          for(var i=0;i<getAlmReportLength.length;i++)
-            element.push(getAlmReportLength[i]);
+          var code = response.data.HttpData.code;
+          if(code == 200)
+          {
+            let getAlmReportLength = arrayLike.split(",");
+            for(var i=0;i<getAlmReportLength.length;i++)
+              element.numbers.push(getAlmReportLength[i]);
+          }
+          else
+          { 
+             element.requestNumber(value);
+          }
+
       }
     },
     requestEvent: function(value){
-      var WeekAlmReportInsert = {event_Level_list: value},element = this.events,getbeetween=this.getbeetween,requestUser = this.requestUser;
-      
+      var WeekAlmReportInsert = {event_Level_list: value},element = this;
+     
       this.XHRPost("get_RealTimeEvent",WeekAlmReportInsert,_success_Event_update);
       function _success_Event_update(response) {
-          element.length = 0;
+     
+          element.events.length = 0;
           let arrayLike = response.data.HttpData.data;
-          let getAlmReportLength = arrayLike.length;
-          for(var i=0;i<getAlmReportLength;i++)
+           var code = response.data.HttpData.code;
+          if(code == 200)
           {
-            var dataJson = {
-                  Dt_Confirmed: arrayLike[i].Dt_Confirmed,
-                  Equipno: arrayLike[i].Equipno,
-                  EventMsg: arrayLike[i].EventMsg,
-                  Level: getbeetween(arrayLike[i].Level),
-                  PlanNo: arrayLike[i].PlanNo,
-                  Proc_advice_Msg: arrayLike[i].Proc_advice_Msg,
-                  Related_pic: arrayLike[i].Related_pic,
-                  Time: formatDate(new Date(arrayLike[i].Time),"yyyy-MM-dd hh:mm:ss"),
-                  Type: arrayLike[i].Type,
-                  User_Confirmed: arrayLike[i].User_Confirmed,
-                  Wavefile: arrayLike[i].Wavefile,
-                  Ycyxno: arrayLike[i].Ycyxno,
-                  ZiChanID: arrayLike[i].ZiChanID,
-                  bConfirmed: arrayLike[i].bConfirmed,
-                  related_video: arrayLike[i].related_video,
-                   retrievalShow: true,
-            };
-            element.push(dataJson);
+              let getAlmReportLength = arrayLike.length;
+              for(var i=0;i<getAlmReportLength;i++)
+              {
+                  var dataJson = {
+                          Dt_Confirmed: arrayLike[i].Dt_Confirmed,
+                          Equipno: arrayLike[i].Equipno,
+                          EventMsg: arrayLike[i].EventMsg,
+                          Level: element.getbeetween(arrayLike[i].Level),
+                          PlanNo: arrayLike[i].PlanNo,
+                          Proc_advice_Msg: arrayLike[i].Proc_advice_Msg,
+                          Related_pic: arrayLike[i].Related_pic,
+                          Time: formatDate(new Date(arrayLike[i].Time),"yyyy-MM-dd hh:mm:ss"),
+                          Type: arrayLike[i].Type,
+                          User_Confirmed: arrayLike[i].User_Confirmed,
+                          Wavefile: arrayLike[i].Wavefile,
+                          Ycyxno: arrayLike[i].Ycyxno,
+                          ZiChanID: arrayLike[i].ZiChanID,
+                          bConfirmed: arrayLike[i].bConfirmed,
+                          related_video: arrayLike[i].related_video,
+                          retrievalShow: true,
+                    };
+                    element.events.push(dataJson);
+              }
+              element.requestUser(); 
+              setTimeout(function(){element.querySuccess();},200);
           }
-         requestUser();   
+          else
+          {
+             element.requestEvent(value);
+          }
+  
       }
+
     },
     requestUser: function(value){
-        var element = this.users;
+        var element = this;
         let url = "/api/Db/SelectData?tableName=Administrator";
         this.XHRGet(url, _success_users_query);
         function _success_users_query(response) {
-          element.length = 0;
+          element.users.length = 0;
           let arrayLike = response.data.HttpData.data;
-          let getAlmReportLength = arrayLike.length;
-          for (var i = 0; i < getAlmReportLength; i++) {
-              let AlmReport_data = {
-                  Administrator: arrayLike[i].Administrator,
-                  EMail: arrayLike[i].EMail,
-                  Telphone: arrayLike[i].Telphone,
-                  MobileTel: arrayLike[i].MobileTel,
-                  AckLevel: arrayLike[i].AckLevel,
-                  Reserve1: arrayLike[i].Reserve1,
-                  Reserve2: arrayLike[i].Reserve2,
-                  Reserve3: arrayLike[i].Reserve3,
-              }  
-              element.push(AlmReport_data);
+          let code = response.data.HttpData.code;
+          if(code == 200)
+          {          
+                let getAlmReportLength = arrayLike.length;
+                for (var i = 0; i < getAlmReportLength; i++) {
+                    let AlmReport_data = {
+                        Administrator: arrayLike[i].Administrator,
+                        EMail: arrayLike[i].EMail,
+                        Telphone: arrayLike[i].Telphone,
+                        MobileTel: arrayLike[i].MobileTel,
+                        AckLevel: arrayLike[i].AckLevel,
+                        Reserve1: arrayLike[i].Reserve1,
+                        Reserve2: arrayLike[i].Reserve2,
+                        Reserve3: arrayLike[i].Reserve3,
+                    }  
+                    element.users.push(AlmReport_data);
+                }
           }
-         
+          else
+          {
+               element.requestUser();
+          }
         }
     },    
     approvalOK :function(){
@@ -237,7 +264,7 @@ export default {
       }
 
     },
-    initAlert: function(value){
+    initModal: function(value){
       this.sureModal = !this.sureModal;
       this.sureMobile = false;
       this.eventsString = value.EventMsg;
@@ -254,11 +281,11 @@ export default {
         headers: { "Content-type": "application/json" }
       })
         .then(response => {
-          msg.info("执行成功");
+          // msg.info("执行成功");
           _success(response);
         })
         .catch(error => {
-          console.log(error);
+         
         });
     },
     XHRGet: function(url, _success) {
@@ -271,7 +298,7 @@ export default {
         }
       })
         .then(response => {
-          msg.info("执行成功");
+          // msg.info("执行成功");
           _success(response);
         })
         .catch(error => {
