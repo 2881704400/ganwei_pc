@@ -450,7 +450,7 @@ export default {
           this.getAdministrator();
           break;
         case "Equipment":
-          this.getEquipGroup();
+          // this.getEquipGroup();
           this.getEquip();
           break;
         case "Administration":
@@ -475,24 +475,32 @@ export default {
     },
     //人员
     getAdministrator: function() {
-      var WeekAlmReport = this.Alarm_user;
+      var WeekAlmReport = this;
       let url = "/api/Db/SelectData?tableName=Administrator";
       this.XHRGet(url, _success_user_query);
       function _success_user_query(response) {
-        WeekAlmReport.length = 0;
+        WeekAlmReport.Alarm_user.length = 0;
         let arrayLike = response.data.HttpData.data;
-        let AlarmTabulateLenth = arrayLike.length;
-        for (var i = 0; i < AlarmTabulateLenth; i++) {
-          let AlarmTabulate_data = {
-            Administrator: arrayLike[i].Administrator,
-            Telphone: arrayLike[i].Telphone,
-            MobileTel: arrayLike[i].MobileTel,
-            EMail: arrayLike[i].EMail,
-            AckLevel: arrayLike[i].AckLevel,
-            saveCell: "",
-            isShow: false
-          };
-          WeekAlmReport.push(AlarmTabulate_data);
+        let code = response.data.HttpData.code;
+        if(code == 200)
+        {
+            let AlarmTabulateLenth = arrayLike.length;
+            for (var i = 0; i < AlarmTabulateLenth; i++) {
+              let AlarmTabulate_data = {
+                Administrator: arrayLike[i].Administrator,
+                Telphone: arrayLike[i].Telphone,
+                MobileTel: arrayLike[i].MobileTel,
+                EMail: arrayLike[i].EMail,
+                AckLevel: arrayLike[i].AckLevel,
+                saveCell: "",
+                isShow: false
+              };
+              WeekAlmReport.Alarm_user.push(AlarmTabulate_data);
+            }
+        }
+        else
+        {
+              WeekAlmReport.getAdministrator();
         }
       }
     },
@@ -586,21 +594,30 @@ export default {
 
     //设备分组范围
     getEquipGroup: function() {
-      var WeekAlmReport = this.equipUser;
+      var WeekAlmReport = this;
       let url = "/api/Db/SelectData?tableName=EquipGroup";
       this.XHRGet(url, _success_equip_query);
       function _success_equip_query(response) {
-        WeekAlmReport.length = 0;
+        WeekAlmReport.equipUser.length = 0;
         let arrayLike = response.data.HttpData.data;
-        let getEquipUserLength = arrayLike.length;
-        for (var i = 0; i < getEquipUserLength; i++) {
-          let equipUser_data = {
-            equipcomb: arrayLike[i].equipcomb,
-            group_name: arrayLike[i].group_name,
-            group_no: arrayLike[i].group_no,
-            isShow: false
-          };
-          WeekAlmReport.push(equipUser_data);
+        let code = response.data.HttpData.code;
+        if(code == 200)
+        {
+            let getEquipUserLength = arrayLike.length;
+            for (var i = 0; i < getEquipUserLength; i++) {
+              let equipUser_data = {
+                equipcomb: arrayLike[i].equipcomb,
+                group_name: arrayLike[i].group_name,
+                group_no: arrayLike[i].group_no,
+                isShow: false
+              };
+              WeekAlmReport.equipUser.push(equipUser_data);
+            }
+            setTimeout(function(){ WeekAlmReport.initEquip();},200);
+        }
+        else
+        {
+             WeekAlmReport.getEquipGroup();
         }
       }
     },
@@ -676,23 +693,31 @@ export default {
 
     //设备分组右侧设备选择
     getEquip: function(groupNo) {
-      var WeekAlmReport = this.equipName,
-        dthis = this;
+      var dthis = this;
       let url = "/api/Db/SelectData?tableName=Equip";
       this.XHRGet(url, _success_equip1_query);
       function _success_equip1_query(response) {
-        WeekAlmReport.length = 0;
+        dthis.equipName.length = 0;
         let arrayLike = response.data.HttpData.data;
-        let getEquipNameLength = arrayLike.length;
-        for (var i = 0; i < getEquipNameLength; i++) {
-          let equipName_data = {
-            equip_no: arrayLike[i].equip_no,
-            equip_nm: arrayLike[i].equip_nm,
-            equipNameShow: false
-          };
-          WeekAlmReport.push(equipName_data);
+        let code = response.data.HttpData.code;
+        if(code == 200)
+        {        
+            let getEquipNameLength = arrayLike.length;
+            for (var i = 0; i < getEquipNameLength; i++) {
+              let equipName_data = {
+                equip_no: arrayLike[i].equip_no,
+                equip_nm: arrayLike[i].equip_nm,
+                equipNameShow: false
+              };
+              dthis.equipName.push(equipName_data);
+            }
+            dthis.getEquipGroup();
+           
         }
-        dthis.initEquip();
+        else
+        { 
+            dthis.getEquip();
+        }
       }
     },
     initEquip: function(value) {
@@ -814,23 +839,30 @@ export default {
 
     //管理范围
     getAlmReport: function() {
-      var WeekAlmReport = this.AlmReportData,
-        dthis = this;
+      var dthis = this;
       let url = "/api/Db/SelectData?tableName=AlmReport";
       this.XHRGet(url, _success_user_query);
       function _success_user_query(response) {
-        WeekAlmReport.length = 0;
+        dthis.AlmReportData.length = 0;
         let arrayLike = response.data.HttpData.data;
-        let getAlmReportLength = arrayLike.length;
-        for (var i = 0; i < getAlmReportLength; i++) {
-          let AlmReport_data = {
-            id: arrayLike[i].id,
-            group_no: arrayLike[i].group_no,
-            group_name: dthis.equipNameFun(arrayLike[i].group_no),
-            Administrator: arrayLike[i].Administrator,
-            isShow: false
-          };
-          WeekAlmReport.push(AlmReport_data);
+        let code = response.data.HttpData.code;
+        if(code == 200)
+        {        
+            let getAlmReportLength = arrayLike.length;
+            for (var i = 0; i < getAlmReportLength; i++) {
+              let AlmReport_data = {
+                id: arrayLike[i].id,
+                group_no: arrayLike[i].group_no,
+                group_name: dthis.equipNameFun(arrayLike[i].group_no),
+                Administrator: arrayLike[i].Administrator,
+                isShow: false
+              };
+              dthis.AlmReportData.push(AlmReport_data);
+            }
+        }
+        else
+        {
+            dthis.getAlmReport();
         }
       }
     },
@@ -916,25 +948,32 @@ export default {
 
     // 周排表
     getWeekAlmReport: function() {
-      var WeekAlmReport = this.WeekAlmReport,
-        weekReturn = this.weekReturn;
+      var WeekAlmReport = this;
 
       let url = "/api/Db/SelectData?tableName=WeekAlmReport";
       this.XHRGet(url, _success_week_query);
       function _success_week_query(response) {
-        WeekAlmReport.length = 0;
+        WeekAlmReport.WeekAlmReport.length = 0;
         let arrayLike = response.data.HttpData.data;
-        let getEquipNameLength = arrayLike.length;
-        for (var i = 0; i < getEquipNameLength; i++) {
-          let dataJson = {
-            id: arrayLike[i].id,
-            Administrator: arrayLike[i].Administrator,
-            week_day: weekReturn(arrayLike[i].week_day),
-            begin_time: formatDate(new Date(arrayLike[i].begin_time), "hh:mm"),
-            end_time: formatDate(new Date(arrayLike[i].end_time), "hh:mm"),
-            isShow: false
-          };
-          WeekAlmReport.push(dataJson);
+        let code = response.data.HttpData.code;
+        if(code == 200)
+        {           
+            let getEquipNameLength = arrayLike.length;
+            for (var i = 0; i < getEquipNameLength; i++) {
+              let dataJson = {
+                id: arrayLike[i].id,
+                Administrator: arrayLike[i].Administrator,
+                week_day: WeekAlmReport.weekReturn(arrayLike[i].week_day),
+                begin_time: formatDate(new Date(arrayLike[i].begin_time), "hh:mm"),
+                end_time: formatDate(new Date(arrayLike[i].end_time), "hh:mm"),
+                isShow: false
+              };
+              WeekAlmReport.WeekAlmReport.push(dataJson);
+            }
+        }
+        else
+        {
+             WeekAlmReport.getWeekAlmReport();
         }
       }
     },
@@ -1032,30 +1071,37 @@ export default {
 
     // 特定日期排表
     getSpeAlmReport: function() {
-      var WeekAlmReport = this.SpeAlmReport;
+      var WeekAlmReport = this;
       let url = "/api/Db/SelectData?tableName=SpeAlmReport";
       this.XHRGet(url, _success_week_query);
       function _success_week_query(response) {
-        WeekAlmReport.length = 0;
+        WeekAlmReport.SpeAlmReport.length = 0;
         let arrayLike = response.data.HttpData.data;
-        let getEquipNameLength = arrayLike.length;
-        for (var i = 0; i < getEquipNameLength; i++) {
-          let dataJson = {
-            id: arrayLike[i].id,
-            Administrator: arrayLike[i].Administrator,
-            begin_time: formatDate(
-              new Date(arrayLike[i].begin_time),
-              "yyyy/MM/dd hh:mm:ss"
-            ),
-            end_time: formatDate(
-              new Date(arrayLike[i].end_time),
-              "yyyy/MM/dd hh:mm:ss"
-            ),
-            isShow: false
-          };
-          WeekAlmReport.push(dataJson);
+        let code = response.data.HttpData.code;
+        if(code == 200)
+        {            
+            let getEquipNameLength = arrayLike.length;
+            for (var i = 0; i < getEquipNameLength; i++) {
+              let dataJson = {
+                id: arrayLike[i].id,
+                Administrator: arrayLike[i].Administrator,
+                begin_time: formatDate(
+                  new Date(arrayLike[i].begin_time),
+                  "yyyy/MM/dd hh:mm:ss"
+                ),
+                end_time: formatDate(
+                  new Date(arrayLike[i].end_time),
+                  "yyyy/MM/dd hh:mm:ss"
+                ),
+                isShow: false
+              };
+              WeekAlmReport.SpeAlmReport.push(dataJson);
+            }
         }
-        console.log(WeekAlmReport);
+        else
+        {
+             WeekAlmReport.getSpeAlmReport();
+        }
       }
     },
     removeSpeAlmReport: function(dt) {
@@ -1149,16 +1195,8 @@ export default {
         headers: { "Content-type": "application/json" }
       })
         .then(response => {
-          msg.info("执行成功");
+          // msg.info("执行成功");
           _success();
-          // if(dt != "")
-          // dt.forEach(function(ele,index){
-          //     if(ele.saveCell == dtData.saveCell)
-          //     {
-          //         dt.splice(index,1,dtData);
-          //         return false;
-          //     }
-          // });
         })
         .catch(error => {
           console.log(error);
@@ -1174,7 +1212,7 @@ export default {
         }
       })
         .then(response => {
-          msg.info("执行成功");
+          // msg.info("执行成功");
           _success(response);
         })
         .catch(error => {
@@ -1189,25 +1227,6 @@ export default {
         okText: "确认",
         onOk: () => {
           this.XHRPost(api, json, _success);
-          //var msg = this.$Message;
-          //var DataList = objectName;
-          //------删除分组 start---------
-          // let urlna = "/api/Db/deleteEquipGroup";
-          // this.Axios.post(urlna,{'tableName': tableName,'ifName': ifName,'ifValue':ifValue,'type':type},{
-          //     headers: {'Content-type': 'application/json',}
-          // }).then((response) => {
-          //     DataList.forEach(function(ele1,index1){
-          //             if(ele1.id == ifValue || ele1.Administrator == ifValue)
-          //             {
-          //                 DataList.splice(index1,1);
-          //             }
-          //     });
-          //     msg.info('删除成功');
-          // })
-          // .catch((error) => {
-          //     console.log(error);
-          // });
-          //------删除分组 end---------
         },
         cancelText: "取消"
       });

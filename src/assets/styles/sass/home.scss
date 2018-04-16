@@ -1,8 +1,7 @@
+@import './valuables';
 .home{
     $scheduleLiHeight: 40px;
-    $singleColor: #F9F9F9;
-    $doubleColor: white;
-    $activehover: #eee;
+
     $selectEquipColor: #05A2E5; 
     $contentTop: 40px;
     $IconFontSize: 22px;
@@ -43,12 +42,13 @@
             border-top: 1px solid #eee;
             tbody{position: absolute;top: 40px;right: 0;bottom: 0;left: 0;overflow-y: auto;}
             tr{height: #{$scheduleLiHeight};line-height: #{$scheduleLiHeight};
-            th{font-size: 0.9rem;font-weight: 200;}}
-            tbody tr:nth-child(2n){background: #{$doubleColor};}
-            tbody tr:nth-child(2n+1){background: #{$singleColor};}
-            tbody tr:hover,.active{background: #{$activehover};}
+            th{color: #{$tbTHTextColor};font-size: #{$tbTHTextSize};font-weight: 200; height: #{$tbTHH}}}
+  
+            tbody tr:nth-child(2n+1){background: #{$tbTRBgc};}
+            tbody tr:hover,.active{background: #{$tbRowHover};}
             tbody tr td{
-                color: #333;width: 16.66%;font-size: 0.8rem;font-weight: 200;
+                color: #{$tbTDTextColor};width: 16.66%;font-size: 0.8rem;font-weight: 200;
+                // height: #{$tbTDH};line-height: #{$tbTDH};
                  border: 0; white-space: nowrap;
                 .larmTabulate_txt i{font-size: 1.6rem;line-height: 40px;position: absolute;margin-left: 10px;opacity: 0;}
                 .larmTabulate_input input{width: 100%;height: 40px;text-align: center;border: 1px solid #eee;

@@ -1,9 +1,7 @@
-
+@import './valuables';
 .schedule{
     $scheduleLiHeight: 40px;
-    $singleColor: #F9F9F9;
-    $doubleColor: white;
-    $activehover: #eee;
+
     $selectEquipColor: #05A2E5; 
     $contentTop: 40px;
     $IconFontSize: 22px;
@@ -11,6 +9,7 @@
 
     width: 100%;min-width: 700px;height: 100%;padding: 1rem;
     .ivu-icon{color: #{$selectEquipColor};}
+    .ivu-checkbox-checked .ivu-checkbox-inner{border-color: #05A2E5;background-color: #05A2E5;}
     //顶部标题
     .schedule_top{
         h2{font-size: 1rem;color: #333;text-align: left;margin-bottom: 2rem;font-weight: 400; padding-bottom: 10px;
@@ -58,9 +57,9 @@
                 width: 100%;position: relative;border-collapse:collapse;text-align: center;
                 tr{height: #{$scheduleLiHeight};line-height: #{$scheduleLiHeight};
                 th{font-size: 0.9rem;font-weight: 200;}}
-                tbody tr:nth-child(2n){background: #{$doubleColor};}
-                tbody tr:nth-child(2n+1){background: #{$singleColor};}
-                tbody tr:hover,.active{background: #{$activehover};}
+                // tbody tr:nth-child(2n){background: #{$doubleColor};}
+                tbody tr:nth-child(2n+1){background: #{$tbTRBgc};}
+                tbody tr:hover,.active{background: #{$tbRowHover};}
                 tbody tr td{
                     color: #333;width: 16.66%;font-size: 0.8rem;font-weight: 200;border: 0;position: relative;white-space: nowrap;
                     .larmTabulate_txt i{font-size: 1.6rem;line-height: 40px;position: absolute;margin-left: 10px;opacity: 0;}
@@ -82,10 +81,10 @@
                         width: 100%;position: absolute; left: 0;top: #{$contentTop};right: 0;bottom: 0;overflow-y: auto; border-right: 1px solid #eee;
                         &>li{
                             height: #{$scheduleLiHeight};line-height: #{$scheduleLiHeight};    border-left: 1px solid #eee;
-                            &:nth-child(2n){background: #{$doubleColor};}
-                            &:nth-child(2n+1){background: #{$singleColor};}
-                            &>a:hover{color: #{$selectEquipColor} !important;background: #{$activehover};}
-                            &.selectEquipName{background: #{$activehover};a{color: #{$selectEquipColor} !important;}}
+                            // &:nth-child(2n){background: #{$doubleColor};}
+                            &:nth-child(2n+1){background: #{$tbTRBgc};}
+                            &>a:hover{color: #{$selectEquipColor} !important;background: #{$tbRowHover};}
+                            &.selectEquipName{background: #{$tbRowHover};a{color: #{$selectEquipColor} !important;}}
                             
                             &>div{width: 100%;height: 100%;border: 0;position: relative;overflow: hidden;
                                 &>.alignCenter{text-align: center;}
