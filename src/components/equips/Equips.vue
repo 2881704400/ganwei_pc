@@ -160,7 +160,6 @@ export default {
           }
           this.tabData[2].equipInfo = data.EquipItem
           this.getSetopt(this.tabData[2].equipInfo.m_iEquipNo)
-          // this.connectServer()
           // console.log(this.tabData)
         } else {
           this.$Message.warning('数据获取失败，请重试！')
@@ -169,6 +168,9 @@ export default {
       }).catch(err => {
         this.$Message.warning('token验证失败，请检查登陆信息!')
         console.log(err)
+      })
+      .then(() => {
+        this.connectServer()
       })
     },
     getSetopt (equipNo) {
@@ -245,14 +247,14 @@ export default {
       //   .catch(err => {
       //     console.log(err)
       //   })
-        var $this = this;
-        var conn = $.hubConnection("http://localhost:7003/", { qs: "clientId=123" })
-        $this.proxy = conn.createHubProxy("ServerHub");
-        $this.getMsg();
-        conn.start().done((data) => {
-            $this.sendMsg();
-        }).fail((data) => {
-        });
+      let hub = $.connection('http://192.168.0.247:7001/signalr')
+      hub.start()
+        .done(() => {
+          console.log(123)
+        })
+        .fail(err => {
+          console.log(err)
+        })
     },
     toggleModal () {
       this.showChart = !this.showChart
@@ -266,6 +268,7 @@ export default {
   mounted () {
     this.$store.commit('setEquipNo', this.$route.hash.substr(1))
     this.getAllState()
+    this.connectServer()
   }
 }
 </script>
