@@ -64,7 +64,7 @@
 										</td>
 										<td>
 											<div class="spanContent" v-show="item.isCommonSpan">
-												<font v-for="(itemProc,indexProc) in ProcCmdList" v-show="item.proc_code==itemProc.proc_code">{{ itemProc.cmd_nm }}</font>
+												<font v-for="(itemProc,indexProc) in ProcCmdList" :key="indexProc" v-show="item.proc_code==itemProc.proc_code">{{ itemProc.cmd_nm }}</font>
 											</div>
 											<Select v-model="item.proc_code" v-show="!item.isCommonSpan" size="large" filterable @change="updateCommonSystemFun(index,$event,'proc_code')">
 												<Option v-for="(itemProc,indexProc) in ProcCmdList" :value="itemProc.proc_code" :key="indexProc">{{ itemProc.cmd_nm }}</Option>
@@ -102,7 +102,7 @@
 										</td>
 										<td>
 											<div class="spanContent" v-show="item.isCommonSpan">
-												<font v-for="(itemEquip,indexEquip) in EquipControlList" v-show="item.set_no==itemEquip.set_no">{{ itemEquip.set_nm }}</font>
+												<font v-for="(itemEquip,indexEquip) in EquipControlList" :key="indexEquip" v-show="item.set_no==itemEquip.set_no">{{ itemEquip.set_nm }}</font>
 											</div>
 											<Select v-model="item.set_nom" v-show="!item.isCommonSpan" filterable @input="updateCommonEquipFun(index,$event,'set_no')">
 												<Option v-for="(itemEquip,indexEquip) in EquipControlList" :value="itemEquip.set_nom" :key="indexEquip">{{ itemEquip.set_nm }}</Option>
@@ -215,7 +215,7 @@
 										<font>普通任务：</font>
 									</td>
 								</tr>
-								<tr v-for="(item,index) of WeekTaskPlanCommonList">
+								<tr v-for="(item,index) of WeekTaskPlanCommonList" :key="index">
 									<td>
 										<Checkbox :label="item.TableName" :value="WeekCommonTaskPlanList[0].indexOf(item.TableID)>-1" :key="item.TableID" @on-change="checkCommonTaskChange(0,item.TableID,index,$event)">{{item.TableName}}</Checkbox>
 									</td>
@@ -261,7 +261,7 @@
 										<font>循环任务：</font>
 									</td>
 								</tr>
-								<tr v-for="(itemLoop,indexLoop) of WeekTaskPlanLoopList">
+								<tr v-for="(itemLoop,indexLoop) of WeekTaskPlanLoopList" :key="indexLoop">
 									<td>
 										<Checkbox :label="itemLoop.TableName" :value="WeeLoopTaskPlanList[0].indexOf(itemLoop.TableID)>-1" :key="itemLoop.TableID" @on-change="checkLoopTaskChange(0,itemLoop.TableID,indexLoop,$event)">{{itemLoop.TableName}}</Checkbox>
 									</td>
@@ -320,9 +320,9 @@
 									</td>
 									<td>
 										<font>普通任务：</font>
-										<Checkbox v-for="(item,index) of WeekTaskPlanCommonList" :label="item.TableName" :value="itemSpec.CommonTableID.indexOf(item.TableID)>-1"  @on-change="checkSpecCommonChange(0,item.TableID,indexSpec,$event)">{{item.TableName}}</Checkbox>
+										<Checkbox v-for="(item,index) of WeekTaskPlanCommonList" :key="index" :label="item.TableName" :value="itemSpec.CommonTableID.indexOf(item.TableID)>-1"  @on-change="checkSpecCommonChange(0,item.TableID,indexSpec,$event)">{{item.TableName}}</Checkbox>
 									    <font>循环任务：</font>
-									    <Checkbox v-for="(itemLoop,indexLoop) of WeekTaskPlanLoopList" :label="itemLoop.TableName" :value="itemSpec.LoopTableID.indexOf(itemLoop.TableID)>-1" @on-change="checkSpecLoopChange(0,itemLoop.TableID,indexSpec,$event)">{{itemLoop.TableName}}</Checkbox>
+									    <Checkbox v-for="(itemLoop,indexLoop) of WeekTaskPlanLoopList" :key="indexLoop" :label="itemLoop.TableName" :value="itemSpec.LoopTableID.indexOf(itemLoop.TableID)>-1" @on-change="checkSpecLoopChange(0,itemLoop.TableID,indexSpec,$event)">{{itemLoop.TableName}}</Checkbox>
 									</td>
 								</tr>
 							</tbody>
