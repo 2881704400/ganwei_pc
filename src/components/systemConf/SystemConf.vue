@@ -425,11 +425,12 @@ export default {
       this.Axios.post("/oApi/GWService.asmx/GetSystemConfig",{table_name:'Equip',equip_no_list:id}).then(res1=>{//加载设备配置
        let response=res1.data.d;
        this.equipItem=JSON.parse(response);
-       this.alarmSchemes(this.equipItem[0].alarm_scheme,this.alarmArrEq)
-       this.getVideoList(id)
-       this.getZiChan(id)
-       this.getPlan(id)
-        //console.log(response)
+       console.log(res1)
+      //  this.alarmSchemes(this.equipItem[0].alarm_scheme,this.alarmArrEq)
+      //  this.getVideoList(id)
+      //  this.getZiChan(id)
+      //  this.getPlan(id)
+        // console.log(response)
       });
       this.Axios.post("/oApi/GWService.asmx/GetSystemConfig",{table_name:'ycp',equip_no_list:id}).then(res2=>{//加载模拟量配置
         let data2=res2.data.d;

@@ -493,7 +493,7 @@ export default {
       }
     },
     removeAdministrator: function(dt) {
-      var WeekAlmReport = this.Alarm_user,
+      var WeekAlmReport = this.Alarm_user,dtThis = this,
         deleteJson = {
           tableName: "Administrator",
           ifName: "Administrator",
@@ -507,6 +507,19 @@ export default {
             WeekAlmReport.splice(index1, 1);
           }
         });
+      //AlmReport   WeekAlmReport  SpeAlmReport
+          var emptyAlmReport = {"tableName":"AlmReport","Administrator":dt.Administrator};
+          dtThis.XHRPost("nullTableCell",emptyAlmReport, _success_empty_AlmReport);
+          function _success_empty_AlmReport() {}  
+
+          var emptyWeekAlmReport = {"tableName":"WeekAlmReport","Administrator":dt.Administrator};
+          dtThis.XHRPost("nullTableCell",emptyWeekAlmReport, _success_empty_WeekAlmReport);
+          function _success_empty_WeekAlmReport() {}  
+
+          var emptySpeAlmReport = {"tableName":"SpeAlmReport","Administrator":dt.Administrator};
+          dtThis.XHRPost("nullTableCell",emptySpeAlmReport, _success_empty_SpeAlmReport);
+          function _success_empty_SpeAlmReport() {}            
+
       }
     },
     modifyFAdministrator: function(dt) {
@@ -619,7 +632,7 @@ export default {
       dt.isShow = !dt.isShow;
     },
     removeEquipGroup: function(dt) {
-      var WeekAlmReport = this.equipUser,
+      var WeekAlmReport = this.equipUser,dtThis = this,
         deleteJson = {
           tableName: "EquipGroup",
           ifName: "group_no",
@@ -633,6 +646,9 @@ export default {
             WeekAlmReport.splice(index1, 1);
           }
         });
+          var emptyAlmReport_group_no = {"tableName":"AlmReport_group_no","group_no":dt.group_no};
+          dtThis.XHRPost("nullTableCell",emptyAlmReport_group_no, _success_empty_AlmReport_group_no);
+          function _success_empty_AlmReport_group_no() {}          
       }
     },
     addEquipGroup: function() {
