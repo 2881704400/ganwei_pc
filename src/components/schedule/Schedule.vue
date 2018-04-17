@@ -50,7 +50,7 @@
                                 </td>
                                 <td>
                                     <i class="iconfont icon-scheduleMODIFY" title="修改" @click.stop="modifyFAdministrator(item_parent)" v-show="!item_parent.isShow"></i>
-                                    <!-- <i class="ivu-icon ivu-icon-document " title="保存" @click.stop="saveAdministrator(item_parent)" v-show="item_parent.isShow"></i> -->
+                                    <!-- <i class="ivu-icon ivu-icon-document" title="保存" @click.stop="saveAdministrator(item_parent)" v-show="item_parent.isShow"></i> -->
                                     <i class="iconfont icon-scheduleDEL" title="删除" @click.stop="removeAdministrator(item_parent)" v-show="!item_parent.isShow"></i>
                                 </td>
                             </tr>
@@ -132,22 +132,10 @@
                             </Col>
                         </Row>
                         <ul>
-<<<<<<< HEAD
-<<<<<<< HEAD
-                            <li v-for="(equipNameItem,equipIndex) in equipName"><input type="checkbox" :id='"checkConf_"+equipIndex' v-model="equipNameItem.equipNameShow" @click.stop="radioCheckbox(equipNameItem)" />
-                                <label :for='"checkConf_"+equipIndex'>{{equipNameItem.equip_nm}}</label>
-=======
-                            <li v-for="(equipNameItem,equipIndex) in equipName">
-                              <Checkbox  :label="equipNameItem.equipNameShow" :id='"checkConf_"+equipIndex'  @click.stop="radioCheckbox(equipNameItem)"></Checkbox>
-                              <!-- <input type="checkbox" :id='"checkConf_"+equipIndex' v-model="equipNameItem.equipNameShow" @click.stop="radioCheckbox(equipNameItem)" /> -->
-                              <label :for='"checkConf_"+equipIndex'>{{equipNameItem.equip_nm}}</label>
->>>>>>> zkx
-=======
                             <li v-for="(equipNameItem,equipIndex) in equipName" :key="equipNameItem.group_no">
                                <Checkbox  v-model="equipNameItem.equipNameShow" :id='"checkConf_"+equipIndex'  @on-change="radioCheckbox(equipNameItem)">{{equipNameItem.equip_nm}}</Checkbox>
                               <!-- <input type="checkbox" :id='"checkConf_"+equipIndex' v-model="equipNameItem.equipNameShow" @click.stop="radioCheckbox(equipNameItem)" /> -->
                               <!-- <label :for='"checkConf_"+equipIndex'>{{equipNameItem.equip_nm}}</label> -->
->>>>>>> zkx
                             </li>
                         </ul>
                     </div>
@@ -505,7 +493,7 @@ export default {
       }
     },
     removeAdministrator: function(dt) {
-      var WeekAlmReport = this.Alarm_user,
+      var WeekAlmReport = this.Alarm_user,dtThis = this,
         deleteJson = {
           tableName: "Administrator",
           ifName: "Administrator",
@@ -519,6 +507,19 @@ export default {
             WeekAlmReport.splice(index1, 1);
           }
         });
+      //AlmReport   WeekAlmReport  SpeAlmReport
+          var emptyAlmReport = {"tableName":"AlmReport","Administrator":dt.Administrator};
+          dtThis.XHRPost("nullTableCell",emptyAlmReport, _success_empty_AlmReport);
+          function _success_empty_AlmReport() {}  
+
+          var emptyWeekAlmReport = {"tableName":"WeekAlmReport","Administrator":dt.Administrator};
+          dtThis.XHRPost("nullTableCell",emptyWeekAlmReport, _success_empty_WeekAlmReport);
+          function _success_empty_WeekAlmReport() {}  
+
+          var emptySpeAlmReport = {"tableName":"SpeAlmReport","Administrator":dt.Administrator};
+          dtThis.XHRPost("nullTableCell",emptySpeAlmReport, _success_empty_SpeAlmReport);
+          function _success_empty_SpeAlmReport() {}            
+
       }
     },
     modifyFAdministrator: function(dt) {
@@ -605,6 +606,8 @@ export default {
         {
             let getEquipUserLength = arrayLike.length;
             for (var i = 0; i < getEquipUserLength; i++) {
+              if(i == 0)
+               WeekAlmReport.selectEquip = arrayLike[i].group_no;
               let equipUser_data = {
                 equipcomb: arrayLike[i].equipcomb,
                 group_name: arrayLike[i].group_name,
@@ -629,7 +632,7 @@ export default {
       dt.isShow = !dt.isShow;
     },
     removeEquipGroup: function(dt) {
-      var WeekAlmReport = this.equipUser,
+      var WeekAlmReport = this.equipUser,dtThis = this,
         deleteJson = {
           tableName: "EquipGroup",
           ifName: "group_no",
@@ -643,6 +646,9 @@ export default {
             WeekAlmReport.splice(index1, 1);
           }
         });
+          var emptyAlmReport_group_no = {"tableName":"AlmReport_group_no","group_no":dt.group_no};
+          dtThis.XHRPost("nullTableCell",emptyAlmReport_group_no, _success_empty_AlmReport_group_no);
+          function _success_empty_AlmReport_group_no() {}          
       }
     },
     addEquipGroup: function() {

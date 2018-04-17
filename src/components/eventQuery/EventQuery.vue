@@ -274,7 +274,7 @@ export default {
 .itemList p{width:95%;
   height:50px;
   line-height: 50px;
-  background: #f9f9f9;
+  background: #f9f9f9 !important;
   margin:10px auto;
   font-size:15px;
   text-align: center;

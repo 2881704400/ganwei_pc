@@ -249,6 +249,7 @@ export default {
       //   })
       
       // let hub = $.connection('/signalr/hub')
+      // let hub = $.connection('http://192.168.0.247:7001/signalr')
       // hub.start()
       //   .done(() => {
       //     console.log(123)
