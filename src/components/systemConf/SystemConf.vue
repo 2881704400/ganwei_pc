@@ -2,6 +2,8 @@
   <div class="system-conf">
     <Row class="wrap">
       <Col span="3" class="itemList">
+
+      
       <p  v-for="(item,$index) in itemList" @click="loadInformation(item.m_iEquipNo,$index)" :class="$index==active?'clickActive':''">
         {{item.m_EquipNm}}
       </p>
@@ -11,6 +13,7 @@
       <Tabs type="card">
         <TabPane label="设备配置" >
           <div class="common-table">
+             <!-- <Table :columns="columnsEq" :data="dataEq"></Table> -->
             <table>
               <thead>
                 <tr>
@@ -35,8 +38,7 @@
                   <td v-else></td>
                    <td v-if="contentEq.length>0">{{contentEq[1]}}</td>
                   <td v-else></td>
-                  <!-- <td>{{contentEq[0]}}</td> -->
-                  <!-- <td>{{contentEq[1]}}</td> -->
+
                   <td>{{item.PlanNo}}</td>
 
                   <td v-for="item in alarmArrEq">
@@ -323,6 +325,37 @@
 export default {
   data () {
     return {
+      // columnsEq:[
+      //       {
+      //         title:"设备号",
+      //         key:"equip_no"  
+      //       },{
+      //         title:"设备名称",
+      //         key:"equip_nm" 
+      //       },{
+      //         title:"关联界面",
+      //         key:"related_pic" 
+      //       },{
+      //         title:"关联视频",
+      //         key:"related_video" 
+      //       },{
+      //         title:"资产编号",
+      //         key:"ZiChanID" 
+      //       },{
+      //         title:"预案号",
+      //         key:"PlanNo" 
+      //       },{
+      //         title:"显示报警",
+      //         key:"showAlarm" 
+      //       },{
+      //         title:"记录报警",
+      //         key:"markAlarm" 
+      //       },{
+      //         title:"操作",
+      //         key:"deal" 
+      //       }  
+      // ],
+      // dataEq:[],
       itemList:[],//左侧列表
       equipItem:[],//右侧设备配置
       yCItemDict:[],//右侧模拟量数据
@@ -1167,10 +1200,10 @@ export default {
 }
 .common-table table {
   width:100%;
-  /*height:80%;*/
+ 
   margin: 0;
   padding: 0;
-  /*border:1px solid #dddee1;*/
+
 }
 
 .common-table table thead tr {
@@ -1219,7 +1252,6 @@ export default {
 
 .common-table table tbody tr {
   cursor: pointer;
-  /*-webkit-transition: all 300ms linear 0s;-moz-transition: all 300ms linear 0s;-o-transition: all 300ms linear 0s;transition: all 300ms linear 0s;*/
 }
 
 .common-table table tbody tr:nth-child(even) {
