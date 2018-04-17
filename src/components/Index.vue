@@ -2,16 +2,13 @@
   <div class="gw-index">
     <header class="header">
       <div class="header-logo">
-        <img class="logo" src="@assets/img/logo.png" alt="logo">
-        <div class="txt">
-          <h1>敢为软件</h1>
-          <p>ganwei software</p>
-        </div>
+        <img class="logo" src="@assets/img/logos0.png" alt="logo">
       </div>
       <div class="header-opt">
         <span class="user" title="当前登陆用户">
           <span class="iconfont">&#xe62e;</span>{{$store.state.loginMsg}}</span>
-        <span class="iconfont" title="设置">&#xe653;</span>
+        <span class="iconfont icon-Menu" :title="isFold ?'展开面板':'收缩面板'" :class="[isFold ? 'close' : 'open']" @click="foldAside"></span>
+        <span class="iconfont icon-set" title="设置"></span>
         <span class="iconfont" title="退出登陆" @click="logout">&#xe641;</span>
       </div>
     </header>
@@ -20,9 +17,10 @@
         <nav class="nav-list">
           <Tree v-if="navList.length" :data="navList" :render="renderNavItem"></Tree>
         </nav>
-        <div class="fold" :class="[isFold ? 'close' : 'open']" @click="foldAside">
+        <!-- <div class="fold" :class="[isFold ? 'close' : 'open']" @click="foldAside">
           <span class="ivu-icon" :class="[isFold ? 'ivu-icon-arrow-left-b' : 'ivu-icon-arrow-right-b']"></span>
-        </div>
+            <span class="iconfont icon-Menu"></span>
+        </div> -->
       </aside>
       <section class="main-body">
         <!-- <div class="title">
@@ -42,16 +40,16 @@ export default {
         {
             "title": "首页",
             "href": "home",
-            "iconClass": "ios-home-outline",
+            "iconClass": " iconfont icon-MenuHome",
             "loading": false,
             "hasChild": false,
             "children": [],
-            "selected": true
+            "selected": false
         },
         {
             "title": "设备数据",
             "href": "equips",
-            "iconClass": "ios-monitor-outline",
+            "iconClass": " iconfont icon-MenuEquips",
             "loading": false,
             "expand": false,
             "hasChild": true,
@@ -59,18 +57,9 @@ export default {
             "selected": false
         },
         {
-            "title": "实时快照",
-            "href": "snapshot",
-            "iconClass": "ios-camera-outline",
-            "loading": false,
-            "hasChild": false,
-            "children": [],
-            "selected": false
-        },
-        {
             "title": "系统配置",
             "href": "systemConf",
-            "iconClass": "ios-gear-outline",
+            "iconClass": " iconfont icon-MenuSystemConf",
             "loading": false,
             "hasChild": false,
             "children": [],
@@ -79,7 +68,7 @@ export default {
         {
             "title": "事件查询",
             "href": "eventQuery",
-            "iconClass": "ios-search-strong",
+            "iconClass": " iconfont icon-MenuEventQuery",
             "loading": false,
             "hasChild": false,
             "children": [],
@@ -88,7 +77,7 @@ export default {
         {
             "title": "报警排表",
             "href": "schedule",
-            "iconClass": "ios-calendar-outline",
+            "iconClass": " iconfont icon-MenuSchedule",
             "loading": false,
             "hasChild": false,
             "children": [],
@@ -97,7 +86,7 @@ export default {
         {
             "title": "定时任务",
             "href": "timeTask",
-            "iconClass": "ios-clock-outline",
+            "iconClass": " iconfont icon-MenuTimeTask",
             "loading": false,
             "hasChild": false,
             "children": [],
@@ -106,7 +95,7 @@ export default {
         {
             "title": "设备联动",
             "href": "equipLinkage",
-            "iconClass": "ios-toggle-outline",
+            "iconClass": " iconfont icon-MenuEquipLinkage",
             "loading": false,
             "hasChild": false,
             "children": [],
@@ -156,40 +145,47 @@ export default {
           window.localStorage.removeItem("gw_token")
           window.localStorage.removeItem("login_msg")
           // this.navList.splice(0, this.navList.length)
-          this.$store.commit('clickEquips', 0)
           this.$router.replace("/login")
         }
       })
     },
     loadNavList(navItem, callback) {
-      console.log(1)
       if (navItem.hasChild) {
         navItem.loading = true;
         // 异步获取列表节点
-        this.Axios.post("/api/real/equip_tree")
-          .then(res => {
-            let data = res.data.HttpData;
-            if (data.code === 200) {
-              let d = [];
-              d.push(data.data);
-              console.log(d);
-              let resultData = [];
-              this.dealNavList(d, resultData);
-              callback(resultData);
-              console.log("获取设备列表成功!");
+        this.Axios.all([this.Axios.post("/api/real/equip_tree"), this.Axios.post('/api/datas/getEquipList')])
+          .then(this.Axios.spread((treeRes, equipRes) => {
+            let treeRt = treeRes.data.HttpData,
+              equipRt = equipRes.data.HttpData
+            if (treeRt.code === 200 && equipRt.code === 200) {
+              let treeData = []
+              let equipData = equipRt.data
+              treeData = treeRt.data.GWEquipTreeItems
+              let resultData = []
+              this.dealNavList(treeData, equipData, resultData)
+              callback(resultData)
+              console.log("获取设备列表成功!")
             } else {
-              console.log(res);
+              this.$Message.warning('获取设备列表失败，请重试！')
+              console.log(treeRes)
             }
-          })
+          }))
           .catch(err => {
-            console.log(err);
-          });
+            console.log(err)
+          })
       } else {
         return false;
       }
     },
-    dealNavList(arrData, result) {
+    dealNavList(arrData, equipList, result) {
       // 处理设备数据子列表
+      arrData = arrData.filter(item => {
+        if (equipList.some(equip => {
+          return equip.equip_no === parseInt(item.EquipNo) || item.EquipNo === ''
+        })) {
+          return item
+        }
+      })
       arrData.forEach((dt, index) => {
         if (dt.GWEquipTreeItems && dt.GWEquipTreeItems.length) {
           result.push({
@@ -204,7 +200,7 @@ export default {
                     fontSize: "14px",
                     cursor: "pointer",
                     position: "relative",
-                    paddingLeft: "20px"
+                    paddingLeft: "36px"
                   },
                   class: ["nav-item", data.selected ? "selected" : ""],
                   on: {
@@ -241,8 +237,14 @@ export default {
               );
             }
           });
-          this.dealNavList(dt.GWEquipTreeItems, result[index].children);
+          this.dealNavList(dt.GWEquipTreeItems, equipList, result[index].children);
         } else {
+          let equipNo = parseInt(dt.EquipNo)
+          if (equipNo === 300) {
+            dt.Name = '场景控制'
+          } else if (equipNo === 1005) {
+            dt.Name = '虚拟设备'
+          }
           result.push({
             title: dt.Name,
             equipNo: dt.EquipNo,
@@ -257,7 +259,7 @@ export default {
                     fontSize: "14px",
                     cursor: "pointer",
                     position: "relative",
-                    paddingLeft: "12px"
+                    paddingLeft: "36px"
                   },
                   class: ["nav-item", data.selected ? "selected" : ""],
                   on: {
@@ -292,6 +294,7 @@ export default {
       });
     },
     renderNavItem(h, { root, node, data }) {
+      
       // leftNav节点渲染
       if (data.hasChild) {
         return h(
@@ -305,24 +308,8 @@ export default {
             },
             class: ["nav-item", data.selected ? "selected" : ""],
             on: {
-              click: ev => {
-                if (this.$store.state.navEquipsClickTime < 1) {
-                  this.$store.commit("clickEquips", 1);
-                  this.loadNavList(data, rt => {
-                    rt.forEach(item => {
-                      data.children.push(item);
-                    });
-                    data.loading = false;
-                    this.$set(data, "expand", !data.expand);
-                  });
-                } else {
-                  this.$set(data, "expand", !data.expand);
-                }
-                if (data.selected) return false;
-                root.forEach(ele => {
-                  ele.node.selected = false;
-                });
-                data.selected = true;
+              click: () => {
+                this.navItemClick(root, data)
               }
             }
           },
@@ -346,7 +333,7 @@ export default {
             h("Icon", {
               props: {
                 type: data.iconClass,
-                size: 22
+                size: 28
               },
               style: {
                 verticalAlign: "middle",
@@ -359,7 +346,7 @@ export default {
                 style: {
                   verticalAlign: "middle",
                   lineHeight: "60px",
-                  marginLeft: "16px"
+                  marginLeft: "20px"
                 }
               },
               data.title
@@ -386,12 +373,12 @@ export default {
             class: ["nav-item", data.selected ? "selected" : ""],
             on: {
               click: () => {
-                if (data.selected) return false;
+                if (data.selected) return false
                 root.forEach(ele => {
-                  ele.node.selected = false;
-                });
-                data.selected = true;
-                this.$router.push(data.href);
+                  ele.node.selected = false
+                })
+                data.selected = true
+                this.$router.push(data.href)
               }
             }
           },
@@ -399,7 +386,7 @@ export default {
             h("Icon", {
               props: {
                 type: data.iconClass,
-                size: 22
+                size: 28
               },
               style: {
                 verticalAlign: "middle",
@@ -412,7 +399,7 @@ export default {
                 style: {
                   verticalAlign: "middle",
                   lineHeight: "60px",
-                  marginLeft: "16px"
+                  marginLeft: "20px"
                 }
               },
               data.title
@@ -420,10 +407,42 @@ export default {
           ]
         );
       }
+    },
+    navItemClick (root, data, equipNo = null) {
+      if (data.children.length < 1) {
+        this.loadNavList(data, rt => {
+          rt.forEach(item => {
+            data.children.push(item)
+          })
+          data.loading = false
+          this.$set(data, "expand", !data.expand)
+        });
+      }
+      else {
+        this.$set(data, "expand", !data.expand)
+      }
+      if (data.selected) return false
+      root.forEach(ele => {
+        ele.node.selected = false
+      });
+      data.selected = true
+    },
+    setNav () {
+      const pathF = this.$route.path.split('/')[1],
+        pathS = this.$route.path.split('/')[2]
+        if (pathF === 'index') {
+          this.navList.forEach(nav => {
+            nav.selected = nav.href === pathS ? true : false
+          })
+          if (pathS === 'equips') {
+            this.navItemClick(this.navList, this.navList[1])
+          }
+        }
     }
   },
   created() {
-    this.getAuth();
+    this.getAuth()
+    this.setNav()
   }
 };
 </script>

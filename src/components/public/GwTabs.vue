@@ -2,11 +2,17 @@
   <div class="gw-tabs">
     <div class="tabs-nav">
       <ul>
-        <li v-for="(nv, index) of list" :key="index" v-text="nv.title" :class="{active : nv.isActive}" @click="navClick(list, list[index])"></li>
+        <li
+        v-for="(nv, index) of list"
+        :key="index" v-text="nv.title"
+        :class="{active : nv.isActive}"
+        @click="navClick(list, list[index])"
+        v-if="nv.isShow"
+        ></li>
       </ul>
     </div>
     <div class="tabs-container">
-      <slot v-for="(nv, index) of list" :name="nv.name" v-if="nv.isActive" appear>{{nv.title}}</slot>
+      <slot v-for="(nv, index) of list" :name="nv.name" v-if="nv.isActive && nv.isShow" appear>{{nv.title}}</slot>
     </div>
   </div>
 </template>
@@ -14,7 +20,7 @@
 <script>
 export default {
   data() {
-    return {};
+    return {}
   },
   props: {
     navList: {
@@ -26,7 +32,7 @@ export default {
             title: "",
             isActive: true
           }
-        ];
+        ]
       },
       required: true
     }
@@ -41,7 +47,7 @@ export default {
       this.$emit("tabsNavClick", list, nv);
     }
   }
-};
+}
 </script>
 
 <style lang="scss" src="@assets/styles/sass/public/gw-tabs.scss"></style>

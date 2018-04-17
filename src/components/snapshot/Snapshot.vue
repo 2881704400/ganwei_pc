@@ -1,167 +1,53 @@
 <template>
 	<div class="snapashot">
 		<div class="common-tab">
-			<Tabs type="card">
-				<TabPane label="故障">
-					<div class="common-table">
-						<table>
-							<thead>
-								<tr>
-									<th>类型</th>
-									<th>时间</th>
-									<th>事件</th>
-									<th>确认</th>
-									<th>处理意见</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<td><i class="iconfont icon-dian color-error"></i></td>
-									<td>2017-03-26 15:18:11</td>
-									<td>设备数量</td>
-									<td><button @click="sureModal = true">请确认</button></td>
-									<td>过低</td>
-								</tr>
-								<tr>
-									<td><i class="iconfont icon-dian color-warn"></i></td>
-									<td>2017-03-26 15:18:11</td>
-									<td>设备数量</td>
-									<td><button @click="sureModal = true">请确认</button></td>
-									<td>过低</td>
-								</tr>
-								<tr>
-									<td><i class="iconfont icon-dian color-info"></i></td>
-									<td>2017-03-26 15:18:11</td>
-									<td>设备数量</td>
-									<td><button @click="sureModal = true">请确认</button></td>
-									<td>过低</td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-				</TabPane>
-
-				<TabPane label="警告">
-					<div class="common-table">
-						<table>
-							<thead>
-								<tr>
-									<th>类型</th>
-									<th>时间</th>
-									<th>事件</th>
-									<th>确认</th>
-									<th>处理意见</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<td><i class="iconfont icon-dian color-error"></i></td>
-									<td>2017-03-26 15:18:11</td>
-									<td>设备数量</td>
-									<td><button @click="sureModal = true">请确认</button></td>
-									<td>过低</td>
-								</tr>
-								<tr>
-									<td><i class="iconfont icon-dian color-warn"></i></td>
-									<td>2017-03-26 15:18:11</td>
-									<td>设备数量</td>
-									<td><button @click="sureModal = true">请确认</button></td>
-									<td>过低</td>
-								</tr>
-								<tr>
-									<td><i class="iconfont icon-dian color-info"></i></td>
-									<td>2017-03-26 15:18:11</td>
-									<td>设备数量</td>
-									<td><button @click="sureModal = true">请确认</button></td>
-									<td>过低</td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-				</TabPane>
-				<TabPane label="信息">
-					<div class="common-table">
-						<table>
-							<thead>
-								<tr>
-									<th>类型</th>
-									<th>时间</th>
-									<th>事件</th>
-									<th>确认</th>
-									<th>处理意见</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<td><i class="iconfont icon-dian color-error"></i></td>
-									<td>2017-03-26 15:18:11</td>
-									<td>设备数量</td>
-									<td><button @click="sureModal = true">请确认</button></td>
-									<td>过低</td>
-								</tr>
-								<tr>
-									<td><i class="iconfont icon-dian color-warn"></i></td>
-									<td>2017-03-26 15:18:11</td>
-									<td>设备数量</td>
-									<td><button @click="sureModal = true">请确认</button></td>
-									<td>过低</td>
-								</tr>
-								<tr>
-									<td><i class="iconfont icon-dian color-info"></i></td>
-									<td>2017-03-26 15:18:11</td>
-									<td>设备数量</td>
-									<td><button @click="sureModal = true">请确认</button></td>
-									<td>过低</td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-				</TabPane>
-				<TabPane label="设置">
-					<div class="common-table">
-						<table>
-							<thead>
-								<tr>
-									<th>类型</th>
-									<th>时间</th>
-									<th>事件</th>
-									<th>确认</th>
-									<th>处理意见</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<td><i class="iconfont icon-dian color-error"></i></td>
-									<td>2017-03-26 15:18:11</td>
-									<td>设备数量</td>
-									<td><button @click="sureModal = true">请确认</button></td>
-									<td>过低</td>
-								</tr>
-								<tr>
-									<td><i class="iconfont icon-dian color-warn"></i></td>
-									<td>2017-03-26 15:18:11</td>
-									<td>设备数量</td>
-									<td><button @click="sureModal = true">请确认</button></td>
-									<td>过低</td>
-								</tr>
-								<tr>
-									<td><i class="iconfont icon-dian color-info"></i></td>
-									<td>2017-03-26 15:18:11</td>
-									<td>设备数量</td>
-									<td><button @click="sureModal = true">请确认</button></td>
-									<td>过低</td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-				</TabPane>
-
+			<Tabs type="card" @on-click="updateCardInfo" v-model="tabPaneValue">
+				<template v-for="(item,index) of btnInfo">
+					<!--<button  @click="navClickFun">{{item.spanName}}</button>-->
+					<TabPane :label="item.btnCount" extra="item.ID" :name="item.btnValue" :class="{active : item.isActive}" v-if="item.btnStatus">
+						<div class="common-table">
+							<table>
+								<thead>
+									<tr>
+										<th>类型</th>
+										<th>时间</th>
+										<th>事件</th>
+										<th>确认</th>
+										<th>处理意见</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr v-for="(item,index) of tableInfo" :key="index">
+										<td>
+											<!--<i class="iconfont icon-dian color-error"></i>-->{{item.Level}}</td>
+										<td>{{item.formatTime}}</td>
+										<td>{{item.EventMsg}}</td>
+										<td><button @click="showModalFun(item.EventMsg,item.Time)" v-show="!item.bConfirmed">请确认</button><i class="iconfont icon-gouxuan" v-show="item.bConfirmed"></i></td>
+										<td>{{item.Proc_advice_Msg}}</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</TabPane>
+				</template>
 			</Tabs>
 		</div>
-		<Modal v-model="sureModal" title="设备配置" @on-ok="ok" @on-cancel="cancel" class="common-moal">
-			<p>Content of dialog</p>
-			<p>Content of dialog</p>
-			<p>Content of dialog</p>
+		<Modal v-model="sureModal" title="确认处理该事件吗？" @on-ok="sureModalFun" @on-cancel="cancel" class="common-moal">
+			<div class="common-moal-content">
+				<h1 v-model="EventMsg">事件：{{EventMsg}}</h1>
+				<input type="hidden" v-model="Time" />
+				<p>请输入处理意见（100字以内）：</p>
+				<Input type="textarea" :rows="4" v-model='msgValue'></Input>
+				<p>
+					<Checkbox v-model="isSendSms" label="是">是否发送短信？</Checkbox>
+				</p>
+				<p>
+					<CheckboxGroup v-model="atorMobiles">
+						<Checkbox v-for="(item,index) of atorMsgInfo" v-show="isSendSms" :label="item.MobileTel" :key="index">{{item.MobileTel}}({{item.Administrator}})</Checkbox>
+					</CheckboxGroup>
+				</p>
+			</div>
+
 		</Modal>
 	</div>
 </template>
@@ -170,239 +56,200 @@
 	export default {
 		data() {
 			return {
-				sureModal: false
+				btnInfo: [],
+				tableInfo: [],
+				atorMsgInfo: [],
+				event_Level_list: '',
+				msgValue: '',
+				sureModal: false,
+				isSendSms: false,
+				atorMobiles: [],
+				EventMsg: '',
+				Time: '',
+				tabPaneValue: '-1',
 			}
 		},
+		mounted() {
+			this.getAlarmConfig()
+		},
 		methods: {
+			updateCardInfo() {
+				this.getRealTimeEvent();
+			},
+
+			//获取事件的报警配置
+			getAlarmConfig() {
+				this.Axios.post('/api/GWServiceWebAPI/get_AlarmConfig')
+					.then(res => {
+						let data = res.data.HttpData;
+						if(data.code == 200) {
+							let resultData = data.data;
+							let listAddData = [{
+								spanId: -1,
+								spanName: "全部",
+								btnStatus: true,
+								btnValue: "-1",
+								btnCount: "",
+								isActive: true
+							}];
+							for(var i = 0; i < resultData.length; i++) {
+								var btnStatus = resultData[i].IsShow == 1 ? true : false;
+								var btnValue = [];
+								for(var j = resultData[i].SnapshotLevelMin; j <= resultData[i].SnapshotLevelMax; j++) {
+									btnValue += j + ",";
+								}
+								this.event_Level_list += btnValue;
+								btnValue = btnValue.substring(0, btnValue.length - 1);
+								listAddData.push({
+									spanId: resultData[i].ID,
+									spanName: resultData[i].SnapshotName,
+									btnStatus: btnStatus,
+									btnValue: btnValue,
+									btnCount: "",
+									isActive: false
+								});
+							}
+							this.event_Level_list = this.event_Level_list.substring(0, this.event_Level_list.length - 1);
+							this.btnInfo = listAddData;
+							this.getRealTimeEventCount();
+							this.getRealTimeEvent();
+							setInterval(this.getRealTimeEvent, 5000)
+						}
+					}).catch(err => {
+						console.log(err)
+					})
+			},
+			//获取当前实时报警事件的总数
+			getRealTimeEventCount() {
+				let btnInfoLevels = "";
+				for(let i = 0; i < this.btnInfo.length; i++) {
+					if(this.btnInfo[i].btnValue!="-1"){
+						btnInfoLevels += this.btnInfo[i].btnValue + ";"
+					}
+				}
+				btnInfoLevels = btnInfoLevels.substring(0, btnInfoLevels.length - 1);
+				this.Axios.post('/api/GWServiceWebAPI/get_RealTimeEventCount', {
+					levels: btnInfoLevels
+				}).then(res => {
+					let data = res.data.HttpData;
+					if(data.code == 200) {
+						let resultData = data.data;
+						let resultDataArr = resultData.toString().split(",");
+						let sumValue=0;
+						for(let i = 0; i < resultDataArr.length; i++) {
+							this.btnInfo[i+1].btnCount = this.btnInfo[i+1].spanName+" "+resultDataArr[i];
+							sumValue+=parseInt(resultDataArr[i]);
+						}
+						this.btnInfo[0].btnCount = this.btnInfo[0].spanName+" "+sumValue;
+					}
+				}).catch(err => {
+					console.log(err)
+				})
+			},
+			//获取当前系统报警的实时事件
+			getRealTimeEvent() {
+				var tabPaneValue = this.tabPaneValue;
+				if(tabPaneValue == "-1") {
+					tabPaneValue = this.event_Level_list;
+				}
+				this.Axios.post('/api/GWServiceWebAPI/get_RealTimeEvent', {
+					event_Level_list: tabPaneValue
+				}).then(res => {
+					let data = res.data.HttpData;
+					if(data.code == 200) {
+						let resultData = data.data;
+						let tableListData = [];
+						for(var i = 0; i < resultData.length; i++) {
+							var strLevel = "";
+							var btnInfo = this.btnInfo;
+							for(var j = 0; j < btnInfo.length; j++) {
+								var btnInfoArr = btnInfo[j].btnValue.split(",");
+								for(var m = 0; m < btnInfoArr.length; m++) {
+									if(btnInfoArr[m] == resultData[i].Level) {
+										strLevel = btnInfo[j].spanName;
+										break;
+									}
+								}
+							}
+							tableListData.push({
+								EventMsg: resultData[i].EventMsg,
+								Proc_advice_Msg: resultData[i].Proc_advice_Msg,
+								Time: resultData[i].Time,
+								formatTime: this.formatDate(resultData[i].Time),
+								Level: strLevel,
+								bConfirmed: resultData[i].bConfirmed,
+								Equipno: resultData[i].Equipno,
+								Ycyxno: resultData[i].Ycyxno
+							});
+						}
+						this.tableInfo = tableListData;
+						this.atorMsgDataFun();
+					}
+				}).catch(err => {
+					console.log(err)
+				})
+			},
+			atorMsgDataFun() {
+				this.Axios.post('/api/GWServiceWebAPI/get_DataByTableName', {
+					TableName: "Administrator"
+				}).then(res => {
+					let data = res.data.HttpData;
+					if(data.code == 200) {
+						let resultData = data.data;
+						let atorMsgInfoData = [];
+						for(var i = 0; i < resultData.length; i++) {
+							atorMsgInfoData.push({
+								Administrator: resultData[i].Administrator,
+								MobileTel: resultData[i].MobileTel
+							});
+						}
+						this.atorMsgInfo = atorMsgInfoData;
+					}
+				}).catch(err => {
+					console.log(err)
+				})
+			},
+			showModalFun(EventMsg, Time) {
+				this.EventMsg = EventMsg;
+				this.Time = Time;
+				this.msgValue = "";
+				this.isSendSms = false;
+				this.atorMobiles = [];
+				this.sureModal = true;
+			},
+			sureModalFun() {
+				console.log(this.msgValue, this.isSendSms, this.atorMobiles, this.EventMsg, this.Time);
+				this.Axios.post('/api/GWServiceWebAPI/set_EventConfirm', {
+					msg: this.msgValue,
+					shortmsg: this.isSendSms,
+					tel: this.atorMobiles.join(','),
+					evtname: this.EventMsg,
+					time: this.Time
+				}).then(res => {
+					let data = res.data.HttpData;
+					if(data.code == 200) {
+						let resultData = data.data;
+						this.getRealTimeEvent();
+						this.cancel();
+					} else {
+						alert("提交失败！");
+					}
+				}).catch(err => {
+					console.log(err)
+				})
+			},
+			formatDate(time) {
+				var newTime = time.replace("T", " ")
+				return newTime.substring(0, 19);
+			},
 			ok() {
-				this.$Message.info('Clicked ok');
+				
 			},
 			cancel() {
-				this.$Message.info('Clicked cancel');
+				
 			}
 		}
 	}
 </script>
 
-<style lang="scss" scoped>
-	.snapshot {}
-	
-	.common-moal .ivu-modal-content {
-		border-radius: 0px;
-	}
-	
-	.common-moal .ivu-modal-header {
-		padding: 8px 16px;
-	}
-	
-	.common-moal .ivu-modal-header p,
-	.common-moal .ivu-modal-header-inner {
-		height: 30px;
-		line-height: 35px;
-		font-size: 16px;
-		color: #1c2438;
-		font-weight: 500;
-	}
-	
-	.common-moal .ivu-btn {
-		font-weight: 500;
-		padding: 5px 20px;
-		font-size: 14px;
-		border-radius: 0px;
-		/*-webkit-transition: color .2s linear, background-color .2s linear, border .2s linear, -webkit-box-shadow .2s linear;
-		transition: color .2s linear, background-color .2s linear, border .2s linear, -webkit-box-shadow .2s linear;
-		transition: color .2s linear, background-color .2s linear, border .2s linear, box-shadow .2s linear;
-		transition: color .2s linear, background-color .2s linear, border .2s linear, box-shadow .2s linear, -webkit-box-shadow .2s linear;
-		color: #495060;
-		background-color: #f7f7f7;
-		border-color: #dddee1*/
-	}
-	
-	.common-moal .ivu-btn-text {
-	    color: #fff;
-    background-color: #B5B5B5;
-    border-color: #B5B5B5;
-    font-size: 14px;
-}
-	
-	.color-error {
-		color: #eb303a;
-	}
-	
-	.color-warn {
-		color: #F29100;
-	}
-	
-	.color-info {
-		color: #35b458;
-	}
-	
-	.color-set {
-		color: #eb303a;
-	}
-	
-	.common-table table {
-		width: 100%;
-		margin: 0;
-		padding: 0;
-	}
-	
-	.common-table table thead tr {
-		background: #fff;
-	}
-	
-	.common-table table thead tr th {
-		padding: 17px 10px;
-		color: #858585;
-		font-size: 16px;
-		font-weight: 500;
-		text-align: left;
-	}
-	
-	.common-table table thead tr th:first-child {
-		text-align: center;
-	}
-	
-	.common-table table tbody tr td {
-		padding: 11px 10px;
-		color: #2e2e2e;
-		font-size: 16px;
-		font-weight: 500;
-		text-align: left;
-
-		min-width: 168px;
-
-	}
-	
-	.common-table table tbody tr td:first-child {
-		text-align: center;
-	}
-	
-	.common-table table tbody tr td>i {
-		width: 20px;
-		height: 20px;
-		font-size: 18px;
-	}
-	
-	.common-table table tbody tr td>button {
-		padding: 8px 9px;
-		background: #05a3e5;
-		font-size: 14px;
-		color: #fff;
-		border: 0;
-	}
-	
-	.common-table table tbody tr {
-		/*-webkit-transition: all 300ms linear 0s;-moz-transition: all 300ms linear 0s;-o-transition: all 300ms linear 0s;transition: all 300ms linear 0s;*/
-	}
-	
-	.common-table table tbody tr:nth-child(even) {
-		background: #fff;
-	}
-	
-	.common-table table tbody tr:nth-child(odd) {
-		background: #f9f9f9;
-	}
-	
-	.common-table table tbody>.even {
-		background: rgba(0, 0, 0, .13)!important;
-	}
-	
-	.common-table table tbody>.odd {
-		background-color: transparent!important;
-	}
-	
-	.common-table table tbody tr:hover {
-		background: rgba(255, 255, 255, .2)!important;
-	}
-	
-	.common-table table tbody>.active {
-		background: rgba(255, 255, 255, .2)!important;
-	}
-	
-	.common-table table tbody>.hiddentd {
-		background: rgba(0, 0, 0, .13)!important;
-	}
-	
-	.common-table table tbody>.hiddentd:hover {
-		background: rgba(0, 0, 0, .13)!important;
-	}
-	
-	.common-table table tbody>.hiddentd td {
-		padding: 0!important;
-	}
-	
-	.common-tab {}
-	/* 主内容界面边框大小 */
-	
-	.gw-index .main .main-body .snapashot {
-		width: 100%;
-		height: 100%;
-		-webkit-box-shadow: 0px 0px 0px 0px #dadada;
-		box-shadow: 0px 0px 0px 0px #dadada;
-	}
-	/* tab列表容器边框 */
-	
-	.common-tab .ivu-tabs.ivu-tabs-card>.ivu-tabs-bar {
-		border-bottom: 0px;
-	}
-	/* tab列表边框 */
-	
-	.common-tab .ivu-tabs.ivu-tabs-card>.ivu-tabs-bar .ivu-tabs-nav {
-		border: 1px solid #dddee1;
-	}
-	/* tab列表高度 */
-	
-	.common-tab .ivu-tabs.ivu-tabs-card>.ivu-tabs-bar .ivu-tabs-nav-container {
-		height: 50px;
-	}
-	/* tab内容高度 */
-	
-	.common-tab .ivu-tabs-card>.ivu-tabs-content {
-		height: 820px;
-		margin-top: -16px;
-	}
-	/* tab内容背景色、边框 */
-	
-	.common-tab .ivu-tabs-card>.ivu-tabs-content>.ivu-tabs-tabpane {
-		background: #fff;
-		border: 1px solid #dddee1;
-	}
-	/* tab列表默认大小、颜色样式 */
-	
-	.common-tab .ivu-tabs.ivu-tabs-card>.ivu-tabs-bar .ivu-tabs-tab {
-		margin: 0;
-		height: 49px;
-		line-height: 20px;
-		color: #2e2e2e;
-		font-size: 16px;
-		padding: 13px 25px 16px;
-		text-align: center;
-		min-width: 123px;
-		border: 0px;
-		border-right: 1px solid #dddee1;
-		border-top: 3px solid rgba(255, 255, 255, 0);
-		box-sizing: border-box;
-		border-radius: 0;
-		-webkit-transition: all .3s ease-in-out;
-		transition: all .3s ease-in-out;
-		background: #f8f8f9
-	}
-	/* tab列表最后一个右边框为0 */
-	
-	.common-tab .ivu-tabs.ivu-tabs-card>.ivu-tabs-bar .ivu-tabs-tab:last-child {
-		border-right: 0px;
-	}
-	/* tab列表选中样式 */
-	
-	.common-tab .ivu-tabs.ivu-tabs-card>.ivu-tabs-bar .ivu-tabs-tab-active {
-		height: 49px;
-		background: #fff;
-		box-sizing: border-box;
-		border-top: 3px solid #09B7F7;
-		border-right: 1px solid #dddee1;
-		-webkit-transform: translateZ(0);
-		transform: translateZ(0);
-		color: #2e2e2e;
-	}
-</style>
+<style lang="scss" src="@assets/styles/common_dengjf.css"></style>

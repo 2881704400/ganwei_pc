@@ -1,17 +1,394 @@
 <template>
-  <div class="time-task">
-      定时任务
-  </div>
+	<div class="snapashot">
+		<div class="common-tab tab-content-border">
+			<Tabs type="card">
+				<TabPane label="普通任务">
+					<div class="three-content">
+						<div class="table-toolbar">
+							<span>普通任务列表</span>
+							<button @click="saveCommonTaskFun()">保存</button>
+							<button @click="delCommonTask()">删除</button>
+							<button @click="addCommonTask()">增加</button>
+						</div>
+						<div class="common-smalltable">
+							<table>
+								<thead>
+									<tr>
+										<th>普通</th>
+										<th>说明</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr v-for="(item,index) of CommonTaskList" :key="index" :class="{activeTable:index==selecteTable}" @click="SelecteTableFun(index)">
+										<td>
+											<div class="spanContent" v-show="item.isCommonSpan">
+												{{item.TableName}}
+											</div>
+											<div class="inputContent" v-show="!item.isCommonSpan">
+												<input type="text" :value="item.TableName" @input="updateCommonFun(index,$event,'TableName')" />
+											</div>
+										</td>
+										<td>
+											<div class="spanContent" v-show="item.isCommonSpan">
+												{{item.Comment}}
+											</div>
+											<div class="inputContent" v-show="!item.isCommonSpan">
+												<input type="text" :value="item.Comment" @input="updateCommonFun(index,$event,'Comment')" />
+											</div>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<div class="three-content">
+						<div class="table-toolbar">
+							<span>系统控制</span>
+							<button @click="delSystemFun()" :class="{bg_disabled:SystemStatus}">删除</button>
+							<button @click="addSystemTask()">增加</button>
+						</div>
+						<div class="common-smalltable">
+							<table>
+								<thead>
+									<tr>
+										<th>时间</th>
+										<th>系统控制</th>
+										<th>有效时段</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr v-for="(item,index) of CommonTaskSystemControl" :key="index" :class="{activeTable:index==selecteSystem}" @click="SelecteSystemFun(index)">
+										<td>
+											<div class="spanContent" v-show="item.isCommonSpan">{{item.Time.split("T")[1]}}</div>
+											<Input size="large" v-show="!item.isCommonSpan" :value="formatDate(item.Time)" @input="updateCommonSystemFun(index,$event,'Time')"></Input>
+										</td>
+										<td>
+											<div class="spanContent" v-show="item.isCommonSpan">
+												<font v-for="(itemProc,indexProc) in ProcCmdList" :key="indexProc" v-show="item.proc_code==itemProc.proc_code">{{ itemProc.cmd_nm }}</font>
+											</div>
+											<Select v-model="item.proc_code" v-show="!item.isCommonSpan" size="large" filterable @change="updateCommonSystemFun(index,$event,'proc_code')">
+												<Option v-for="(itemProc,indexProc) in ProcCmdList" :value="itemProc.proc_code" :key="indexProc">{{ itemProc.cmd_nm }}</Option>
+											</Select>
+										</td>
+										<td>
+											<div class="spanContent" v-show="item.isCommonSpan">{{item.TimeDur.split("T")[1]}}</div>
+											<Input size="large" v-show="!item.isCommonSpan" :value="formatDate(item.TimeDur)" @input="updateCommonSystemFun(index,$event,'TimeDur')"></Input>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<div class="three-content">
+						<div class="table-toolbar">
+							<span>设备列表</span>
+							<button @click="delEquipFun()" :class="{bg_disabled:EquipStatus}">删除</button>
+							<button @click="addEquipFun()">增加</button>
+						</div>
+						<div class="common-smalltable">
+							<table>
+								<thead>
+									<tr>
+										<th>时间</th>
+										<th>设备控制</th>
+										<th>有效时段</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr v-for="(item,index) of CommonTaskEquipControl" :key="index" :class="{activeTable:index==selecteEquip}" @click="SelecteEquipFun(index)">
+										<td>
+											<div class="spanContent" v-show="item.isCommonSpan">{{item.Time.split("T")[1]}}</div>
+											<Input v-show="!item.isCommonSpan" :value="formatDate(item.Time)" @input="updateCommonEquipFun(index,$event,'Time')"></Input>
+										</td>
+										<td>
+											<div class="spanContent" v-show="item.isCommonSpan">
+												<font v-for="(itemEquip,indexEquip) in EquipControlList" :key="indexEquip" v-show="item.set_no==itemEquip.set_no">{{ itemEquip.set_nm }}</font>
+											</div>
+											<Select v-model="item.set_nom" v-show="!item.isCommonSpan" filterable @input="updateCommonEquipFun(index,$event,'set_no')">
+												<Option v-for="(itemEquip,indexEquip) in EquipControlList" :value="itemEquip.set_nom" :key="indexEquip">{{ itemEquip.set_nm }}</Option>
+											</Select>
+										</td>
+										<td>
+											<div class="spanContent" v-show="item.isCommonSpan">{{item.TimeDur.split("T")[1]}}</div>
+											<Input v-show="!item.isCommonSpan" :value="formatDate(item.TimeDur)" @input="updateCommonEquipFun(index,$event,'TimeDur')"></Input>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</TabPane>
+				<TabPane label="循环任务">
+					<div class="table-toolbar">
+						<!--<span>循环任务</span>-->
+						<button @click="updateLoopTask()" :class="{bg_disabled:LoopStatus}" :disabled="LoopStatus">修改</button>
+						<button @click="delLoopTask()" :class="{bg_disabled:LoopStatus}" :disabled="LoopStatus">删除</button>
+						<button @click="addLoopTask()">增加</button>
+					</div>
+					<div class="common-smalltable">
+						<table>
+							<thead>
+								<tr>
+									<th>循环任务名称</th>
+									<th>有效起始时间</th>
+									<th>有效结束时间</th>
+									<th>开始执行时间</th>
+									<th>是否必须执行完整</th>
+									<th>最大循环次数</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr v-for="(item,index) of LoopTaskList" :key="index" :class="{activeTable:index==selecteLoop}" @click="SelecteLoopFun(index)">
+									<td>
+										<div class="spanContent">
+											{{item.TableName}}
+										</div>
+									</td>
+									<td>
+										<div class="spanContent">
+											{{formatDate(item.BeginTime)}}
+										</div>
+									</td>
+									<td>
+										<div class="spanContent">
+											{{formatDate(item.EndTime)}}
+										</div>
+									</td>
+									<td>
+										<div class="spanContent">
+											{{item.ExecuteTime}}
+										</div>
+									</td>
+									<td>
+										<div class="spanContent">
+											{{item.CycleMustFinish=='0'?'否':'是'}}
+										</div>
+									</td>
+									<td>
+										<div class="spanContent">
+											{{item.MaxCycleNum=='0'?'不受限制':item.MaxCycleNum}}
+										</div>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</TabPane>
+				<TabPane label="每周任务安排">
+					<div class="table-toolbar">
+						<button @click="saveWeekTask()">保存</button>
+					</div>
+					<div class="common-smalltable common-smalltable-checkbox">
+						<table>
+							<thead>
+								<tr>
+									<th>星期一</th>
+									<th>星期二</th>
+									<th>星期三</th>
+									<th>星期四</th>
+									<th>星期五</th>
+									<th>星期六</th>
+									<th>星期日</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>
+										<font>普通任务：</font>
+									</td>
+									<td>
+										<font>普通任务：</font>
+									</td>
+									<td>
+										<font>普通任务：</font>
+									</td>
+									<td>
+										<font>普通任务：</font>
+									</td>
+									<td>
+										<font>普通任务：</font>
+									</td>
+									<td>
+										<font>普通任务：</font>
+									</td>
+									<td>
+										<font>普通任务：</font>
+									</td>
+								</tr>
+								<tr v-for="(item,index) of WeekTaskPlanCommonList" :key="index">
+									<td>
+										<Checkbox :label="item.TableName" :value="WeekCommonTaskPlanList[0].indexOf(item.TableID)>-1" :key="item.TableID" @on-change="checkCommonTaskChange(0,item.TableID,index,$event)">{{item.TableName}}</Checkbox>
+									</td>
+									<td>
+										<Checkbox :label="item.TableName" :value="WeekCommonTaskPlanList[1].indexOf(item.TableID)>-1" :key="item.TableID" @on-change="checkCommonTaskChange(1,item.TableID,index,$event)">{{item.TableName}}</Checkbox>
+									</td>
+									<td>
+										<Checkbox :label="item.TableName" :value="WeekCommonTaskPlanList[2].indexOf(item.TableID)>-1" :key="item.TableID" @on-change="checkCommonTaskChange(2,item.TableID,index,$event)">{{item.TableName}}</Checkbox>
+									</td>
+									<td>
+										<Checkbox :label="item.TableName" :value="WeekCommonTaskPlanList[3].indexOf(item.TableID)>-1" :key="item.TableID" @on-change="checkCommonTaskChange(3,item.TableID,index,$event)">{{item.TableName}}</Checkbox>
+									</td>
+									<td>
+										<Checkbox :label="item.TableName" :value="WeekCommonTaskPlanList[4].indexOf(item.TableID)>-1" :key="item.TableID" @on-change="checkCommonTaskChange(4,item.TableID,index,$event)">{{item.TableName}}</Checkbox>
+									</td>
+									<td>
+										<Checkbox :label="item.TableName" :value="WeekCommonTaskPlanList[5].indexOf(item.TableID)>-1" :key="item.TableID" @on-change="checkCommonTaskChange(5,item.TableID,index,$event)">{{item.TableName}}</Checkbox>
+									</td>
+									<td>
+										<Checkbox :label="item.TableName" :value="WeekCommonTaskPlanList[6].indexOf(item.TableID)>-1" :key="item.TableID" @on-change="checkCommonTaskChange(6,item.TableID,index,$event)">{{item.TableName}}</Checkbox>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<font>循环任务：</font>
+									</td>
+									<td>
+										<font>循环任务：</font>
+									</td>
+									<td>
+										<font>循环任务：</font>
+									</td>
+									<td>
+										<font>循环任务：</font>
+									</td>
+									<td>
+										<font>循环任务：</font>
+									</td>
+									<td>
+										<font>循环任务：</font>
+									</td>
+									<td>
+										<font>循环任务：</font>
+									</td>
+								</tr>
+								<tr v-for="(itemLoop,indexLoop) of WeekTaskPlanLoopList" :key="indexLoop">
+									<td>
+										<Checkbox :label="itemLoop.TableName" :value="WeeLoopTaskPlanList[0].indexOf(itemLoop.TableID)>-1" :key="itemLoop.TableID" @on-change="checkLoopTaskChange(0,itemLoop.TableID,indexLoop,$event)">{{itemLoop.TableName}}</Checkbox>
+									</td>
+									<td>
+										<Checkbox :label="itemLoop.TableName" :value="WeeLoopTaskPlanList[1].indexOf(itemLoop.TableID)>-1" :key="itemLoop.TableID" @on-change="checkLoopTaskChange(1,itemLoop.TableID,indexLoop,$event)">{{itemLoop.TableName}}</Checkbox>
+									</td>
+									<td>
+										<Checkbox :label="itemLoop.TableName" :value="WeeLoopTaskPlanList[2].indexOf(itemLoop.TableID)>-1" :key="itemLoop.TableID" @on-change="checkLoopTaskChange(2,itemLoop.TableID,indexLoop,$event)">{{itemLoop.TableName}}</Checkbox>
+									</td>
+									<td>
+										<Checkbox :label="itemLoop.TableName" :value="WeeLoopTaskPlanList[3].indexOf(itemLoop.TableID)>-1" :key="itemLoop.TableID" @on-change="checkLoopTaskChange(3,itemLoop.TableID,indexLoop,$event)">{{itemLoop.TableName}}</Checkbox>
+									</td>
+									<td>
+										<Checkbox :label="itemLoop.TableName" :value="WeeLoopTaskPlanList[4].indexOf(itemLoop.TableID)>-1" :key="itemLoop.TableID" @on-change="checkLoopTaskChange(4,itemLoop.TableID,indexLoop,$event)">{{itemLoop.TableName}}</Checkbox>
+									</td>
+									<td>
+										<Checkbox :label="itemLoop.TableName" :value="WeeLoopTaskPlanList[5].indexOf(itemLoop.TableID)>-1" :key="itemLoop.TableID" @on-change="checkLoopTaskChange(5,itemLoop.TableID,indexLoop,$event)">{{itemLoop.TableName}}</Checkbox>
+									</td>
+									<td>
+										<Checkbox :label="itemLoop.TableName" :value="WeeLoopTaskPlanList[6].indexOf(itemLoop.TableID)>-1" :key="itemLoop.TableID" @on-change="checkLoopTaskChange(6,itemLoop.TableID,indexLoop,$event)">{{itemLoop.TableName}}</Checkbox>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</TabPane>
+				<TabPane label="特殊日期安排">
+					<div class="table-toolbar">
+						<button @click="saveSpecPlanFun">保存</button>
+						<button :class="{bg_disabled:specPlanStatus}" :disabled="specPlanStatus">删除</button>
+						<button @click="addSpecPlanTask">增加</button>
+					</div>
+					<div class="common-smalltable common-smalltable-checkboxgroup">
+						<table>
+							<thead>
+								<tr>
+									<th>日期名称	</th>
+									<th>起始日期	</th>
+									<th>结束日期</th>
+									<th>任务名称</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr v-for="(itemSpec,indexSpec) of specTimePlanList" :key="indexSpec"  @click="selecteSpecPlanFun(indexSpec)">
+									<td>
+										<div class="specContent" v-show="itemSpec.isCommonSpan">{{itemSpec.DateName}}</div>
+										<Input v-show="!itemSpec.isCommonSpan" :value="itemSpec.DateName" @input="updateSpecPlanFun(indexSpec,$event,'DateName')" style="text-align: left;"></Input>
+									</td>
+									<td>
+										<div class="specContent" v-show="itemSpec.isCommonSpan">{{itemSpec.BeginDate.split("T")[0]}}</div>
+										<DatePicker type="date" v-show="!itemSpec.isCommonSpan" :value="fmtDate(itemSpec.BeginDate)" @input="updateSpecPlanFun(indexSpec,$event,'BeginDate')"></DatePicker>
+									</td>
+									<td>
+										<div class="specContent" v-show="itemSpec.isCommonSpan">{{itemSpec.EndDate.split("T")[0]}}</div>
+										<DatePicker type="date" v-show="!itemSpec.isCommonSpan" :value="fmtDate(itemSpec.EndDate)" @input="updateSpecPlanFun(indexSpec,$event,'EndDate')"></DatePicker>
+									</td>
+									<td>
+										<font>普通任务：</font>
+										<Checkbox v-for="(item,index) of WeekTaskPlanCommonList" :key="index" :label="item.TableName" :value="itemSpec.CommonTableID.indexOf(item.TableID)>-1"  @on-change="checkSpecCommonChange(0,item.TableID,indexSpec,$event)">{{item.TableName}}</Checkbox>
+									    <font>循环任务：</font>
+									    <Checkbox v-for="(itemLoop,indexLoop) of WeekTaskPlanLoopList" :key="indexLoop" :label="itemLoop.TableName" :value="itemSpec.LoopTableID.indexOf(itemLoop.TableID)>-1" @on-change="checkSpecLoopChange(0,itemLoop.TableID,indexSpec,$event)">{{itemLoop.TableName}}</Checkbox>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</TabPane>
+			</Tabs>
+		</div>
+		<Modal v-model="sureModal" :title="loopModalTitle" width="800" @on-ok="saveLoopCycle" @on-cancel="cancel" class="task-modal">
+			<div class="one-third-modal">
+				<p class="content-title">循环任务属性设置</p>
+				<div class="content">
+					<p class="input-title">循环任务名称：</p>
+					<Input v-model="loopName" size="large" placeholder="请输入任务名称"></Input>
+					<p class="input-title">有效起始时间：</p>
+					<TimePicker v-model="loopStartTime" size="large" type="time" placeholder="请输入起始时间"></TimePicker>
+					<p class="input-title">有效结束时间：</p>
+					<TimePicker v-model="loopEndTime" size="large" type="time" placeholder="请输入结束时间"></TimePicker>
+					<RadioGroup v-model="loopType" class="execute-type">
+				        <Radio label="立即开始执行"></Radio><br />
+				        <Radio label="整点开始执行"></Radio><br />
+				        <Radio label="指定开始时间："></Radio><TimePicker v-show="loopType=='指定开始时间：'" type="time" v-model="AppointTime"></TimePicker>
+				    </RadioGroup>
+					<CheckboxGroup v-model="loopTypeCheck" class="execute-type">
+				        <Checkbox label="限制最大循环次数？"></Checkbox><InputNumber v-if="showLoopTypeNum()" v-model="loopMaxCycleNum"></InputNumber><br />
+				        <Checkbox label="是否必须执行完整？"></Checkbox>
+				    </CheckboxGroup>
+				</div>
+			</div>
+			<div class="half-modal">
+				<p class="content-title">循环任务内容安排</p>
+				<div class="half-content">
+					<ul class="loopCycleUl">
+						<li v-for="(item,index) of loopCycleList" :key="index" :class="{activeTable:index==selecteLoopCycle}" @click="SelecteLoopCycleFun(index)">{{item.ControlContent}}</li>
+					</ul>
+				    <Button type="info" class="optionBtn" :class="{bg_disabled:LoopCycleStatus}" :disabled="LoopCycleStatus" @click="delLloopCycleList()">删除</Button>
+				    <Button type="info" class="optionBtn" :class="{bg_disabled:LoopCycleStatus}" :disabled="LoopCycleStatus" @click="upLoopCycleList()">上移</Button>
+				    <Button type="info" class="optionBtn" :class="{bg_disabled:LoopCycleStatus}" :disabled="LoopCycleStatus" @click="downLoopCycleList()">下移</Button>
+				</div>
+				<div class="half-content">
+					<RadioGroup v-model="loopActionType" class="action-type">
+				        <Radio label="设备控制"></Radio>
+					    <Select v-model="loopTypeS" filterable :disabled="loopActionType!='设备控制'">
+							<Option v-for="(item,index) in EquipControlList" :value="item.set_nom" :key="index">{{ item.set_nm }}</Option>
+						</Select>
+				   		<br />
+				        <Radio label="系统任务"></Radio>
+				        <Select v-model="loopTypeE" filterable :disabled="loopActionType!='系统任务'">
+					        <Option v-for="(item,index) in ProcCmdList" :value="item.proc_code" :key="index">{{ item.cmd_nm }}</Option>
+					    </Select>
+				   		<br />
+				        <Radio label="时间间隔"></Radio>
+				        <div>
+				        	<InputNumber v-model="loopTypeDay" :min="0" :disabled="loopActionType!='时间间隔'"></InputNumber>天&emsp;
+				        	<InputNumber v-model="loopTypeHour" :min="0" :disabled="loopActionType!='时间间隔'"></InputNumber>小时
+				        	<InputNumber v-model="loopTypeMinute" :min="0" :disabled="loopActionType!='时间间隔'"></InputNumber>分钟
+				        	<InputNumber v-model="loopTypeSecond" :min="0" :disabled="loopActionType!='时间间隔'"></InputNumber>秒&emsp;
+				        </div>
+				    </RadioGroup>
+				    <Button type="info" class="insertBtn" @click="insertCycle()">插入</Button>
+				</div>
+			</div>
+		</Modal>
+	</div>
 </template>
 
-<script>
-export default {
-  data () {
-    return {}
-  }
-}
-</script>
+<script src="./TimeTask.js"></script>
 
-<style lang="scss">
-.time-task{}
-</style>
+<style src="@assets/styles/common_dengjf.css"></style>

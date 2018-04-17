@@ -6,7 +6,7 @@
             <Icon type="load-c" size=18 class="spin-icon-load"></Icon>
             <div>Loading</div>
         </Spin>
-        <table>
+        <table class="gw-table">
           <thead>
             <tr>
               <th v-for="(head, cIndex) of linkTable.tbTitle" :key="cIndex" v-text="head"></th>
@@ -46,7 +46,7 @@
           <Panel
           class="panel"
           v-for="(scene, index) of sceneData"
-          :key="index"
+          :key="index + '-' + scene.set_no"
           :name="scene.equip_no + '-' + scene.set_no"
           >
               {{scene.set_nm}}
@@ -64,7 +64,9 @@
                     :key="optIndex"
                     >
                       <div class="show">
-                        <span>{{optIndex+1}}.</span><span>{{opt.parentEquip.m_EquipNm}}</span>:<span>{{opt.set_nm}}</span>
+                        <span>{{optIndex+1}}.</span>
+                        <span v-text="opt.parentEquip.equip_nm"></span>:
+                        <span>{{opt.set_nm}}</span>
                       </div>
                       <div class="btnbox">
                         <ButtonGroup>
@@ -78,20 +80,21 @@
                   <div class="btnbar">
                     <a href="javascript:;" class="btn submit" v-if="scene.children.length < 1" @click="actModal(index, 0, false)">新增</a>
                     <a href="javascript:;" class="btn submit" @click="submitScene(scene)">保存修改</a>
+                    <a href="javascript:;" class="btn delete" @click="deleteScene(scene)">删除</a>
                   </div>
                 </FormItem>
               </Form>
           </Panel>
         </Collapse>
         <div class="btnbar">
-          <a class="btn add" href="javascript:;">添加场景</a>
+          <a class="btn add" href="javascript:;" @click="showAddScene = !showAddScene">添加场景</a>
         </div>
       </div>
     </gw-tabs>
     <Modal v-model="showAdd"
     @on-ok="addLinkage(formData)"
     >
-      <div slot="header">新增联动设置</div>
+      <div slot="header">联动设置</div>
       <Form :label-width="180"
       :model="formData"
       >
@@ -117,12 +120,6 @@
           >
           </Cascader>
         </FormItem>
-        <!-- <FormItem label="命令菜蔬：">
-          <Input
-          v-model="formData.optCode"
-          placeholder="命令参数"
-          ></Input>
-        </FormItem> -->
         <FormItem label="备注信息：">
           <Input
           v-model="formData.remarks"
@@ -176,6 +173,23 @@
         </template>
       </Form>
     </Modal>
+    <Modal v-model="showAddScene"
+    >
+      <div slot="header">添加场景</div>
+      <Form :label-width="180"
+      :model="newScene"
+      :rules="ruleNewScene"
+      ref="sceneValidate"
+      >
+        <FormItem label="场景名称：" prop="title">
+          <Input v-model="newScene.title" placeholder="输入场景名称"></Input>
+        </FormItem>
+      </Form>
+      <div slot="footer">
+        <Button type="text" size="large" @click="showAddScene = false">取消</Button>
+        <Button type="primary" size="large" @click="addScene(sceneData, newScene)">确定</Button>
+      </div>
+    </Modal>
   </div>
 </template>
 
@@ -188,6 +202,7 @@ export default {
       showAdd: false,
       showAct: false,
       showDelete: false,
+      showAddScene: false,
       listAdd: [],
       typeList: [
         {
@@ -236,12 +251,14 @@ export default {
         {
           name: "linkage",
           title: "联动设置",
-          isActive: true
+          isActive: true,
+          isShow: true
         },
         {
           name: "scene",
           title: "场景编辑",
-          isActive: false
+          isActive: false,
+          isShow: true
         }
       ],
       linkTable: {
@@ -281,6 +298,17 @@ export default {
         type: '设备控制',
         delayTime: '00:00:00:00',
         totalTime: 0
+      },
+      newScene: {
+        title: ''
+      },
+      ruleNewScene: {
+        title: [
+          {
+            required: true,
+            message: '名称不能为空'
+          }
+        ]
       }
     }
   },
@@ -494,7 +522,7 @@ export default {
       this.insertForm.totalTime = parseInt(time.split(':')[0]) * 3600000 + parseInt(time.split(':')[1]) * 60000 + parseInt(time.split(':')[2]) * 1000 + parseInt(time.split(':')[3])
     },
     insertAct (data) {
-      console.log(data)
+      // console.log(data)
       let insertIndex = data.isAfter ? (data.actIndex + 1) : data.actIndex
       if (data.type === '设备控制') {
         let equipNo = parseInt(data.actEquip.split('-')[0]),
@@ -502,7 +530,7 @@ export default {
         let newItem = data.insertList.filter(equip => {
           return equip.equip_no === equipNo && equip.set_no === setNo
         })[0]
-        console.log(newItem)
+        // console.log(newItem)
         this.sceneData[data.scenIndex].children.splice(insertIndex, 0, newItem)
       }
       else if (data.type === '设置延时') {
@@ -550,9 +578,76 @@ export default {
          console.log(err)
        })
     },
+    addScene (sceneList, newItem) {
+      if (sceneList.some(item => {
+        return item.set_nm === newItem.title
+      })) {
+        this.$Message.warning('该场景名称已存在，请重试！')
+      }
+      else {
+        this.$refs['sceneValidate'].validate(flag => {
+          if (flag) {
+            let setNo = 0
+            sceneList.forEach(item => {
+              setNo += (sceneList.some(scene => {
+                return scene.set_no === setNo
+              })) ? 1 : 0
+            })
+            let reqData = {
+              title: newItem.title,
+              setNo: setNo
+            }
+            this.Axios.post('/api/datas/addScene', reqData)
+              .then(res => {
+                let rt = res.data.HttpData
+                if (rt.data > 0) {
+                  this.$Message.success('场景添加成功')
+                  this.initSceneList()
+                }
+                else {
+                  console.log(rt)
+                  this.$Message.warning('场景添加失败，请重试！')
+                }
+              })
+              .catch(err => {
+                console.log(err)
+              })
+            this.showAddScene = false
+          }
+        })
+      }
+    },
+    deleteScene (scene) {
+      console.log(this.sceneData)
+      this.$Modal.confirm({
+        title: '删除场景',
+        content: '是否删除该场景？',
+        onOk: () => {
+          let reqData = {
+            setNo: scene.set_no
+          }
+          this.Axios.post('/api/datas/deleteScene', reqData)
+            .then(res => {
+              let rt = res.data.HttpData
+              if (rt.code === 200 && rt.data > 0) {
+                this.$Message.success('删除成功！')
+                this.initSceneList()
+              }
+              else {
+                this.$Message.warning('操作失败，请重试！')
+              }
+            })
+            .catch(err => {
+              console.log(err)
+            })
+        }
+      })
+    },
     initTableList (dt) {
       this.loadData = true
-      this.Axios.all([this.Axios.post('/api/Datas/getLinkageList'), this.Axios.post('/api/Datas/getYcpList'), this.Axios.post('/api/Datas/getYxpList'), this.Axios.post('/api/Datas/getSetparmList')])
+      this.Axios.all([this.Axios.post('/api/Datas/getLinkageList'), this.Axios.post('/api/Datas/getYcpList'), this.Axios.post('/api/Datas/getYxpList'), this.Axios.post('/api/Datas/getSetparmList', {
+        findEquip: false
+      })])
         .then(this.Axios.spread((res, ycpRes, yxpRes, parmRes) => {
           let rt = res.data.HttpData,
             ycpRt = ycpRes.data.HttpData,
@@ -619,7 +714,7 @@ export default {
       // 获取新增设置菜单相关数据
       if (this.listAdd.length < 1 || this.formData.linkageEquips.length < 1) {
         this.loadData = true
-        this.Axios.all([this.Axios.post('/api/real/equip_state'), this.Axios.post('/api/Datas/getSetparmList', {all: true})])
+        this.Axios.all([this.Axios.post('/api/datas/getEquipList'), this.Axios.post('/api/Datas/getSetparmList', {findEquip: false})])
           .then(this.Axios.spread((equipRes, parmRes) => {
             let equipRt = equipRes.data.HttpData,
               parmRt = parmRes.data.HttpData
@@ -630,23 +725,25 @@ export default {
                 // 触发设备列表
                 this.listAdd = equipData.map(item => {
                   return {
-                    value: item.m_iEquipNo,
-                    label: item.m_EquipNm,
+                    value: item.equip_no,
+                    label: item.equip_nm,
                     loading: false,
                     children: []
                   }
                 })
+                // console.table(equipRt.data)
+                // console.table(parmData)
                 // 联动关联设备列表
                 this.formData.linkageEquips = equipData.filter((equip, index) => {
                   if (parmData.some(parm => {
-                    return equip.m_iEquipNo === parm.equip_no
+                    return equip.equip_no === parm.equip_no
                   })) {
                     return equip
                   }
                 }).map(equip => {
                   return {
-                      value: equip.m_iEquipNo,
-                      label: equip.m_EquipNm,
+                      value: equip.equip_no,
+                      label: equip.equip_nm,
                       loading: false,
                       children: []
                     }
@@ -663,7 +760,7 @@ export default {
     },
     initSceneList () {
       this.sceneLoading = true
-      this.Axios.all([this.Axios.post('/api/datas/getSetparmList'), this.Axios.post('/api/real/equip_state')])
+      this.Axios.all([this.Axios.post('/api/datas/getSetparmList', {findEquip: false}), this.Axios.post('/api/datas/getEquipList')])
         .then(this.Axios.spread((res, equipRes) => {
           let rt = res.data.HttpData,
             equipRt = equipRes.data.HttpData
@@ -673,20 +770,29 @@ export default {
             this.sceneData = this.setList.filter(item => {
               return item.set_type === "J"
             }).map(item => {
-              let keyArr = item.value.split('+').map(key => {
-                return key.split(',')
-              })
+              let keyArr = []
+              if (item.value !== null) {
+                keyArr = item.value.split('+').map(key => {
+                  return key.split(',')
+                })
+              }
+              else {
+                keyArr = [['']]
+              }
               this.$set(item, 'childKey', keyArr)
               this.$set(item, 'children', [])
               item.childKey.forEach(k => {
                 if (k.length < 2) {
-                  let time = parseInt(k[0])
-                  item.children.push({
-                    isDelay: true,
-                    time: time,
-                    set_nm: '延时间隔' + time + '毫秒'
-                  })
-                } else {
+                  if (k[0] !== '') {
+                    let time = parseInt(k[0])
+                    item.children.push({
+                      isDelay: true,
+                      time: time,
+                      set_nm: '延时间隔' + time + '毫秒'
+                    })
+                  }
+                }
+                else {
                   this.setList.forEach(equip => {
                     let equipNo = parseInt(k[0]),
                     setNo = parseInt(k[1])
@@ -701,9 +807,10 @@ export default {
                   child.parentEquip = {
                     m_EquipNm: '间隔操作'
                   }
-                } else {
+                }
+                else {
                   this.equipList.forEach(equip => {
-                    if (equip.m_iEquipNo === child.equip_no) {
+                    if (equip.equip_no === child.equip_no) {
                       child.parentEquip = equip
                     }
                   })
@@ -718,7 +825,7 @@ export default {
               this.$set(equip, 'label', equip.set_nm)
               if (!equip.parentEquip) {
                 equip.parentEquip = this.equipList.filter(item => {
-                  return equip.equip_no === item.m_iEquipNo
+                  return equip.equip_no === item.equip_no
                 })[0]
               }
               return equip
@@ -726,7 +833,7 @@ export default {
             // 过滤目前不可操作设备
             this.insertForm.insertList = this.insertForm.insertList.filter(equip => {
               if (this.equipList.some(eqp => {
-                return equip.equip_no === eqp.m_iEquipNo
+                return equip.equip_no === eqp.equip_no
               })) {
                 return equip
               }
@@ -748,7 +855,13 @@ export default {
   },
   mounted() {
     this.tabs.forEach(item => {
-      item.name === "linkage" ? this.initAddList() : this.initSceneList()
+      let curTab = item.isActive ? item.name : null
+      if (curTab === "linkage") {
+        this.initAddList()
+      }
+      else if (curTab === "scene") {
+        this.initSceneList()
+      }
     })
   }
 }
