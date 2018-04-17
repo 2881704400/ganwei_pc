@@ -1,17 +1,22 @@
 .gw-tabs{
     .tabs-nav{
+        display: flex;
         ul{
             display: flex;
+            border-left: 1px solid #bababa;
+            border-bottom: 1px solid #bababa;
+            flex-grow: 1;
             li{
                 width: 123px;
                 height: 53px;
                 text-align: center;
                 line-height: 53px;
-                box-shadow: 0px 0px 1px #bababa inset;
+                border-top: 1px solid #bababa;
+                border-right: 1px solid #bababa;
                 transition: all 440ms;
                 cursor: pointer;
                 &.active{
-                    box-shadow: 0px 0px 1px #bababa inset, 0px 3px 0px #09b7f7 inset;
+                    box-shadow: 0px 3px 0px #09b7f7 inset;
                 }
             }
         }

@@ -11,22 +11,28 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/api': {
-        target: 'http://127.0.0.1:8013',
+        target: 'http://192.168.0.247:7001',
         pathRewrite: {
-          // '^/api': '/api'
+          '^/api': '/api'
+        }
+      },
+      '/zkxapi': {
+        target: 'http://192.168.0.111:8013',
+        pathRewrite: {
+          '^/zkxapi': '/api'
         }
       },
       '/oApi': {
-          target: 'http://192.168.0.196:7006',
-          pathRewrite: {
-            '^/oApi': '/'
-          }
+        target: 'http://192.168.0.196:7006',
+        pathRewrite: {
+          '^/oApi': '/'
         }
+      }
     },
 
     // Various Dev Server settings
-    host: 'localhost', // can be overwritten by process.env.HOST
-    port: 8082, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
+    host: '192.168.0.247', // can be overwritten by process.env.HOST
+    port: 7070, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
     autoOpenBrowser: true,
     errorOverlay: true,
     notifyOnErrors: true,
@@ -61,7 +67,7 @@ module.exports = {
 
     // Paths
     assetsRoot: path.resolve(__dirname, '../dist'),
-    assetsSubDirectory: 'static',
+    assetsSubDirectory: '2.0/static',
     assetsPublicPath: '/',
 
     /**

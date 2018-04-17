@@ -12,7 +12,7 @@
       </ul>
     </div>
     <div class="tabs-container">
-      <slot v-for="(nv, index) of list" :name="nv.name" v-if="nv.isActive" appear>{{nv.title}}</slot>
+      <slot v-for="(nv, index) of list" :name="nv.name" v-if="nv.isActive && nv.isShow" appear>{{nv.title}}</slot>
     </div>
   </div>
 </template>

@@ -19,6 +19,37 @@ html{
     .gw{
       height: 100%;
       overflow: hidden;
+      font-family: 'Avenir', Helvetica, Arial, sans-serif;
+      background-color: #fff;
+
+      table.gw-table{
+        width: 100%;
+        box-shadow: 0px 0px 1px #bababa;
+        tr{
+            font-size: 16px;
+            height: 53px;
+            line-height: 53px;
+        }
+        thead{
+            tr{
+                th{
+                    font-weight: normal;
+                    color: #858585;
+                }
+            }
+        }
+        tbody{
+            tr{
+                &:nth-child(odd){
+                    background-color: #f9f9f9;
+                }
+                td{
+                    text-align: center;
+                    color: #323232;
+                }
+            }
+        }
+      }
       //font-family: 'Avenir', Helvetica, Arial, sans-serif;
     }
   }

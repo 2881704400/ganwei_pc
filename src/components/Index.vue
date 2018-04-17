@@ -44,7 +44,7 @@ export default {
             "loading": false,
             "hasChild": false,
             "children": [],
-            "selected": true
+            "selected": false
         },
         {
             "title": "设备数据",
@@ -53,15 +53,6 @@ export default {
             "loading": false,
             "expand": false,
             "hasChild": true,
-            "children": [],
-            "selected": false
-        },
-        {
-            "title": "实时快照",
-            "href": "snapshot",
-            "iconClass": " iconfont icon-MenuSnapshot",
-            "loading": false,
-            "hasChild": false,
             "children": [],
             "selected": false
         },
@@ -154,7 +145,6 @@ export default {
           window.localStorage.removeItem("gw_token")
           window.localStorage.removeItem("login_msg")
           // this.navList.splice(0, this.navList.length)
-          this.$store.commit('clickEquips', 0)
           this.$router.replace("/login")
         }
       })
@@ -210,7 +200,7 @@ export default {
                     fontSize: "14px",
                     cursor: "pointer",
                     position: "relative",
-                    paddingLeft: "20px"
+                    paddingLeft: "36px"
                   },
                   class: ["nav-item", data.selected ? "selected" : ""],
                   on: {
@@ -269,7 +259,7 @@ export default {
                     fontSize: "14px",
                     cursor: "pointer",
                     position: "relative",
-                    paddingLeft: "12px"
+                    paddingLeft: "36px"
                   },
                   class: ["nav-item", data.selected ? "selected" : ""],
                   on: {
@@ -318,24 +308,8 @@ export default {
             },
             class: ["nav-item", data.selected ? "selected" : ""],
             on: {
-              click: ev => {
-                if (this.$store.state.navEquipsClickTime < 1) {
-                  this.$store.commit("clickEquips", 1);
-                  this.loadNavList(data, rt => {
-                    rt.forEach(item => {
-                      data.children.push(item);
-                    });
-                    data.loading = false;
-                    this.$set(data, "expand", !data.expand);
-                  });
-                } else {
-                  this.$set(data, "expand", !data.expand);
-                }
-                if (data.selected) return false;
-                root.forEach(ele => {
-                  ele.node.selected = false;
-                });
-                data.selected = true;
+              click: () => {
+                this.navItemClick(root, data)
               }
             }
           },
@@ -399,12 +373,12 @@ export default {
             class: ["nav-item", data.selected ? "selected" : ""],
             on: {
               click: () => {
-                if (data.selected) return false;
+                if (data.selected) return false
                 root.forEach(ele => {
-                  ele.node.selected = false;
-                });
-                data.selected = true;
-                this.$router.push(data.href);
+                  ele.node.selected = false
+                })
+                data.selected = true
+                this.$router.push(data.href)
               }
             }
           },
@@ -433,11 +407,42 @@ export default {
           ]
         );
       }
+    },
+    navItemClick (root, data, equipNo = null) {
+      if (data.children.length < 1) {
+        this.loadNavList(data, rt => {
+          rt.forEach(item => {
+            data.children.push(item)
+          })
+          data.loading = false
+          this.$set(data, "expand", !data.expand)
+        });
+      }
+      else {
+        this.$set(data, "expand", !data.expand)
+      }
+      if (data.selected) return false
+      root.forEach(ele => {
+        ele.node.selected = false
+      });
+      data.selected = true
+    },
+    setNav () {
+      const pathF = this.$route.path.split('/')[1],
+        pathS = this.$route.path.split('/')[2]
+        if (pathF === 'index') {
+          this.navList.forEach(nav => {
+            nav.selected = nav.href === pathS ? true : false
+          })
+          if (pathS === 'equips') {
+            this.navItemClick(this.navList, this.navList[1])
+          }
+        }
     }
   },
   created() {
-    console.log(this.$route)
     this.getAuth()
+    this.setNav()
   }
 };
 </script>

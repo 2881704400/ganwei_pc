@@ -2,7 +2,7 @@
   <div class="home">
        <h1>深圳市敢为软件技术有限公司</h1>
        <ul>
-         <li v-for="(item,index) in titles">
+         <li v-for="(item,index) in titles" :key="index">
            <div :dataClass="'snaBtn'+index" :class="{activeSnapshot: item.IsActive}" @click="activeSnapshot(item)">
               <h4>{{item.SnapshotName}}</h4>
               <Row>
@@ -48,7 +48,7 @@
             <Input type="textarea" :rows="4" v-model="inputAsgument"></Input>
             <Checkbox  label="是" style="margin: 10px 0;" v-model="sureMobile">是否发送短信？</Checkbox>
             <CheckboxGroup class="groupCheck" v-show="sureMobile" v-model="sureMobileTel">
-              <Checkbox v-for="(item,index) of users" class="groupCheckChild" :label="item.MobileTel" :key="item.Administrator">{{item.MobileTel}}({{item.Administrator}})</Checkbox>
+              <Checkbox v-for="(item,index) of users" :key="index" class="groupCheckChild" :label="item.MobileTel" >{{item.MobileTel}}({{item.Administrator}})</Checkbox>
             </CheckboxGroup>
 
 

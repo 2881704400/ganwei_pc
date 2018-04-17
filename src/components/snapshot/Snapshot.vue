@@ -128,7 +128,6 @@
 					}
 				}
 				btnInfoLevels = btnInfoLevels.substring(0, btnInfoLevels.length - 1);
-				console.log(btnInfoLevels);
 				this.Axios.post('/api/GWServiceWebAPI/get_RealTimeEventCount', {
 					levels: btnInfoLevels
 				}).then(res => {
@@ -253,6 +252,4 @@
 	}
 </script>
 
-<style lang="scss">
-	@import url("../../../static/common_dengjf.css");
-</style>
+<style lang="scss" src="@assets/styles/common_dengjf.css"></style>
