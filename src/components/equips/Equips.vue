@@ -247,14 +247,14 @@ export default {
       //   .catch(err => {
       //     console.log(err)
       //   })
-      let hub = $.connection('http://192.168.0.247:7001/signalr')
-      hub.start()
-        .done(() => {
-          console.log(123)
-        })
-        .fail(err => {
-          console.log(err)
-        })
+      // let hub = $.connection('http://192.168.0.247:7001/signalr')
+      // hub.start()
+      //   .done(() => {
+      //     console.log(123)
+      //   })
+      //   .fail(err => {
+      //     console.log(err)
+      //   })
     },
     toggleModal () {
       this.showChart = !this.showChart

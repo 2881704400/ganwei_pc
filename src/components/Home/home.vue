@@ -84,7 +84,7 @@ export default {
   },
   mounted() {
     this.requestTitle();
-    $('.scrollBody').mCustomScrollbar(scrollbarStyle);
+    // $('.scrollBody').mCustomScrollbar(scrollbarStyle);
 		},
   methods: {
     activeSnapshot: function(dt){

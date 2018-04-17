@@ -132,22 +132,10 @@
                             </Col>
                         </Row>
                         <ul>
-<<<<<<< HEAD
-<<<<<<< HEAD
-                            <li v-for="(equipNameItem,equipIndex) in equipName"><input type="checkbox" :id='"checkConf_"+equipIndex' v-model="equipNameItem.equipNameShow" @click.stop="radioCheckbox(equipNameItem)" />
-                                <label :for='"checkConf_"+equipIndex'>{{equipNameItem.equip_nm}}</label>
-=======
-                            <li v-for="(equipNameItem,equipIndex) in equipName">
-                              <Checkbox  :label="equipNameItem.equipNameShow" :id='"checkConf_"+equipIndex'  @click.stop="radioCheckbox(equipNameItem)"></Checkbox>
-                              <!-- <input type="checkbox" :id='"checkConf_"+equipIndex' v-model="equipNameItem.equipNameShow" @click.stop="radioCheckbox(equipNameItem)" /> -->
-                              <label :for='"checkConf_"+equipIndex'>{{equipNameItem.equip_nm}}</label>
->>>>>>> zkx
-=======
                             <li v-for="(equipNameItem,equipIndex) in equipName" :key="equipNameItem.group_no">
                                <Checkbox  v-model="equipNameItem.equipNameShow" :id='"checkConf_"+equipIndex'  @on-change="radioCheckbox(equipNameItem)">{{equipNameItem.equip_nm}}</Checkbox>
                               <!-- <input type="checkbox" :id='"checkConf_"+equipIndex' v-model="equipNameItem.equipNameShow" @click.stop="radioCheckbox(equipNameItem)" /> -->
                               <!-- <label :for='"checkConf_"+equipIndex'>{{equipNameItem.equip_nm}}</label> -->
->>>>>>> zkx
                             </li>
                         </ul>
                     </div>
@@ -605,6 +593,8 @@ export default {
         {
             let getEquipUserLength = arrayLike.length;
             for (var i = 0; i < getEquipUserLength; i++) {
+              if(i == 0)
+               WeekAlmReport.selectEquip = arrayLike[i].group_no;
               let equipUser_data = {
                 equipcomb: arrayLike[i].equipcomb,
                 group_name: arrayLike[i].group_name,
