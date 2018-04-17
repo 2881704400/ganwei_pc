@@ -50,7 +50,7 @@
                                 </td>
                                 <td>
                                     <i class="iconfont icon-scheduleMODIFY" title="修改" @click.stop="modifyFAdministrator(item_parent)" v-show="!item_parent.isShow"></i>
-                                    <!-- <i class="ivu-icon ivu-icon-document " title="保存" @click.stop="saveAdministrator(item_parent)" v-show="item_parent.isShow"></i> -->
+                                    <!-- <i class="ivu-icon ivu-icon-document" title="保存" @click.stop="saveAdministrator(item_parent)" v-show="item_parent.isShow"></i> -->
                                     <i class="iconfont icon-scheduleDEL" title="删除" @click.stop="removeAdministrator(item_parent)" v-show="!item_parent.isShow"></i>
                                 </td>
                             </tr>

@@ -26,7 +26,7 @@
                 <th>处理意见</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody class="scrollBody">
               <tr v-for="(item,index) of events" :key="index" v-show="item.retrievalShow">
                 <td>{{item.Level}}</td>
                 <td>{{item.Time}}</td>
@@ -84,6 +84,7 @@ export default {
   },
   mounted() {
     this.requestTitle();
+    $('.scrollBody').mCustomScrollbar(scrollbarStyle);
 		},
   methods: {
     activeSnapshot: function(dt){
