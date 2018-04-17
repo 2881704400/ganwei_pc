@@ -131,7 +131,7 @@ export default {
         let rt = res.data.HttpData
         if (rt.code === 200) {
           let data = rt.data
-          console.log(data)
+          // console.log(data)
           this.tabData[0].tbList.splice(0, this.tabData[0].tbList.length)
           this.tabData[1].tbList.splice(0, this.tabData[1].tbList.length)
           for (let key in data.YCItemDict) {
@@ -247,14 +247,15 @@ export default {
       //   .catch(err => {
       //     console.log(err)
       //   })
-      let hub = $.connection('http://192.168.0.247:7001/signalr')
-      hub.start()
-        .done(() => {
-          console.log(123)
-        })
-        .fail(err => {
-          console.log(err)
-        })
+      
+      // let hub = $.connection('/signalr/hub')
+      // hub.start()
+      //   .done(() => {
+      //     console.log(123)
+      //   })
+      //   .fail(err => {
+      //     console.log(err)
+      //   })
     },
     toggleModal () {
       this.showChart = !this.showChart
