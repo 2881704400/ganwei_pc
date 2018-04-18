@@ -22,11 +22,18 @@
             <span class="iconfont icon-Menu"></span>
         </div> -->
       </aside>
-      <section class="main-body">
-        <!-- <div class="title">
-          <span>home</span>>><span>{{curPath}}</span>
-        </div> -->
-        <router-view class="router-page"></router-view>
+      <section class="main-body" :class="{home : $store.state.curPage.isHome}">
+        <div class="titlebar" v-if="!$store.state.curPage.isHome">
+          <a href="javascript:;" @click="toHome">
+            <i class="iconfont icon-MenuHome"></i>
+            首页
+          </a>
+          <span class="split">>></span>
+          <span class="cur">{{$store.state.curPage.name}}</span>
+          <span v-if="$store.state.curPage.childName" class="split">>></span>
+          <span v-if="$store.state.curPage.childName">{{$store.state.curPage.childName}}</span>
+        </div>
+        <router-view class="router-page" v-if="loadCompleted"></router-view>
       </section>
     </div>
   </div>
@@ -101,9 +108,10 @@ export default {
             "children": [],
             "selected": false
         }
-    ],
+      ],
+      loadCompleted: false,
       isFold: false,
-      curPath: ""
+      curPath22: ""
     };
   },
   methods: {
@@ -149,6 +157,16 @@ export default {
         }
       })
     },
+    toHome () {
+      this.navList.forEach(item => {
+        if (item.expand) item.expand = false
+        item.selected = item.title === '首页' ? true : false
+      })
+      this.$store.commit('setCurpage', {
+        isHome: true
+      })
+      this.$router.push('/index/home')
+    },
     loadNavList(navItem, callback) {
       if (navItem.hasChild) {
         navItem.loading = true;
@@ -173,8 +191,31 @@ export default {
           .catch(err => {
             console.log(err)
           })
+          .then(() => {
+            let equipNo = parseInt(this.$route.hash.substring(1))
+            this.findEquip(this.navList[1].children, equipNo)
+            this.loadCompleted = true
+          })
       } else {
         return false;
+      }
+    },
+    findEquip (arr, equipNo) {
+      for (let i = 0; i < arr.length; i++) {
+        if (equipNo === parseInt(arr[i].equipNo)) {
+          arr[i].selected = true
+          this.$store.commit('setCurpage', {
+            isHome: false,
+            name: '设备数据',
+            childName: arr[i].title
+          })
+          break
+        } else {
+          if (arr[i].children.length > 0) {
+            this.$set(arr[i], 'expand', true)
+            this.findEquip(arr[i].children, equipNo)
+          }
+        }
       }
     },
     dealNavList(arrData, equipList, result) {
@@ -264,9 +305,17 @@ export default {
                   class: ["nav-item", data.selected ? "selected" : ""],
                   on: {
                     click: () => {
-                      if (data.selected) return false;
+                      if (data.selected) return false
+                      let obj = {
+                        isHome: false,
+                        name: '设备数据',
+                        childName: data.title
+                      }
+                      this.$store.commit('setCurpage', obj)
                       root.forEach(ele => {
-                        ele.node.selected = false;
+                        if (ele.nodeKey !== 1) {
+                          ele.node.selected = false
+                        }
                       });
                       data.selected = true;
                       this.$router.push({
@@ -294,7 +343,6 @@ export default {
       });
     },
     renderNavItem(h, { root, node, data }) {
-      
       // leftNav节点渲染
       if (data.hasChild) {
         return h(
@@ -373,8 +421,16 @@ export default {
             class: ["nav-item", data.selected ? "selected" : ""],
             on: {
               click: () => {
+                let obj = data.title === '首页' ? {
+                  isHome: true
+                } : {
+                  isHome: false,
+                  name: data.title
+                }
+                this.$store.commit('setCurpage', obj)
                 if (data.selected) return false
                 root.forEach(ele => {
+                  if (ele.node.expand) ele.node.expand = false
                   ele.node.selected = false
                 })
                 data.selected = true
@@ -432,15 +488,26 @@ export default {
         pathS = this.$route.path.split('/')[2]
         if (pathF === 'index') {
           this.navList.forEach(nav => {
+            if (nav.href === pathS) {
+              let obj = pathS === 'home' ? {
+                isHome: true
+              } : {
+                isHome: false,
+                name: nav.title
+              }
+              this.$store.commit('setCurpage', obj)
+            }
             nav.selected = nav.href === pathS ? true : false
           })
           if (pathS === 'equips') {
             this.navItemClick(this.navList, this.navList[1])
+          } else {
+            this.loadCompleted = true
           }
         }
     }
   },
-  created() {
+  created () {
     this.getAuth()
     this.setNav()
   }

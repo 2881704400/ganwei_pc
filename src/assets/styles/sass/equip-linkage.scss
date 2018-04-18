@@ -18,28 +18,41 @@
         }
         .linkage{
             position: relative;
+            table{
+                td.opt{
+                    color: #05A2E5;
+                    font-size: 18px;
+                    i{
+                        cursor: pointer;
+                        margin: 0 10px;
+                    }
+                }
+            }
         }
         
         .btnbar{
             display: flex;
             padding: 12px;
+            margin: 20px auto;
             justify-content: center;
             .btn{
-                height: 31px;
-                width: 71px;
                 background-color: #05a3e5;
                 text-align: center;
                 color: #fff;
-                line-height: 31px;
-                font-size: 14px;
+                line-height: 1.5;
+                font-size: 16px;
                 box-shadow: 0px 0px 2px rgba(0,0,0,0.2);
                 margin: 0 12px;
+                padding: 6px 26px;
             }
         }
         
         .scene{
             position: relative;
             .panel{
+                &:nth-child(even){
+                    background-color: #fff;
+                }
                 .form{
                     .ivu-form-item-label{
                         font-size: 18px;
