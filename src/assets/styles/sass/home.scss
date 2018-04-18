@@ -47,6 +47,7 @@
             tbody tr:nth-child(2n+1){background: #{$tbTRBgc};}
             tbody tr:hover,.active{background: #{$tbRowHover};}
             tbody tr td{
+                .ivu-btn-info{font-color: #{$btnFontColor};width: #{$btnW};height: #{$btnH};background-color: #{$btnBackground};border-color: #{$btnBackground};border-radius: 0;}
                 color: #{$tbTDTextColor};width: 16.66%;font-size: 0.8rem;font-weight: 200;
                 // height: #{$tbTDH};line-height: #{$tbTDH};
                  border: 0; white-space: nowrap;
@@ -70,4 +71,5 @@
       &>.groupCheckChild:nth-child(2n+1){background: #F9F9F9;}
       &>.groupCheckChild:hover{background: #eee;}
     }
+    .ivu-btn-primary{font-color: #{$btnFontColor};width: #{$btnW};height: #{$btnH};background-color: #{$btnBackground};border-color: #{$btnBackground};border-radius: 0;}
 }
