@@ -22,11 +22,9 @@
               <td v-text="item.linkageOpt"></td>
               <td v-text="item.optCode"></td>
               <td v-text="item.remarks"></td>
-              <td>
-                <ButtonGroup size="small">
-                  <Button type="success" icon="ios-compose-outline" title="编辑" @click="editModal(item)"></Button>
-                  <Button type="error" icon="ios-trash-outline" title="删除" @click="deleteLinkage(item)"></Button>
-                </ButtonGroup>
+              <td class="opt">
+                <i title="编辑" class="iconfont icon-scheduleMODIFY" @click="editModal(item)"></i>
+                <i title="删除" class="iconfont icon-scheduleDEL" @click="deleteLinkage(item)"></i>
               </td>
             </tr>
           </tbody>
@@ -70,8 +68,8 @@
                       </div>
                       <div class="btnbox">
                         <ButtonGroup>
-                          <Button type="primary" icon="arrow-graph-up-left" title="在前面插入一项" @click="actModal(index, optIndex, false)"></Button>
-                          <Button type="primary" icon="arrow-graph-down-left" title="在后面插入一项" @click="actModal(index, optIndex, true)"></Button>
+                          <Button type="primary" icon="arrow-up-c" title="在前面插入一项" @click="actModal(index, optIndex, false)"></Button>
+                          <Button type="primary" icon="arrow-down-c" title="在后面插入一项" @click="actModal(index, optIndex, true)"></Button>
                           <Button type="error" icon="ios-trash-outline" title="删除" @click="deleteAct(optIndex, scene.children)"></Button>
                         </ButtonGroup>
                       </div>
@@ -537,7 +535,7 @@ export default {
         this.sceneData[data.scenIndex].children.splice(insertIndex, 0, {
           isDelay: true,
           parentEquip: {
-            m_EquipNm: "间隔操作"
+            equip_nm: "间隔操作"
           },
           set_nm: "延时间隔" + data.totalTime + "ms",
           time: data.totalTime
@@ -805,7 +803,7 @@ export default {
               item.children.map(child => {
                 if (child.isDelay) {
                   child.parentEquip = {
-                    m_EquipNm: '间隔操作'
+                    equip_nm: '间隔操作'
                   }
                 }
                 else {

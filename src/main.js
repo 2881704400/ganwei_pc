@@ -10,8 +10,6 @@ import 'iview/dist/styles/iview.css'
 import './assets/styles/sass/public.scss'
 // import 'signalr'
 
-
-
 Vue.config.productionTip = false
 
 Vue.use(iView)

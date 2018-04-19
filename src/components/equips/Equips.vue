@@ -125,13 +125,14 @@ export default {
       // console.log(nv)
     },
     getAllState () {
-      this.Axios.post('/zkxapi/real/equip_item_state', {
+      this.isLoading = true
+      this.Axios.post('/api/real/equip_item_state', {
         equip_no: this.equipNo
       }).then(res => {
         let rt = res.data.HttpData
         if (rt.code === 200) {
           let data = rt.data
-          console.log(data)
+          // console.log(data)
           this.tabData[0].tbList.splice(0, this.tabData[0].tbList.length)
           this.tabData[1].tbList.splice(0, this.tabData[1].tbList.length)
           for (let key in data.YCItemDict) {
@@ -163,14 +164,12 @@ export default {
           // console.log(this.tabData)
         } else {
           this.$Message.warning('数据获取失败，请重试！')
+          this.isLoading = false
           console.log(rt)
         }
       }).catch(err => {
         this.$Message.warning('token验证失败，请检查登陆信息!')
         console.log(err)
-      })
-      .then(() => {
-        this.connectServer()
       })
     },
     getSetopt (equipNo) {
@@ -221,7 +220,7 @@ export default {
             mino_instr: equip.minor_instruction,
             value: equip.value
           }
-          this.Axios.post('/zkxapi/real/setup', reqData)
+          this.Axios.post('/api/real/setup', reqData)
             .then(res => {
               const rt = res.data.HttpData
               if (rt.code === 201) {
@@ -247,6 +246,8 @@ export default {
       //   .catch(err => {
       //     console.log(err)
       //   })
+      
+      // let hub = $.connection('/signalr/hub')
       // let hub = $.connection('http://192.168.0.247:7001/signalr')
       // hub.start()
       //   .done(() => {

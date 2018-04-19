@@ -325,37 +325,7 @@
 export default {
   data () {
     return {
-      // columnsEq:[
-      //       {
-      //         title:"设备号",
-      //         key:"equip_no"  
-      //       },{
-      //         title:"设备名称",
-      //         key:"equip_nm" 
-      //       },{
-      //         title:"关联界面",
-      //         key:"related_pic" 
-      //       },{
-      //         title:"关联视频",
-      //         key:"related_video" 
-      //       },{
-      //         title:"资产编号",
-      //         key:"ZiChanID" 
-      //       },{
-      //         title:"预案号",
-      //         key:"PlanNo" 
-      //       },{
-      //         title:"显示报警",
-      //         key:"showAlarm" 
-      //       },{
-      //         title:"记录报警",
-      //         key:"markAlarm" 
-      //       },{
-      //         title:"操作",
-      //         key:"deal" 
-      //       }  
-      // ],
-      // dataEq:[],
+
       itemList:[],//左侧列表
       equipItem:[],//右侧设备配置
       yCItemDict:[],//右侧模拟量数据
@@ -424,34 +394,47 @@ export default {
       this.equipId=id;
       this.Axios.post("/oApi/GWService.asmx/GetSystemConfig",{table_name:'Equip',equip_no_list:id}).then(res1=>{//加载设备配置
        let response=res1.data.d;
-       this.equipItem=JSON.parse(response);
-       console.log(res1)
-      //  this.alarmSchemes(this.equipItem[0].alarm_scheme,this.alarmArrEq)
-      //  this.getVideoList(id)
-      //  this.getZiChan(id)
-      //  this.getPlan(id)
-        // console.log(response)
+       if(response!="false"&&response){
+          this.equipItem=JSON.parse(response);
+          this.alarmSchemes(this.equipItem[0].alarm_scheme,this.alarmArrEq)
+       }
+       
+       
+       this.getVideoList(id)
+       this.getZiChan(id)
+       this.getPlan(id)
+        //console.log(response)
       });
       this.Axios.post("/oApi/GWService.asmx/GetSystemConfig",{table_name:'ycp',equip_no_list:id}).then(res2=>{//加载模拟量配置
         let data2=res2.data.d;
-        this.yCItemDict=JSON.parse(data2);
-        // console.log(this.yCItemDict)
-        for(var i=0;i<this.yCItemDict.length;i++){
-          this.alarmSchemes(this.yCItemDict[i].alarm_scheme,this.alarmArrYc)
+        if(data2!="false"&&data2){
+          this.yCItemDict=JSON.parse(data2);
+            for(var i=0;i<this.yCItemDict.length;i++){
+            this.alarmSchemes(this.yCItemDict[i].alarm_scheme,this.alarmArrYc)
+          }
         }
+        
+        // console.log(this.yCItemDict)
+       
         
       });
       this.Axios.post("/oApi/GWService.asmx/GetSystemConfig",{table_name:'yxp',equip_no_list:id}).then(res3=>{//加载模拟量配置
         let data3=res3.data.d;
-        this.yXItemDict=JSON.parse(data3);
+        if(data3!="false"&&data3){
+          this.yXItemDict=JSON.parse(data3);
         // console.log( this.yXItemDict)
-        for(var i=0;i<this.yXItemDict.length;i++){
-          this.alarmSchemes(this.yXItemDict[i].alarm_scheme,this.alarmArrYx)
+          for(var i=0;i<this.yXItemDict.length;i++){
+            this.alarmSchemes(this.yXItemDict[i].alarm_scheme,this.alarmArrYx)
+          }
         }
+        
       });
        this.Axios.post("/oApi/GWService.asmx/GetSystemConfig",{table_name:'SetParm',equip_no_list:id}).then(res4=>{//加载设置配置
         let data4=res4.data.d;
-        this.get_setparm=JSON.parse(data4);
+        if(data4!="false"&&data4){
+          this.get_setparm=JSON.parse(data4);
+        }
+        
 
       });
      },
