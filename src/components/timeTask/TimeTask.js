@@ -1,28 +1,25 @@
 export default {
 	data() {
 		return {
-			selecteTable: 0,
-			selecteSystem: -1,
-			SystemStatus: true,
-			selecteEquip: -1,
-			EquipStatus: true,
-			CommonTaskTableID: "",
-			CommonTaskSystemID: '',
-			systemProcCode: '',
-			CommonTaskList: [],
-			CommonTaskSystemControl: [],
-			ProcCmdList: [],
-			CommonTaskEquipControl: [],
-			EquipControlList: [],
-			LoopTaskList: [],
-			WeekTaskPlanCommonList: [],
-			WeekTaskPlanLoopList: [],
-			sureModal: false,
-			isCommonUpdate: true,
-			loopName: '',
-			loopStartTime: "00:00:00",
-			loopEndTime: "23:59:59",
-			AppointTime: "00:00:00",
+			selecteTable: 0, //普通任务列表：选中行值
+			selecteSystem: -1, //系统控制：选中行值
+			SystemStatus: true, //系统控制：是否选中行，可进行删除操作
+			selecteEquip: -1, //设备列表：选中行值
+			EquipStatus: true, //设备列表：是否选中行，可进行删除操作
+			CommonTaskTableID: "", //普通任务列表：选中行ID
+			CommonTaskList: [], //普通任务列表：数据数组
+			CommonTaskSystemControl: [], //系统控制：数据数组
+			ProcCmdList: [], //系统控制下拉数据：数据数组
+			CommonTaskEquipControl: [], //设备列表：数据数组
+			EquipControlList: [], //设备列表下拉数据：数据数组
+			LoopTaskList: [], //循环任务：数据数组
+			WeekTaskPlanCommonList: [], //每周任务安排：普通任务列表勾选数组
+			WeekTaskPlanLoopList: [], //每周任务安排：循环任务列表勾选数组
+			sureModal: false, //循环任务模态框：默认不显示
+			loopName: '', //循环任务：任务名称
+			loopStartTime: "00:00:00", //循环任务模态框：起始时间
+			loopEndTime: "23:59:59", //循环任务模态框：结束时间
+			AppointTime: "00:00:00", //循环任务模态框：指定开始时间
 			selecteLoop: -1, //循环任务选中行值
 			LoopStatus: true, //循环任务是否选中
 			loopCycleList: [], //一个循环周期内容
@@ -37,9 +34,9 @@ export default {
 			loopTypeSecond: 0, //modal框  时间间隔-秒
 			selecteLoopCycle: -1, //循环周期内容选中项
 			LoopCycleStatus: true, // 循环周期内容按钮是否disabled
-			loopType: "指定开始时间：",
-			loopTypeCheck: [],
-			loopActionType: "设备控制",
+			loopType: "指定开始时间：", //循环任务模态框：开始执行时间默认选项
+			loopTypeCheck: [], //循环任务模态框：最大循环机执行完整默认值
+			loopActionType: "设备控制", //循环任务模态框：内容安排默认下拉值
 
 			WeekCommonTaskPlanList: [], //每周普通任务安排选中
 			WeeLoopTaskPlanList: [], //每周循环任务安排选中
@@ -49,7 +46,7 @@ export default {
 			specPlanStatus: true, //特殊日期安排是否选中
 			specTableID: [], //特殊日期安排 选中任务ID
 
-			tabPaneValue: '0',
+			tabPaneValue: '0', //tab页默认选中第一个
 		}
 	},
 	mounted() {
@@ -546,7 +543,7 @@ export default {
 										}).then(res => {}).catch(err => {
 											console.log(err)
 										});
-										this.LoopTaskList();
+										this.getLoopTaskList();
 										this.selecteLoop = -1;
 										
 										
