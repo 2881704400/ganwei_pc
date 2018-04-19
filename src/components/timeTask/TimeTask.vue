@@ -391,6 +391,4 @@
 
 <script src="./TimeTask.js"></script>
 
-<style lang="scss">
-	@import url("../../../static/timetask.css");
-</style>
+<style lang="css" src="@assets/styles/timetask.css"></style>
