@@ -10,19 +10,19 @@
         <Col span="21" class="itemDetail">
           <div class="dateSelect">
             <DatePicker type="datetimerange" format="yyyy/MM/dd HH:mm" :options="option1" placeholder="请选择日期时间" style="width: 500px" @on-change="dateVale"></DatePicker>
-            <Button type="primary" style="margin-left:10px;" @click="selectEvent()">查询</Button >
+            <Button type="primary" style="margin-left:10px;border-radius:0;background:#2d8cf0;" @click="selectEvent()">查询</Button >
           </div>
         	
           <div class="common-tab">
               <Tabs type="card">
                 <TabPane  label="设备事件" >
-                   <Table :columns="equipTh" :data="equipEvent" height="650"></Table>
+                   <Table :columns="equipTh" :data="equipEvent" height="600"></Table>
                 </TabPane>
                 <TabPane label="设置事件">
-                   <Table :columns="sysTh" :data="setEvent" height="650"></Table>
+                   <Table :columns="sysTh" :data="setEvent" height="600"></Table>
                 </TabPane>
                 <TabPane label="系统事件">
-                   <Table :columns="sysEventTh" :data="sysEvent" height="650"></Table>
+                   <Table :columns="sysEventTh" :data="sysEvent" height="600" ></Table>
                 </TabPane>
 
               </Tabs>
@@ -252,7 +252,7 @@ export default {
     background: rgba(0,0,0,0.1);
   }
 .event-query{width:100%;height:100%;}
-.event-query .wrap{width:100%;height:90%;}
+.event-query .wrap{width:100%;height:100%;}
 .event-query .wrap .itemDetail{height:100%;overflow: hidden;padding-left: 15px;}
 .event-query .wrap .itemList{height:100%;overflow-y: scroll;}
 .dateSelect{padding:20px  0;}
@@ -280,15 +280,15 @@ export default {
   text-align: center;
 }
 .itemList p:hover{
-  border:1px solid #09b7f7;
+  border:1px solid #2d8cf0;
   box-sizing: border-box;
-  color:#09b7f7;
+  color:#2d8cf0;
   cursor:pointer;
 }
 .clickActive{
-   border:1px solid #09b7f7;
+   border:1px solid #2d8cf0;
   box-sizing: border-box;
-  color:#09b7f7;
+  color:#2d8cf0;
 }
 
 </style>
