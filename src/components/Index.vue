@@ -25,13 +25,13 @@
       <section class="main-body" :class="{home : $store.state.curPage.isHome}">
         <div class="titlebar" v-if="!$store.state.curPage.isHome">
           <a href="javascript:;" @click="toHome">
-            <i class="iconfont icon-MenuHome"></i>
+            <!-- <i class="iconfont icon-MenuHome"></i> -->
             首页
           </a>
-          <span class="split">>></span>
-          <span class="cur">{{$store.state.curPage.name}}</span>
-          <span v-if="$store.state.curPage.childName" class="split">>></span>
-          <span v-if="$store.state.curPage.childName">{{$store.state.curPage.childName}}</span>
+          <span class="split"><i class="iconfont icon-rightDirection"></i></span>
+          <a class="cur">{{$store.state.curPage.name}}</a>
+          <span v-if="$store.state.curPage.childName" class="split"><i class="iconfont icon-rightDirection"></i></span>
+          <a v-if="$store.state.curPage.childName">{{$store.state.curPage.childName}}</a>
         </div>
         <router-view class="router-page" v-if="loadCompleted"></router-view>
       </section>
