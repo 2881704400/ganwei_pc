@@ -215,7 +215,7 @@
 										<font>普通任务：</font>
 									</td>
 								</tr>
-								<tr v-for="(item,index) of WeekTaskPlanCommonList">
+								<tr v-for="(item,index) of WeekTaskPlanCommonList" :key="index">
 									<td>
 										<Checkbox :label="item.TableName" :value="WeekCommonTaskPlanList[0].indexOf(item.TableID)>-1" @on-change="checkCommonTaskChange(0,item.TableID,index,$event)">{{item.TableName}}</Checkbox>
 									</td>
@@ -261,7 +261,7 @@
 										<font>循环任务：</font>
 									</td>
 								</tr>
-								<tr v-for="(itemLoop,indexLoop) of WeekTaskPlanLoopList">
+								<tr v-for="(itemLoop,indexLoop) of WeekTaskPlanLoopList" :key="indexLoop">
 									<td>
 										<Checkbox :label="itemLoop.TableName" :value="WeeLoopTaskPlanList[0].indexOf(itemLoop.TableID)>-1" @on-change="checkLoopTaskChange(0,itemLoop.TableID,indexLoop,$event)">{{itemLoop.TableName}}</Checkbox>
 									</td>

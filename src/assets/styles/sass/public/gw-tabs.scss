@@ -1,17 +1,25 @@
 .gw-tabs{
     .tabs-nav{
+        display: flex;
         ul{
             display: flex;
+            border-left: 1px solid #ddd;
+            border-bottom: 1px solid #ddd;
+            flex-grow: 1;
             li{
-                width: 123px;
-                height: 53px;
                 text-align: center;
-                line-height: 53px;
-                box-shadow: 0px 0px 1px #bababa inset;
+                line-height: 1.5;
+                border-top: 1px solid #ddd;
+                border-right: 1px solid #ddd;
                 transition: all 440ms;
                 cursor: pointer;
+                font-size: 16px;
+                padding: 8px 16px;
+                background-color: #f9f9f9;
                 &.active{
-                    box-shadow: 0px 0px 1px #bababa inset, 0px 3px 0px #09b7f7 inset;
+                    box-shadow: 0px 1px 0px #2d8cf0 inset;
+                    background-color: #fff;
+                    color: #2d8cf0;
                 }
             }
         }

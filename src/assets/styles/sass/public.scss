@@ -20,6 +20,39 @@ html{
       height: 100%;
       overflow: hidden;
       font-family: 'Avenir', Helvetica, Arial, sans-serif;
+      background-color: #fff;
+
+      table.gw-table{
+        width: 100%;
+        tr{
+            height: 40px;
+            line-height: 40px;
+            font-size: 14px;
+        }
+        thead{
+            tr{
+                th{
+                    font-weight: normal;
+                    color: #858585;
+                }
+            }
+        }
+        tbody{
+            tr{
+                &:nth-child(odd){
+                    background-color: #f9f9f9;
+                }
+                &:hover{
+                    background: #eee;
+                }
+                td{
+                    text-align: center;
+                    color: #323232;
+                }
+            }
+        }
+      }
+      //font-family: 'Avenir', Helvetica, Arial, sans-serif;
     }
   }
 }
