@@ -20,8 +20,11 @@
     .tab-set{
         .ivu-card-body{
             .ivu-btn{
+                font-size: 0.9rem; width: auto; height: auto;
+                padding: 6px 15px;
                 margin: 12px 10px;
             }
         }
     }
+    .ivu-btn-primary i{font-size: 1.5rem;}
 }

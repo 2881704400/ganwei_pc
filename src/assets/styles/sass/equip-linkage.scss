@@ -1,4 +1,6 @@
 .equip-linkage{
+    input.ivu-input{font-size: 14px; height: 40px; line-height: 40px; }
+    div.ivu-collapse-content{padding-left: 32px;}
     .fade-enter{
         transition: all 1s;
         opacity: 0;
@@ -36,7 +38,7 @@
             margin: 20px auto;
             justify-content: center;
             .btn{
-                background-color: #05a3e5;
+                background-color: #2d8cf0;
                 text-align: center;
                 color: #fff;
                 line-height: 1.5;
@@ -64,6 +66,7 @@
                             display: flex;
                             justify-content: space-between;
                             .show{
+                                font-size: 1rem;
                                 span:nth-child(2){
                                     margin-left: 8px;
                                     color: #05a3e5;
@@ -74,11 +77,14 @@
                             }
                             .btnbox{
                                 margin-left: 10px;
+                                button{width: auto; height: auto;padding: 6px 15px;border-radius: 0;}
+                                i{font-size: 16px;}
                             }
                         }
                     }
                     .btnbar{
-                        margin-top: 30px;
+                        margin-top: 30px;margin-right: 130px;
+                        a{font-size: 14px;width: 83px;height: 40px;line-height: 40px;padding: 0;}
                         a.delete{
                             background-color: #ed3f14;
                         }
