@@ -56,7 +56,7 @@
                         </tbody>
                     </table>
 
-                    <Modal v-model="user_modal" title="人员设置" @on-ok="saveUpdateAdministrator" class="ModalUser" :mask-closable="false">
+                    <Modal v-model="user_modal" title="人员设置"  class="ModalUser" :mask-closable="false">
                         <Row>
                             <Col span="6">
                             <span>人员姓名:</span>
@@ -83,6 +83,10 @@
                             </Col>
                             <Col span="18"><input type="number" placeholder="请输入报警通知级别" v-model="user_level" /></Col>
                         </Row>
+                        <div slot="footer">
+                            <Button type="text" size="large" >取消</Button>
+                            <Button type="primary" size="large" @click="saveUpdateAdministrator" id="user_ok" v-on:mouseover= "UserVerification" disabled>确定</Button>
+                        </div>                        
                     </Modal>
 
 
@@ -590,6 +594,11 @@ export default {
         }
       }
     },
+    UserVerification: function(){
+       
+          alert(1111);
+       
+    }, 
 
     //设备分组范围
     getEquipGroup: function() {
