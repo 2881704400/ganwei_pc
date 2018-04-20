@@ -48,7 +48,7 @@
 							<button @click="addSystemTask()">增加</button>
 						</div>
 						<div class="common-smalltable">
-							<table>
+							<table >
 								<thead>
 									<tr>
 										<th>时间</th>
