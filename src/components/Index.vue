@@ -7,8 +7,8 @@
       <div class="header-opt">
         <span class="user" title="当前登陆用户">
           <span class="iconfont">&#xe62e;</span>{{$store.state.loginMsg}}</span>
-        <span class="iconfont icon-Menu" :title="isFold ?'展开面板':'收缩面板'" :class="[isFold ? 'close' : 'open']" @click="foldAside"></span>
-        <span class="iconfont icon-set" title="设置"></span>
+        <!-- <span class="iconfont icon-Menu" :title="isFold ?'展开面板':'收缩面板'" :class="[isFold ? 'close' : 'open']" @click="foldAside"></span> -->
+        <span class="iconfont icon-pullScreen" title="设置" @click="fullScreen"></span>
         <span class="iconfont" title="退出登陆" @click="logout">&#xe641;</span>
       </div>
     </header>
@@ -17,10 +17,10 @@
         <nav class="nav-list">
           <Tree v-if="navList.length" :data="navList" :render="renderNavItem"></Tree>
         </nav>
-        <!-- <div class="fold" :class="[isFold ? 'close' : 'open']" @click="foldAside">
-          <span class="ivu-icon" :class="[isFold ? 'ivu-icon-arrow-left-b' : 'ivu-icon-arrow-right-b']"></span>
+        <div class="fold" :class="[isFold ? 'close' : 'open']" @click="foldAside">
+          <!-- <span class="ivu-icon" :class="[isFold ? 'ivu-icon-arrow-left-b' : 'ivu-icon-arrow-right-b']"></span> -->
             <span class="iconfont icon-Menu"></span>
-        </div> -->
+        </div>
       </aside>
       <section class="main-body" :class="{home : $store.state.curPage.isHome}">
         <div class="titlebar" v-if="!$store.state.curPage.isHome">
@@ -28,9 +28,9 @@
             <!-- <i class="iconfont icon-MenuHome"></i> -->
             首页
           </a>
-          <span class="split"><i class="iconfont icon-rightDirection"></i></span>
+          <span class="split">>></span>
           <a class="cur">{{$store.state.curPage.name}}</a>
-          <span v-if="$store.state.curPage.childName" class="split"><i class="iconfont icon-rightDirection"></i></span>
+          <span v-if="$store.state.curPage.childName" class="split">>></span>
           <a v-if="$store.state.curPage.childName">{{$store.state.curPage.childName}}</a>
         </div>
         <router-view class="router-page" v-if="loadCompleted"></router-view>
@@ -505,6 +505,35 @@ export default {
             this.loadCompleted = true
           }
         }
+    },
+    fullScreen(){
+      //全屏事件
+        // $(document).on('click', '[data-action="launchFullscreen"]', function () {
+            if ($("body").hasClass("full-screen")) {
+                var de = document;
+                if (de.exitFullscreen) {
+                    de.exitFullscreen();
+                } else if (de.mozCancelFullScreen) {
+                    de.mozCancelFullScreen();
+                } else if (de.webkitCancelFullScreen) {
+                    de.webkitCancelFullScreen();
+                }
+                $("body").removeClass("full-screen");
+            }
+            else {
+                var de = document.documentElement;
+                if (de.requestFullscreen) {
+                    de.requestFullscreen();
+                } else if (de.mozRequestFullScreen) {
+                    de.mozRequestFullScreen();
+                } else if (de.webkitRequestFullScreen) {
+                    de.webkitRequestFullScreen();
+                } else if (de.msRequestFullscreen) {
+                    de.msRequestFullscreen();
+                }
+                $("body").addClass("full-screen");
+            }
+        // });
     }
   },
   created () {

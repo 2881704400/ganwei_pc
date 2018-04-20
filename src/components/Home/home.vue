@@ -9,7 +9,7 @@
                 <Col span="12" class="infoTop"><span>{{numbers[index]}}</span>个</Col>
                 <Col span="12" class="infoBottom">
                    <p>已处理<span>{{numberRresult[index]}}</span></p>
-                   <p>未处理<span>{{numbers[index]-numberRresult[index]}}</span></p>
+                   <p>未处理<span>{{numbers[index]-numberRresult[index]||0}}</span></p>
                 </Col>
               </Row>
            </div>
@@ -26,7 +26,7 @@
                 <th>处理意见</th>
               </tr>
             </thead>
-            <tbody class="scrollBody">
+            <tbody class="scrollBody itemList">
               <tr v-for="(item,index) of events" :key="index" v-show="item.retrievalShow">
                 <td>{{item.Level}}</td>
                 <td>{{item.Time}}</td>
