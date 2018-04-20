@@ -16,7 +16,7 @@
           </li>
        </ul>
       <div class="snapashot">
-          <table>
+          <table >
             <thead>
               <tr>
                 <th>类型</th>
