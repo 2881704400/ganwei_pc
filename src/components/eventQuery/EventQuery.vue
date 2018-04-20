@@ -14,7 +14,7 @@
           </div>
         	
           <div class="common-tabSys">
-              <Tabs type="card">
+              <Tabs type="card"  :animated="false">
                 <TabPane  label="设备事件" >
                    <Table :columns="equipTh" :data="equipEvent" :height="tableHeight" :row-class-name="rowClassName"></Table>
                 </TabPane>
