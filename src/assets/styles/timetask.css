@@ -806,6 +806,7 @@
 
 .common-tab .ivu-tabs.ivu-tabs-card>.ivu-tabs-bar .ivu-tabs-nav {
 	border: 1px solid #dddee1;
+	border-top: 1px solid rgba(0,0,0,0);
 }
 
 
@@ -844,7 +845,7 @@
 .common-tab .ivu-tabs.ivu-tabs-card>.ivu-tabs-bar .ivu-tabs-tab {
 	margin: 0;
 	height: 40px;
-	line-height: 20px;
+	line-height: 23px;
 	color: #2e2e2e;
 	font-size: 16px;
 	padding: 8px 16px;
@@ -852,7 +853,7 @@
 	min-width: 80px;
 	border: 0px;
 	border-right: 1px solid #ddd;
-	border-top: 2px solid rgba(0, 0, 0, 0);
+	border-top: 1px solid #ddd;
 	box-sizing: border-box;
 	border-radius: 0;
 	-webkit-transition: all .3s ease-in-out;
@@ -874,7 +875,7 @@
 	height: 40px;
 	background: #fff;
 	box-sizing: border-box;
-	border-top: 2px solid #09B7F7;
+	border-top: 1px solid #2d8cf0;
 	border-right: 1px solid #ddd;
 	-webkit-transform: translateZ(0);
 	transform: translateZ(0);
