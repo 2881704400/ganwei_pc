@@ -45,6 +45,11 @@
             //容器
             &>div{height: 100%;}
             //人员
+            .user-table{tr th,tr td{width: 16.666%;}}
+            .AlmReport-table{tr th,tr td{width: 33.33%;}}
+            .WeekAlmReport-table{tr th,tr td{width: 20%;}}
+            .SpeAlmReport-table{tr th,tr td{width: 25%;}}
+            
             tbody tr td{i{font-size: #{ $IconFontSize/1.2};margin: 0 10px;color: #{$btnBackground};}}
             //设备分组范围
             &>.EquipmentLeft{
