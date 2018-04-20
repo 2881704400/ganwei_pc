@@ -1,7 +1,40 @@
 @import './valuables', './mixin';
 .equips{
     height: 100%;
+    .visual,.state{
+        height: 100%;
+    }
     .gw-table{
+        &.yc{
+            thead{
+                th{
+                    width: 20%;
+                    &:nth-child(2), &:nth-child(5) {
+                        width: 10%;
+                    }
+                }
+            }
+            tbody{
+                td{
+                    width: 20%;
+                    &:nth-child(2), &:nth-child(5) {
+                        width: 10%;
+                    }
+                }
+            }
+        }
+        &.yx{
+            thead{
+                th{
+                    width: 20%;
+                }
+            }
+            tbody{
+                td{
+                    width: 20%;
+                }
+            }
+        }
         td.status{
             display: flex;
             justify-content: center;
