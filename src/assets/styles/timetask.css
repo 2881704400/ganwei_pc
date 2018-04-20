@@ -660,6 +660,10 @@
 	border: 0px solid #dddee1;
 	/*top: -1px;*/
 }
+.common-smalltable table tbody tr td .ivu-select-single .ivu-select-selection {
+    height: 36px;
+    position: relative;
+}
 
 .common-smalltable table tbody tr td>.ivu-select>.ivu-select-selection .ivu-select-input {
 	text-align: center;
