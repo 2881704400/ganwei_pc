@@ -18,7 +18,6 @@
                        </span>
                       <button class="btn_search" @click="nullString(Alarm_user)">清空</button>
                     </p>
-
                     <table class="userTable">
                         <thead>
                             <tr>
@@ -49,19 +48,17 @@
                                 </td>
                                 <td>
                                     <i class="iconfont icon-scheduleMODIFY" title="修改" @click.stop="modifyFAdministrator(item_parent)" v-show="!item_parent.isShow"></i>
-                                    <!-- <i class="ivu-icon ivu-icon-document" title="保存" @click.stop="saveAdministrator(item_parent)" v-show="item_parent.isShow"></i> -->
                                     <i class="iconfont icon-scheduleDEL" title="删除" @click.stop="removeAdministrator(item_parent)" v-show="!item_parent.isShow"></i>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
-
-                    <Modal v-model="user_modal" title="人员设置"  class="ModalUser" :mask-closable="false">
+                    <Modal v-model="user_modal" title="人员设置"  class="ModalUser"  :mask-closable="false">
                         <Row>
                             <Col span="6">
                             <span>人员姓名:</span>
                             </Col>
-                            <Col span="18"><input type="text" placeholder="请输入人员姓名" v-model="user_admin" /></Col>
+                            <Col span="18"><input type="text" placeholder="请输入人员姓名" v-model="user_admin" v-on:input="" id="userAdmin"/></Col>
 
                             <Col span="6">
                             <span>电话号码:</span>
@@ -81,11 +78,11 @@
                             <Col span="6">
                             <span>报警通知级别:</span>
                             </Col>
-                            <Col span="18"><input type="number" placeholder="请输入报警通知级别" v-model="user_level" /></Col>
+                            <Col span="18"><input type="number" placeholder="请输入报警通知级别" v-model="user_level" min="0"/></Col>
                         </Row>
                         <div slot="footer">
-                            <Button type="text" size="large" >取消</Button>
-                            <Button type="primary" size="large" @click="saveUpdateAdministrator" id="user_ok" v-on:mouseover= "UserVerification" disabled>确定</Button>
+                            <Button type="text" size="large" @click="saveUpdateAdministrator">取消</Button>
+                            <Button type="primary" size="large" @click="saveUpdateAdministrator" id="user_ok" :disabled="false">确定</Button>
                         </div>                        
                     </Modal>
 
@@ -134,7 +131,7 @@
                             <Button type="primary" size="small" @click.stop="allCheckbox('back')">取消</Button>
                             </Col>
                         </Row>
-                        <ul>
+                        <ul class="rightContent">
                             <li v-for="(equipNameItem,equipIndex) in equipName" :key="equipNameItem.group_no">
                                <Checkbox  v-model="equipNameItem.equipNameShow" :id='"checkConf_"+equipIndex'  @on-change="radioCheckbox(equipNameItem)">{{equipNameItem.equip_nm}}</Checkbox>
                               <!-- <input type="checkbox" :id='"checkConf_"+equipIndex' v-model="equipNameItem.equipNameShow" @click.stop="radioCheckbox(equipNameItem)" /> -->
@@ -360,7 +357,7 @@
 <script>
 import { formatDate } from "../../assets/js/date.js";
 // import $ from "jquery";
-
+// import { mCustomScrollbar } from "../../assets/js/jquery.mCustomScrollbar.concat.min.js";
 export default {
   
   data() {
@@ -373,8 +370,9 @@ export default {
       user_telphone: "",
       user_molphone: "",
       user_email: "",
-      user_level: 0,
+      user_level: 1,
       user_saveCell: "",
+      disabled: "disabled",
 
       //设备分组范围
       equipUser: [], //设备名称
@@ -428,7 +426,14 @@ export default {
   mounted() {
     this.getAdministrator();
     this.filtersArray = this.Alarm_user;
-    //mCustomScrollbar(scrollbarStyle);
+    //     var scrollbarStyle = {theme: "light-3",};
+    //     $.mCustomScrollbar.defaults.scrollButtons.enable = true; //enable scrolling buttons by default
+    //     $.mCustomScrollbar.defaults.axis = "yx";
+    //     $('.navList').mCustomScrollbar({
+    //         theme: "light-3",
+    //         axis: 'y',
+    //         autoHideScrollbar: true
+    //     });    
   },
   methods: {
     tabsEvent: function(name) {
@@ -440,7 +445,7 @@ export default {
           this.getAdministrator();
           break;
         case "Equipment":
-          // this.getEquipGroup();
+         
           this.getEquip();
           break;
         case "Administration":
@@ -544,7 +549,7 @@ export default {
       this.user_telphone = "";
       this.user_molphone = "";
       this.user_email = "";
-      this.user_level = 0;
+      this.user_level = this.user_level;
     },
     saveUpdateAdministrator: function() {
       var WeekAlmReport = this.Alarm_user;
@@ -593,12 +598,32 @@ export default {
           });
         }
       }
+      this.user_modal = false;
     },
-    UserVerification: function(){
-       
-          alert(1111);
-       
-    }, 
+    cancalUpdateAdministrator: function(){
+      this.user_modal = false;
+    },
+    onValidate(){
+      var dtThis = this,dt=document.getElementById("userAdmin").parentNode;
+      if(dtThis.user_admin !="")
+        for(var i=0;i<dtThis.Alarm_user.length;i++)
+        {
+            if(dtThis.Alarm_user[i].Administrator == dtThis.user_admin)
+              {
+                  dt.id = "msgInfo";
+                   document.getElementById("user_ok").disabled="disabled";
+                  break;
+              }
+              else 
+              { 
+                dt.id = "";
+                document.getElementById("user_ok").disabled="";
+              }
+        }
+      else
+        document.getElementById("user_ok").disabled="disabled";
+
+    },
 
     //设备分组范围
     getEquipGroup: function() {
@@ -734,6 +759,7 @@ export default {
       }
     },
     initEquip: function(value) {
+      // $('.rightContent').mCustomScrollbar(scrollbarStyle);
       //清空勾选
       this.equipName.forEach(function(ele, index) {
         ele.equipNameShow = false;

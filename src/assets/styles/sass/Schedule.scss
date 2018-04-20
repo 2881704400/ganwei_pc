@@ -1,13 +1,11 @@
 @import './valuables';
 .schedule{
     $scheduleLiHeight: 40px;
-
-
     $contentTop: 40px;
     $IconFontSize: 22px;
     $searchHeight: 32px;
 
-    width: 100%;min-width: 700px;height: 100%;padding: 1rem;
+    width: 100%;min-width: 700px;height: 100%;
     .ivu-icon{color: #{$btnBackground};}
     .ivu-checkbox-checked .ivu-checkbox-inner{border-color: #{$btnBackground};background-color: #{$btnBackground};}
     //顶部标题
@@ -122,10 +120,13 @@
                         input{width: 100%;height: 100%;text-indent: 10%;border: 1px solid #eee;}
                         &>.tooltipError{color: red;position: absolute; margin-left: 10px;}
                         &>.tooltipSuccess{color: green;position: absolute; margin-left: 10px;}
-                }
+                    }
+                    &>div:nth-child(2):after{content: "*";font-size: 16px;color: red;position: absolute;right: -10px;top: 2px;}
+                    #msgInfo:after{content: "不能同名";font-size: 14px;color: red;position: absolute;right: -70px;top: 2px;}
+                    
             }
         }
-        .ivu-btn-primary{color: #{$btnFontColor};width: #{$btnW};height: #{$btnH};background-color: #{$btnBackground};border-color: #{$btnBackground};border-radius: 0;padding: 0;}
+        
     }
     .ModalWeek{
         .ivu-modal-body{
@@ -136,5 +137,4 @@
             }
         }
     }
-    .ivu-btn-primary{color: #{$btnFontColor};width: #{$btnW};height: #{$btnH};background-color: #{$btnBackground};border-color: #{$btnBackground};border-radius: 0;padding: 0;}
-    .ivu-modal-content{    border-radius: 0 !important;}
+    
