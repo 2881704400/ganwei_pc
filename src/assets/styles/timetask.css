@@ -31,7 +31,7 @@
 
 .table-toolbar button {
 	padding: 8.5px 21.5px;
-	background: #05a3e5;
+	background: #2d8cf0;
 	font-size: 14px;
 	color: #fff;
 	border: 0;
@@ -258,8 +258,8 @@
 }
 
 .task-modal .ivu-btn-primary {
-	background-color: #05A3E5;
-	border-color: #05A3E5;
+	background-color: #2d8cf0;
+	border-color: #2d8cf0;
 }
 
 .half-modal .half-content .insertBtn {
@@ -269,8 +269,8 @@
 	position: relative;
 	left: 32%;
 	top: 20px;
-	background-color: #05A3E5;
-	border-color: #05A3E5;
+	background-color: #2d8cf0;
+	border-color: #2d8cf0;
 	color: #fff;
 }
 
@@ -579,17 +579,24 @@
 .common-smalltable-checkbox table tbody tr td {
 	padding: 12px 10px;
 	/*padding: 2px 1px;*/
-	text-align: left;
+	text-align: center;
 }
 
 .common-smalltable-checkbox table tbody tr td>font {
 	font-weight: 600;
+	font-size: 15px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
-
-.common-smalltable-checkbox table tbody tr td>font,
 .common-smalltable-checkbox table tbody tr td .ivu-checkbox-wrapper {
-	position: relative;
-	left: 20%;
+	/*position: relative;
+	left: 20%;*/
+	/*text-align: center;*/
+	font-size: 14px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 .common-smalltable-checkboxgroup table thead tr th {
@@ -648,6 +655,7 @@
 	border: 0px solid #dddee1;
 	border-radius: 0px;
 	text-align: center;
+	margin-top: -1px;
 }
 
 .common-smalltable table tbody tr td>.ivu-input-wrapper>.ivu-input:hover {
@@ -680,7 +688,7 @@
 
 .common-smalltable table tbody tr td>button {
 	padding: 8px 9px;
-	background: #05a3e5;
+	background: #2d8cf0;
 	font-size: 14px;
 	color: #fff;
 	border: 0;
@@ -732,7 +740,7 @@
 }
 
 .activeTable {
-	background: #05A3E5 !important;
+	background: #2d8cf0 !important;
 	color: #fff;
 }
 
@@ -775,10 +783,15 @@
 	border-radius: 0px;
 	height: 37px;
 	border: 1px solid #dadada;
+	border-right: 0px;
 	box-sizing: border-box;
 	text-align: center;
 	outline: 0;
 	background: #fff;
+}
+
+.common-smalltable table tr td:last-child .inputContent input{
+	border-right: 1px solid #dadada;
 }
 
 
@@ -799,6 +812,7 @@
 
 .common-tab .ivu-tabs.ivu-tabs-card>.ivu-tabs-bar {
 	border-bottom: 0px;
+	margin-bottom: 16px;
 }
 
 
@@ -845,9 +859,9 @@
 .common-tab .ivu-tabs.ivu-tabs-card>.ivu-tabs-bar .ivu-tabs-tab {
 	margin: 0;
 	height: 40px;
-	line-height: 23px;
+	line-height: 22px;
 	color: #2e2e2e;
-	font-size: 16px;
+	font-size: 15px;
 	padding: 8px 16px;
 	text-align: center;
 	min-width: 80px;

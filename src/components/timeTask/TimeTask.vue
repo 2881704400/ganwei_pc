@@ -48,7 +48,7 @@
 							<button @click="addSystemTask()">增加</button>
 						</div>
 						<div class="common-smalltable">
-							<table>
+							<table >
 								<thead>
 									<tr>
 										<th>时间</th>
@@ -120,12 +120,12 @@
 				</TabPane>
 				<TabPane label="循环任务" name="1">
 					<div class="table-toolbar">
-						<!--<span>循环任务</span>-->
+						<span>循环任务</span>
 						<button @click="updateLoopTask()" :class="{bg_disabled:LoopStatus}" :disabled="LoopStatus">修改</button>
 						<button @click="delLoopTask()" :class="{bg_disabled:LoopStatus}" :disabled="LoopStatus">删除</button>
 						<button @click="addLoopTask()">增加</button>
 					</div>
-					<div class="common-smalltable">
+					<div class="gw-table common-smalltable">
 						<table>
 							<thead>
 								<tr>
@@ -176,6 +176,7 @@
 				</TabPane>
 				<TabPane label="每周任务安排" name="2">
 					<div class="table-toolbar">
+						<span>每周任务安排</span>
 						<button @click="saveWeekTask()">保存</button>
 					</div>
 					<div class="common-smalltable common-smalltable-checkbox">
@@ -194,25 +195,25 @@
 							<tbody>
 								<tr>
 									<td>
-										<font>普通任务：</font>
+										<font>普通任务</font>
 									</td>
 									<td>
-										<font>普通任务：</font>
+										<font>普通任务</font>
 									</td>
 									<td>
-										<font>普通任务：</font>
+										<font>普通任务</font>
 									</td>
 									<td>
-										<font>普通任务：</font>
+										<font>普通任务</font>
 									</td>
 									<td>
-										<font>普通任务：</font>
+										<font>普通任务</font>
 									</td>
 									<td>
-										<font>普通任务：</font>
+										<font>普通任务</font>
 									</td>
 									<td>
-										<font>普通任务：</font>
+										<font>普通任务</font>
 									</td>
 								</tr>
 								<tr v-for="(item,index) of WeekTaskPlanCommonList">
@@ -240,25 +241,25 @@
 								</tr>
 								<tr>
 									<td>
-										<font>循环任务：</font>
+										<font>循环任务</font>
 									</td>
 									<td>
-										<font>循环任务：</font>
+										<font>循环任务</font>
 									</td>
 									<td>
-										<font>循环任务：</font>
+										<font>循环任务</font>
 									</td>
 									<td>
-										<font>循环任务：</font>
+										<font>循环任务</font>
 									</td>
 									<td>
-										<font>循环任务：</font>
+										<font>循环任务</font>
 									</td>
 									<td>
-										<font>循环任务：</font>
+										<font>循环任务</font>
 									</td>
 									<td>
-										<font>循环任务：</font>
+										<font>循环任务</font>
 									</td>
 								</tr>
 								<tr v-for="(itemLoop,indexLoop) of WeekTaskPlanLoopList">
@@ -290,6 +291,7 @@
 				</TabPane>
 				<TabPane label="特殊日期安排" name="3">
 					<div class="table-toolbar">
+						<span>特殊日期安排</span>
 						<button @click="saveSpecPlanFun">保存</button>
 						<button @click="delSpecPlanTask" :class="{bg_disabled:specPlanStatus}" :disabled="specPlanStatus">删除</button>
 						<button @click="addSpecPlanTask">增加</button>
@@ -358,9 +360,9 @@
 					<ul class="loopCycleUl">
 						<li v-for="(item,index) of loopCycleList" :key="index" :class="{activeTable:index==selecteLoopCycle}" @click="SelecteLoopCycleFun(index)">{{item.ControlContent}}</li>
 					</ul>
-				    <Button type="info" class="optionBtn" :class="{bg_disabled:LoopCycleStatus}" :disabled="LoopCycleStatus" @click="delLloopCycleList()">删除</Button>
-				    <Button type="info" class="optionBtn" :class="{bg_disabled:LoopCycleStatus}" :disabled="LoopCycleStatus" @click="upLoopCycleList()">上移</Button>
-				    <Button type="info" class="optionBtn" :class="{bg_disabled:LoopCycleStatus}" :disabled="LoopCycleStatus" @click="downLoopCycleList()">下移</Button>
+				    <Button type="primary" class="optionBtn" :class="{bg_disabled:LoopCycleStatus}" :disabled="LoopCycleStatus" @click="delLloopCycleList()">删除</Button>
+				    <Button type="primary" class="optionBtn" :class="{bg_disabled:LoopCycleStatus}" :disabled="LoopCycleStatus" @click="upLoopCycleList()">上移</Button>
+				    <Button type="primary" class="optionBtn" :class="{bg_disabled:LoopCycleStatus}" :disabled="LoopCycleStatus" @click="downLoopCycleList()">下移</Button>
 				</div>
 				<div class="half-content">
 					<RadioGroup v-model="loopActionType" class="action-type">

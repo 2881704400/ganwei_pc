@@ -1,5 +1,5 @@
-<style lang="scss" src="../../assets/styles/sass/_valuables.scss"></style>
-<style scoped>
+
+<style >
   .rowClassName{padding-left: 0;padding-right: 0;width: 100%;text-align: center;}
   .ivu-table-cell{padding-left: 0;padding-right: 0;width: 100%;text-align: center;}
   .uploadWrap .ivu-row{max-height:500px !important;overflow-y: scroll;}
@@ -49,13 +49,63 @@
 .aa{
   color:red !important;
 }
-
- 
-#default .ivu-table .ivu-table-header tr th .ivu-table-cell{
-  color:#ff0000;
-  background: #f00;
+.common-tab{padding:12px 0 12px 0;}
+.ivu-tabs-bar{margin-bottom: 0;height: 40px;}
+.ivu-tabs-nav-container{height: 40px !important;}
+.ivu-table-wrapper{
+  border:none;
 }
 
+.ivu-tabs.ivu-tabs-card>.ivu-tabs-bar .ivu-tabs-tab{
+  margin-right: 0;
+  border-radius: 0;
+  border-right: none;
+  font-size:1rem;
+  height:40px;
+  border-bottom: 1px solid #dddee1;
+}
+.ivu-tabs.ivu-tabs-card>.ivu-tabs-bar .ivu-tabs-tab:last-child{
+   border-right:1px solid #dddee1;
+}
+.ivu-tabs.ivu-tabs-card>.ivu-tabs-bar .ivu-tabs-tab-active{
+  border-top:1px solid #2d8cf0;
+  box-sizing: border-box;
+  background: #F9F9F9;
+}
+.ivu-table .ivu-table-header table .ivu-table-cell{
+  padding-left: 0;
+  padding-right: 0;
+  width: 100%;
+  font-weight: 200;
+  font-size: 0.9rem;
+  text-align: center;
+}
+.ivu-table th{
+  background: #fff;
+}
+.ivu-table td, .ivu-table th{
+  border:none 0;
+}
+.ivu-table:after{
+  height: 0;
+}
+.ivu-table .demo-table-info-row td{
+        background-color: #f9f9f9;
+
+    }
+.ivu-table .demo-table-error-row td{
+    background-color: #fff; 
+  }
+  .ivu-table-row:hover td{
+      background: #ebf7ff !important; 
+  }
+
+  .ivu-table:before{
+    height:0;
+  }
+  .ivu-table-wrapper{
+    height:100%;
+  }
 </style>
 
 <template>
@@ -67,30 +117,29 @@
       </p>
     </Col>
     <Col span="21" class="itemDetail">
-    <div class="common-tab">
-      <Tabs type="card" >
+    <div class="common-tabSys">
+      <Tabs type="card" :animated="false">
         <TabPane label="设备配置" >
-          <div class="common-table">
-
-             <Table :columns="columnsEq" :data="dataEq" id="default"></Table>
-          </div>
+         
+                <Table :columns="columnsEq" :data="dataEq" :height="tableHeight"  :row-class-name="rowClassName"></Table>
+          
         </TabPane>
 
         <TabPane label="模拟量配置">
-          <div class="common-table">
-            <Table :columns="columnsYc" :data="dataYc"  ></Table>
-      </div>
-    </TabPane>
-    <TabPane label="状态量配置">
-      <div class="common-table">
-        <Table :columns="columnsYx" :data="dataYx" ></Table>
-      </div>
-  </TabPane>
-  <TabPane label="设置配置">
-      <div class="common-table">
-        <Table :columns="columnsSet" :data="dataSet"  ></Table>
-      </div>
-</TabPane>
+          
+              <Table :columns="columnsYc" :data="dataYc"  :height="tableHeight"  :row-class-name="rowClassName"></Table>
+          
+        </TabPane>
+        <TabPane label="状态量配置">
+            
+                  <Table :columns="columnsYx" :data="dataYx" :height="tableHeight"  :row-class-name="rowClassName"></Table>
+           
+        </TabPane>
+        <TabPane label="设置配置">
+            
+              <Table :columns="columnsSet" :data="dataSet" :height="tableHeight" :row-class-name="rowClassName" ></Table>
+           
+        </TabPane>
 </Tabs>
 </div>
 </Col>
@@ -455,7 +504,7 @@ render:(h,params)=>{
       zizhanList:[],//资产编号
       planList:[],//预案号
 
-
+      tableHeight:650,
       loadDefVideo:[],//默认选中的视频
       loadDefZic:"",
       loadDefPlan:"",
@@ -478,12 +527,27 @@ render:(h,params)=>{
       scaleTranArr:[],
       configIndex:0,
       equipId:0,//当前设备id
+     
     }
   },mounted (){
+   
     this.init();
-  },methods:{
+   
     
+  },methods:{
+     rowClassName (row, index) {
+                if (index%2== 0) {
+                    return 'demo-table-info-row';
+                } else if (index%2== 1) {
+                    return 'demo-table-error-row';
+                }
+                return '';
+            },
     init(){
+        var h = document.documentElement.clientHeight || document.body.clientHeight;
+        this.tableHeight=h-175;
+        console.log(this.tableHeight)
+        console.log(h)
       this.Axios.post("/api/real/equip_state",{userName:window.localStorage.login_msg}).then(res=>{
         let response=res.data.HttpData.data;
         this.itemList=response;
