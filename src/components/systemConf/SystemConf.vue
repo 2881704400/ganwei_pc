@@ -118,7 +118,7 @@
     </Col>
     <Col span="21" class="itemDetail">
     <div class="common-tabSys">
-      <Tabs type="card" >
+      <Tabs type="card" :animated="false">
         <TabPane label="设备配置" >
          
                 <Table :columns="columnsEq" :data="dataEq" :height="tableHeight"  :row-class-name="rowClassName"></Table>
