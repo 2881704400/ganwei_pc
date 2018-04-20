@@ -102,7 +102,7 @@
 										</td>
 										<td>
 											<span class="spanContent" v-show="item.isCommonSpan">
-												<font v-for="(itemEquip,indexEquip) in EquipControlList" v-show="item.set_no==itemEquip.set_no" :key="indexEquip">{{ itemEquip.set_nm }}</font>
+												<font v-for="(itemEquip,indexEquip) in EquipControlList" v-show="item.set_nom==itemEquip.set_nom" :key="indexEquip">{{ itemEquip.set_nm }}</font>
 											</span>
 											<Select v-model="item.set_nom" v-show="!item.isCommonSpan" filterable @on-change="updateCommonEquipFun(index,$event,'set_no')">
 												<Option v-for="(itemEquip,indexEquip) in EquipControlList" :value="itemEquip.set_nom" :key="indexEquip">{{ itemEquip.set_nm }}</Option>

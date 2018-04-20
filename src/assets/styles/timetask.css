@@ -145,11 +145,11 @@
 	font-size: 14px;
 }
 
-.one-third-modal .content .execute-type .ivu-date-picker{
+.one-third-modal .content .execute-type .ivu-date-picker {
 	width: 0;
 }
 
-.one-third-modal .content .ivu-date-picker{
+.one-third-modal .content .ivu-date-picker {
 	width: 100%;
 }
 
@@ -257,9 +257,9 @@
 	margin: 0 5px 5px 0px;
 }
 
-.task-modal .ivu-btn-primary{
+.task-modal .ivu-btn-primary {
 	background-color: #05A3E5;
-    border-color: #05A3E5;
+	border-color: #05A3E5;
 }
 
 .half-modal .half-content .insertBtn {
@@ -270,8 +270,8 @@
 	left: 32%;
 	top: 20px;
 	background-color: #05A3E5;
-    border-color: #05A3E5;
-    color: #fff;
+	border-color: #05A3E5;
+	color: #fff;
 }
 
 .common-smalltable .ivu-input:focus {
@@ -284,18 +284,17 @@
 
 .common-smalltable .ivu-select-visible .ivu-select-selection {
 	border-width: 0;
-    border-color: #57a3f3;
-    outline: 0;
-    box-shadow: 0 0 0 0px rgba(45,140,240,.2);
+	border-color: #57a3f3;
+	outline: 0;
+	box-shadow: 0 0 0 0px rgba(45, 140, 240, .2);
 }
 
 .common-smalltable .ivu-select:focus .ivu-select-selection {
 	border-width: 0;
-     border-color: #57a3f3; 
-    outline: 0;
-    box-shadow: 0 0 0 0px rgba(45,140,240,.2);
+	border-color: #57a3f3;
+	outline: 0;
+	box-shadow: 0 0 0 0px rgba(45, 140, 240, .2);
 }
-
 
 .half-modal .half-content .optionBtn {
 	width: 28%;
@@ -463,7 +462,7 @@
 
 .common-table table tbody tr td>button {
 	width: 83px;
-    height: 31px;
+	height: 31px;
 	background: #2d8cf0;
 	font-size: 14px;
 	color: #fff;
@@ -615,29 +614,29 @@
 	margin: 0px;
 }
 
-.common-smalltable-checkboxgroup table tr td .ivu-date-picker{
+.common-smalltable-checkboxgroup table tr td .ivu-date-picker {
 	width: 100%;
 }
 
-.common-smalltable-checkboxgroup table tr td .ivu-date-picker .ivu-date-picker-rel{
+.common-smalltable-checkboxgroup table tr td .ivu-date-picker .ivu-date-picker-rel {
 	top: 1px;
 }
 
-.common-smalltable-checkboxgroup table tbody tr td>.ivu-input-wrapper>.ivu-input{
-    text-align: left !important;
-    border: 1px solid #dddee1 !important;
+.common-smalltable-checkboxgroup table tbody tr td>.ivu-input-wrapper>.ivu-input {
+	text-align: left !important;
+	border: 1px solid #dddee1 !important;
 }
 
-.common-smalltable-checkboxgroup table tr td .ivu-date-picker .ivu-input{
-	    -webkit-box-sizing: border-box;
-    /* box-sizing: border-box; */
-    font-size: 14px;
-    border: 1px solid #dddee1;
-    border-radius: 0px;
-    text-align: left;
+.common-smalltable-checkboxgroup table tr td .ivu-date-picker .ivu-input {
+	-webkit-box-sizing: border-box;
+	/* box-sizing: border-box; */
+	font-size: 14px;
+	border: 1px solid #dddee1;
+	border-radius: 0px;
+	text-align: left;
 }
 
-.common-smalltable-checkboxgroup table tbody tr td .ivu-checkbox-wrapper{
+.common-smalltable-checkboxgroup table tbody tr td .ivu-checkbox-wrapper {
 	display: block;
 	padding: 3px 0 0;
 }
@@ -660,9 +659,10 @@
 	border: 0px solid #dddee1;
 	/*top: -1px;*/
 }
+
 .common-smalltable table tbody tr td .ivu-select-single .ivu-select-selection {
-    height: 36px;
-    position: relative;
+	height: 36px;
+	position: relative;
 }
 
 .common-smalltable table tbody tr td>.ivu-select>.ivu-select-selection .ivu-select-input {
@@ -751,6 +751,16 @@
 	margin: 0px;
 }
 
+.common-smalltable table tr td .spanContent font {
+	width: 100%;
+	height: 36px;
+	line-height: 36px;
+	display: block;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
 .common-smalltable table tr td .inputContent {
 	clear: both;
 	width: 100%;
@@ -782,9 +792,8 @@
 	min-width: 1140px;
 }
 
-.common-tab {
-	
-}
+.common-tab {}
+
 
 /* tab列表容器边框 */
 
@@ -843,7 +852,7 @@
 	min-width: 80px;
 	border: 0px;
 	border-right: 1px solid #ddd;
-	border-top: 2px solid rgba(0,0,0,0);
+	border-top: 2px solid rgba(0, 0, 0, 0);
 	box-sizing: border-box;
 	border-radius: 0;
 	-webkit-transition: all .3s ease-in-out;
