@@ -13,7 +13,7 @@
             <Button type="primary" style="margin-left:10px;border-radius:0;background:#2d8cf0;" @click="selectEvent()">查询</Button >
           </div>
         	
-          <div class="common-tab">
+          <div class="common-tabSys">
               <Tabs type="card">
                 <TabPane  label="设备事件" >
                    <Table :columns="equipTh" :data="equipEvent" :height="tableHeight" :row-class-name="rowClassName"></Table>
