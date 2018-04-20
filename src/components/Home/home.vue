@@ -14,7 +14,7 @@
               </Row>
            </div>
           </li>
-       </ul>
+       </ul> 
       <div class="snapashot">
           <table >
             <thead>
