@@ -16,13 +16,13 @@
           <div class="common-tab">
               <Tabs type="card">
                 <TabPane  label="设备事件" >
-                   <Table :columns="equipTh" :data="equipEvent" height="600"></Table>
+                   <Table :columns="equipTh" :data="equipEvent" :height="tableHeight" :row-class-name="rowClassName"></Table>
                 </TabPane>
                 <TabPane label="设置事件">
-                   <Table :columns="sysTh" :data="setEvent" height="600"></Table>
+                   <Table :columns="sysTh" :data="setEvent" :height="tableHeight" :row-class-name="rowClassName"></Table>
                 </TabPane>
                 <TabPane label="系统事件">
-                   <Table :columns="sysEventTh" :data="sysEvent" height="600" ></Table>
+                   <Table :columns="sysEventTh" :data="sysEvent" :height="tableHeight" :row-class-name="rowClassName"></Table>
                 </TabPane>
 
               </Tabs>
@@ -37,6 +37,7 @@
 export default {
    data () {
     return {
+      tableHeight:650,
       itemList:[],//左侧列表
       equipEvent:[],//右侧设备事件
       setEvent:[],//右侧设置事件
@@ -122,7 +123,17 @@ export default {
     this.init()
 
   },methods:{
+     rowClassName (row, index) {
+                if (index%2== 0) {
+                    return 'demo-table-info-row';
+                } else if (index%2== 1) {
+                    return 'demo-table-error-row';
+                }
+                return '';
+            },
     init(){
+       var h = document.documentElement.clientHeight || document.body.clientHeight;
+        this.tableHeight=h-240;
       this.Axios.post("/api/real/equip_state",{userName:window.localStorage.login_msg}).then(res=>{
         let response=res.data.HttpData.data;
         this.itemList=response;
@@ -232,7 +243,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 
 *{
   font-family: "微软雅黑"
@@ -290,5 +301,66 @@ export default {
   box-sizing: border-box;
   color:#2d8cf0;
 }
+.common-tab{padding:12px 0 12px 0;}
+.ivu-tabs-bar{margin-bottom: 0;height: 40px;}
+.ivu-tabs-nav-container{height: 40px !important;}
+.ivu-table-wrapper{
+  border:none;
+}
 
+.ivu-tabs.ivu-tabs-card>.ivu-tabs-bar .ivu-tabs-tab{
+  margin-right: 0;
+  border-radius: 0;
+  border-right: none;
+  font-size:1rem;
+  height:40px;
+  border-bottom: 1px solid #dddee1;
+}
+.ivu-tabs.ivu-tabs-card>.ivu-tabs-bar .ivu-tabs-tab:last-child{
+   border-right:1px solid #dddee1;
+}
+.ivu-tabs.ivu-tabs-card>.ivu-tabs-bar .ivu-tabs-tab-active{
+  border-top:1px solid #2d8cf0;
+  box-sizing: border-box;
+  background: #F9F9F9;
+}
+.ivu-table .ivu-table-header table .ivu-table-cell{
+  padding-left: 0;
+  padding-right: 0;
+  width: 100%;
+  font-weight: 200;
+  font-size: 0.9rem;
+  text-align: center;
+}
+.ivu-table th{
+  background: #fff;
+}
+.ivu-table td, .ivu-table th{
+  border:none 0;
+}
+.ivu-table:after{
+  height: 0;
+}
+.ivu-table .demo-table-info-row td{
+        background-color: #f9f9f9;
+
+    }
+.ivu-table .demo-table-error-row td{
+    background-color: #fff; 
+  }
+  .ivu-table-row:hover{
+      background-color: #ff0 !important; 
+  }
+  .common-tab .ivu-tabs-card>.ivu-tabs-content{
+    margin-top: 0;
+  }
+  .common-tab .ivu-tabs-card>.ivu-tabs-content>.ivu-tabs-tabpane{
+    border:none 0;
+  }
+  .ivu-table:before{
+    height:0;
+  }
+    .ivu-table-row:hover td{
+      background: #ebf7ff !important; 
+  }
 </style>
