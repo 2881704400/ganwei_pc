@@ -4,6 +4,7 @@
 
 .three-content {
 	width: 32%;
+	min-width: 356px;
 	height: 100%;
 	float: left;
 	margin-right: 2%;
@@ -519,7 +520,7 @@
 
 .common-smalltable table tbody {
 	display: block;
-	height: 808px;
+	height: 695px;
 	overflow-y: auto;
 }
 
@@ -774,8 +775,12 @@
 	height: 100%;
 	-webkit-box-shadow: 0px 0px 0px 0px #dadada;
 	box-shadow: 0px 0px 0px 0px #dadada;
+	min-width: 1140px;
 }
 
+.common-tab {
+	
+}
 
 /* tab列表容器边框 */
 
@@ -811,6 +816,7 @@
 .common-tab .ivu-tabs-card>.ivu-tabs-content>.ivu-tabs-tabpane {
 	background: #fff;
 	border: 1px solid #dddee1;
+	min-width: 1115px;
 }
 
 .tab-content-border .ivu-tabs-card>.ivu-tabs-content>.ivu-tabs-tabpane {
