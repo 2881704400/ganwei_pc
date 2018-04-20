@@ -18,7 +18,7 @@
                        </span>
                       <button class="btn_search" @click="nullString(Alarm_user)">清空</button>
                     </p>
-                    <table class="userTable">
+                    <table class="gw-table">
                         <thead>
                             <tr>
                                 <th>人员姓名</th>
@@ -151,7 +151,7 @@
                        <button class="btn_search" @click="nullString(AlmReportData)">清空</button>
                     </p>
 
-                    <table class="userTable AlmReportTable">
+                    <table class="gw-table">
                         <thead>
                             <tr>
                                 <th>人员姓名</th>
@@ -215,7 +215,7 @@
 
    
 
-                    <table class="userTable">
+                    <table class="gw-table">
                         <thead>
                             <tr>
                                 <th>人员姓名</th>
@@ -294,7 +294,7 @@
                        </span>
                       <button class="btn_search" @click="nullString(SpeAlmReport)">清空</button>
                     </p>                    
-                    <table class="userTable">
+                    <table class="gw-table">
                         <thead>
                             <tr>
                                 <th>人员姓名</th>
