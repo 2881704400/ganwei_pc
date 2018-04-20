@@ -10,6 +10,7 @@
         v-if="nv.isShow"
         ></li>
       </ul>
+      <slot name="tabnav"></slot>
     </div>
     <div class="tabs-container">
       <slot v-for="(nv, index) of list" :name="nv.name" v-if="nv.isActive && nv.isShow" appear>{{nv.title}}</slot>

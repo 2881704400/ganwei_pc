@@ -1,6 +1,10 @@
 <template>
   <div class="equip-linkage">
     <gw-tabs :navList="tabs" @tabsNavClick="tabClick">
+      <div slot="tabnav" class="extend">
+        <a class="btn add" href="javascript:;" v-if="tabs[0].isActive" @click="showAdd = !showAdd">添加</a>
+        <a class="btn add" href="javascript:;" v-else @click="showAddScene = !showAddScene">添加场景</a>
+      </div>
       <div :slot="tabs[0].name" class="linkage">
         <Spin fix v-if="loadData">
             <Icon type="load-c" size=18 class="spin-icon-load"></Icon>
@@ -29,9 +33,6 @@
             </tr>
           </tbody>
         </table>
-        <div class="btnbar">
-          <a class="btn add" href="javascript:;" @click="showAdd = !showAdd">添加</a>
-        </div>
       </div>
       <div :slot="tabs[1].name" class="scene">
         <Spin fix v-if="sceneLoading">
@@ -76,17 +77,14 @@
                     </li>
                   </ul>
                   <div class="btnbar">
-                    <a href="javascript:;" class="btn submit" v-if="scene.children.length < 1" @click="actModal(index, 0, false)">新增</a>
-                    <a href="javascript:;" class="btn submit" @click="submitScene(scene)">保存修改</a>
+                    <a href="javascript:;" class="btn submit" v-if="scene.children.length < 1" @click="actModal(index, 0, false)">新增控制</a>
+                    <a href="javascript:;" class="btn submit" @click="submitScene(scene)">保存场景</a>
                     <a href="javascript:;" class="btn delete" @click="deleteScene(scene)">删除</a>
                   </div>
                 </FormItem>
               </Form>
           </Panel>
         </Collapse>
-        <div class="btnbar">
-          <a class="btn add" href="javascript:;" @click="showAddScene = !showAddScene">添加场景</a>
-        </div>
       </div>
     </gw-tabs>
     <Modal v-model="showAdd"
