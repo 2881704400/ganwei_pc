@@ -24,11 +24,10 @@ html{
 
       table.gw-table{
         width: 100%;
-        box-shadow: 0px 0px 1px #bababa;
         tr{
-            font-size: 16px;
-            height: 53px;
-            line-height: 53px;
+            height: 40px;
+            line-height: 40px;
+            font-size: 14px;
         }
         thead{
             tr{
@@ -42,6 +41,9 @@ html{
             tr{
                 &:nth-child(odd){
                     background-color: #f9f9f9;
+                }
+                &:hover{
+                    background: #eee;
                 }
                 td{
                     text-align: center;

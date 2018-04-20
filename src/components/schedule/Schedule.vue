@@ -3,8 +3,7 @@
     <div>
         <Row class="schedule">
             <Col class="schedule_top" span="24">
-            <h2>
-                <i class="ivu-icon ivu-icon-alert-circled"></i>当前页面 / 报警排表</h2>
+            <!-- <h2><i class="ivu-icon ivu-icon-alert-circled"></i>当前页面 / 报警排表</h2> -->
             </Col>
             <Col class="schedule_bottom" span="24">
             <Tabs value="User" type="card" :animated="false" @on-click="tabsEvent">
@@ -12,7 +11,7 @@
                 <TabPane label="人员" name="User" class="publicSchedule">
                    
                     <p class="Schedule_search">
-                        <Button type="primary" class="AddLine" @click.stop="addAdministratorModal"><i class="iconfont icon-scheduleADD"></i>添加</Button>
+                        <Button type="primary" class="AddLine" @click.stop="addAdministratorModal">添加</Button>
                        <span>
                           <i slot="prepend" class="ivu-icon ivu-icon-ios-search"></i>
                           <input type="text" placeholder="请输入人员姓名" v-model = "filtersValue" @input="conditions(Alarm_user)"/>
@@ -50,40 +49,44 @@
                                 </td>
                                 <td>
                                     <i class="iconfont icon-scheduleMODIFY" title="修改" @click.stop="modifyFAdministrator(item_parent)" v-show="!item_parent.isShow"></i>
-                                    <!-- <i class="ivu-icon ivu-icon-document " title="保存" @click.stop="saveAdministrator(item_parent)" v-show="item_parent.isShow"></i> -->
+                                    <!-- <i class="ivu-icon ivu-icon-document" title="保存" @click.stop="saveAdministrator(item_parent)" v-show="item_parent.isShow"></i> -->
                                     <i class="iconfont icon-scheduleDEL" title="删除" @click.stop="removeAdministrator(item_parent)" v-show="!item_parent.isShow"></i>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
 
-                    <Modal v-model="user_modal" title="人员设置" @on-ok="saveUpdateAdministrator" class="ModalUser" :mask-closable="false">
+                    <Modal v-model="user_modal" title="人员设置"  class="ModalUser" :mask-closable="false">
                         <Row>
                             <Col span="6">
-                            <span>人员姓名</span>
+                            <span>人员姓名:</span>
                             </Col>
                             <Col span="18"><input type="text" placeholder="请输入人员姓名" v-model="user_admin" /></Col>
 
                             <Col span="6">
-                            <span>电话</span>
+                            <span>电话号码:</span>
                             </Col>
                             <Col span="18"><input type="text" placeholder="请输入电话" v-model="user_telphone" /></Col>
 
                             <Col span="6">
-                            <span>短信</span>
+                            <span>短信号码:</span>
                             </Col>
                             <Col span="18"><input type="text" placeholder="请输入短信" v-model="user_molphone" /></Col>
 
                             <Col span="6">
-                            <span>电子邮箱</span>
+                            <span>电子邮箱:</span>
                             </Col>
                             <Col span="18"><input type="text" placeholder="请输入电子邮箱" v-model="user_email" /></Col>
 
                             <Col span="6">
-                            <span>报警通知级别</span>
+                            <span>报警通知级别:</span>
                             </Col>
-                            <Col span="18"><input type="text" placeholder="请输入报警通知级别" v-model="user_level" /></Col>
+                            <Col span="18"><input type="number" placeholder="请输入报警通知级别" v-model="user_level" /></Col>
                         </Row>
+                        <div slot="footer">
+                            <Button type="text" size="large" >取消</Button>
+                            <Button type="primary" size="large" @click="saveUpdateAdministrator" id="user_ok" v-on:mouseover= "UserVerification" disabled>确定</Button>
+                        </div>                        
                     </Modal>
 
 
@@ -96,7 +99,7 @@
                             <h4>设备分组 </h4>
                             </Col>
                             <Col span="12" class="rightBtn">
-                            <Button type="primary" size="small" @click.stop="addEquipGroup()"><i class="iconfont icon-scheduleADD"></i>添加</Button>
+                            <Button type="primary" size="small" @click.stop="addEquipGroup()">添加</Button>
                             </Col>
                         </Row>
                         <ul class="leftContent">
@@ -127,27 +130,15 @@
                             <h4>设备分组 </h4>
                             </Col>
                             <Col span="12" class="rightBtn">
-                            <Button type="primary" size="small" @click.stop="allCheckbox('all')"><i class="iconfont icon-scheduleALL"></i>全选</Button>
-                            <Button type="primary" size="small" @click.stop="allCheckbox('back')"><i class="iconfont icon-scheduleQX"></i>取消</Button>
+                            <Button type="primary" size="small" @click.stop="allCheckbox('all')">全选</Button>
+                            <Button type="primary" size="small" @click.stop="allCheckbox('back')">取消</Button>
                             </Col>
                         </Row>
                         <ul>
-<<<<<<< HEAD
-<<<<<<< HEAD
-                            <li v-for="(equipNameItem,equipIndex) in equipName"><input type="checkbox" :id='"checkConf_"+equipIndex' v-model="equipNameItem.equipNameShow" @click.stop="radioCheckbox(equipNameItem)" />
-                                <label :for='"checkConf_"+equipIndex'>{{equipNameItem.equip_nm}}</label>
-=======
-                            <li v-for="(equipNameItem,equipIndex) in equipName">
-                              <Checkbox  :label="equipNameItem.equipNameShow" :id='"checkConf_"+equipIndex'  @click.stop="radioCheckbox(equipNameItem)"></Checkbox>
-                              <!-- <input type="checkbox" :id='"checkConf_"+equipIndex' v-model="equipNameItem.equipNameShow" @click.stop="radioCheckbox(equipNameItem)" /> -->
-                              <label :for='"checkConf_"+equipIndex'>{{equipNameItem.equip_nm}}</label>
->>>>>>> zkx
-=======
                             <li v-for="(equipNameItem,equipIndex) in equipName" :key="equipNameItem.group_no">
                                <Checkbox  v-model="equipNameItem.equipNameShow" :id='"checkConf_"+equipIndex'  @on-change="radioCheckbox(equipNameItem)">{{equipNameItem.equip_nm}}</Checkbox>
                               <!-- <input type="checkbox" :id='"checkConf_"+equipIndex' v-model="equipNameItem.equipNameShow" @click.stop="radioCheckbox(equipNameItem)" /> -->
                               <!-- <label :for='"checkConf_"+equipIndex'>{{equipNameItem.equip_nm}}</label> -->
->>>>>>> zkx
                             </li>
                         </ul>
                     </div>
@@ -155,7 +146,7 @@
 
                 <TabPane label="管理范围" name="Administration" class="publicSchedule">
                     <p class="Schedule_search">
-                       <Button type="primary" @click.stop="addAlmReport()" class="AddLine"><i class="iconfont icon-scheduleADD"></i>添加</Button>
+                       <Button type="primary" @click.stop="addAlmReport()" class="AddLine">添加</Button>
                        <span>
                           <i slot="prepend" class="ivu-icon ivu-icon-ios-search"></i>
                           <input type="text" placeholder="请输入人员姓名" v-model = "filtersValue" @input="conditions(AlmReportData)"/>
@@ -190,7 +181,7 @@
                     <Modal v-model="AlmReport_modal" title="管理范围" @on-ok="saveUpdateAlmReportt" class="ModalUser" :mask-closable="false">
                         <Row>
                             <Col span="6">
-                            <span>人员姓名</span>
+                            <span>人员姓名:</span>
                             </Col>
                             <Col span="18">
                             <Select v-model="AlmReport_Administrator">
@@ -200,7 +191,7 @@
                             </Col>
 
                             <Col span="6">
-                            <span>设备分组名称</span>
+                            <span>设备分组名称:</span>
                             </Col>
                             <Col span="18">
 
@@ -217,7 +208,7 @@
                 <TabPane label="周排表" name="Tablerow" class="publicSchedule">
                     
                     <p class="Schedule_search">
-                       <Button class="AddLine" type="primary"  @click.stop="addWeekAlmReport"><i class="iconfont icon-scheduleADD"></i>添加</Button>
+                       <Button class="AddLine" type="primary"  @click.stop="addWeekAlmReport">添加</Button>
                        <span>
                           <i slot="prepend" class="ivu-icon ivu-icon-ios-search"></i>
                           <input type="text" placeholder="请输入人员姓名" v-model = "filtersValue" @input="conditions(WeekAlmReport)"/>
@@ -263,7 +254,7 @@
                     <Modal v-model="Week_modal" title="周排表" @on-ok="saveUpdateWeekAlmReport" class="ModalWeek" :mask-closable="false">
                         <Row>
                             <Col span="5">
-                            <span>人员姓名</span>
+                            <span>人员姓名:</span>
                             </Col>
                             <Col span="19">
                             <Select v-model="Week_admin">
@@ -271,7 +262,7 @@
                             </Select>
                             </Col>
                             <Col span="5">
-                            <span>星期</span>
+                            <span>星期:</span>
                             </Col>
                             <Col span="19">
                             <Select v-model="Week_week">
@@ -279,14 +270,14 @@
                             </Select>
                             </Col>
                             <Col span="5">
-                            <span>开始时间</span>
+                            <span>开始时间:</span>
                             </Col>
                             <Col span="19">
                             <!-- <input placeholder="开始时间"  style="width: 100%;height: 100%;" v-model="Week_stime" /> -->
                             <TimePicker format="HH:mm" type="time" placeholder="开始时间" style="width: 100%;outline: none;"  v-model="Week_stime"></TimePicker>
                             </Col>
                             <Col span="5">
-                            <span>结束时间</span>
+                            <span>结束时间:</span>
                             </Col>
                             <Col span="19">
                             <!-- <input  placeholder="开始时间" style="width: 100%;height: 100%;" v-model="Week_etime" /> -->
@@ -298,9 +289,8 @@
                 </TabPane>
 
                 <TabPane label="特定日期排表" name="Datetablerow" class="publicSchedule">
-                    
                     <p class="Schedule_search">
-                       <Button type="primary" class="AddLine" @click.stop="addSpeAlmReport"><i class="iconfont icon-scheduleADD"></i>添加</Button>
+                       <Button type="primary" class="AddLine" @click.stop="addSpeAlmReport">添加</Button>
                        <span>
                           <i slot="prepend" class="ivu-icon ivu-icon-ios-search"></i>
                           <input type="text" placeholder="请输入人员姓名" v-model = "filtersValue" @input="conditions(SpeAlmReport)"/>
@@ -338,7 +328,7 @@
                     <Modal v-model="Spe_modal" title="周排表" @on-ok="saveUpdateSpeAlmReport" class="ModalWeek" :mask-closable="false">
                         <Row>
                             <Col span="5">
-                            <span>人员姓名</span>
+                            <span>人员姓名:</span>
                             </Col>
                             <Col span="19">
                             <Select v-model="Spe_admin">
@@ -346,13 +336,13 @@
                             </Select>
                             </Col>
                             <Col span="5">
-                            <span>开始时间</span>
+                            <span>开始时间:</span>
                             </Col>
                             <Col span="19">
                             <DatePicker type="datetime" placeholder="开始时间" format="yyyy/MM/dd HH:mm:ss" style="width: 100%;height: 100%;" v-model="Spe_begin_time"></DatePicker>
                             </Col>
                             <Col span="5">
-                            <span>结束时间</span>
+                            <span>结束时间:</span>
                             </Col>
                             <Col span="19">
                             <DatePicker type="datetime" placeholder="结束时间" format="yyyy/MM/dd HH:mm:ss" style="width: 100%;height: 100%;" v-model="Spe_end_time"></DatePicker>
@@ -505,7 +495,7 @@ export default {
       }
     },
     removeAdministrator: function(dt) {
-      var WeekAlmReport = this.Alarm_user,
+      var WeekAlmReport = this.Alarm_user,dtThis = this,
         deleteJson = {
           tableName: "Administrator",
           ifName: "Administrator",
@@ -519,6 +509,19 @@ export default {
             WeekAlmReport.splice(index1, 1);
           }
         });
+      //AlmReport   WeekAlmReport  SpeAlmReport
+          var emptyAlmReport = {"tableName":"AlmReport","Administrator":dt.Administrator};
+          dtThis.XHRPost("nullTableCell",emptyAlmReport, _success_empty_AlmReport);
+          function _success_empty_AlmReport() {}  
+
+          var emptyWeekAlmReport = {"tableName":"WeekAlmReport","Administrator":dt.Administrator};
+          dtThis.XHRPost("nullTableCell",emptyWeekAlmReport, _success_empty_WeekAlmReport);
+          function _success_empty_WeekAlmReport() {}  
+
+          var emptySpeAlmReport = {"tableName":"SpeAlmReport","Administrator":dt.Administrator};
+          dtThis.XHRPost("nullTableCell",emptySpeAlmReport, _success_empty_SpeAlmReport);
+          function _success_empty_SpeAlmReport() {}            
+
       }
     },
     modifyFAdministrator: function(dt) {
@@ -591,6 +594,11 @@ export default {
         }
       }
     },
+    UserVerification: function(){
+       
+          alert(1111);
+       
+    }, 
 
     //设备分组范围
     getEquipGroup: function() {
@@ -605,6 +613,8 @@ export default {
         {
             let getEquipUserLength = arrayLike.length;
             for (var i = 0; i < getEquipUserLength; i++) {
+              if(i == 0)
+               WeekAlmReport.selectEquip = arrayLike[i].group_no;
               let equipUser_data = {
                 equipcomb: arrayLike[i].equipcomb,
                 group_name: arrayLike[i].group_name,
@@ -629,7 +639,7 @@ export default {
       dt.isShow = !dt.isShow;
     },
     removeEquipGroup: function(dt) {
-      var WeekAlmReport = this.equipUser,
+      var WeekAlmReport = this.equipUser,dtThis = this,
         deleteJson = {
           tableName: "EquipGroup",
           ifName: "group_no",
@@ -643,6 +653,9 @@ export default {
             WeekAlmReport.splice(index1, 1);
           }
         });
+          var emptyAlmReport_group_no = {"tableName":"AlmReport_group_no","group_no":dt.group_no};
+          dtThis.XHRPost("nullTableCell",emptyAlmReport_group_no, _success_empty_AlmReport_group_no);
+          function _success_empty_AlmReport_group_no() {}          
       }
     },
     addEquipGroup: function() {

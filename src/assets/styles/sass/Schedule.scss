@@ -2,14 +2,14 @@
 .schedule{
     $scheduleLiHeight: 40px;
 
-    $selectEquipColor: #05A2E5; 
+
     $contentTop: 40px;
     $IconFontSize: 22px;
     $searchHeight: 32px;
 
     width: 100%;min-width: 700px;height: 100%;padding: 1rem;
-    .ivu-icon{color: #{$selectEquipColor};}
-    .ivu-checkbox-checked .ivu-checkbox-inner{border-color: #05A2E5;background-color: #05A2E5;}
+    .ivu-icon{color: #{$btnBackground};}
+    .ivu-checkbox-checked .ivu-checkbox-inner{border-color: #{$btnBackground};background-color: #{$btnBackground};}
     //顶部标题
     .schedule_top{
         h2{font-size: 1rem;color: #333;text-align: left;margin-bottom: 2rem;font-weight: 400; padding-bottom: 10px;
@@ -18,11 +18,11 @@
         }
     }
     .schedule_bottom{
-        height: 90%;
+        height: 100%;
         //切换卡
         &>.ivu-tabs.ivu-tabs-card{height: 100%;overflow: visible;}
         &>.ivu-tabs.ivu-tabs-card>.ivu-tabs-bar{margin-bottom: 0;border: 0;}
-        &>.ivu-tabs.ivu-tabs-card>.ivu-tabs-bar .ivu-tabs-tab{
+        &>.ivu-tabs.ivu-tabs-card>.ivu-tabs-bar .ivu-tabs-tab{font-size: 1rem;
         min-width: 80px;height: 40px;margin-right: 0;border-radius: 0;border: 0;text-align: center;
         border-left: 1px solid #ddd; background: #F9F9F9; padding: 8px 16px;}
         &>.ivu-tabs.ivu-tabs-card>.ivu-tabs-bar .ivu-tabs-tab-active:before{
@@ -48,7 +48,7 @@
                   input{font-size: 0.9rem;height: 100%;padding-left:  40px;border: 0;outline: none;}
                 }
                 .btn_search{font-size: 0.8rem;display: inline-block;height: 100%;background-color: transparent;border: 0;cursor: pointer;outline: none;}
-                .AddLine {font-size: 0.8rem; background: #{$selectEquipColor};i{font-size: 0.8rem;margin-right: 5px;color: white;}}
+                .AddLine {font-size: 0.95rem;font-color: #{$btnFontColor};width: #{$btnW};height: #{$btnH};background-color: #{$btnBackground};border-color: #{$btnBackground};border-radius: 0;padding: 0;}
             }
             //容器
             &>div{height: 100%;}
@@ -65,7 +65,7 @@
                     .larmTabulate_txt i{font-size: 1.6rem;line-height: 40px;position: absolute;margin-left: 10px;opacity: 0;}
                     .larmTabulate_input input{width: 100%;height: 40px;text-align: center;border: 1px solid #eee;
                     border-right: 0;text-indent: 20px;outline: none;}
-                    i{font-size: #{ $IconFontSize/1.2};margin: 0 10px;color: #{$selectEquipColor};}
+                    i{font-size: #{ $IconFontSize/1.2};margin: 0 10px;color: #{$btnBackground};}
                 }
                 tbody tr td:hover i{opacity: 1;cursor: pointer;}
             }  
@@ -73,7 +73,7 @@
             &>.EquipmentLeft{
                 width: 25%;display: inline-block;position: absolute; left: 0;top: 0;bottom: 0;
                 h4{font-size: 0.9rem;font-weight: 200;}
-                button {font-size: 0.8rem; background: #{$selectEquipColor};i{font-size: 0.8rem;margin-right: 5px;color: white;}}
+                button {color: #{$btnFontColor};width: #{$btnW};height: #{$btnH};background-color: #{$btnBackground};border-color: #{$btnBackground};border-radius: 0;padding: 0;}
                 &>div{height: #{$contentTop};line-height: #{$contentTop};text-indent: 10%;border-left: 1px solid #eee;
                     &>.rightBtn{text-align: right;Button{font-size: 14px;cursor: pointer;outline: none;}}
                 }
@@ -83,14 +83,14 @@
                             height: #{$scheduleLiHeight};line-height: #{$scheduleLiHeight};    border-left: 1px solid #eee;
                             // &:nth-child(2n){background: #{$doubleColor};}
                             &:nth-child(2n+1){background: #{$tbTRBgc};}
-                            &>a:hover{color: #{$selectEquipColor} !important;background: #{$tbRowHover};}
-                            &.selectEquipName{background: #{$tbRowHover};a{color: #{$selectEquipColor} !important;}}
+                            &>a:hover{color: #{$btnBackground} !important;background: #{$tbRowHover};}
+                            &.selectEquipName{background: #{$tbRowHover};a{color: #{$btnBackground} !important;}}
                             
                             &>div{width: 100%;height: 100%;border: 0;position: relative;overflow: hidden;
                                 &>.alignCenter{text-align: center;}
                                 input{width: 100%;border: 0;outline: none;text-indent: 20px;}
                                 a{font-size: 0.8rem;color: #666;width: 100%;height: 100%;display: inline-block;text-indent: 10%;}
-                                i{font-size: #{$IconFontSize/1.2};line-height: 40px;cursor: pointer;color: #{$selectEquipColor};}
+                                i{font-size: #{$IconFontSize/1.2};line-height: 40px;cursor: pointer;color: #{$btnBackground};}
                             }
 
                         }
@@ -99,7 +99,7 @@
             &>.EquipmentRight{
                 width: 75%;display: inline-block;position: absolute; right: 0;top: 0;bottom: 0;
                 h4{font-size: 0.9rem;font-weight: 200;}
-                button {font-size: 0.8rem; background: #{$selectEquipColor};i{font-size: 0.8rem;margin-right: 5px;color: white;}}
+                button {color: #{$btnFontColor};width: #{$btnW};height: #{$btnH};background-color: #{$btnBackground};border-color: #{$btnBackground};border-radius: 0;padding: 0;}
                 &>div{height: #{$contentTop};line-height: #{$contentTop};text-indent: 5%;
                      &>.rightBtn{text-align: right;padding-right: 2%;Button{font-size: 14px;margin-left: 20px;cursor: pointer;outline: none;}}
                 }
@@ -112,12 +112,12 @@
        }
     }
 
-    .ivu-modal{top: 30%;}
+    .ivu-modal{top: #{$ModelTop};}
     .ModalUser,.ModalWeek{
         .ivu-modal-body{
-                padding: 30px 20%;
+                padding: #{$ModelPadding};
                 &>div.ivu-row{
-                    &>div{height: 30px;line-height: 30px;text-align: center;margin: 10px 0;position: relative;
+                    &>div{height: 30px;line-height: 30px;text-align: left;margin: 10px 0;position: relative;
                         span{display: inline-block;text-align: left;}
                         input{width: 100%;height: 100%;text-indent: 10%;border: 1px solid #eee;}
                         &>.tooltipError{color: red;position: absolute; margin-left: 10px;}
@@ -125,6 +125,7 @@
                 }
             }
         }
+        .ivu-btn-primary{color: #{$btnFontColor};width: #{$btnW};height: #{$btnH};background-color: #{$btnBackground};border-color: #{$btnBackground};border-radius: 0;padding: 0;}
     }
     .ModalWeek{
         .ivu-modal-body{
@@ -135,3 +136,5 @@
             }
         }
     }
+    .ivu-btn-primary{color: #{$btnFontColor};width: #{$btnW};height: #{$btnH};background-color: #{$btnBackground};border-color: #{$btnBackground};border-radius: 0;padding: 0;}
+    .ivu-modal-content{    border-radius: 0 !important;}
