@@ -117,29 +117,29 @@
       </p>
     </Col>
     <Col span="21" class="itemDetail">
-    <div class="common-tab">
+    <div class="common-tabSys">
       <Tabs type="card" >
         <TabPane label="设备配置" >
-          <div class="common-table">
-             <Table :columns="columnsEq" :data="dataEq" :height="tableHeight"  :row-class-name="rowClassName"></Table>
-          </div>
+         
+                <Table :columns="columnsEq" :data="dataEq" :height="tableHeight"  :row-class-name="rowClassName"></Table>
+          
         </TabPane>
 
         <TabPane label="模拟量配置">
-          <div class="common-table">
-            <Table :columns="columnsYc" :data="dataYc"  :height="tableHeight"  :row-class-name="rowClassName"></Table>
-      </div>
-    </TabPane>
-    <TabPane label="状态量配置">
-      <div class="common-table">
-        <Table :columns="columnsYx" :data="dataYx" :height="tableHeight"  :row-class-name="rowClassName"></Table>
-      </div>
-  </TabPane>
-  <TabPane label="设置配置">
-      <div class="common-table">
-        <Table :columns="columnsSet" :data="dataSet" :height="tableHeight" :row-class-name="rowClassName" ></Table>
-      </div>
-</TabPane>
+          
+              <Table :columns="columnsYc" :data="dataYc"  :height="tableHeight"  :row-class-name="rowClassName"></Table>
+          
+        </TabPane>
+        <TabPane label="状态量配置">
+            
+                  <Table :columns="columnsYx" :data="dataYx" :height="tableHeight"  :row-class-name="rowClassName"></Table>
+           
+        </TabPane>
+        <TabPane label="设置配置">
+            
+              <Table :columns="columnsSet" :data="dataSet" :height="tableHeight" :row-class-name="rowClassName" ></Table>
+           
+        </TabPane>
 </Tabs>
 </div>
 </Col>

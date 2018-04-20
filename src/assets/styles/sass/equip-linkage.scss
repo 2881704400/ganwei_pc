@@ -18,9 +18,41 @@
         .spin-icon-load{
             animation: ani-demo-spin 1s linear infinite;
         }
+        .extend{
+            display: flex;
+            align-items: center;
+            padding: 0 12px;
+            flex-shrink: 0;
+            .btn{
+                background-color: #2d8cf0;
+                text-align: center;
+                color: #fff;
+                line-height: 1.5;
+                font-size: 15px;
+                box-shadow: 0px 0px 2px rgba(0,0,0,0.2);
+                padding: 4px 26px;
+            }
+        }
         .linkage{
             position: relative;
+            height: 100%;
             table{
+                thead{
+                    th{
+                        width: 11%;
+                        &:nth-child(5){
+                            width: 12%;
+                        }
+                    }
+                }
+                tbody{
+                    td{
+                        width: 11%;
+                        &:nth-child(5){
+                            width: 12%;
+                        }
+                    }
+                }
                 td.opt{
                     color: #05A2E5;
                     font-size: 18px;
@@ -29,23 +61,6 @@
                         margin: 0 10px;
                     }
                 }
-            }
-        }
-        
-        .btnbar{
-            display: flex;
-            padding: 12px;
-            margin: 20px auto;
-            justify-content: center;
-            .btn{
-                background-color: #2d8cf0;
-                text-align: center;
-                color: #fff;
-                line-height: 1.5;
-                font-size: 16px;
-                box-shadow: 0px 0px 2px rgba(0,0,0,0.2);
-                margin: 0 12px;
-                padding: 6px 26px;
             }
         }
         
@@ -60,6 +75,7 @@
                         font-size: 18px;
                     }
                     ul{
+                        min-height: 38px;
                         li{
                             font-size: 18px;
                             line-height: 38px;
@@ -83,8 +99,19 @@
                         }
                     }
                     .btnbar{
+                        display: flex;
+                        justify-content: center;
                         margin-top: 30px;margin-right: 130px;
-                        a{font-size: 14px;width: 83px;height: 40px;line-height: 40px;padding: 0;}
+                        .btn{
+                            background-color: #2d8cf0;
+                            text-align: center;
+                            color: #fff;
+                            line-height: 1.5;
+                            font-size: 14px;
+                            box-shadow: 0px 0px 2px rgba(0,0,0,0.2);
+                            padding: 6px 26px;
+                            margin: 0 10px;
+                        }
                         a.delete{
                             background-color: #ed3f14;
                         }
