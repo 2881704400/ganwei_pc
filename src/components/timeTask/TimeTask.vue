@@ -102,7 +102,7 @@
 										</td>
 										<td>
 											<span class="spanContent" v-show="item.isCommonSpan">
-												<font v-for="(itemEquip,indexEquip) in EquipControlList" v-show="item.set_no==itemEquip.set_no" :key="indexEquip">{{ itemEquip.set_nm }}</font>
+												<font v-for="(itemEquip,indexEquip) in EquipControlList" v-show="item.set_nom==itemEquip.set_nom" :key="indexEquip">{{ itemEquip.set_nm }}</font>
 											</span>
 											<Select v-model="item.set_nom" v-show="!item.isCommonSpan" filterable @on-change="updateCommonEquipFun(index,$event,'set_no')">
 												<Option v-for="(itemEquip,indexEquip) in EquipControlList" :value="itemEquip.set_nom" :key="indexEquip">{{ itemEquip.set_nm }}</Option>
@@ -215,7 +215,7 @@
 										<font>普通任务：</font>
 									</td>
 								</tr>
-								<tr v-for="(item,index) of WeekTaskPlanCommonList" :key="index">
+								<tr v-for="(item,index) of WeekTaskPlanCommonList">
 									<td>
 										<Checkbox :label="item.TableName" :value="WeekCommonTaskPlanList[0].indexOf(item.TableID)>-1" @on-change="checkCommonTaskChange(0,item.TableID,index,$event)">{{item.TableName}}</Checkbox>
 									</td>
@@ -261,7 +261,7 @@
 										<font>循环任务：</font>
 									</td>
 								</tr>
-								<tr v-for="(itemLoop,indexLoop) of WeekTaskPlanLoopList" :key="indexLoop">
+								<tr v-for="(itemLoop,indexLoop) of WeekTaskPlanLoopList">
 									<td>
 										<Checkbox :label="itemLoop.TableName" :value="WeeLoopTaskPlanList[0].indexOf(itemLoop.TableID)>-1" @on-change="checkLoopTaskChange(0,itemLoop.TableID,indexLoop,$event)">{{itemLoop.TableName}}</Checkbox>
 									</td>
@@ -391,6 +391,4 @@
 
 <script src="./TimeTask.js"></script>
 
-<style lang="scss">
-	@import url("../../../static/timetask.css");
-</style>
+<style lang="css" src="@assets/styles/timetask.css"></style>
