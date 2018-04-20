@@ -3,8 +3,8 @@
     <gw-tabs :navList="tabData"
     @tabsNavClick="tabClick"
     >
-      <div :slot="tabData[0].name">
-        <table class="gw-table">
+      <div :slot="tabData[0].name" class="visual">
+        <table class="gw-table yc">
           <thead>
             <tr>
               <th v-for="(th, index) of tabData[0].tbHead" :key="index" v-text="th"></th>
@@ -27,8 +27,8 @@
           </tbody>
         </table>
       </div>
-      <div :slot="tabData[1].name">
-        <table class="gw-table">
+      <div :slot="tabData[1].name" class="stat">
+        <table class="gw-table yx">
           <thead>
             <tr>
               <th v-for="(th, index) of tabData[1].tbHead" :key="index" v-text="th"></th>
