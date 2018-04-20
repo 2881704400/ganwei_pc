@@ -259,7 +259,6 @@
 
 .task-modal .ivu-btn-primary {
 	background-color: #2d8cf0;
-	border-color: #2d8cf0;
 }
 
 .half-modal .half-content .insertBtn {
@@ -270,7 +269,6 @@
 	left: 32%;
 	top: 20px;
 	background-color: #2d8cf0;
-	border-color: #2d8cf0;
 	color: #fff;
 }
 
@@ -561,6 +559,9 @@
 	font-size: 13px;
 	font-weight: 500;
 	text-align: center;
+	background: #fff;
+	/*box-shadow: 0 3px 0px 0px #ddd;*/
+	border-bottom: 1px solid #ddd;
 }
 
 .common-smalltable table tbody {

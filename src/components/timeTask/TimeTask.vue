@@ -125,7 +125,7 @@
 						<button @click="delLoopTask()" :class="{bg_disabled:LoopStatus}" :disabled="LoopStatus">删除</button>
 						<button @click="addLoopTask()">增加</button>
 					</div>
-					<div class="gw-table common-smalltable">
+					<div class="common-smalltable">
 						<table>
 							<thead>
 								<tr>
