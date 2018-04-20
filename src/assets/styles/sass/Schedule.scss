@@ -45,7 +45,8 @@
             //容器
             &>div{height: 100%;}
             //人员
-            tbody tr td{i{font-size: #{ $IconFontSize/1.2};margin: 0 10px;color: #{$btnBackground};}}
+            tr th{width: 16.666%;}
+            tbody tr td{width: 16.666%;i{font-size: #{ $IconFontSize/1.2};margin: 0 10px;color: #{$btnBackground};}}
             //设备分组范围
             &>.EquipmentLeft{
                 width: 25%;display: inline-block;position: absolute; left: 0;top: 0;bottom: 0;
