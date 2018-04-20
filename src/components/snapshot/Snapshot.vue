@@ -2,9 +2,8 @@
 	<div class="snapashot">
 		<div class="common-tab">
 			<Tabs type="card" @on-click="updateCardInfo" v-model="tabPaneValue">
-				<template v-for="(item,index) of btnInfo">
-					<!--<button  @click="navClickFun">{{item.spanName}}</button>-->
-					<TabPane :label="item.btnCount" extra="item.ID" :name="item.btnValue" :class="{active : item.isActive}" v-if="item.btnStatus">
+				<template v-for="(itemTab,indexTab) of btnInfo">
+					<TabPane :label="itemTab.btnCount" extra="itemTab.ID" :name="itemTab.btnValue" :class="{active : itemTab.isActive}" v-if="itemTab.btnStatus" :key="itemTab.spanId">
 						<div class="common-table">
 							<table>
 								<thead>
@@ -79,7 +78,7 @@
 
 			//获取事件的报警配置
 			getAlarmConfig() {
-				this.Axios.post('/api/GWServiceWebAPI/get_AlarmConfig')
+				this.Axios.post('/api/event/alarm_config')
 					.then(res => {
 						let data = res.data.HttpData;
 						if(data.code == 200) {
@@ -109,11 +108,10 @@
 									isActive: false
 								});
 							}
-							this.event_Level_list = this.event_Level_list.substring(0, this.event_Level_list.length - 1);
+							this.event_Level_list = this.event_Level_list.substring(0, this.event_Level_list.length - 1);console.log(listAddData)
 							this.btnInfo = listAddData;
 							this.getRealTimeEventCount();
-							this.getRealTimeEvent();
-							setInterval(this.getRealTimeEvent, 5000)
+							setInterval(this.getRealTimeEventCount, 5000);
 						}
 					}).catch(err => {
 						console.log(err)
@@ -128,11 +126,12 @@
 					}
 				}
 				btnInfoLevels = btnInfoLevels.substring(0, btnInfoLevels.length - 1);
-				this.Axios.post('/api/GWServiceWebAPI/get_RealTimeEventCount', {
+				this.Axios.post('/api/event/real_evt_count', {
 					levels: btnInfoLevels
 				}).then(res => {
 					let data = res.data.HttpData;
 					if(data.code == 200) {
+						this.getRealTimeEvent();
 						let resultData = data.data;
 						let resultDataArr = resultData.toString().split(",");
 						let sumValue=0;
@@ -149,11 +148,12 @@
 			//获取当前系统报警的实时事件
 			getRealTimeEvent() {
 				var tabPaneValue = this.tabPaneValue;
+				var levels="";
 				if(tabPaneValue == "-1") {
-					tabPaneValue = this.event_Level_list;
-				}
-				this.Axios.post('/api/GWServiceWebAPI/get_RealTimeEvent', {
-					event_Level_list: tabPaneValue
+					levels = this.event_Level_list;
+				}console.log(tabPaneValue,levels)
+				this.Axios.post('/api/event/real_evt', {
+					levels: levels
 				}).then(res => {
 					let data = res.data.HttpData;
 					if(data.code == 200) {
@@ -219,7 +219,7 @@
 			},
 			sureModalFun() {
 				console.log(this.msgValue, this.isSendSms, this.atorMobiles, this.EventMsg, this.Time);
-				this.Axios.post('/api/GWServiceWebAPI/set_EventConfirm', {
+				this.Axios.post('/api/event/confirm_evt', {
 					msg: this.msgValue,
 					shortmsg: this.isSendSms,
 					tel: this.atorMobiles.join(','),
@@ -252,4 +252,6 @@
 	}
 </script>
 
-<style lang="scss" src="@assets/styles/common_dengjf.css"></style>
+<style lang="scss">
+	@import url("../../../static/timetask.css");
+</style>

@@ -54,5 +54,9 @@ html{
       }
       //font-family: 'Avenir', Helvetica, Arial, sans-serif;
     }
+    .ivu-modal-content{    border-radius: 0 !important;}
+    .ivu-btn-primary{color: #{$btnFontColor};width: #{$btnW};height: #{$btnH};background-color: #{$btnBackground};border-color: #{$btnBackground};border-radius: 0;padding: 0;}
+    // 滚动条颜色
+    .mCSB_scrollTools .mCSB_dragger .mCSB_dragger_bar{background: #2d8cf0;} 
   }
 }
