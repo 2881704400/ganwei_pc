@@ -49,6 +49,12 @@
                 }
             }
         }
+        td.chart{
+            button{
+                width: 50px;
+                height: 26px;
+            }
+        }
     }
     .tab-set{
         .ivu-card-body{
@@ -56,6 +62,7 @@
                 font-size: 0.9rem; width: auto; height: auto;
                 padding: 6px 15px;
                 margin: 12px 10px;
+                // background-color: #ddd;
             }
         }
     }
