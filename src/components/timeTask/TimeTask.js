@@ -53,11 +53,11 @@ export default {
 	},
 	mounted() {
 		//获取所有数据
-		this.getCommonTaskList(),
-		this.getCommonTaskProcCmd(),
-		this.getCommonTaskSetParm(),
-		this.getLoopTaskList(),
-		this.getWeekTaskPlan(),
+		this.getCommonTaskList();
+		this.getCommonTaskProcCmd();
+		this.getCommonTaskSetParm();
+		this.getLoopTaskList();
+		this.getWeekTaskPlan();
 		this.getSpecTimePlan()
 	},
 	methods: {
@@ -137,6 +137,7 @@ export default {
 								let resultData = data.data;
 								if(resultData == "1") {
 									this.$Message.success("更新成功");
+									this.specTimePlanList[i].isCommonSpan=true;
 								} else {
 									this.$Message.error("更新失败");
 								}
@@ -157,7 +158,7 @@ export default {
 								if(resultData == "1") {
 									this.$Message.success("增加成功");
 									this.getSpecTimePlan();
-									this.selecteSpecPlan = -1;
+//									this.selecteSpecPlan = -1;
 								} else {
 									this.$Message.error("增加失败");
 								}
@@ -300,7 +301,6 @@ export default {
 				ID = this.specTimePlanList[i].ID;
 				if(ID != "") {
 					this.specTimePlanList[i].isCommonSpan = true;
-					this.specTimePlanList[i].isUpdateFlag = false;
 				}
 			}
 			if(this.selecteSpecPlan == index) {
@@ -1497,6 +1497,7 @@ export default {
 								let resultData = data.data;
 								if(resultData == "1") {
 									this.$Message.success("更新成功");
+									this.CommonTaskEquipControl[i].isCommonSpan=true;
 								} else {
 									this.$Message.error("更新失败");
 								}
@@ -1518,7 +1519,6 @@ export default {
 									if(resultData == "1") {
 										this.$Message.success("增加成功");
 										this.getCommonTaskEquipControl();
-										this.selecteEquip = -1;
 									} else {
 										this.$Message.error("增加失败");
 									}
@@ -1551,6 +1551,7 @@ export default {
 								let resultData = data.data;
 								if(resultData == "1") {
 									this.$Message.success("更新成功");
+									this.CommonTaskSystemControl[i].isCommonSpan=true;
 								} else {
 									this.$Message.error("更新失败");
 								}
@@ -1571,7 +1572,6 @@ export default {
 									if(resultData == "1") {
 										this.$Message.success("增加成功");
 										this.getCommonTaskSystemControl();
-										this.selecteSystem = -1;
 									} else {
 										this.$Message.error("增加失败");
 									}
@@ -1606,8 +1606,7 @@ export default {
 								let resultData = data.data;
 								if(resultData == "1") {
 									this.$Message.success('更新成功');
-									this.getCommonTaskList();
-//										this.selecteTable = 0;
+									this.CommonTaskList[i].isCommonSpan=true;
 								} else {
 									this.$Message.error("更新失败");
 								}
@@ -1628,7 +1627,6 @@ export default {
 									if(resultData == "1") {
 										this.$Message.success("增加成功");
 										this.getCommonTaskList();
-										this.selecteTable = 0;
 									} else {
 										this.$Message.error("增加失败");
 									}
