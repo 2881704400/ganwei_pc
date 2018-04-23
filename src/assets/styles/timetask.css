@@ -38,7 +38,7 @@
 	float: right;
 	margin-left: 10px;
 	position: relative;
-	/*top: -32px;*/
+	right: 1px;
 }
 
 .table-toolbar button:hover {
@@ -610,6 +610,7 @@
 
 .common-smalltable-checkboxgroup table tbody tr td>font {
 	font-weight: 600;
+	font-size: 15px;
 }
 
 .common-smalltable-checkboxgroup table tr td .specContent {
@@ -646,7 +647,8 @@
 
 .common-smalltable-checkboxgroup table tbody tr td .ivu-checkbox-wrapper {
 	display: block;
-	padding: 3px 0 0;
+	padding: 6px 3px;
+	font-size: 14px;
 }
 
 .common-smalltable table tbody tr td>.ivu-input-wrapper>.ivu-input {
@@ -860,7 +862,7 @@
 .common-tab .ivu-tabs.ivu-tabs-card>.ivu-tabs-bar .ivu-tabs-tab {
 	margin: 0;
 	height: 40px;
-	line-height: 22px;
+	line-height: 24px;
 	color: #2e2e2e;
 	font-size: 15px;
 	padding: 8px 16px;

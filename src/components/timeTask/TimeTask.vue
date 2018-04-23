@@ -321,9 +321,9 @@
 										<DatePicker type="date" v-show="!itemSpec.isCommonSpan" :value="fmtDate(itemSpec.EndDate)" @on-change="updateSpecPlanFun(indexSpec,$event,'EndDate')"></DatePicker>
 									</td>
 									<td>
-										<font>普通任务：</font>
+										<font>普通任务</font>
 										<Checkbox v-for="(item,index) of WeekTaskPlanCommonList" :key="index" :label="item.TableName" :value="itemSpec.CommonTableID.indexOf(item.TableID)>-1"  @on-change="checkSpecCommonChange(0,item.TableID,indexSpec,$event)">{{item.TableName}}</Checkbox>
-									    <font>循环任务：</font>
+									    <font>循环任务</font>
 									    <Checkbox v-for="(itemLoop,indexLoop) of WeekTaskPlanLoopList" :key="itemLoop.TableName" :label="itemLoop.TableName" :value="itemSpec.LoopTableID.indexOf(itemLoop.TableID)>-1" @on-change="checkSpecLoopChange(0,itemLoop.TableID,indexSpec,$event)">{{itemLoop.TableName}}</Checkbox>
 									</td>
 								</tr>
