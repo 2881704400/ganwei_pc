@@ -46,9 +46,7 @@
    color:#2d8cf0;
  }
  
-.aa{
-  color:red !important;
-}
+
 .common-tab{padding:12px 0 12px 0;}
 .ivu-tabs-bar{margin-bottom: 0;height: 40px;}
 .ivu-tabs-nav-container{height: 40px !important;}
@@ -60,8 +58,9 @@
   margin-right: 0;
   border-radius: 0;
   border-right: none;
-  font-size:1rem;
+  font-size:15px;
   height:40px;
+  line-height: 2;
   border-bottom: 1px solid #dddee1;
 }
 .ivu-tabs.ivu-tabs-card>.ivu-tabs-bar .ivu-tabs-tab:last-child{
@@ -79,12 +78,17 @@
   font-weight: 200;
   font-size: 0.9rem;
   text-align: center;
+  color:#333;
 }
 .ivu-table th{
   background: #fff;
 }
 .ivu-table td, .ivu-table th{
   border:none 0;
+
+}
+.ivu-table td{
+  font-size: 1rem;
 }
 .ivu-table:after{
   height: 0;
@@ -150,12 +154,12 @@
       class-name="vertical-center-modal" :styles="{top: '50px',width:'800px'}" class="uploadWrap">
        <Row>
         <Col span="12">
-               <p class="moreInforWord" v-for="(key,val) in moreInfor" :key="val" v-if="val>=0&&val<=7">
+               <p class="moreInforWord" v-for="(key,val) in moreInfor" :key="val" v-if="val>=0&&val<=10">
                   <span class="lableName">{{key.name}}</span>:<span class="labelVal">{{key.value}}</span> 
                </p>
         </Col>
          <Col span="12">
-              <p class="moreInforWord" v-for="(key,val) in moreInfor" :key="val" v-if="val>7">
+              <p class="moreInforWord" v-for="(key,val) in moreInfor" :key="val" v-if="val>10">
                   <span class="lableName">{{key.name}}</span>:<span class="labelVal">{{key.value}}</span> 
                </p>
         </Col>
@@ -169,7 +173,7 @@
         <Col span="13">
           <p v-for="(item,index) in uploadInfor"   style="margin-top:10px;">
 
-            <span  style="width:140px;display:inline-block;">{{item.name}}:</span>
+            <span  style="width:120px;display:inline-block;text-align:right;">{{item.name}}:</span>
             <Input v-model="item.value"  v-if="index==0||item.name=='模拟量编号'||item.name=='状态量编号'||item.name=='设置号'" disabled placeholder="请输入对应值" style="width: 200px;margin-left:20px;"></Input>
             <Input v-model="item.value"  v-else="index!=0" placeholder="请输入对应值" style="width: 200px;margin-left:20px;"></Input>
           </p>
@@ -178,33 +182,33 @@
         <Col span="11">
 
         <p style="margin-top:10px;" v-show="isSet_P">
-          <span style="width:100px;display:inline-block;">关联视频:</span>
+          <span style="width:100px;display:inline-block;text-align:right;">关联视频:</span>
           <Select style="width:200px;margin-left:20px;"  v-model="loadDefVideo"  ><!--:label-in-value="true" @on-change="v=>{getC(v,'type')}" -->
                 <Option v-for="item in  videoList" :key="item.ID"   :value="item.videoCode" >{{item.ChannelName}}</Option>
                 
           </Select>
         </p>
          <p style="margin-top:10px;" v-show="isSet_P">
-          <span style="width:100px;display:inline-block;">资产编号:</span>
+          <span style="width:100px;display:inline-block;text-align:right;">资产编号:</span>
           <Select  style="width:200px;margin-left:20px;"  v-model="loadDefZic">
                 <Option v-for="item in  zizhanList" :key="item.ZiChanID" :value="item.ZiChanID">{{item.ZiChanName}}</Option>
           </Select>
         </p>
         <p style="margin-top:10px;" v-show="isSet_P">
-          <span style="width:100px;display:inline-block;">预案号:</span>
+          <span style="width:100px;display:inline-block;text-align:right;">预案号:</span>
           <Select  style="width:200px;margin-left:20px;" v-model="loadDefPlan">
                 <Option v-for="item in  planList" :key="item.ID" :value="item.PlanNo">{{item.PlanNo}}</Option>
           </Select>
         </p>
 
          <p style="margin-top:10px;" v-show="isSet_P">
-          <span style="width:100px;display:inline-block;">是否显示报警 :</span>
+          <span style="width:100px;display:inline-block;text-align:right;">是否显示报警 :</span>
           <Select  style="width:200px;margin-left:20px;" v-model="isAlarm">
                <Option v-for="item in swit" :key="item.keys" :value="item.keys">{{item.txt}}</Option>          
           </Select>
         </p> 
          <p style="margin-top:10px;" v-show="isSet_P">
-          <span style="width:100px;display:inline-block;">是否记录报警 :</span>
+          <span style="width:100px;display:inline-block;text-align:right;">是否记录报警 :</span>
           <Select  style="width:200px;margin-left:20px;" v-model="isMarkAmarm">
                <Option v-for="item in swit" :key="item.keys" :value="item.keys">{{item.txt}}</Option>               
           </Select>
@@ -212,38 +216,38 @@
         <!-- name:eqData[i].Proc_name,
         res:"True" -->
         <p style="margin-top:10px;" v-show="isSet_P" v-for="(item,index) in checkAlarm">
-          <span style="width:100px;display:inline-block;">是否{{item.name}}:</span>
+          <span style="width:100px;display:inline-block;text-align:right;">是否{{item.name}}:</span>
           <Select  style="width:200px;margin-left:20px;" v-model="item.res">
              <Option v-for="item in swit" :key="item.keys" :value="item.keys">{{item.txt}}</Option>
           </Select>
         </p>
 
         <p style="margin-top:10px;" v-show="isYc">
-          <span style="width:100px;display:inline-block;" >是否曲线记录:</span>
+          <span style="width:100px;display:inline-block;text-align:right;" >是否曲线记录:</span>
           <Select style="width:200px;margin-left:20px;" v-model="curve_rcd">
              <Option v-for="item in switB" :key="item.keys" :value="item.keys">{{item.txt}}</Option>
           </Select>
         </p>
          <p style="margin-top:10px;" v-show="isYc">
-          <span style="width:100px;display:inline-block;" >是否比例变换:</span>
+          <span style="width:100px;display:inline-block;text-align:right;" >是否比例变换:</span>
           <Select style="width:200px;margin-left:20px;" v-model="scaleTran">
              <Option v-for="item in switB" :key="item.keys" :value="item.keys">{{item.txt}}</Option>
           </Select>
         </p>
          <p style="margin-top:10px;"  v-show="!isSet_P">
-          <span style="width:100px;display:inline-block;">是否记录:</span>
+          <span style="width:100px;display:inline-block;text-align:right;">是否记录:</span>
           <Select  style="width:200px;margin-left:20px;" v-model="isMarkSet">
               <Option v-for="item in switB" :key="item.keys" :value="item.keys">{{item.txt}}</Option>
           </Select>
         </p>   
         <p style="margin-top:10px;"  v-show="!isSet_P">
-          <span style="width:100px;display:inline-block;">是否可执行:</span>
+          <span style="width:100px;display:inline-block;text-align:right;">是否可执行:</span>
           <Select  style="width:200px;margin-left:20px;" v-model="isExeSet">
               <Option v-for="item in switB" :key="item.keys" :value="item.keys">{{item.txt}}</Option>
           </Select>
         </p>  
         <p style="margin-top:10px;"  v-show="isYx">
-          <span style="width:100px;display:inline-block;">是否取反:</span>
+          <span style="width:100px;display:inline-block;text-align:right;">是否取反:</span>
           <Select  style="width:200px;margin-left:20px;" v-model="negate">
               <Option v-for="item in switB" :key="item.keys" :value="item.keys">{{item.txt}}</Option>
           </Select>
@@ -630,11 +634,12 @@ render:(h,params)=>{
                                 h('p', {
                                     style: {
                                         
-                                        height:"50%",
-                                        width:"100%",
+                                        height:"100%",
+                                        width:"50%",
                                         marginBottom:"5%",
                                         color:"#2d8cf0",
-                                        cursor:"pointer"
+                                        cursor:"pointer",
+                                        display:"inline-block"
                                     },
                                     on: {
                                         click: () => {
@@ -648,7 +653,7 @@ render:(h,params)=>{
                                               this.isAlarm=this.alarmArrIsShow[ind];
                                               this.isMarkAmarm=this.alarmArrMark[ind];
                                               this.checkAlarm=this.alarmWay[ind];
-                                              console.log(this.alarmWay)
+                                              // console.log(this.alarmWay)
                                               this.uploadInfor=[
                                                   {name:"设备号",value:eqData[ind].equip_no,listName:'equip_no'},
                                                   {name:"设备名称",value:eqData[ind].equip_nm,listName:'equip_nm'},
@@ -677,10 +682,11 @@ render:(h,params)=>{
                                  h('p', {
                                     style: {
                                        
-                                        height:"50%",
-                                        width:"100%",
+                                        height:"100%%",
+                                        width:"50%",
                                         color:"green",
-                                        cursor:"pointer"
+                                        cursor:"pointer",
+                                         display:"inline-block"
                                     },
                                     on: {
                                         click: () => {
@@ -846,10 +852,11 @@ render:(h,params)=>{
                           h("p",{
                               style: {
                                         
-                                        height:"50%",
-                                        width:"100%",
+                                        height:"100%",
+                                        width:"50%",
+                                        display:"inline-block",
                                         marginBottom:"5%",
-                                        marginRight:"10px",
+                                        // marginRight:"10px",
                                         color:"#2d8cf0",
                                         cursor:"pointer"
                                     },
@@ -912,8 +919,9 @@ render:(h,params)=>{
                           h('p', {
                                     style: {
                                        
-                                       height:"50%",
-                                        width:"100%",
+                                       height:"100%",
+                                        width:"50%",
+                                        display:"inline-block",
 
                                         color:"green",
                                         cursor:"pointer"
@@ -1106,10 +1114,11 @@ render:(h,params)=>{
                                       h("p",{
                                           style: {
                                                     
-                                                    height:"50%",
-                                                    width:"100%",
+                                                    height:"100%",
+                                        width:"50%",
+                                        display:"inline-block",
                                                     marginBottom:"5%",
-                                                    marginRight:"10px",
+                                                    // marginRight:"10px",
                                                     color:"#2d8cf0",
                                                     cursor:"pointer"
                                                 },
@@ -1161,9 +1170,9 @@ render:(h,params)=>{
                                       h('p', {
                                                 style: {
                                                    
-                                                   height:"50%",
-                                                    width:"100%",
-
+                                                    height:"100%",
+                                        width:"50%",
+                                        display:"inline-block",
                                                     color:"green",
                                                     cursor:"pointer"
                                                 },
