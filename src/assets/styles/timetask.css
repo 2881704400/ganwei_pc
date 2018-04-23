@@ -816,6 +816,7 @@
 	text-align: center;
 	outline: 0;
 	background: #fff;
+	margin-top: -1px;
 }
 
 .common-smalltable table tr td:last-child .inputContent input{

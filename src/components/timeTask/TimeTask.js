@@ -171,7 +171,20 @@ export default {
 			}
 		},
 		//------特殊日期安排：删除---------
-		delSpecPlanTask() {
+		delSpecPlanTask: function(api, json, _success) {
+	      this.$Modal.confirm({
+	        title: "提示",
+	        content:
+	          '<p style="font-size: 18px;position: relative;top: -6px;">确认要删除所选的1行吗?</p>',
+	        okText: "确认",
+	        onOk: () => {
+	          this.delSpecPlanTaskSure();
+	        },
+	        cancelText: "取消"
+	      });
+	    },
+		//------特殊日期安排：确认删除---------
+		delSpecPlanTaskSure() {
 			let selecteSpecPlan = this.selecteSpecPlan;
 			let specTimePlanList = this.specTimePlanList;
 			let newArr = [];
@@ -518,7 +531,20 @@ export default {
 			})
 		},
 		//------循环任务：删除---------
-		delLoopTask() {
+		delLoopTask: function(api, json, _success) {
+	      this.$Modal.confirm({
+	        title: "提示",
+	        content:
+	          '<p style="font-size: 18px;position: relative;top: -6px;">确认要删除所选的1行吗?</p>',
+	        okText: "确认",
+	        onOk: () => {
+	          this.delLoopTaskSure();
+	        },
+	        cancelText: "取消"
+	      });
+	    },
+		//------循环任务：确认删除---------
+		delLoopTaskSure() {
 			let selecteLoop = this.selecteLoop;
 			let LoopTaskList = this.LoopTaskList;
 			let newArr = [];
@@ -1186,7 +1212,20 @@ export default {
 			})
 		},
 		//------设备控制：删除---------
-		delEquipFun() {
+		delEquipFun: function(api, json, _success) {
+	      this.$Modal.confirm({
+	        title: "提示",
+	        content:
+	          '<p style="font-size: 18px;position: relative;top: -6px;">确认要删除所选的1行吗?</p>',
+	        okText: "确认",
+	        onOk: () => {
+	          this.delEquipFunSure();
+	        },
+	        cancelText: "取消"
+	      });
+	    },
+		//------设备控制：确认删除---------
+		delEquipFunSure() {
 			let selecteEquip = this.selecteEquip;
 			let CommonTaskEquipControl = this.CommonTaskEquipControl;
 			let newArr = [];
@@ -1315,7 +1354,20 @@ export default {
 			})
 		},
 		//------系统控制:删除---------
-		delSystemFun() {
+		delSystemFun: function(api, json, _success) {
+	      this.$Modal.confirm({
+	        title: "提示",
+	        content:
+	          '<p style="font-size: 18px;position: relative;top: -6px;">确认要删除所选的1行吗?</p>',
+	        okText: "确认",
+	        onOk: () => {
+	          this.delSystemFunSure();
+	        },
+	        cancelText: "取消"
+	      });
+	    },
+		//------系统控制:删除---------
+		delSystemFunSure() {
 			let selecteSystem = this.selecteSystem;
 			let CommonTaskSystemControl = this.CommonTaskSystemControl;
 			let newArr = [];
@@ -1554,6 +1606,8 @@ export default {
 								let resultData = data.data;
 								if(resultData == "1") {
 									this.$Message.success('更新成功');
+									this.getCommonTaskList();
+//										this.selecteTable = 0;
 								} else {
 									this.$Message.error("更新失败");
 								}
@@ -1591,7 +1645,20 @@ export default {
 			}
 		},
 		//------普通任务列表：删除---------
-		delCommonTask() {
+		delCommonTask: function(api, json, _success) {
+	      this.$Modal.confirm({
+	        title: "提示",
+	        content:
+	          '<p style="font-size: 18px;position: relative;top: -6px;">确认删除日程表 '+this.CommonTaskList[this.selecteTable].TableName+' 吗?</p>',
+	        okText: "确认",
+	        onOk: () => {
+	          this.delCommonTaskSure();
+	        },
+	        cancelText: "取消"
+	      });
+	    },
+		//------普通任务列表：删除---------
+		delCommonTaskSure() {
 			let selecteTable = this.selecteTable;
 			let CommonTaskList = this.CommonTaskList;
 			let newArr = [];
