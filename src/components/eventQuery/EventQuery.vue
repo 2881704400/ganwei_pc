@@ -157,17 +157,7 @@ export default {
         this.dateValue[0]=this.dateValue[1].split(" ")[0];
       }
       timeStr=this.dateValue.toString();
-      // this.Axios.post("/api/event/get_equip_evt",{times:timeStr,equip_nos:this.equipId}).then(res1=>{//加载模拟量配置
-      //     this.equipEvent=res1.data.HttpData.data;
-      // });
-      // this.Axios.post("/api/event/get_set_evt",{times:timeStr,equip_nos:this.equipId}).then(res2=>{
-      //     this.setEvent=res2.data.HttpData.data;
-      // })
-      // this.Axios.post("/api/event/get_sys_evt",{times:timeStr}).then(res3=>{
-      //   // console.log(res)
-      //     this.sysEvent=res3.data.HttpData.data;
-        
-      // }),
+
       this.Axios.post("/oApi/GWService.asmx/QueryEquipEvt",{times:timeStr,equip_no_list:this.equipId}).then(res=>{//加载模拟量配置
          // this.equipEvent=res.data.HttpData.data;
           if(res.data!='false'){
@@ -269,7 +259,7 @@ export default {
 .dateSelect{padding:20px  0;}
 
 
-.itemList p{width:95%;
+.event-query .itemList p{width:95%;
   height:50px;
   line-height: 50px;
   background: #f9f9f9 !important;
@@ -277,7 +267,7 @@ export default {
   font-size:15px;
   text-align: center;
 }
-.itemList p:hover{
+.event-query .itemList p:hover{
   border:1px solid #2d8cf0;
   box-sizing: border-box;
   color:#2d8cf0;

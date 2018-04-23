@@ -8,13 +8,7 @@
     width: 100%;min-width: 700px;height: 100%;
     .ivu-icon{color: #{$btnBackground};}
     .ivu-checkbox-checked .ivu-checkbox-inner{border-color: #{$btnBackground};background-color: #{$btnBackground};}
-    //顶部标题
-    .schedule_top{
-        h2{font-size: 1rem;color: #333;text-align: left;margin-bottom: 2rem;font-weight: 400; padding-bottom: 10px;
-            border-bottom: 1px solid #eee;
-            i{font-size: 1.5rem;position: relative;top: .25rem;margin-right: 0.5rem;}
-        }
-    }
+
     .schedule_bottom{
         height: 100%;
         //切换卡
@@ -46,27 +40,17 @@
                   input{font-size: 0.9rem;height: 100%;padding-left:  40px;border: 0;outline: none;}
                 }
                 .btn_search{font-size: 0.8rem;display: inline-block;height: 100%;background-color: transparent;border: 0;cursor: pointer;outline: none;}
-                .AddLine {font-size: 0.95rem;font-color: #{$btnFontColor};width: #{$btnW};height: #{$btnH};background-color: #{$btnBackground};border-color: #{$btnBackground};border-radius: 0;padding: 0;}
+                .AddLine {font-size: 0.95rem;color: #{$btnFontColor};width: #{$btnW};height: #{$btnH};background-color: #{$btnBackground};border-color: #{$btnBackground};border-radius: 0;padding: 0;}
             }
             //容器
             &>div{height: 100%;}
             //人员
-            .userTable{
-                width: 100%;position: relative;border-collapse:collapse;text-align: center;
-                tr{height: #{$scheduleLiHeight};line-height: #{$scheduleLiHeight};
-                th{font-size: 0.9rem;font-weight: 200;}}
-                // tbody tr:nth-child(2n){background: #{$doubleColor};}
-                tbody tr:nth-child(2n+1){background: #{$tbTRBgc};}
-                tbody tr:hover,.active{background: #{$tbRowHover};}
-                tbody tr td{
-                    color: #333;width: 16.66%;font-size: 0.8rem;font-weight: 200;border: 0;position: relative;white-space: nowrap;
-                    .larmTabulate_txt i{font-size: 1.6rem;line-height: 40px;position: absolute;margin-left: 10px;opacity: 0;}
-                    .larmTabulate_input input{width: 100%;height: 40px;text-align: center;border: 1px solid #eee;
-                    border-right: 0;text-indent: 20px;outline: none;}
-                    i{font-size: #{ $IconFontSize/1.2};margin: 0 10px;color: #{$btnBackground};}
-                }
-                tbody tr td:hover i{opacity: 1;cursor: pointer;}
-            }  
+            .user-table{tr th,tr td{width: 16.666%;}}
+            .AlmReport-table{tr th,tr td{width: 33.33%;}}
+            .WeekAlmReport-table{tr th,tr td{width: 20%;}}
+            .SpeAlmReport-table{tr th,tr td{width: 25%;}}
+            
+            tbody tr td{i{font-size: #{ $IconFontSize/1.2};margin: 0 10px;color: #{$btnBackground};}}
             //设备分组范围
             &>.EquipmentLeft{
                 width: 25%;display: inline-block;position: absolute; left: 0;top: 0;bottom: 0;
