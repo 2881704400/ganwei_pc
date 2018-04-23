@@ -40,6 +40,8 @@
             <div>Loading</div>
         </Spin>
         <Collapse
+        v-if="sceneData.length"
+        :value="sceneData[0].equip_no + '-' + sceneData[0].set_no"
         accordion
         >
           <Panel
