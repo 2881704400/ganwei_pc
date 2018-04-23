@@ -218,10 +218,14 @@
 
 .half-modal .half-content .loopCycleUl li {
 	width: 100%;
-	height: 30px;
+	/*height: 30px;*/
 	display: flex;
 	align-items: center;
 	cursor: pointer;
+	font-size: 14px;
+	/*white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;*/
 }
 
 .half-modal .half-content .loopCycleUl li:nth-child(even) {
@@ -547,6 +551,9 @@
 	display: table;
 	width: 100%;
 	table-layout: fixed;
+	border: 0;
+	border-left: 2px solid rgba(0,0,0,0);
+	box-sizing: border-box;
 }
 
 .common-smalltable table thead tr {
@@ -600,6 +607,13 @@
 	text-overflow: ellipsis;
 }
 
+.common-smalltable-checkboxgroup table tbody tr{
+	border: 0;
+	border-left: 2px solid rgba(0,0,0,0);
+	box-sizing: border-box;
+}
+
+
 .common-smalltable-checkboxgroup table thead tr th {
 	text-align: left;
 }
@@ -611,6 +625,7 @@
 .common-smalltable-checkboxgroup table tbody tr td>font {
 	font-weight: 600;
 	font-size: 15px;
+	padding: 0px 8px;
 }
 
 .common-smalltable-checkboxgroup table tr td .specContent {
@@ -619,7 +634,7 @@
 	height: 36px;
 	line-height: 36px;
 	text-align: center;
-	padding: 0px;
+	padding: 0px 10px;
 	margin: 0px;
 }
 
@@ -628,7 +643,7 @@
 }
 
 .common-smalltable-checkboxgroup table tr td .ivu-date-picker .ivu-date-picker-rel {
-	top: 1px;
+	/*top: 1px;*/
 }
 
 .common-smalltable-checkboxgroup table tbody tr td>.ivu-input-wrapper>.ivu-input {
@@ -638,16 +653,21 @@
 
 .common-smalltable-checkboxgroup table tr td .ivu-date-picker .ivu-input {
 	-webkit-box-sizing: border-box;
-	/* box-sizing: border-box; */
+	 box-sizing: border-box; 
 	font-size: 14px;
-	border: 1px solid #dddee1;
+	border: 0;
+	border-top: 1px solid #dddee1;
+	border-bottom: 1px solid #dddee1;
+	border-right: 1px solid #dddee1;
+	height: 36px;
 	border-radius: 0px;
 	text-align: left;
+	margin-top: -2px;
 }
 
 .common-smalltable-checkboxgroup table tbody tr td .ivu-checkbox-wrapper {
 	display: block;
-	padding: 6px 3px;
+	padding: 6px 9px;
 	font-size: 14px;
 }
 
@@ -743,13 +763,18 @@
 }
 
 .activeTable {
-	background: #2d8cf0 !important;
-	color: #fff;
+	border-left: 2px solid #2d8cf0 !important;
+	box-sizing: border-box;
+	color: #2d8cf0;
+	/*background: #2d8cf0 !important;
+	color: #fff;*/
 }
 
 .activeSpecTable {
-	background: #6699FF !important;
-	color: #000;
+	/*background: #6699FF !important;
+	color: #000;*/
+	border-left: 2px solid #2d8cf0 !important;
+	box-sizing: border-box;
 }
 
 .common-smalltable table tr td .spanContent {

@@ -129,7 +129,7 @@ export default {
 					if(specTimePlanList[i].ID != "") {
 						this.Axios.post('/api/GWServiceWebAPI/set_BatchUpdate', {
 							tableName: "GWProcSpecTable",
-							cellDataList: " DateName='" + specTimePlanList[i].DateName + "', BeginDate='" + this.formatTimeType(specTimePlanList[i].BeginDate) + "', EndDate='" + this.formatTimeType(specTimePlanList[i].EndDate) + "',TableID='" + specTableID + "' ",
+							cellDataList: " DateName='" + specTimePlanList[i].DateName + "', BeginDate='" + this.formatTimeType(specTimePlanList[i].BeginDate) + "', EndDate='" + this.formatTimeType(specTimePlanList[i].EndDate) + "',[TableID]='" + specTableID + "' ",
 							ifDataList: " ID =" + specTimePlanList[i].ID
 						}).then(res => {
 							let data = res.data.HttpData;

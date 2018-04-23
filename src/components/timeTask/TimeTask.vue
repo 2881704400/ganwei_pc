@@ -307,7 +307,7 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr v-for="(itemSpec,indexSpec) of specTimePlanList" :key="indexSpec"  @click="selecteSpecPlanFun(indexSpec)">
+								<tr v-for="(itemSpec,indexSpec) of specTimePlanList" :class="{activeSpecTable:indexSpec==selecteSpecPlan}" :key="indexSpec"  @click="selecteSpecPlanFun(indexSpec)">
 									<td>
 										<span class="specContent" v-show="itemSpec.isCommonSpan">{{itemSpec.DateName}}</span>
 										<Input v-show="!itemSpec.isCommonSpan" :value="itemSpec.DateName" @input="updateSpecPlanFun(indexSpec,$event,'DateName')" style="text-align: left;"></Input>
