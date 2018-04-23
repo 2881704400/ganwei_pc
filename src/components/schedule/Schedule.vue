@@ -58,22 +58,22 @@
                             <Col span="6">
                             <span>人员姓名:</span>
                             </Col>
-                            <Col span="18"><input type="text" placeholder="请输入人员姓名" v-model="user_admin" v-on:input="" id="userAdmin"/></Col>
+                            <Col span="18"><input type="text" placeholder="请输入人员姓名" v-model="user_admin" v-on:input="onValidate('user')" id="userAdmin"/></Col>
 
                             <Col span="6">
                             <span>电话号码:</span>
                             </Col>
-                            <Col span="18"><input type="text" placeholder="请输入电话" v-model="user_telphone" /></Col>
+                            <Col span="18"><input type="text" placeholder="请输入电话" v-model="user_telphone" v-on:input="onValidate('phone')" id="phoneAdmin"/></Col>
 
                             <Col span="6">
                             <span>短信号码:</span>
                             </Col>
-                            <Col span="18"><input type="text" placeholder="请输入短信" v-model="user_molphone" /></Col>
+                            <Col span="18"><input type="text" placeholder="请输入短信" v-model="user_molphone" v-on:input="onValidate('msphone')" id="msphoneAdmin"/></Col>
 
                             <Col span="6">
                             <span>电子邮箱:</span>
                             </Col>
-                            <Col span="18"><input type="text" placeholder="请输入电子邮箱" v-model="user_email" /></Col>
+                            <Col span="18"><input type="text" placeholder="请输入电子邮箱" v-model="user_email" v-on:input="onValidate('eamil')" id="eamilAdmin"/></Col>
 
                             <Col span="6">
                             <span>报警通知级别:</span>
@@ -81,7 +81,7 @@
                             <Col span="18"><input type="number" placeholder="请输入报警通知级别" v-model="user_level" min="0"/></Col>
                         </Row>
                         <div slot="footer">
-                            <Button type="text" size="large" @click="saveUpdateAdministrator">取消</Button>
+                            <Button type="text" size="large" @click="cancalUpdateAdministrator">取消</Button>
                             <Button type="primary" size="large" @click="saveUpdateAdministrator" id="user_ok" :disabled="false">确定</Button>
                         </div>                        
                     </Modal>
@@ -356,8 +356,6 @@
 
 <script>
 import { formatDate } from "../../assets/js/date.js";
-// import $ from "jquery";
-// import { mCustomScrollbar } from "../../assets/js/jquery.mCustomScrollbar.concat.min.js";
 export default {
   
   data() {
@@ -425,15 +423,8 @@ export default {
   },
   mounted() {
     this.getAdministrator();
-    this.filtersArray = this.Alarm_user;
-    //     var scrollbarStyle = {theme: "light-3",};
-    //     $.mCustomScrollbar.defaults.scrollButtons.enable = true; //enable scrolling buttons by default
-    //     $.mCustomScrollbar.defaults.axis = "yx";
-    //     $('.navList').mCustomScrollbar({
-    //         theme: "light-3",
-    //         axis: 'y',
-    //         autoHideScrollbar: true
-    //     });    
+    this.getAlmReport();//管理范围
+    this.filtersArray = this.Alarm_user;  
   },
   methods: {
     tabsEvent: function(name) {
@@ -443,9 +434,10 @@ export default {
         case "User":
           this.filtersArray = this.Alarm_user;
           this.getAdministrator();
+          this.getAlmReport();//管理范围
           break;
         case "Equipment":
-         
+          this.getAlmReport();//管理范围
           this.getEquip();
           break;
         case "Administration":
@@ -500,13 +492,18 @@ export default {
       }
     },
     removeAdministrator: function(dt) {
-      var WeekAlmReport = this.Alarm_user,dtThis = this,
+      var WeekAlmReport = this.Alarm_user,dtThis = this,AlmReportDataLen = this.AlmReportData.length,
         deleteJson = {
           tableName: "Administrator",
           ifName: "Administrator",
           ifValue: dt.Administrator,
           type: "string"
         };
+      for(var i=0;i<AlmReportDataLen;i++)
+      {   
+        if(dtThis.AlmReportData[i].Administrator == dt.Administrator)
+          {this.$Modal.warning({title: "提示",content: '<p style="font-size: 18px;position: relative;top: -6px;">请先删除管理范围对应项!</p>'});return false;}
+      }        
       this.deleteBaseData("deleteEquipGroup", deleteJson, _success_admin_del);
       function _success_admin_del() {
         WeekAlmReport.forEach(function(ele1, index1) {
@@ -514,7 +511,6 @@ export default {
             WeekAlmReport.splice(index1, 1);
           }
         });
-      //AlmReport   WeekAlmReport  SpeAlmReport
           var emptyAlmReport = {"tableName":"AlmReport","Administrator":dt.Administrator};
           dtThis.XHRPost("nullTableCell",emptyAlmReport, _success_empty_AlmReport);
           function _success_empty_AlmReport() {}  
@@ -541,6 +537,12 @@ export default {
       this.user_email = dt.EMail;
       this.user_level = dt.AckLevel;
       this.user_saveCell = dt.Administrator;
+      document.getElementById("userAdmin").disabled="disabled";
+      document.getElementById("user_ok").disabled="";
+      document.getElementById("userAdmin").parentNode.id="";
+      document.getElementById("phoneAdmin").parentNode.id = "";
+      document.getElementById("msphoneAdmin").parentNode.id = "";
+      document.getElementById("eamilAdmin").parentNode.id="";
     },
     addAdministratorModal: function() {
       this.user_isjudege = true;
@@ -550,15 +552,21 @@ export default {
       this.user_molphone = "";
       this.user_email = "";
       this.user_level = this.user_level;
+      document.getElementById("userAdmin").disabled="";
+      document.getElementById("user_ok").disabled="disabled";
+      document.getElementById("userAdmin").parentNode.id="";
+      document.getElementById("phoneAdmin").parentNode.id="";
+       document.getElementById("msphoneAdmin").parentNode.id = "";
+     document.getElementById("eamilAdmin").parentNode.id="";
     },
     saveUpdateAdministrator: function() {
       var WeekAlmReport = this.Alarm_user;
       //本地更新
       let AdministratorLocal = {
         Administrator: this.user_admin,
-        Telphone: this.user_telphone,
-        MobileTel: this.user_molphone,
-        EMail: this.user_email,
+        Telphone: document.getElementById("phoneAdmin").parentNode.id==""?this.user_telphone:"",
+        MobileTel: document.getElementById("msphoneAdmin").parentNode.id==""?this.user_molphone:"",
+        EMail: document.getElementById("eamilAdmin").parentNode.id==""?this.user_email:"",
         AckLevel: this.user_level,
         saveCell: this.user_saveCell,
         isShow: false
@@ -567,9 +575,9 @@ export default {
       let AdministratorUpdate = {
         tableName: "Administrator",
         Administrator: this.user_admin,
-        Telphone: this.user_telphone,
-        MobileTel: this.user_molphone,
-        EMail: this.user_email,
+        Telphone: document.getElementById("phoneAdmin").parentNode.id==""?this.user_telphone:"",
+        MobileTel: document.getElementById("msphoneAdmin").parentNode.id==""?this.user_molphone:"",
+        EMail: document.getElementById("eamilAdmin").parentNode.id==""?this.user_email:"",
         AckLevel: this.user_level,
         ifName: "Administrator",
         ifValue: this.user_saveCell
@@ -603,26 +611,57 @@ export default {
     cancalUpdateAdministrator: function(){
       this.user_modal = false;
     },
-    onValidate(){
-      var dtThis = this,dt=document.getElementById("userAdmin").parentNode;
-      if(dtThis.user_admin !="")
-        for(var i=0;i<dtThis.Alarm_user.length;i++)
-        {
-            if(dtThis.Alarm_user[i].Administrator == dtThis.user_admin)
+    onValidate(old){
+      switch(old)
+      {
+        case "user":
+            var dtThis = this,dt=document.getElementById("userAdmin").parentNode;
+            if(dtThis.user_admin !="")
+              for(var i=0;i<dtThis.Alarm_user.length;i++)
               {
-                  dt.id = "msgInfo";
-                   document.getElementById("user_ok").disabled="disabled";
-                  break;
+                  if(dtThis.Alarm_user[i].Administrator == dtThis.user_admin)
+                    {
+                        dt.id = "msgInfo";
+                        document.getElementById("user_ok").disabled="disabled";
+                        break;
+                    }
+                    else 
+                    { 
+                      dt.id = "";
+                      document.getElementById("user_ok").disabled="";
+                    }
               }
-              else 
-              { 
-                dt.id = "";
-                document.getElementById("user_ok").disabled="";
-              }
-        }
-      else
-        document.getElementById("user_ok").disabled="disabled";
-
+            else
+              document.getElementById("user_ok").disabled="disabled";        
+        break;
+        case "phone": 
+           var str = new RegExp("^((13[0-9])|(14[5|7])|(15([0-3]|[5-9]))|(18[0,5-9]))\\d{8}$",'g');   
+           var str1 = new RegExp("^0\\d{3}-\\d{8}$",'g');
+           var value = document.getElementById("phoneAdmin").value;
+           if(str.test(value) || str1.test(value))
+             document.getElementById("phoneAdmin").parentNode.id = "";
+           else
+             document.getElementById("phoneAdmin").parentNode.id = "phoneInfo";
+        break;
+        case "msphone": 
+           var str = new RegExp("^((13[0-9])|(14[5|7])|(15([0-3]|[5-9]))|(18[0,5-9]))\\d{8}$",'g');   
+           var str1 = new RegExp("^0\\d{3}-\\d{8}$",'g');
+           var value = document.getElementById("msphoneAdmin").value;
+           if(str.test(value) || str1.test(value))
+             document.getElementById("msphoneAdmin").parentNode.id = "";
+           else
+             document.getElementById("msphoneAdmin").parentNode.id = "phoneInfo";        
+        break;
+        case "eamil": 
+           var str = new RegExp("^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$",'g');   
+           var value = document.getElementById("eamilAdmin").value;
+           if(str.test(value))
+             document.getElementById("eamilAdmin").parentNode.id = "";
+           else
+             document.getElementById("eamilAdmin").parentNode.id = "emailInfo";        
+        break;
+        default: break;
+      }
     },
 
     //设备分组范围
@@ -664,13 +703,18 @@ export default {
       dt.isShow = !dt.isShow;
     },
     removeEquipGroup: function(dt) {
-      var WeekAlmReport = this.equipUser,dtThis = this,
+      var WeekAlmReport = this.equipUser,dtThis = this,AlmReportDataLen = this.AlmReportData.length,
         deleteJson = {
           tableName: "EquipGroup",
           ifName: "group_no",
           ifValue: dt.group_no,
           type: "number"
         };
+        for(var i=0;i<AlmReportDataLen;i++)
+        {
+          if(dtThis.AlmReportData[i].group_no == dt.group_no)
+            {this.$Modal.warning({title: "提示",content: '<p style="font-size: 18px;position: relative;top: -6px;">请先删除管理范围对应项!</p>'});return false;}
+        }
       this.deleteBaseData("deleteEquipGroup", deleteJson, _success_admin_del);
       function _success_admin_del() {
         WeekAlmReport.forEach(function(ele1, index1) {
@@ -678,9 +722,9 @@ export default {
             WeekAlmReport.splice(index1, 1);
           }
         });
-          var emptyAlmReport_group_no = {"tableName":"AlmReport_group_no","group_no":dt.group_no};
-          dtThis.XHRPost("nullTableCell",emptyAlmReport_group_no, _success_empty_AlmReport_group_no);
-          function _success_empty_AlmReport_group_no() {}          
+          // var emptyAlmReport_group_no = {"tableName":"AlmReport_group_no","group_no":dt.group_no};
+          // dtThis.XHRPost("nullTableCell",emptyAlmReport_group_no, _success_empty_AlmReport_group_no);
+          // function _success_empty_AlmReport_group_no() {}          
       }
     },
     addEquipGroup: function() {
@@ -1262,7 +1306,7 @@ export default {
       this.$Modal.confirm({
         title: "提示",
         content:
-          '<p style="font-size: 18px;position: relative;top: -6px;">确认删除该设备分组?</p>',
+          '<p style="font-size: 18px;position: relative;top: -6px;">确认删除该分组信息?</p>',
         okText: "确认",
         onOk: () => {
           this.XHRPost(api, json, _success);
@@ -1337,7 +1381,9 @@ export default {
     nullString: function(items){
       this.filtersValue = "";
       this.filtersArray = items; 
-    }
+    },
+
+
   },
 
 
