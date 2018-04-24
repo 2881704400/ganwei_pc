@@ -14,7 +14,7 @@
               </Row>
            </div>
           </li>
-       </ul>
+       </ul> 
       <div class="snapashot">
           <table >
             <thead>
@@ -28,7 +28,10 @@
             </thead>
             <tbody class="scrollBody itemList">
               <tr v-for="(item,index) of events" :key="index" v-show="item.retrievalShow">
-                <td>{{item.Level}}</td>
+                <td>
+                  <img :src="getIMG(item.Level)" alt="" style="vertical-align: middle;" />
+                {{item.Level}}
+                </td>
                 <td>{{item.Time}}</td>
                 <td><p >{{item.EventMsg}}</p></td>
                 <td>
@@ -344,7 +347,17 @@ export default {
       });
       return beetString;
     },
+    getIMG: function(name){
+       var ele = this.titles,len = ele.length,url ="";
+       for(var i=0; i<len; i++)
+       {
+          if(ele[i].SnapshotName == name)
+            { url = "/static/infor/"+ele[i].IconRes;
+              return url;
+            }
+       }
 
+    },
 
     //检索哪些已处理
     querySuccess: function(){
