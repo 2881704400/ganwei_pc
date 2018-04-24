@@ -381,7 +381,7 @@ export default {
     },
 
 
-}
+  }
 
 
 

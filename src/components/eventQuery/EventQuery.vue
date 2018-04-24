@@ -157,17 +157,7 @@ export default {
         this.dateValue[0]=this.dateValue[1].split(" ")[0];
       }
       timeStr=this.dateValue.toString();
-      // this.Axios.post("/api/event/get_equip_evt",{times:timeStr,equip_nos:this.equipId}).then(res1=>{//加载模拟量配置
-      //     this.equipEvent=res1.data.HttpData.data;
-      // });
-      // this.Axios.post("/api/event/get_set_evt",{times:timeStr,equip_nos:this.equipId}).then(res2=>{
-      //     this.setEvent=res2.data.HttpData.data;
-      // })
-      // this.Axios.post("/api/event/get_sys_evt",{times:timeStr}).then(res3=>{
-      //   // console.log(res)
-      //     this.sysEvent=res3.data.HttpData.data;
-        
-      // }),
+
       this.Axios.post("/oApi/GWService.asmx/QueryEquipEvt",{times:timeStr,equip_no_list:this.equipId}).then(res=>{//加载模拟量配置
          // this.equipEvent=res.data.HttpData.data;
           if(res.data!='false'){
@@ -268,21 +258,8 @@ export default {
 .event-query .wrap .itemList{height:100%;overflow-y: scroll;}
 .dateSelect{padding:20px  0;}
 
- .common-table::-webkit-scrollbar,.itemList::-webkit-scrollbar {/*滚动条整体样式*/
-            width: 4px;     /*高宽分别对应横竖滚动条的尺寸*/
-            height: 4px;
-        }
-.common-table::-webkit-scrollbar-thumb,.itemList::-webkit-scrollbar-thumb {/*滚动条里面小方块*/
-    border-radius: 5px;
-    -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
-    background: rgba(0,0,0,0.2);
-}
-.common-table::-webkit-scrollbar-track,.itemList::-webkit-scrollbar-track {/*滚动条里面轨道*/
-    -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
-    border-radius: 0;
-    background: rgba(0,0,0,0.1);
-}
-.itemList p{width:95%;
+
+.event-query .itemList p{width:95%;
   height:50px;
   line-height: 50px;
   background: #f9f9f9 !important;
@@ -290,7 +267,7 @@ export default {
   font-size:15px;
   text-align: center;
 }
-.itemList p:hover{
+.event-query .itemList p:hover{
   border:1px solid #2d8cf0;
   box-sizing: border-box;
   color:#2d8cf0;
@@ -331,6 +308,7 @@ export default {
   font-weight: 200;
   font-size: 0.9rem;
   text-align: center;
+  color:#333;
 }
 .ivu-table th{
   background: #fff;
@@ -362,5 +340,11 @@ export default {
   }
     .ivu-table-row:hover td{
       background: #ebf7ff !important; 
+  }
+  .ivu-date-picker-cells span em{
+    font-size: 15px !important;
+  }
+  .ivu-btn-small{
+    font-size: 14px;
   }
 </style>

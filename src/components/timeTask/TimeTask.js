@@ -7,12 +7,14 @@ export default {
 			selecteEquip: -1, //设备列表：选中行值
 			EquipStatus: true, //设备列表：是否选中行，可进行删除操作
 			CommonTaskTableID: "", //普通任务列表：选中行ID
+			CommonTaskMaxTableID: 0,//普通任务列表：最大tableID
 			CommonTaskList: [], //普通任务列表：数据数组
 			CommonTaskSystemControl: [], //系统控制：数据数组
 			ProcCmdList: [], //系统控制下拉数据：数据数组
 			CommonTaskEquipControl: [], //设备列表：数据数组
 			EquipControlList: [], //设备列表下拉数据：数据数组
 			LoopTaskList: [], //循环任务：数据数组
+			MaxDoOrder: 0, //循环任务：最大order
 			WeekTaskPlanCommonList: [], //每周任务安排：普通任务列表勾选数组
 			WeekTaskPlanLoopList: [], //每周任务安排：循环任务列表勾选数组
 			sureModal: false, //循环任务模态框：默认不显示
@@ -51,11 +53,11 @@ export default {
 	},
 	mounted() {
 		//获取所有数据
-		this.getCommonTaskList(),
-		this.getCommonTaskProcCmd(),
-		this.getCommonTaskSetParm(),
-		this.getLoopTaskList(),
-		this.getWeekTaskPlan(),
+		this.getCommonTaskList();
+		this.getCommonTaskProcCmd();
+		this.getCommonTaskSetParm();
+		this.getLoopTaskList();
+		this.getWeekTaskPlan();
 		this.getSpecTimePlan()
 	},
 	methods: {
@@ -127,7 +129,7 @@ export default {
 					if(specTimePlanList[i].ID != "") {
 						this.Axios.post('/api/GWServiceWebAPI/set_BatchUpdate', {
 							tableName: "GWProcSpecTable",
-							cellDataList: " DateName='" + specTimePlanList[i].DateName + "', BeginDate='" + specTimePlanList[i].BeginDate + "', EndDate='" + specTimePlanList[i].EndDate + "',TableID='" + specTableID + "' ",
+							cellDataList: " DateName='" + specTimePlanList[i].DateName + "', BeginDate='" + this.formatTimeType(specTimePlanList[i].BeginDate) + "', EndDate='" + this.formatTimeType(specTimePlanList[i].EndDate) + "',[TableID]='" + specTableID + "' ",
 							ifDataList: " ID =" + specTimePlanList[i].ID
 						}).then(res => {
 							let data = res.data.HttpData;
@@ -135,6 +137,7 @@ export default {
 								let resultData = data.data;
 								if(resultData == "1") {
 									this.$Message.success("更新成功");
+									this.specTimePlanList[i].isCommonSpan=true;
 								} else {
 									this.$Message.error("更新失败");
 								}
@@ -146,8 +149,8 @@ export default {
 					} else {
 						//插入新计划
 						this.Axios.post('/api/GWServiceWebAPI/set_InsertNewTable', {
-							tableName: "GWProcSpecTable(DateName,BeginDate,EndDate,TableID)",
-							tableVlue: " select '" + specTimePlanList[i].DateName + "','" + specTimePlanList[i].BeginDate + "','" + specTimePlanList[i].EndDate + "','" + specTableID + "' "
+							tableName: "GWProcSpecTable(DateName,BeginDate,EndDate,[TableID])",
+							tableVlue: " select '" + specTimePlanList[i].DateName + "','" + this.formatTimeType(specTimePlanList[i].BeginDate) + "','" + this.formatTimeType(specTimePlanList[i].EndDate) + "','" + specTableID + "' "
 						}).then(res => {
 							let data = res.data.HttpData;
 							if(data.code == 200 && data.data != null) {
@@ -155,7 +158,7 @@ export default {
 								if(resultData == "1") {
 									this.$Message.success("增加成功");
 									this.getSpecTimePlan();
-									this.selecteSpecPlan = -1;
+//									this.selecteSpecPlan = -1;
 								} else {
 									this.$Message.error("增加失败");
 								}
@@ -169,7 +172,20 @@ export default {
 			}
 		},
 		//------特殊日期安排：删除---------
-		delSpecPlanTask() {
+		delSpecPlanTask: function(api, json, _success) {
+	      this.$Modal.confirm({
+	        title: "提示",
+	        content:
+	          '<p style="font-size: 18px;position: relative;top: -6px;">确认要删除所选的1行吗?</p>',
+	        okText: "确认",
+	        onOk: () => {
+	          this.delSpecPlanTaskSure();
+	        },
+	        cancelText: "取消"
+	      });
+	    },
+		//------特殊日期安排：确认删除---------
+		delSpecPlanTaskSure() {
 			let selecteSpecPlan = this.selecteSpecPlan;
 			let specTimePlanList = this.specTimePlanList;
 			let newArr = [];
@@ -285,7 +301,6 @@ export default {
 				ID = this.specTimePlanList[i].ID;
 				if(ID != "") {
 					this.specTimePlanList[i].isCommonSpan = true;
-					this.specTimePlanList[i].isUpdateFlag = false;
 				}
 			}
 			if(this.selecteSpecPlan == index) {
@@ -516,7 +531,20 @@ export default {
 			})
 		},
 		//------循环任务：删除---------
-		delLoopTask() {
+		delLoopTask: function(api, json, _success) {
+	      this.$Modal.confirm({
+	        title: "提示",
+	        content:
+	          '<p style="font-size: 18px;position: relative;top: -6px;">确认要删除所选的1行吗?</p>',
+	        okText: "确认",
+	        onOk: () => {
+	          this.delLoopTaskSure();
+	        },
+	        cancelText: "取消"
+	      });
+	    },
+		//------循环任务：确认删除---------
+		delLoopTaskSure() {
 			let selecteLoop = this.selecteLoop;
 			let LoopTaskList = this.LoopTaskList;
 			let newArr = [];
@@ -679,10 +707,10 @@ export default {
 				let LoopTaskList = this.LoopTaskList;
 				this.Axios.post('/api/GWServiceWebAPI/set_BatchUpdate', {
 					tableName: "GWProcCycleTList",
-					cellDataList: " TableName='" + loopName + "', BeginTime='" + loopStartTime + "'," +
-						"EndTime='" + loopEndTime + "', ZhenDianDo='" + ZhenDianDo + "'," +
+					cellDataList: " TableName='" + loopName + "', BeginTime='" + this.formatTimeType(loopStartTime) + "'," +
+						"EndTime='" + this.formatTimeType(loopEndTime) + "', ZhenDianDo='" + ZhenDianDo + "'," +
 						"ZhidingDo='" + ZhidingDo + "', CycleMustFinish='" + CycleMustFinish + "'," +
-						"ZhidingTime='" + AppointTime + "', MaxCycleNum='" + MaxCycleNum + "' ",
+						"ZhidingTime='" + this.formatTimeType(AppointTime) + "', MaxCycleNum='" + MaxCycleNum + "' ",
 					ifDataList: " TableID =" + LoopTaskList[selecteLoop].TableID
 				}).then(res => {
 					let data = res.data.HttpData;
@@ -738,10 +766,11 @@ export default {
 								} else if(SleepUnit == "秒") {
 									SleepUnit = "S"
 								}
+								this.MaxDoOrder=this.MaxDoOrder+1;
 								if(loopActionType == "E") {
 									this.Axios.post('/api/GWServiceWebAPI/set_InsertNewTable', {
-										tableName: "GWProcCycleTable(TableID,DoOrder,Type,set_no,equip_no,proc_code)",
-										tableVlue: " select " + LoopTaskList[selecteLoop].TableID + ",(select case when max(DoOrder) is null then 1 else max(DoOrder)+1 end from GWProcCycleTable where TableID=" + LoopTaskList[selecteLoop].TableID + "),'E'," + loopCycleList[i].set_no + "," + loopCycleList[i].equip_no + ",0 ",
+										tableName: "GWProcCycleTable([TableID],DoOrder,[Type],set_no,equip_no,proc_code)",
+										tableVlue: " select " + LoopTaskList[selecteLoop].TableID + ","+this.MaxDoOrder+",'E'," + loopCycleList[i].set_no + "," + loopCycleList[i].equip_no + ",0 ",
 									}).then(res => {
 										let data = res.data.HttpData;
 										if(data.code == 200 && data.data != null) {
@@ -758,8 +787,8 @@ export default {
 									})
 								} else if(loopActionType == "S") {
 									this.Axios.post('/api/GWServiceWebAPI/set_InsertNewTable', {
-										tableName: "GWProcCycleTable(TableID,DoOrder,Type,set_no,proc_code,cmd_nm)",
-										tableVlue: " select " + LoopTaskList[selecteLoop].TableID + ",(select case when max(DoOrder) is null then 1 else max(DoOrder)+1 end from GWProcCycleTable where TableID=" + LoopTaskList[selecteLoop].TableID + "),'S',0," + loopCycleList[i].proc_code + ",'" + loopCycleList[i].cmd_nm + "' ",
+										tableName: "GWProcCycleTable([TableID],DoOrder,[Type],set_no,proc_code,cmd_nm)",
+										tableVlue: " select " + LoopTaskList[selecteLoop].TableID + ","+this.MaxDoOrder+",'S',0," + loopCycleList[i].proc_code + ",'" + loopCycleList[i].cmd_nm + "' ",
 									}).then(res => {
 										let data = res.data.HttpData;
 										if(data.code == 200 && data.data != null) {
@@ -776,8 +805,8 @@ export default {
 									})
 								} else if(loopActionType == "T") {
 									this.Axios.post('/api/GWServiceWebAPI/set_InsertNewTable', {
-										tableName: "GWProcCycleTable(TableID,DoOrder,Type,set_no,proc_code,SleepTime,SleepUnit)",
-										tableVlue: " select " + LoopTaskList[selecteLoop].TableID + ",(select case when max(DoOrder) is null then 1 else max(DoOrder)+1 end from GWProcCycleTable where TableID=" + LoopTaskList[selecteLoop].TableID + "),'T',0,0,'" + loopCycleList[i].SleepTime + "','" + SleepUnit + "' ",
+										tableName: "GWProcCycleTable([TableID],DoOrder,[Type],set_no,proc_code,SleepTime,SleepUnit)",
+										tableVlue: " select " + LoopTaskList[selecteLoop].TableID + ","+this.MaxDoOrder+",'T',0,0,'" + loopCycleList[i].SleepTime + "','" + SleepUnit + "' ",
 									}).then(res => {
 										let data = res.data.HttpData;
 										if(data.code == 200 && data.data != null) {
@@ -815,11 +844,11 @@ export default {
 				}
 
 				this.Axios.post('/api/GWServiceWebAPI/set_InsertNewTable', {
-					tableName: "GWProcCycleTList(TableID,TableName,BeginTime,EndTime,ZhenDianDo,ZhidingDo,CycleMustFinish,ZhidingTime,MaxCycleNum)",
-					tableVlue: " select " + newTableID + ", '" + loopName + "', '" + loopStartTime + "'," +
-						"'" + loopEndTime + "', '" + ZhenDianDo + "'," +
+					tableName: "GWProcCycleTList([TableID],TableName,BeginTime,EndTime,ZhenDianDo,ZhidingDo,CycleMustFinish,ZhidingTime,MaxCycleNum)",
+					tableVlue: " select " + newTableID + ", '" + loopName + "', '" + this.formatTimeType(loopStartTime) + "'," +
+						"'" + this.formatTimeType(loopEndTime) + "', '" + ZhenDianDo + "'," +
 						"'" + ZhidingDo + "', '" + CycleMustFinish + "'," +
-						"'" + AppointTime + "', '" + MaxCycleNum + "' ",
+						"'" + this.formatTimeType(AppointTime) + "', '" + MaxCycleNum + "' ",
 				}).then(res => {
 					let data = res.data.HttpData;
 					if(data.code == 200 && data.data != null) {
@@ -861,7 +890,7 @@ export default {
 								}
 								if(loopActionType == "E") {
 									this.Axios.post('/api/GWServiceWebAPI/set_InsertNewTable', {
-										tableName: "GWProcCycleTable(TableID,DoOrder,Type,set_no,equip_no,proc_code)",
+										tableName: "GWProcCycleTable([TableID],DoOrder,[Type],set_no,equip_no,proc_code)",
 										tableVlue: " select " + newTableID + "," + (i + 1) + ",'E'," + loopCycleList[i].set_no + "," + loopCycleList[i].equip_no + ",0 ",
 									}).then(res => {
 										let data = res.data.HttpData;
@@ -879,7 +908,7 @@ export default {
 									})
 								} else if(loopActionType == "S") {
 									this.Axios.post('/api/GWServiceWebAPI/set_InsertNewTable', {
-										tableName: "GWProcCycleTable(TableID,DoOrder,Type,set_no,proc_code,cmd_nm)",
+										tableName: "GWProcCycleTable([TableID],DoOrder,[Type],set_no,proc_code,cmd_nm)",
 										tableVlue: " select " + newTableID + "," + (i + 1) + ",'S',0," + loopCycleList[i].proc_code + ",'" + loopCycleList[i].cmd_nm + "' ",
 									}).then(res => {
 										let data = res.data.HttpData;
@@ -897,7 +926,7 @@ export default {
 									})
 								} else if(loopActionType == "T") {
 									this.Axios.post('/api/GWServiceWebAPI/set_InsertNewTable', {
-										tableName: "GWProcCycleTable(TableID,DoOrder,Type,set_no,proc_code,SleepTime,SleepUnit)",
+										tableName: "GWProcCycleTable([TableID],DoOrder,[Type],set_no,proc_code,SleepTime,SleepUnit)",
 										tableVlue: " select " + newTableID + "," + (i + 1) + ",'T',0,0,'" + loopCycleList[i].SleepTime + "','" + SleepUnit + "' ",
 									}).then(res => {
 										let data = res.data.HttpData;
@@ -1054,6 +1083,7 @@ export default {
 				if(data.code == 200 && data.data != null) {
 					let resultData = data.data;
 					let loopCycleListData = [];
+					let loopCycleListDataArr=[];
 					let strControl = "";
 					for(var i = 0; i < resultData.length; i++) {
 						let SleepUnit = "";
@@ -1073,6 +1103,7 @@ export default {
 						}
 						loopCycleListData.push({
 							TableID: resultData[i].TableID,
+							DoOrder: resultData[i].DoOrder,
 							Type: resultData[i].Type,
 							equip_no: resultData[i].equip_no,
 							set_no: resultData[i].set_no,
@@ -1084,8 +1115,10 @@ export default {
 							SleepTime: resultData[i].SleepTime,
 							SleepUnit: resultData[i].SleepUnit
 						});
+						loopCycleListDataArr.push(resultData[i].TableID);
 					}
-					this.loopCycleList = loopCycleListData;
+					this.loopCycleList = loopCycleListData;console.log(loopCycleListData)
+					this.MaxDoOrder=loopCycleListDataArr==""?0:Math.max.apply(null,loopCycleListDataArr);
 				}
 			}).catch(err => {
 				console.log(err)
@@ -1179,7 +1212,20 @@ export default {
 			})
 		},
 		//------设备控制：删除---------
-		delEquipFun() {
+		delEquipFun: function(api, json, _success) {
+	      this.$Modal.confirm({
+	        title: "提示",
+	        content:
+	          '<p style="font-size: 18px;position: relative;top: -6px;">确认要删除所选的1行吗?</p>',
+	        okText: "确认",
+	        onOk: () => {
+	          this.delEquipFunSure();
+	        },
+	        cancelText: "取消"
+	      });
+	    },
+		//------设备控制：确认删除---------
+		delEquipFunSure() {
 			let selecteEquip = this.selecteEquip;
 			let CommonTaskEquipControl = this.CommonTaskEquipControl;
 			let newArr = [];
@@ -1308,7 +1354,20 @@ export default {
 			})
 		},
 		//------系统控制:删除---------
-		delSystemFun() {
+		delSystemFun: function(api, json, _success) {
+	      this.$Modal.confirm({
+	        title: "提示",
+	        content:
+	          '<p style="font-size: 18px;position: relative;top: -6px;">确认要删除所选的1行吗?</p>',
+	        okText: "确认",
+	        onOk: () => {
+	          this.delSystemFunSure();
+	        },
+	        cancelText: "取消"
+	      });
+	    },
+		//------系统控制:删除---------
+		delSystemFunSure() {
 			let selecteSystem = this.selecteSystem;
 			let CommonTaskSystemControl = this.CommonTaskSystemControl;
 			let newArr = [];
@@ -1430,7 +1489,7 @@ export default {
 					if(CommonTaskEquipControl[i].ID != "") {
 						this.Axios.post('/api/GWServiceWebAPI/set_BatchUpdate', {
 							tableName: "GWProcTimeEqpTable",
-							cellDataList: " Time='" + CommonTaskEquipControl[i].Time + "', TimeDur='" + CommonTaskEquipControl[i].TimeDur + "', equip_no='" + equip_no + "', set_no='" + set_no + "' ",
+							cellDataList: " [Time]='" + this.formatTimeType(CommonTaskEquipControl[i].Time) + "', TimeDur='" + this.formatTimeType(CommonTaskEquipControl[i].TimeDur) + "', equip_no='" + equip_no + "', set_no='" + set_no + "' ",
 							ifDataList: " ID =" + CommonTaskEquipControl[i].ID
 						}).then(res => {
 							let data = res.data.HttpData;
@@ -1438,6 +1497,7 @@ export default {
 								let resultData = data.data;
 								if(resultData == "1") {
 									this.$Message.success("更新成功");
+									this.CommonTaskEquipControl[i].isCommonSpan=true;
 								} else {
 									this.$Message.error("更新失败");
 								}
@@ -1449,8 +1509,8 @@ export default {
 					} else {
 						if(CommonTaskEquipControl[i].set_no != "") {
 							this.Axios.post('/api/GWServiceWebAPI/set_InsertNewTable', {
-								tableName: "GWProcTimeEqpTable(TableID,Time,TimeDur,equip_no,set_no)",
-								tableVlue: " select " + this.CommonTaskTableID + ",'" + CommonTaskEquipControl[i].Time + "','" + CommonTaskEquipControl[i].TimeDur + "'," + equip_no + "," + set_no + " "
+								tableName: "GWProcTimeEqpTable([TableID],[Time],TimeDur,equip_no,set_no)",
+								tableVlue: " select " + this.CommonTaskTableID + ",'" + this.formatTimeType(CommonTaskEquipControl[i].Time) + "','" + this.formatTimeType(CommonTaskEquipControl[i].TimeDur) + "'," + equip_no + "," + set_no + " "
 
 							}).then(res => {
 								let data = res.data.HttpData;
@@ -1459,7 +1519,6 @@ export default {
 									if(resultData == "1") {
 										this.$Message.success("增加成功");
 										this.getCommonTaskEquipControl();
-										this.selecteEquip = -1;
 									} else {
 										this.$Message.error("增加失败");
 									}
@@ -1484,7 +1543,7 @@ export default {
 					if(CommonTaskSystemControl[i].ID != "") {
 						this.Axios.post('/api/GWServiceWebAPI/set_BatchUpdate', {
 							tableName: "GWProcTimeSysTable",
-							cellDataList: " Time='" + CommonTaskSystemControl[i].Time + "', TimeDur='" + CommonTaskSystemControl[i].TimeDur + "', proc_code='" + CommonTaskSystemControl[i].proc_code + "' ",
+							cellDataList: " [Time]='" + this.formatTimeType(CommonTaskSystemControl[i].Time) + "', TimeDur='" + this.formatTimeType(CommonTaskSystemControl[i].TimeDur) + "', proc_code='" + CommonTaskSystemControl[i].proc_code + "' ",
 							ifDataList: " TableID =" + CommonTaskSystemControl[i].TableID + " and ID=" + CommonTaskSystemControl[i].ID
 						}).then(res => {
 							let data = res.data.HttpData;
@@ -1492,6 +1551,7 @@ export default {
 								let resultData = data.data;
 								if(resultData == "1") {
 									this.$Message.success("更新成功");
+									this.CommonTaskSystemControl[i].isCommonSpan=true;
 								} else {
 									this.$Message.error("更新失败");
 								}
@@ -1503,8 +1563,8 @@ export default {
 					} else {
 						if(CommonTaskSystemControl[i].proc_code != "") {
 							this.Axios.post('/api/GWServiceWebAPI/set_InsertNewTable', {
-								tableName: "GWProcTimeSysTable(TableID,Time,TimeDur,proc_code)",
-								tableVlue: " select " + this.CommonTaskTableID + ",'" + CommonTaskSystemControl[i].Time + "','" + CommonTaskSystemControl[i].TimeDur + "'," + CommonTaskSystemControl[i].proc_code + " "
+								tableName: "GWProcTimeSysTable([TableID],[Time],TimeDur,proc_code)",
+								tableVlue: " select " + this.CommonTaskTableID + ",'" + this.formatTimeType(CommonTaskSystemControl[i].Time) + "','" + this.formatTimeType(CommonTaskSystemControl[i].TimeDur) + "'," + CommonTaskSystemControl[i].proc_code + " "
 							}).then(res => {
 								let data = res.data.HttpData;
 								if(data.code == 200 && data.data != null) {
@@ -1512,7 +1572,6 @@ export default {
 									if(resultData == "1") {
 										this.$Message.success("增加成功");
 										this.getCommonTaskSystemControl();
-										this.selecteSystem = -1;
 									} else {
 										this.$Message.error("增加失败");
 									}
@@ -1547,6 +1606,7 @@ export default {
 								let resultData = data.data;
 								if(resultData == "1") {
 									this.$Message.success('更新成功');
+									this.CommonTaskList[i].isCommonSpan=true;
 								} else {
 									this.$Message.error("更新失败");
 								}
@@ -1556,9 +1616,10 @@ export default {
 						})
 					} else {
 						if(CommonTaskList[i].TableName != "") {
+							this.CommonTaskMaxTableID=this.CommonTaskMaxTableID+1;
 							this.Axios.post('/api/GWServiceWebAPI/set_InsertNewTable', {
-								tableName: "GWProcTimeTList(TableID,TableName,Comment)",
-								tableVlue: " select case when max(TableID) is null then 1 else max(TableID)+1 end,'" + CommonTaskList[i].TableName + "','" + CommonTaskList[i].Comment + "' from GWProcTimeTList"
+								tableName: "GWProcTimeTList([TableID],TableName,Comment)",
+								tableVlue: " select "+this.CommonTaskMaxTableID+",'" + CommonTaskList[i].TableName + "','" + CommonTaskList[i].Comment + "' "
 							}).then(res => {
 								let data = res.data.HttpData;
 								if(data.code == 200 && data.data != null) {
@@ -1566,7 +1627,6 @@ export default {
 									if(resultData == "1") {
 										this.$Message.success("增加成功");
 										this.getCommonTaskList();
-										this.selecteTable = 0;
 									} else {
 										this.$Message.error("增加失败");
 									}
@@ -1583,7 +1643,20 @@ export default {
 			}
 		},
 		//------普通任务列表：删除---------
-		delCommonTask() {
+		delCommonTask: function(api, json, _success) {
+	      this.$Modal.confirm({
+	        title: "提示",
+	        content:
+	          '<p style="font-size: 18px;position: relative;top: -6px;">确认删除日程表 '+this.CommonTaskList[this.selecteTable].TableName+' 吗?</p>',
+	        okText: "确认",
+	        onOk: () => {
+	          this.delCommonTaskSure();
+	        },
+	        cancelText: "取消"
+	      });
+	    },
+		//------普通任务列表：删除---------
+		delCommonTaskSure() {
 			let selecteTable = this.selecteTable;
 			let CommonTaskList = this.CommonTaskList;
 			let newArr = [];
@@ -1681,6 +1754,7 @@ export default {
 				if(data.code == 200 && data.data != null) {
 					let resultData = data.data;
 					let CommonTaskListData = [];
+					let CommonTaskListDataArr=[];
 					for(var i = 0; i < resultData.length; i++) {
 						if(i == 0) {
 							this.CommonTaskTableID = resultData[i].TableID;
@@ -1692,10 +1766,12 @@ export default {
 							isCommonSpan: true,
 							isUpdateFlag: false
 						});
+						CommonTaskListDataArr.push(resultData[i].TableID);
 					}
 					this.CommonTaskList = CommonTaskListData;
+					this.CommonTaskMaxTableID=CommonTaskListDataArr==""?0:Math.max.apply(null,CommonTaskListDataArr);
 					this.getCommonTaskSystemControl(),
-						this.getCommonTaskEquipControl()
+					this.getCommonTaskEquipControl()
 				}
 			}).catch(err => {
 				console.log(err)
@@ -1716,6 +1792,9 @@ export default {
 		},
 		formatDate(time) {
 			return time.substring(11, 19);
+		},
+		formatTimeType(time){
+			return time.replace("T"," ");
 		},
 		getNowFormatDate() {
 			var date = new Date();
