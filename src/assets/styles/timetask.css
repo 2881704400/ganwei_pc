@@ -31,14 +31,14 @@
 
 .table-toolbar button {
 	padding: 8.5px 21.5px;
-	background: #05a3e5;
+	background: #2d8cf0;
 	font-size: 14px;
 	color: #fff;
 	border: 0;
 	float: right;
 	margin-left: 10px;
 	position: relative;
-	/*top: -32px;*/
+	right: 1px;
 }
 
 .table-toolbar button:hover {
@@ -218,10 +218,14 @@
 
 .half-modal .half-content .loopCycleUl li {
 	width: 100%;
-	height: 30px;
+	/*height: 30px;*/
 	display: flex;
 	align-items: center;
 	cursor: pointer;
+	font-size: 14px;
+	/*white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;*/
 }
 
 .half-modal .half-content .loopCycleUl li:nth-child(even) {
@@ -258,8 +262,7 @@
 }
 
 .task-modal .ivu-btn-primary {
-	background-color: #05A3E5;
-	border-color: #05A3E5;
+	background-color: #2d8cf0;
 }
 
 .half-modal .half-content .insertBtn {
@@ -269,8 +272,7 @@
 	position: relative;
 	left: 32%;
 	top: 20px;
-	background-color: #05A3E5;
-	border-color: #05A3E5;
+	background-color: #2d8cf0;
 	color: #fff;
 }
 
@@ -549,6 +551,9 @@
 	display: table;
 	width: 100%;
 	table-layout: fixed;
+	border: 0;
+	border-left: 2px solid rgba(0,0,0,0);
+	box-sizing: border-box;
 }
 
 .common-smalltable table thead tr {
@@ -561,6 +566,9 @@
 	font-size: 13px;
 	font-weight: 500;
 	text-align: center;
+	background: #fff;
+	/*box-shadow: 0 3px 0px 0px #ddd;*/
+	border-bottom: 1px solid #ddd;
 }
 
 .common-smalltable table tbody {
@@ -579,18 +587,32 @@
 .common-smalltable-checkbox table tbody tr td {
 	padding: 12px 10px;
 	/*padding: 2px 1px;*/
-	text-align: left;
+	text-align: center;
 }
 
 .common-smalltable-checkbox table tbody tr td>font {
 	font-weight: 600;
+	font-size: 15px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+.common-smalltable-checkbox table tbody tr td .ivu-checkbox-wrapper {
+	/*position: relative;
+	left: 20%;*/
+	/*text-align: center;*/
+	font-size: 14px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
-.common-smalltable-checkbox table tbody tr td>font,
-.common-smalltable-checkbox table tbody tr td .ivu-checkbox-wrapper {
-	position: relative;
-	left: 20%;
+.common-smalltable-checkboxgroup table tbody tr{
+	border: 0;
+	border-left: 2px solid rgba(0,0,0,0);
+	box-sizing: border-box;
 }
+
 
 .common-smalltable-checkboxgroup table thead tr th {
 	text-align: left;
@@ -602,6 +624,8 @@
 
 .common-smalltable-checkboxgroup table tbody tr td>font {
 	font-weight: 600;
+	font-size: 15px;
+	padding: 0px 8px;
 }
 
 .common-smalltable-checkboxgroup table tr td .specContent {
@@ -610,7 +634,7 @@
 	height: 36px;
 	line-height: 36px;
 	text-align: center;
-	padding: 0px;
+	padding: 0px 10px;
 	margin: 0px;
 }
 
@@ -619,7 +643,7 @@
 }
 
 .common-smalltable-checkboxgroup table tr td .ivu-date-picker .ivu-date-picker-rel {
-	top: 1px;
+	/*top: 1px;*/
 }
 
 .common-smalltable-checkboxgroup table tbody tr td>.ivu-input-wrapper>.ivu-input {
@@ -629,16 +653,22 @@
 
 .common-smalltable-checkboxgroup table tr td .ivu-date-picker .ivu-input {
 	-webkit-box-sizing: border-box;
-	/* box-sizing: border-box; */
+	 box-sizing: border-box; 
 	font-size: 14px;
-	border: 1px solid #dddee1;
+	border: 0;
+	border-top: 1px solid #dddee1;
+	border-bottom: 1px solid #dddee1;
+	border-right: 1px solid #dddee1;
+	height: 36px;
 	border-radius: 0px;
 	text-align: left;
+	margin-top: -2px;
 }
 
 .common-smalltable-checkboxgroup table tbody tr td .ivu-checkbox-wrapper {
 	display: block;
-	padding: 3px 0 0;
+	padding: 6px 9px;
+	font-size: 14px;
 }
 
 .common-smalltable table tbody tr td>.ivu-input-wrapper>.ivu-input {
@@ -648,6 +678,7 @@
 	border: 0px solid #dddee1;
 	border-radius: 0px;
 	text-align: center;
+	margin-top: -1px;
 }
 
 .common-smalltable table tbody tr td>.ivu-input-wrapper>.ivu-input:hover {
@@ -680,7 +711,7 @@
 
 .common-smalltable table tbody tr td>button {
 	padding: 8px 9px;
-	background: #05a3e5;
+	background: #2d8cf0;
 	font-size: 14px;
 	color: #fff;
 	border: 0;
@@ -732,13 +763,18 @@
 }
 
 .activeTable {
-	background: #05A3E5 !important;
-	color: #fff;
+	border-left: 2px solid #2d8cf0 !important;
+	box-sizing: border-box;
+	color: #2d8cf0;
+	/*background: #2d8cf0 !important;
+	color: #fff;*/
 }
 
 .activeSpecTable {
-	background: #6699FF !important;
-	color: #000;
+	/*background: #6699FF !important;
+	color: #000;*/
+	border-left: 2px solid #2d8cf0 !important;
+	box-sizing: border-box;
 }
 
 .common-smalltable table tr td .spanContent {
@@ -755,7 +791,6 @@
 	width: 100%;
 	height: 36px;
 	line-height: 36px;
-	display: block;
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
@@ -775,10 +810,16 @@
 	border-radius: 0px;
 	height: 37px;
 	border: 1px solid #dadada;
+	border-right: 0px;
 	box-sizing: border-box;
 	text-align: center;
 	outline: 0;
 	background: #fff;
+	margin-top: -1px;
+}
+
+.common-smalltable table tr td:last-child .inputContent input{
+	border-right: 1px solid #dadada;
 }
 
 
@@ -799,6 +840,7 @@
 
 .common-tab .ivu-tabs.ivu-tabs-card>.ivu-tabs-bar {
 	border-bottom: 0px;
+	margin-bottom: 16px;
 }
 
 
@@ -845,9 +887,9 @@
 .common-tab .ivu-tabs.ivu-tabs-card>.ivu-tabs-bar .ivu-tabs-tab {
 	margin: 0;
 	height: 40px;
-	line-height: 23px;
+	line-height: 24px;
 	color: #2e2e2e;
-	font-size: 16px;
+	font-size: 15px;
 	padding: 8px 16px;
 	text-align: center;
 	min-width: 80px;
@@ -879,7 +921,7 @@
 	border-right: 1px solid #ddd;
 	-webkit-transform: translateZ(0);
 	transform: translateZ(0);
-	color: #3399ff;
+	color: #2d8cf0;
 }
 
 .common-tab .ivu-tabs.ivu-tabs-card>.ivu-tabs-bar .ivu-tabs-tab-active:
