@@ -524,14 +524,24 @@ isMarkAmarm:"",
       scaleTranArr:[],
       configIndex:0,
       equipId:0,//当前设备id
-
+      zcData:[],
+      viData:[],
+      alrmData:[]
     }
-  },
-  mounted (){
-
+  },beforeCreate(){
+      this.Axios.post("/api/GWServiceWebAPI/get_DataByTableName",{TableName:'GWZiChanTable'}).then(res=>{
+          this.zcData=res.data.HttpData.data;
+          // console.log(this.zcData)
+      });
+      this.Axios.post("/api/GWServiceWebAPI/get_DataByTableName",{TableName :"GW_VideoInfo"}).then(res=>{
+          this.viData=res.data.HttpData.data;
+      });
+      this.Axios.post("/oApi/GWService.asmx/QueryTableData",{tableName:'AlarmProc'}).then(res=>{
+          this.alrmData=JSON.parse(res.data.d);
+      })
+      
+  },mounted (){
     this.init();
-
-    
   },methods:{
    rowClassName (row, index) {
     if (index%2== 0) {
@@ -559,14 +569,17 @@ isMarkAmarm:"",
         this.active=index;
         this.equipId=id;
         this.getPlanData()
-        this.Axios.all([this.Axios.post("/oApi/GWService.asmx/GetSystemConfig",{table_name:'Equip',equip_no_list:id}),this.Axios.post("/oApi/GWService.asmx/QueryTableData",{tableName:'AlarmProc'}),this.Axios.post("/api/GWServiceWebAPI/get_DataByTableName",{TableName :"GW_VideoInfo"}),this.Axios.post("/api/GWServiceWebAPI/get_DataByTableName",{TableName:'GWZiChanTable'})]).then(this.Axios.spread((res,alarm,video,zichan) => {
+        this.Axios.all([this.Axios.post("/oApi/GWService.asmx/GetSystemConfig",{table_name:'Equip',equip_no_list:id})]).then(this.Axios.spread((res) => {
 
 
          let eqData=JSON.parse(res.data.d);
-         let arlarData=JSON.parse(alarm.data.d);
+         // let arlarData=JSON.parse(alarm.data.d);
+         let arlarData=this.alrmData;
          let alarLen=arlarData.length;
-         let videoData=video.data.HttpData.data;
-         let zichanData=zichan.data.HttpData.data;
+         // let videoData=video.data.HttpData.data;
+         let zichanData=this.zcData;
+         let videoData=this.viData;
+         // zichan.data.HttpData.data;
          this.zizhanList=[];
          this.videoList=[];
 
@@ -726,8 +739,8 @@ isMarkAmarm:"",
                 this.alarmArrIsShow.push("True");
                 isShow='<Icon type="ios-checkmark-outline"></Icon>';
               }else{
-                   isShow='<Icon type="ios-circle-outline"></Icon>' ;
-                   this.alarmArrIsShow.push("False");
+               isShow='<Icon type="ios-circle-outline"></Icon>' ;
+               this.alarmArrIsShow.push("False");
                     };
                     checkArr.push(isShow);
                     if((parseInt(eqData[i].alarm_scheme) & 2)>0){
@@ -804,12 +817,14 @@ isMarkAmarm:"",
             })).catch(err => {})
 
 //加载模拟量配置
-this.Axios.all([this.Axios.post("/oApi/GWService.asmx/GetSystemConfig",{table_name:'ycp',equip_no_list:id}),this.Axios.post("/oApi/GWService.asmx/QueryTableData",{tableName:'AlarmProc'}),this.Axios.post("/api/GWServiceWebAPI/get_DataByTableName",{TableName :"GW_VideoInfo"}),this.Axios.post("/api/GWServiceWebAPI/get_DataByTableName",{TableName:'GWZiChanTable'})]).then(this.Axios.spread((res,alarm,video,zichan) => {
+this.Axios.all([this.Axios.post("/oApi/GWService.asmx/GetSystemConfig",{table_name:'ycp',equip_no_list:id})]).then(this.Axios.spread((res) => {
  let dataYc=JSON.parse(res.data.d);
- let arlarData=JSON.parse(alarm.data.d);
-
- let videoData=video.data.HttpData.data;
- let zichanData=zichan.data.HttpData.data;
+ let arlarData=this.alrmData;
+ // let arlarData=JSON.parse(alarm.data.d);
+                        let zichanData=this.zcData
+                         let videoData=this.viData
+ // let videoData=video.data.HttpData.data;
+ // let zichanData=zichan.data.HttpData.data;
             // console.log(dataYc)
             // console.log(arlarData)
             this.dataYc=[];
@@ -1067,11 +1082,14 @@ let curve_rcd;
               }
             })).catch(err => {})
 
-this.Axios.all([this.Axios.post("/oApi/GWService.asmx/GetSystemConfig",{table_name:'yxp',equip_no_list:id}),this.Axios.post("/oApi/GWService.asmx/QueryTableData",{tableName:'AlarmProc'}),this.Axios.post("/api/GWServiceWebAPI/get_DataByTableName",{TableName :"GW_VideoInfo"}),this.Axios.post("/api/GWServiceWebAPI/get_DataByTableName",{TableName:'GWZiChanTable'})]).then(this.Axios.spread((res,alarm,video,zichan) => {
+this.Axios.all([this.Axios.post("/oApi/GWService.asmx/GetSystemConfig",{table_name:'yxp',equip_no_list:id})]).then(this.Axios.spread((res) => {
  let dataYx=JSON.parse(res.data.d);
- let arlarData=JSON.parse(alarm.data.d);
- let videoData=video.data.HttpData.data;
- let zichanData=zichan.data.HttpData.data;
+ let arlarData=this.alrmData;
+ // let arlarData=JSON.parse(alarm.data.d);
+  let zichanData=this.zcData
+  let videoData=this.viData
+ // let videoData=video.data.HttpData.data;
+ // let zichanData=zichan.data.HttpData.data;
            // console.log(dataYx)
            this.dataYx=[];
            let alarLen=arlarData.length;
