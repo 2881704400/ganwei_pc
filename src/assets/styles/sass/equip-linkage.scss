@@ -67,8 +67,11 @@
         .scene{
             position: relative;
             .panel{
-                &:nth-child(even){
+                &:nth-child(odd){
                     background-color: #fff;
+                }
+                .ivu-collapse-header{
+                    font-size: 15px;
                 }
                 .form{
                     .ivu-form-item-label{

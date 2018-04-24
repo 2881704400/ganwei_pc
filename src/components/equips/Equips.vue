@@ -18,7 +18,7 @@
               <td v-text="line.m_iYCNo"></td>
               <td v-text="line.m_YCNm"></td>
               <td v-text="line.m_YCValue + line.m_Unit"></td>
-              <td>
+              <td class="chart">
                 <Button type="primary"
                 icon="stats-bars" @click="toggleModal"></Button>
               </td>
@@ -49,7 +49,7 @@
       </div>
       <div :slot="tabData[2].name" class="tab-set">
         <Card title="操作命令" :dis-hover="true">
-          <Button type="primary" icon="ios-search"
+          <Button icon="ios-search"
           v-for="(btn, btnIndex) of tabData[2].setList"
           :key="btnIndex"
           v-text="btn.set_nm"

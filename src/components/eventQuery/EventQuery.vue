@@ -316,6 +316,9 @@ export default {
 .ivu-table td, .ivu-table th{
   border:none 0;
 }
+.ivu-table td{
+  font-size:1rem;
+}
 .ivu-table:after{
   height: 0;
 }
