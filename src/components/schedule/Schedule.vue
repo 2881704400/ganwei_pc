@@ -58,7 +58,7 @@
                             <Col span="6">
                             <span>人员姓名:</span>
                             </Col>
-                            <Col span="18"><input type="text" placeholder="请输入人员姓名" v-model="user_admin" v-on:input="onValidate('user')" id="userAdmin"/></Col>
+                            <Col span="18" class="userParentDev"><input type="text" placeholder="请输入人员姓名" v-model="user_admin" v-on:input="onValidate('user')" id="userAdmin"/></Col>
 
                             <Col span="6">
                             <span>电话号码:</span>
@@ -528,9 +528,7 @@ export default {
     modifyFAdministrator: function(dt) {
       this.user_isjudege = false;
       this.user_modal = true;
-
       dt.saveCell = dt.Administrator;
-
       this.user_admin = dt.Administrator;
       this.user_telphone = dt.Telphone;
       this.user_molphone = dt.MobileTel;
@@ -567,7 +565,7 @@ export default {
         Telphone: document.getElementById("phoneAdmin").parentNode.id==""?this.user_telphone:"",
         MobileTel: document.getElementById("msphoneAdmin").parentNode.id==""?this.user_molphone:"",
         EMail: document.getElementById("eamilAdmin").parentNode.id==""?this.user_email:"",
-        AckLevel: this.user_level,
+        AckLevel: parseInt(this.user_level),
         saveCell: this.user_saveCell,
         isShow: false
       };
@@ -578,7 +576,7 @@ export default {
         Telphone: document.getElementById("phoneAdmin").parentNode.id==""?this.user_telphone:"",
         MobileTel: document.getElementById("msphoneAdmin").parentNode.id==""?this.user_molphone:"",
         EMail: document.getElementById("eamilAdmin").parentNode.id==""?this.user_email:"",
-        AckLevel: this.user_level,
+        AckLevel: parseInt(this.user_level),
         ifName: "Administrator",
         ifValue: this.user_saveCell
       };
