@@ -2,20 +2,22 @@
   <div class="event-query">
      <Row class="wrap">
         <Col span="3" class="itemList">
-			  <p  v-for="(item,$index) in itemList" @click="selectId(item.m_iEquipNo,$index)" :class="$index==activeClass?'clickActive':''">
-              {{item.m_EquipNm}}
-        </p>
-           <!--  :class="$index==active?'clickActive':''" -->
+  			  <p  v-for="(item,$index) in itemList" @click="selectId(item.m_iEquipNo,$index)" :class="$index==activeClass?'clickActive':''">
+                {{item.m_EquipNm}}
+          </p>
         </Col>
         <Col span="21" class="itemDetail">
-          <div class="dateSelect">
-            <DatePicker type="datetimerange" format="yyyy/MM/dd HH:mm" :options="option1" placeholder="请选择日期时间" style="width: 500px" @on-change="dateVale"></DatePicker>
-            <Button type="primary" style="margin-left:10px;border-radius:0;background:#2d8cf0;" @click="selectEvent()">查询</Button >
-          </div>
+         
         	
           <div class="common-tabSys">
               <Tabs type="card"  :animated="false">
+                <div class="dateSelect">
+                    <Button type="primary" style="margin-left:10px;border-radius:0;background:#2d8cf0;" @click="selectEvent()">查询</Button >
+                    <DatePicker type="datetimerange" format="yyyy/MM/dd HH:mm" :options="option1" placeholder="请选择日期时间" style="width: 500px" @on-change="dateVale"></DatePicker>
+                    
+                  </div>
                 <TabPane  label="设备事件" >
+                   
                    <Table :columns="equipTh" :data="equipEvent" :height="tableHeight" :row-class-name="rowClassName"></Table>
                 </TabPane>
                 <TabPane label="设置事件">
@@ -350,4 +352,12 @@ export default {
   .ivu-btn-small{
     font-size: 14px;
   }
+  .dateSelect{
+    width: auto;
+    position: absolute;
+    top: -20px;
+    right:30px;
+    z-index: 99;
+  }
+
 </style>

@@ -19,7 +19,8 @@
         </nav>
         <div class="fold" :class="[isFold ? 'close' : 'open']" @click="foldAside">
           <!-- <span class="ivu-icon" :class="[isFold ? 'ivu-icon-arrow-left-b' : 'ivu-icon-arrow-right-b']"></span> -->
-            <span class="iconfont icon-Menu"></span>
+            <!-- <span class="iconfont icon-Menu"></span> -->
+            <img src="@assets/img/menu.png" alt="" />
         </div>
       </aside>
       <section class="main-body" :class="{home : $store.state.curPage.isHome}">
