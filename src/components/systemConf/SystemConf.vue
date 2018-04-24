@@ -12,21 +12,21 @@
   .system-conf .wrap{width:100%;height:100%;}
   .system-conf .wrap .itemDetail{height:100%;overflow: hidden;padding-left: 15px;}
   .system-conf .wrap .itemList{height:100%;overflow-y: scroll;}
-  .ivu-row::-webkit-scrollbar,.itemList::-webkit-scrollbar {/*滚动条整体样式*/
+  ::-webkit-scrollbar{/*滚动条整体样式*/
     width: 4px;     /*高宽分别对应横竖滚动条的尺寸*/
     height: 4px;
   }
-  .ivu-row::-webkit-scrollbar-thumb,.itemList::-webkit-scrollbar-thumb {/*滚动条里面小方块*/
+  ::-webkit-scrollbar-thumb{/*滚动条里面小方块*/
     border-radius: 5px;
     -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
     background: rgba(0,0,0,0.2);
   }
-  .ivu-row::-webkit-scrollbar-track,.itemList::-webkit-scrollbar-track {/*滚动条里面轨道*/
+  ::-webkit-scrollbar-track {/*滚动条里面轨道*/
     -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
     border-radius: 0;
     background: rgba(0,0,0,0.1);
   }
-  .itemList p{width:95%;
+  .system-conf  .itemList p{width:95%;
     height:50px;
     line-height: 50px;
     background: #f9f9f9;
@@ -34,7 +34,7 @@
     font-size:15px;
     text-align: center;
   }
-  .itemList p:hover{
+  .system-conf  .itemList p:hover{
     border:1px solid #2d8cf0;
     box-sizing: border-box;
     color:#2d8cf0;
@@ -46,64 +46,68 @@
    color:#2d8cf0;
  }
  
-.aa{
-  color:red !important;
-}
-.common-tab{padding:12px 0 12px 0;}
-.ivu-tabs-bar{margin-bottom: 0;height: 40px;}
-.ivu-tabs-nav-container{height: 40px !important;}
-.ivu-table-wrapper{
+
+
+.system-conf  .ivu-tabs-bar{margin-bottom: 0;height: 40px;}
+.system-conf  .ivu-tabs-nav-container{height: 40px !important;}
+.system-conf  .ivu-table-wrapper{
   border:none;
 }
 
-.ivu-tabs.ivu-tabs-card>.ivu-tabs-bar .ivu-tabs-tab{
+.system-conf  .ivu-tabs.ivu-tabs-card>.ivu-tabs-bar .ivu-tabs-tab{
   margin-right: 0;
   border-radius: 0;
   border-right: none;
-  font-size:1rem;
+  font-size:15px;
   height:40px;
+  line-height: 2;
   border-bottom: 1px solid #dddee1;
 }
-.ivu-tabs.ivu-tabs-card>.ivu-tabs-bar .ivu-tabs-tab:last-child{
+.system-conf  .ivu-tabs.ivu-tabs-card>.ivu-tabs-bar .ivu-tabs-tab:last-child{
    border-right:1px solid #dddee1;
 }
-.ivu-tabs.ivu-tabs-card>.ivu-tabs-bar .ivu-tabs-tab-active{
+.system-conf  .ivu-tabs.ivu-tabs-card>.ivu-tabs-bar .ivu-tabs-tab-active{
   border-top:1px solid #2d8cf0;
   box-sizing: border-box;
   background: #F9F9F9;
 }
-.ivu-table .ivu-table-header table .ivu-table-cell{
+.system-conf  .ivu-table .ivu-table-header table .ivu-table-cell{
   padding-left: 0;
   padding-right: 0;
   width: 100%;
   font-weight: 200;
   font-size: 0.9rem;
   text-align: center;
+  color:#333;
 }
-.ivu-table th{
+.system-conf  .ivu-table th{
   background: #fff;
 }
-.ivu-table td, .ivu-table th{
+.system-conf  .ivu-table td, .ivu-table th{
   border:none 0;
+
 }
-.ivu-table:after{
+.system-conf  .ivu-table td{
+  font-size: 1rem;
+}
+.system-conf  .ivu-table:after{
   height: 0;
 }
-.ivu-table .demo-table-info-row td{
+.system-conf  .ivu-table .demo-table-info-row td{
         background-color: #f9f9f9;
 
     }
-.ivu-table .demo-table-error-row td{
+.system-conf  .ivu-table .demo-table-error-row td{
     background-color: #fff; 
   }
-  .ivu-table-row:hover td{
+.system-conf    .ivu-table-row:hover td{
       background: #ebf7ff !important; 
   }
 
-  .ivu-table:before{
+.system-conf    .ivu-table:before{
     height:0;
   }
-  .ivu-table-wrapper{
+.system-conf  .ivu-table-wrapper{
     height:100%;
   }
 </style>
@@ -150,12 +154,12 @@
       class-name="vertical-center-modal" :styles="{top: '50px',width:'800px'}" class="uploadWrap">
        <Row>
         <Col span="12">
-               <p class="moreInforWord" v-for="(key,val) in moreInfor" :key="val" v-if="val>=0&&val<=7">
+               <p class="moreInforWord" v-for="(key,val) in moreInfor" :key="val" v-if="val>=0&&val<=10">
                   <span class="lableName">{{key.name}}</span>:<span class="labelVal">{{key.value}}</span> 
                </p>
         </Col>
          <Col span="12">
-              <p class="moreInforWord" v-for="(key,val) in moreInfor" :key="val" v-if="val>7">
+              <p class="moreInforWord" v-for="(key,val) in moreInfor" :key="val" v-if="val>10">
                   <span class="lableName">{{key.name}}</span>:<span class="labelVal">{{key.value}}</span> 
                </p>
         </Col>
@@ -169,7 +173,7 @@
         <Col span="13">
           <p v-for="(item,index) in uploadInfor"   style="margin-top:10px;">
 
-            <span  style="width:140px;display:inline-block;">{{item.name}}:</span>
+            <span  style="width:120px;display:inline-block;text-align:right;">{{item.name}}:</span>
             <Input v-model="item.value"  v-if="index==0||item.name=='模拟量编号'||item.name=='状态量编号'||item.name=='设置号'" disabled placeholder="请输入对应值" style="width: 200px;margin-left:20px;"></Input>
             <Input v-model="item.value"  v-else="index!=0" placeholder="请输入对应值" style="width: 200px;margin-left:20px;"></Input>
           </p>
@@ -178,33 +182,33 @@
         <Col span="11">
 
         <p style="margin-top:10px;" v-show="isSet_P">
-          <span style="width:100px;display:inline-block;">关联视频:</span>
+          <span style="width:100px;display:inline-block;text-align:right;">关联视频:</span>
           <Select style="width:200px;margin-left:20px;"  v-model="loadDefVideo"  ><!--:label-in-value="true" @on-change="v=>{getC(v,'type')}" -->
                 <Option v-for="item in  videoList" :key="item.ID"   :value="item.videoCode" >{{item.ChannelName}}</Option>
                 
           </Select>
         </p>
          <p style="margin-top:10px;" v-show="isSet_P">
-          <span style="width:100px;display:inline-block;">资产编号:</span>
+          <span style="width:100px;display:inline-block;text-align:right;">资产编号:</span>
           <Select  style="width:200px;margin-left:20px;"  v-model="loadDefZic">
                 <Option v-for="item in  zizhanList" :key="item.ZiChanID" :value="item.ZiChanID">{{item.ZiChanName}}</Option>
           </Select>
         </p>
         <p style="margin-top:10px;" v-show="isSet_P">
-          <span style="width:100px;display:inline-block;">预案号:</span>
+          <span style="width:100px;display:inline-block;text-align:right;">预案号:</span>
           <Select  style="width:200px;margin-left:20px;" v-model="loadDefPlan">
                 <Option v-for="item in  planList" :key="item.ID" :value="item.PlanNo">{{item.PlanNo}}</Option>
           </Select>
         </p>
 
          <p style="margin-top:10px;" v-show="isSet_P">
-          <span style="width:100px;display:inline-block;">是否显示报警 :</span>
+          <span style="width:100px;display:inline-block;text-align:right;">是否显示报警 :</span>
           <Select  style="width:200px;margin-left:20px;" v-model="isAlarm">
                <Option v-for="item in swit" :key="item.keys" :value="item.keys">{{item.txt}}</Option>          
           </Select>
         </p> 
          <p style="margin-top:10px;" v-show="isSet_P">
-          <span style="width:100px;display:inline-block;">是否记录报警 :</span>
+          <span style="width:100px;display:inline-block;text-align:right;">是否记录报警 :</span>
           <Select  style="width:200px;margin-left:20px;" v-model="isMarkAmarm">
                <Option v-for="item in swit" :key="item.keys" :value="item.keys">{{item.txt}}</Option>               
           </Select>
@@ -212,38 +216,38 @@
         <!-- name:eqData[i].Proc_name,
         res:"True" -->
         <p style="margin-top:10px;" v-show="isSet_P" v-for="(item,index) in checkAlarm">
-          <span style="width:100px;display:inline-block;">是否{{item.name}}:</span>
+          <span style="width:100px;display:inline-block;text-align:right;">是否{{item.name}}:</span>
           <Select  style="width:200px;margin-left:20px;" v-model="item.res">
              <Option v-for="item in swit" :key="item.keys" :value="item.keys">{{item.txt}}</Option>
           </Select>
         </p>
 
         <p style="margin-top:10px;" v-show="isYc">
-          <span style="width:100px;display:inline-block;" >是否曲线记录:</span>
+          <span style="width:100px;display:inline-block;text-align:right;" >是否曲线记录:</span>
           <Select style="width:200px;margin-left:20px;" v-model="curve_rcd">
              <Option v-for="item in switB" :key="item.keys" :value="item.keys">{{item.txt}}</Option>
           </Select>
         </p>
          <p style="margin-top:10px;" v-show="isYc">
-          <span style="width:100px;display:inline-block;" >是否比例变换:</span>
+          <span style="width:100px;display:inline-block;text-align:right;" >是否比例变换:</span>
           <Select style="width:200px;margin-left:20px;" v-model="scaleTran">
              <Option v-for="item in switB" :key="item.keys" :value="item.keys">{{item.txt}}</Option>
           </Select>
         </p>
          <p style="margin-top:10px;"  v-show="!isSet_P">
-          <span style="width:100px;display:inline-block;">是否记录:</span>
+          <span style="width:100px;display:inline-block;text-align:right;">是否记录:</span>
           <Select  style="width:200px;margin-left:20px;" v-model="isMarkSet">
               <Option v-for="item in switB" :key="item.keys" :value="item.keys">{{item.txt}}</Option>
           </Select>
         </p>   
         <p style="margin-top:10px;"  v-show="!isSet_P">
-          <span style="width:100px;display:inline-block;">是否可执行:</span>
+          <span style="width:100px;display:inline-block;text-align:right;">是否可执行:</span>
           <Select  style="width:200px;margin-left:20px;" v-model="isExeSet">
               <Option v-for="item in switB" :key="item.keys" :value="item.keys">{{item.txt}}</Option>
           </Select>
         </p>  
         <p style="margin-top:10px;"  v-show="isYx">
-          <span style="width:100px;display:inline-block;">是否取反:</span>
+          <span style="width:100px;display:inline-block;text-align:right;">是否取反:</span>
           <Select  style="width:200px;margin-left:20px;" v-model="negate">
               <Option v-for="item in switB" :key="item.keys" :value="item.keys">{{item.txt}}</Option>
           </Select>
@@ -427,9 +431,8 @@ export default {
                 }
               },
   
-      ],dataYx:[
-
-      ],columnsSet:[
+      ],dataYx:[],
+      columnsSet:[
         {title:"设备号",key:"equip_no"},
         {title:"设置号",key:"set_no"},
         {title:"设置名称",key:"set_nm"},
@@ -478,22 +481,17 @@ render:(h,params)=>{
       alarmArrMark:[],//报警记录承载
       alarmArrIsShow:[],//报警显示
       alarmWay:[],//报警方式承载
-
       alarmArrMarkYc:[],//报警记录承载
       alarmArrIsShowYc:[],//报警显示
       alarmWayYc:[],
-
       alarmArrMarkYx:[],//报警记录承载
       alarmArrIsShowYx:[],//报警显示
       alarmWayYx:[],
-
       itemList:[],//左侧列表
-
       isMarkSet:"",
       isExeSet:"",
       isMarkSetArr:[],
       isExeSetArr:[],
-
       active:0,
       checkAlarm:[],//报警方式
       moreInfor:[],
@@ -503,7 +501,6 @@ render:(h,params)=>{
       videoList:[],//视频表获取关联视频
       zizhanList:[],//资产编号
       planList:[],//预案号
-
       tableHeight:650,
       loadDefVideo:[],//默认选中的视频
       loadDefZic:"",
@@ -546,8 +543,8 @@ render:(h,params)=>{
     init(){
         var h = document.documentElement.clientHeight || document.body.clientHeight;
         this.tableHeight=h-175;
-        console.log(this.tableHeight)
-        console.log(h)
+        // console.log(this.tableHeight)
+        // console.log(h)
       this.Axios.post("/api/real/equip_state",{userName:window.localStorage.login_msg}).then(res=>{
         let response=res.data.HttpData.data;
         this.itemList=response;
@@ -572,7 +569,7 @@ render:(h,params)=>{
           this.zizhanList=[];
           this.videoList=[];
           
-          console.log(this.checkAlarm)
+          // console.log(this.checkAlarm)
            for(var i=0;i<videoData.length;i++){
               var item={
                   ID:i,
@@ -591,7 +588,7 @@ render:(h,params)=>{
             // console.log(zichanData)
           // console.log(eqData)
           //this.videoList，zizhanList
-            console.log(arlarData);
+            // console.log(arlarData);
            this.dataEq=[];
 
            // for(var i=this.columnsEq.length-1;i;i--){
@@ -599,7 +596,7 @@ render:(h,params)=>{
            // }
            
            this.columnsEq.splice(8,alarLen+1)
-            console.log(this.columnsEq)
+            // console.log(this.columnsEq)
               for(var j=0;j<arlarData.length;j++){
                   var itemAl={
                       title:arlarData[j].Proc_name,
@@ -630,15 +627,16 @@ render:(h,params)=>{
                                 h('p', {
                                     style: {
                                         
-                                        height:"50%",
-                                        width:"100%",
+                                        height:"100%",
+                                        width:"50%",
                                         marginBottom:"5%",
                                         color:"#2d8cf0",
-                                        cursor:"pointer"
+                                        cursor:"pointer",
+                                        display:"inline-block"
                                     },
                                     on: {
                                         click: () => {
-                                            console.log(params)
+                                            // console.log(params)
                                             // isAlarm   ,   isMarkAmarm    
                                               // alarmArrMark,alarmArrIsShow
                                               let ind=params.index;
@@ -648,7 +646,8 @@ render:(h,params)=>{
                                               this.isAlarm=this.alarmArrIsShow[ind];
                                               this.isMarkAmarm=this.alarmArrMark[ind];
                                               this.checkAlarm=this.alarmWay[ind];
-                                              console.log(this.alarmWay)
+                                              // console.log(this.alarmWay)
+                                              // console.log(this.alarmWay)
                                               this.uploadInfor=[
                                                   {name:"设备号",value:eqData[ind].equip_no,listName:'equip_no'},
                                                   {name:"设备名称",value:eqData[ind].equip_nm,listName:'equip_nm'},
@@ -677,14 +676,15 @@ render:(h,params)=>{
                                  h('p', {
                                     style: {
                                        
-                                        height:"50%",
-                                        width:"100%",
+                                        height:"100%%",
+                                        width:"50%",
                                         color:"green",
-                                        cursor:"pointer"
+                                        cursor:"pointer",
+                                         display:"inline-block"
                                     },
                                     on: {
                                         click: () => {
-                                          console.log(params)
+                                          // console.log(params)
                                           let ind=params.index;
                                            
                                             this.modal1=true;
@@ -747,7 +747,7 @@ render:(h,params)=>{
                     var alays = parseInt(arlarData[j].Proc_Code);
                     if ((parseInt(eqData[i].alarm_scheme) & alays) > 0) {
                         itemalar={
-                            name:arlarData[i].Proc_name,
+                            name:arlarData[j].Proc_name,
                             res:"True",
                             code:arlarData[j].Proc_Code
 
@@ -756,7 +756,7 @@ render:(h,params)=>{
                        arrName[j]= '<Icon type="ios-checkmark-outline"></Icon>';
                     } else {
                        itemalar={
-                            name:arlarData[i].Proc_name,
+                            name:arlarData[j].Proc_name,
                             res:"False",
                              code:arlarData[j].Proc_Code
                         }
@@ -846,18 +846,19 @@ render:(h,params)=>{
                           h("p",{
                               style: {
                                         
-                                        height:"50%",
-                                        width:"100%",
+                                        height:"100%",
+                                        width:"50%",
+                                        display:"inline-block",
                                         marginBottom:"5%",
-                                        marginRight:"10px",
+                                        // marginRight:"10px",
                                         color:"#2d8cf0",
                                         cursor:"pointer"
                                     },
                                     on: {
                                         click: () => {
-                                          console.log(this.alarmArrMarkYc)
+                                          // console.log(this.alarmArrMarkYc)
                                           let index=params.index;
-                                          console.log(index)
+                                          // console.log(index)
                                            this.modal2=true
                                            this.loadDefZic=dataYc[index].ZiChanID;
                                            this.loadDefVideo=dataYc[index].related_video;
@@ -912,8 +913,9 @@ render:(h,params)=>{
                           h('p', {
                                     style: {
                                        
-                                       height:"50%",
-                                        width:"100%",
+                                       height:"100%",
+                                        width:"50%",
+                                        display:"inline-block",
 
                                         color:"green",
                                         cursor:"pointer"
@@ -1106,10 +1108,11 @@ render:(h,params)=>{
                                       h("p",{
                                           style: {
                                                     
-                                                    height:"50%",
-                                                    width:"100%",
+                                                    height:"100%",
+                                        width:"50%",
+                                        display:"inline-block",
                                                     marginBottom:"5%",
-                                                    marginRight:"10px",
+                                                    // marginRight:"10px",
                                                     color:"#2d8cf0",
                                                     cursor:"pointer"
                                                 },
@@ -1161,9 +1164,9 @@ render:(h,params)=>{
                                       h('p', {
                                                 style: {
                                                    
-                                                   height:"50%",
-                                                    width:"100%",
-
+                                                    height:"100%",
+                                        width:"50%",
+                                        display:"inline-block",
                                                     color:"green",
                                                     cursor:"pointer"
                                                 },
@@ -1435,7 +1438,7 @@ render:(h,params)=>{
                 "vlaue":"'"+this.loadDefPlan+"'"
             };
             updateJSON.push(planNo)
-            console.log(updateJSON)
+            // console.log(updateJSON)
             this.Axios.post("/api/real/update_equip",{update:JSON.stringify(updateJSON)}).then(res=>{
                 var int=res.data.HttpData.data;
                 if(int!=0&&res.data.HttpStatus==200){
@@ -1499,7 +1502,7 @@ render:(h,params)=>{
             var scaleTran={
                 "id":this.equipId,
                 "yc_no":this.uploadInfor[1].value,
-                "listName":"scaleTran",
+                "listName":"mapping",
                 "vlaue":"'"+this.scaleTran+"'"
             }
              updateJSON.push(scaleTran);
@@ -1507,6 +1510,7 @@ render:(h,params)=>{
                  var int=res.data.HttpData.data;
                 if(int!=0&&res.data.HttpStatus==200){
                     this.$Message.success('修改成功');
+
                 }else{
                     this.$Message.error('修改失败');
                 }
@@ -1514,7 +1518,7 @@ render:(h,params)=>{
           
           
               });
-            console.log(updateJSON)
+            // console.log(updateJSON)
             
           break;
           case 2:
@@ -1614,13 +1618,14 @@ render:(h,params)=>{
           
           
               });
-            console.log(updateJSON)
+            // console.log(updateJSON)
             // console.log(this.uploadInfor)
           break;
         }
+        this.loadInformation(this.equipId)
       },getAlarmCode(){
         var code=0;
-        console.log(this.isAlarm,this.isMarkAmarm,this.checkAlarm)
+        // console.log(this.isAlarm,this.isMarkAmarm,this.checkAlarm)
         if(this.isAlarm=="True")
         this.isAlarm=="True"?code+=1:code+=0;
         this.isMarkAmarm=="True"?code+=2:code+=0;
