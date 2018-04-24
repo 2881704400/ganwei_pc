@@ -26,7 +26,7 @@
                 <th>处理意见</th>
               </tr>
             </thead>
-            <tbody class="scrollBody itemList">
+            <tbody class="scrollBody">
               <tr v-for="(item,index) of events" :key="index" v-show="item.retrievalShow">
                 <td>
                   <img :src="getIMG(item.Level)" alt="" style="vertical-align: middle;" />
