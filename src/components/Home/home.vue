@@ -16,7 +16,7 @@
           </li>
        </ul> 
       <div class="snapashot">
-          <table >
+          <table  class="gw-table">
             <thead>
               <tr>
                 <th>类型</th>
@@ -26,7 +26,7 @@
                 <th>处理意见</th>
               </tr>
             </thead>
-            <tbody class="scrollBody">
+            <tbody>
               <tr v-for="(item,index) of events" :key="index" v-show="item.retrievalShow">
                 <td>
                   <img :src="getIMG(item.Level)" alt="" style="vertical-align: middle;" />
@@ -44,7 +44,6 @@
           </table>
         </div> 
         <Modal v-model="sureModal" title="确认处理该事件吗？" @on-ok="approvalOK" class="modalAlert">
-      
             <h1 :title="eventsString">事件：<span>{{eventsString}}</span></h1>
             <input type="hidden"/>
             <p>请输入处理意见（100字以内）：</p>
@@ -53,11 +52,8 @@
             <CheckboxGroup class="groupCheck" v-show="sureMobile" v-model="sureMobileTel">
               <Checkbox v-for="(item,index) of users" :key="index" class="groupCheckChild" :label="item.MobileTel" >{{item.MobileTel}}({{item.Administrator}})</Checkbox>
             </CheckboxGroup>
-
-
         </Modal>
       </div>
-
 </div>
 
 </template>
@@ -87,7 +83,6 @@ export default {
   },
   mounted() {
     this.requestTitle();
-    // $('.scrollBody').mCustomScrollbar(scrollbarStyle);
 		},
   methods: {
     activeSnapshot: function(dt){
@@ -184,7 +179,7 @@ export default {
                           PlanNo: arrayLike[i].PlanNo,
                           Proc_advice_Msg: arrayLike[i].Proc_advice_Msg,
                           Related_pic: arrayLike[i].Related_pic,
-                          Time: formatDate(new Date(arrayLike[i].Time),"yyyy-MM-dd hh:mm:ss"),
+                          Time: arrayLike[i].Time.replace("T"," "),
                           Type: arrayLike[i].Type,
                           User_Confirmed: arrayLike[i].User_Confirmed,
                           Wavefile: arrayLike[i].Wavefile,
