@@ -9,7 +9,7 @@
         <Col span="21" class="itemDetail">
          
         	
-          <div class="common-tabSys">
+          <div class="common-tabEve">
               <Tabs type="card"  :animated="false">
                 <div class="dateSelect">
                     <Button type="primary" style="margin-left:10px;border-radius:0;background:#2d8cf0;" @click="selectEvent()">查询</Button >
@@ -280,7 +280,7 @@ export default {
   box-sizing: border-box;
   color:#2d8cf0;
 }
-.common-tab{padding:12px 0 12px 0;}
+.common-tabEve{padding:12px 0 12px 0;}
 .ivu-tabs-bar{margin-bottom: 0;height: 40px;}
 .ivu-tabs-nav-container{height: 40px !important;}
 .ivu-table-wrapper{
@@ -334,10 +334,10 @@ export default {
   .ivu-table-row:hover{
       background-color: #ff0 !important; 
   }
-  .common-tab .ivu-tabs-card>.ivu-tabs-content{
+  .common-tabEve .ivu-tabs-card>.ivu-tabs-content{
     margin-top: 0;
   }
-  .common-tab .ivu-tabs-card>.ivu-tabs-content>.ivu-tabs-tabpane{
+  .common-tabEve .ivu-tabs-card>.ivu-tabs-content>.ivu-tabs-tabpane{
     border:none 0;
   }
   .ivu-table:before{

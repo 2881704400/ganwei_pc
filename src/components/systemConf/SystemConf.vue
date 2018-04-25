@@ -2,7 +2,7 @@
 <style >
 .rowClassName{padding-left: 0;padding-right: 0;width: 100%;text-align: center;}
 .ivu-table-cell{padding-left: 0;padding-right: 0;width: 100%;text-align: center;}
-.uploadWrap .ivu-row{max-height:500px !important;overflow-y: scroll;}
+.uploadWrap .ivu-row{min-height:400px !important;}
 .uploadWrap .ivu-modal{top:50px !important;}
 /*.operta{color:#3498db !important;font-size:15px !important;cursor:pointer;}*/
 .moreInforWord{margin-top:10px;font-size:15px;}
@@ -71,7 +71,7 @@
   box-sizing: border-box;
   background: #F9F9F9;
 }
-.system-conf  .ivu-table .ivu-table-header table .ivu-table-cell{
+.system-conf .ivu-table .ivu-table-header table .ivu-table-cell{
   padding-left: 0;
   padding-right: 0;
   width: 100%;
@@ -80,6 +80,9 @@
   text-align: center;
   color:#333;
 }
+/*.system-conf .ycp .ivu-table .ivu-table-header table .ivu-table-cell{
+  font-size: 0.8rem
+}*/
 .system-conf  .ivu-table th{
   background: #fff;
 }
@@ -129,7 +132,7 @@
           
         </TabPane>
 
-        <TabPane label="模拟量配置">
+        <TabPane label="模拟量配置" class="ycp">
 
           <Table :columns="columnsYc" :data="dataYc"  :height="tableHeight"  :row-class-name="rowClassName"></Table>
           
@@ -148,110 +151,104 @@
     </div>
   </Col>
 </Row>
-<Modal
-title="查看其他信息"
-v-model="modal1"
-class-name="vertical-center-modal" :styles="{top: '50px',width:'800px'}" class="uploadWrap">
-<Row>
-  <Col span="12">
-  <p class="moreInforWord" v-for="(key,val) in moreInfor" :key="val" v-if="val>=0&&val<=10">
-    <span class="lableName">{{key.name}}</span>:<span class="labelVal">{{key.value}}</span> 
-  </p>
-</Col>
-<Col span="12">
-<p class="moreInforWord" v-for="(key,val) in moreInfor" :key="val" v-if="val>10">
-  <span class="lableName">{{key.name}}</span>:<span class="labelVal">{{key.value}}</span> 
-</p>
-</Col>
-</Row>
+<Modal title="查看其他信息" v-model="modal1" class-name="vertical-center-modal" :styles="{top: '50px',width:'850px'}" class="uploadWrap">
+    <Row>
+        <Col span="12">
+              <p class="moreInforWord" v-for="(key,val) in moreInfor" :key="val" v-if="val>=0&&val<=10">
+                <span class="lableName" style="width:170px;display:inline-block;text-align:right;">{{key.name}}</span>:<span class="labelVal">{{key.value}}</span> 
+              </p>
+        </Col>
+        <Col span="12">
+            <p class="moreInforWord" v-for="(key,val) in moreInfor" :key="val" v-if="val>10">
+              <span class="lableName" style="width:170px;display:inline-block;text-align:right;">{{key.name}}</span>:<span class="labelVal">{{key.value}}</span> 
+            </p>
+        </Col>
+    </Row>
 </Modal>
-<Modal
-title="编辑信息"
-v-model="modal2"
-class-name="vertical-center-modal"  :styles="{top: '50px',width:'800px'}" class="uploadWrap" @on-ok="configData(configIndex)">
+<Modal title="编辑信息" v-model="modal2" class-name="vertical-center-modal"  :styles="{top: '50px',width:'800px'}" class="uploadWrap" @on-ok="configData(configIndex)">
 <Row>
-  <Col span="13">
-  <p v-for="(item,index) in uploadInfor"   style="margin-top:10px;">
+    <Col span="12">
+          <p v-for="(item,index) in uploadInfor" v-if="index<=(leftNum+chazhiNum)"  style="margin-top:10px;">
+            <span  style="width:120px;display:inline-block;text-align:right;">{{item.name}}:</span>
+            <Input v-model="item.value"  v-if="index==0||item.name=='模拟量编号'||item.name=='状态量编号'||item.name=='设置号'" disabled placeholder="请输入对应值" style="width: 200px;margin-left:20px;"></Input>
+            <Input v-model="item.value"  v-else="index!=0" placeholder="请输入对应值" style="width: 200px;margin-left:20px;"></Input>
+          </p>
+    </Col>
+<Col span="12">
+ <p v-for="(item,index) in uploadInfor" v-if="index>(leftNum+chazhiNum)"  style="margin-top:10px;">
+          <span  style="width:125px;display:inline-block;text-align:right;">{{item.name}}:</span>
+          <Input v-model="item.value"  v-if="index==0||item.name=='模拟量编号'||item.name=='状态量编号'||item.name=='设置号'" disabled placeholder="请输入对应值" style="width: 200px;margin-left:20px;"></Input>
+          <Input v-model="item.value"  v-else="index!=0" placeholder="请输入对应值" style="width: 200px;margin-left:20px;"></Input>
+        </p>
+        <p style="margin-top:10px;" v-show="isSet_P">
+          <span style="width:125px;display:inline-block;text-align:right;">关联视频:</span>
+          <Select style="width:200px;margin-left:20px;"  v-model="loadDefVideo"  >
+            <Option v-for="item in  videoList" :key="item.ID"   :value="item.videoCode" >{{item.ChannelName}}</Option>
 
-    <span  style="width:120px;display:inline-block;text-align:right;">{{item.name}}:</span>
-    <Input v-model="item.value"  v-if="index==0||item.name=='模拟量编号'||item.name=='状态量编号'||item.name=='设置号'" disabled placeholder="请输入对应值" style="width: 200px;margin-left:20px;"></Input>
-    <Input v-model="item.value"  v-else="index!=0" placeholder="请输入对应值" style="width: 200px;margin-left:20px;"></Input>
-  </p>
+          </Select>
+        </p>
+        <p style="margin-top:10px;" v-show="isSet_P">
+          <span style="width:125px;display:inline-block;text-align:right;">资产编号:</span>
+          <Select  style="width:200px;margin-left:20px;"  v-model="loadDefZic">
+            <Option v-for="item in  zizhanList" :key="item.ZiChanID" :value="item.ZiChanID">{{item.ZiChanName}}</Option>
+          </Select>
+        </p>
+        <p style="margin-top:10px;" v-show="isSet_P">
+          <span style="width:125px;display:inline-block;text-align:right;">预案号:</span>
+          <Select  style="width:200px;margin-left:20px;" v-model="loadDefPlan">
+            <Option v-for="item in  planList" :key="item.ID" :value="item.PlanNo">{{item.PlanNo}}</Option>
+          </Select>
+        </p>
 
-</Col>
-<Col span="11">
-
-<p style="margin-top:10px;" v-show="isSet_P">
-  <span style="width:100px;display:inline-block;text-align:right;">关联视频:</span>
-  <Select style="width:200px;margin-left:20px;"  v-model="loadDefVideo"  ><!--:label-in-value="true" @on-change="v=>{getC(v,'type')}" -->
-    <Option v-for="item in  videoList" :key="item.ID"   :value="item.videoCode" >{{item.ChannelName}}</Option>
-
-  </Select>
-</p>
-<p style="margin-top:10px;" v-show="isSet_P">
-  <span style="width:100px;display:inline-block;text-align:right;">资产编号:</span>
-  <Select  style="width:200px;margin-left:20px;"  v-model="loadDefZic">
-    <Option v-for="item in  zizhanList" :key="item.ZiChanID" :value="item.ZiChanID">{{item.ZiChanName}}</Option>
-  </Select>
-</p>
-<p style="margin-top:10px;" v-show="isSet_P">
-  <span style="width:100px;display:inline-block;text-align:right;">预案号:</span>
-  <Select  style="width:200px;margin-left:20px;" v-model="loadDefPlan">
-    <Option v-for="item in  planList" :key="item.ID" :value="item.PlanNo">{{item.PlanNo}}</Option>
-  </Select>
-</p>
-
-<p style="margin-top:10px;" v-show="isSet_P">
-  <span style="width:100px;display:inline-block;text-align:right;">是否显示报警 :</span>
-  <Select  style="width:200px;margin-left:20px;" v-model="isAlarm">
-   <Option v-for="item in swit" :key="item.keys" :value="item.keys">{{item.txt}}</Option>          
- </Select>
-</p> 
-<p style="margin-top:10px;" v-show="isSet_P">
-  <span style="width:100px;display:inline-block;text-align:right;">是否记录报警 :</span>
-  <Select  style="width:200px;margin-left:20px;" v-model="isMarkAmarm">
-   <Option v-for="item in swit" :key="item.keys" :value="item.keys">{{item.txt}}</Option>               
- </Select>
-</p>  
-        <!-- name:eqData[i].Proc_name,
-          res:"True" -->
+        <p style="margin-top:10px;" v-show="isSet_P">
+          <span style="width:125px;display:inline-block;text-align:right;">是否显示报警 :</span>
+          <Select  style="width:200px;margin-left:20px;" v-model="isAlarm">
+           <Option v-for="item in swit" :key="item.keys" :value="item.keys">{{item.txt}}</Option>          
+         </Select>
+        </p> 
+        <p style="margin-top:10px;" v-show="isSet_P">
+          <span style="width:125px;display:inline-block;text-align:right;">是否记录报警 :</span>
+          <Select  style="width:200px;margin-left:20px;" v-model="isMarkAmarm">
+           <Option v-for="item in swit" :key="item.keys" :value="item.keys">{{item.txt}}</Option>               
+         </Select>
+        </p>  
           <p style="margin-top:10px;" v-show="isSet_P" v-for="(item,index) in checkAlarm">
-            <span style="width:100px;display:inline-block;text-align:right;">是否{{item.name}}:</span>
+            <span style="width:125px;display:inline-block;text-align:right;">是否{{item.name}}:</span>
             <Select  style="width:200px;margin-left:20px;" v-model="item.res">
              <Option v-for="item in swit" :key="item.keys" :value="item.keys">{{item.txt}}</Option>
            </Select>
          </p>
 
          <p style="margin-top:10px;" v-show="isYc">
-          <span style="width:100px;display:inline-block;text-align:right;" >是否曲线记录:</span>
+          <span style="width:125px;display:inline-block;text-align:right;" >是否曲线记录:</span>
           <Select style="width:200px;margin-left:20px;" v-model="curve_rcd">
            <Option v-for="item in switB" :key="item.keys" :value="item.keys">{{item.txt}}</Option>
          </Select>
        </p>
        <p style="margin-top:10px;" v-show="isYc">
-        <span style="width:100px;display:inline-block;text-align:right;" >是否比例变换:</span>
+        <span style="width:125px;display:inline-block;text-align:right;" >是否比例变换:</span>
         <Select style="width:200px;margin-left:20px;" v-model="scaleTran">
          <Option v-for="item in switB" :key="item.keys" :value="item.keys">{{item.txt}}</Option>
        </Select>
      </p>
-     <p style="margin-top:10px;"  v-show="!isSet_P">
-      <span style="width:100px;display:inline-block;text-align:right;">是否记录:</span>
-      <Select  style="width:200px;margin-left:20px;" v-model="isMarkSet">
-        <Option v-for="item in switB" :key="item.keys" :value="item.keys">{{item.txt}}</Option>
-      </Select>
-    </p>   
-    <p style="margin-top:10px;"  v-show="!isSet_P">
-      <span style="width:100px;display:inline-block;text-align:right;">是否可执行:</span>
-      <Select  style="width:200px;margin-left:20px;" v-model="isExeSet">
-        <Option v-for="item in switB" :key="item.keys" :value="item.keys">{{item.txt}}</Option>
-      </Select>
-    </p>  
-    <p style="margin-top:10px;"  v-show="isYx">
-      <span style="width:100px;display:inline-block;text-align:right;">是否取反:</span>
-      <Select  style="width:200px;margin-left:20px;" v-model="negate">
-        <Option v-for="item in switB" :key="item.keys" :value="item.keys">{{item.txt}}</Option>
-      </Select>
-    </p>   
+       <p style="margin-top:10px;"  v-show="!isSet_P">
+        <span style="width:125px;display:inline-block;text-align:right;">是否记录:</span>
+        <Select  style="width:200px;margin-left:20px;" v-model="isMarkSet">
+          <Option v-for="item in switB" :key="item.keys" :value="item.keys">{{item.txt}}</Option>
+        </Select>
+      </p>   
+      <p style="margin-top:10px;"  v-show="!isSet_P">
+        <span style="width:125px;display:inline-block;text-align:right;">是否可执行:</span>
+        <Select  style="width:200px;margin-left:20px;" v-model="isExeSet">
+          <Option v-for="item in switB" :key="item.keys" :value="item.keys">{{item.txt}}</Option>
+        </Select>
+      </p>  
+      <p style="margin-top:10px;"  v-show="isYx">
+        <span style="width:125px;display:inline-block;text-align:right;">是否取反:</span>
+        <Select  style="width:200px;margin-left:20px;" v-model="negate">
+          <Option v-for="item in switB" :key="item.keys" :value="item.keys">{{item.txt}}</Option>
+        </Select>
+      </p>   
   </Col>
 </Row>
 
@@ -498,6 +495,8 @@ isMarkAmarm:"",
       modal1:false,
       modal2:false,
       uploadInfor:[],
+      leftNum:0,
+      chazhiNum:0,
       videoList:[],//视频表获取关联视频
       zizhanList:[],//资产编号
       planList:[],//预案号
@@ -639,15 +638,14 @@ isMarkAmarm:"",
               render:(h,params)=>{
                 return h('div', [
                   h('p', {
-                    style: {
-
-                      height:"100%",
-                      width:"50%",
-                      marginBottom:"5%",
-                      color:"#2d8cf0",
-                      cursor:"pointer",
-                      display:"inline-block"
-                    },
+                      style: {
+                        color:"#2d8cf0",
+                        marginRight:"10px",
+                        cursor:"pointer",
+                        fontSize:"20px",
+                        display:"inline-block"       
+                      },
+                    class:"iconfont icon-scheduleMODIFY",
                     on: {
                       click: () => {
                                             // console.log(params)
@@ -660,6 +658,7 @@ isMarkAmarm:"",
                                               this.isAlarm=this.alarmArrIsShow[ind];
                                               this.isMarkAmarm=this.alarmArrMark[ind];
                                               this.checkAlarm=this.alarmWay[ind];
+                                              this.isSet_P=true
                                               // console.log(this.alarmWay)
                                               // console.log(this.alarmWay)
                                               this.uploadInfor=[
@@ -684,45 +683,45 @@ isMarkAmarm:"",
                                               ];
                                               this.modal2=true;
                                               this.configIndex=0;
+                                              this.leftNum=Math.floor(this.uploadInfor.length/2);
+                                              this.chazhiNum=3;
                                             }
                                           }
-                                        }, '编辑'),
+                                        }),
                   h('p', {
                     style: {
-
-                      height:"100%%",
-                      width:"50%",
                       color:"green",
                       cursor:"pointer",
-                      display:"inline-block"
-                    },
+                      display:"inline-block",
+                      fontSize:"20px",
+                    }, class:"iconfont icon-details ",
                     on: {
                       click: () => {
                                           // console.log(params)
                                           let ind=params.index;
 
                                           this.modal1=true;
-                                          this.moreInfor=[             
-                                          {name:"设备属性",value:eqData[ind].equip_detail},
-                                          {name:"通讯刷新周期",value:eqData[ind].acc_cyc},
-                                          {name:"通故障处理意见",value:eqData[ind].proc_advice},
-                                          {name:"故障提示",value:eqData[ind].out_of_contact},
-                                          {name:"故障恢复提示",value:eqData[ind].contacted},
-                                          {name:"报警声音文件",value:eqData[ind].event_wav},
-                                          {name:"通讯端口",value:eqData[ind].local_addr},
-                                          {name:"设备地址",value:eqData[ind].equip_addr},
-                                          {name:"通讯参数",value:eqData[ind].communication_param},
-                                          {name:"通讯时间参数",value:eqData[ind].communication_time_param},
-                                          {name:"报警升级周期（分钟）",value:eqData[ind].AlarmRiseCycle},
-                                          {name:"模板设备号",value:eqData[ind].raw_equip_no},
-                                          {name:"附表名称",value:eqData[ind].tabname},
-                                          {name:"属性",value:eqData[ind].attrib},
-
-                                          {name:"安全时段",value:eqData[ind].SafeTime}
+                                          this.moreInfor=[
+                                            {name:"属性",value:eqData[ind].attrib},
+                                            {name:"故障提示",value:eqData[ind].out_of_contact},             
+                                            {name:"设备属性",value:eqData[ind].equip_detail},
+                                            {name:"通讯端口",value:eqData[ind].local_addr},
+                                            {name:"设备地址",value:eqData[ind].equip_addr},
+                                            {name:"通讯参数",value:eqData[ind].communication_param},
+                                            {name:"附表名称",value:eqData[ind].tabname},
+                                            {name:"安全时段",value:eqData[ind].SafeTime},
+                                            {name:"模板设备号",value:eqData[ind].raw_equip_no},
+                                            {name:"通讯刷新周期",value:eqData[ind].acc_cyc},
+                                            {name:"故障恢复提示",value:eqData[ind].contacted},
+                                            {name:"报警声音文件",value:eqData[ind].event_wav},
+                                            {name:"通讯时间参数",value:eqData[ind].communication_time_param},
+                                            {name:"通故障处理意见",value:eqData[ind].proc_advice},
+                                            {name:"报警升级周期（分钟)",value:eqData[ind].AlarmRiseCycle},
                                           ];
+                                          
                                         }
                                       }
-                                    }, '详情')
+                                    })
 
                   ]);
 }
@@ -819,6 +818,7 @@ isMarkAmarm:"",
 //加载模拟量配置
 this.Axios.all([this.Axios.post("/oApi/GWService.asmx/GetSystemConfig",{table_name:'ycp',equip_no_list:id})]).then(this.Axios.spread((res) => {
  let dataYc=JSON.parse(res.data.d);
+ // console.log(dataYc)
  let arlarData=this.alrmData;
  // let arlarData=JSON.parse(alarm.data.d);
                         let zichanData=this.zcData
@@ -859,16 +859,14 @@ this.Axios.all([this.Axios.post("/oApi/GWService.asmx/GetSystemConfig",{table_na
                 render:(h,params)=>{
                  return h("div",[
                   h("p",{
-                    style: {
-
-                      height:"100%",
-                      width:"50%",
-                      display:"inline-block",
-                      marginBottom:"5%",
-                                        // marginRight:"10px",
-                                        color:"#2d8cf0",
-                                        cursor:"pointer"
-                                      },
+                     style: {
+                        color:"#2d8cf0",
+                        marginRight:"10px",
+                        cursor:"pointer",
+                        fontSize:"20px",
+                        display:"inline-block"       
+                      },
+                    class:"iconfont icon-scheduleMODIFY",
                                       on: {
                                         click: () => {
                                           // console.log(this.alarmArrMarkYc)
@@ -889,109 +887,124 @@ this.Axios.all([this.Axios.post("/oApi/GWService.asmx/GetSystemConfig",{table_na
                                           this.isYc=true;
                                             // console.log(this.alarmWay[index])
                                             this.uploadInfor=[
-                                            {name:"设备号",value:dataYc[index].equip_no,listName:'equip_no'},
-                                            {name:"模拟量编号",value:dataYc[index].yc_no,listName:'yc_no'},
-                                            {name:"模拟量名称",value:dataYc[index].yc_nm,listName:'yc_nm'},
-                                            {name:"下限值  ",value:dataYc[index].val_min,listName:'val_min'},
-                                            {name:"回复下限值",value:dataYc[index].restore_min,listName:'restore_min'},
-                                            {name:"回复上限值",value:dataYc[index].restore_max,listName:'restore_max'},
-                                            {name:"上限值",value:dataYc[index].val_max,listName:'val_max'},
-                                            {name:"单位",value:dataYc[index].unit,listName:'unit'},
-                                            {name:"关联页面",value:dataYc[index].related_pic,listName:'related_pic'},
-                                            {name:"曲线记录阈值",value:dataYc[index].curve_limit,listName:'curve_limit'},
-                                            {name:"实测最小值",value:dataYc[index].yc_min,listName:'yc_min'},
-                                            {name:"实测最大值",value:dataYc[index].yc_max,listName:'yc_max'},
-                                            {name:"最小值",value:dataYc[index].physic_min,listName:'physic_min'},
-                                            {name:"最大值",value:dataYc[index].physic_max,listName:'physic_max'},
-                                            {name:"属性值",value:dataYc[index].val_trait,listName:'val_trait'},
-                                            {name:"操作命令",value:dataYc[index].main_instruction,listName:'main_instruction'},
-                                            {name:"操作参数",value:dataYc[index].minor_instruction,listName:'minor_instruction'},
-                                            {name:"越线滞纳时间（秒）",value:dataYc[index].alarm_acceptable_time,listName:'alarm_acceptable_time'},
-                                            {name:"恢复滞纳时间（秒）",value:dataYc[index].alarm_repeat_time,listName:'alarm_repeat_time'},
-                                            {name:"重复报警时间（分钟）",value:dataYc[index].restore_acceptable_time,listName:'restore_acceptable_time'},
-                                            {name:"处理意见",value:dataYc[index].proc_advice,listName:'proc_advice'},
-                                            {name:"报警级别",value:dataYc[index].lvl_level,listName:'lvl_level'},
-                                            {name:"报警升级周期",value:dataYc[index].AlarmRiseCycle,listName:'AlarmRiseCycle'},
-                                            {name:"越下限事件",value:dataYc[index].outmin_evt,listName:'outmin_evt'},
-                                            {name:"越上限事件",value:dataYc[index].outmax_evt,listName:'outmax_evt'},
-                                            {name:"声音文件",value:dataYc[index].wave_file,listName:'wave_file'},
-                                            {name:"报警屏蔽",value:dataYc[index].alarm_shield,listName:'alarm_shield'},
-                                            {name:"起始安全时段",value:dataYc[index].safe_bgn,listName:'safe_bgn'},
-                                            {name:"结束安全时段",value:dataYc[index].safe_end,listName:'safe_end'},
-                                            {name:"安全时段",value:dataYc[index].SafeTime,listName:'SafeTime'}
+                                              {name:"设备号",value:dataYc[index].equip_no,listName:'equip_no'},
+                                              {name:"模拟量编号",value:dataYc[index].yc_no,listName:'yc_no'},
+                                              {name:"单位",value:dataYc[index].unit,listName:'unit'},
+                                              {name:"属性值",value:dataYc[index].val_trait,listName:'val_trait'},
+                                              
+                                              {name:"下限值",value:dataYc[index].val_min,listName:'val_min'},
+                                              {name:"上限值",value:dataYc[index].val_max,listName:'val_max'},
+                                              {name:"最小值",value:dataYc[index].physic_min,listName:'physic_min'},
+                                              {name:"最大值",value:dataYc[index].physic_max,listName:'physic_max'},
+
+                                              {name:"操作命令",value:dataYc[index].main_instruction,listName:'main_instruction'},
+                                              {name:"操作参数",value:dataYc[index].minor_instruction,listName:'minor_instruction'},
+                                              {name:"关联页面",value:dataYc[index].related_pic,listName:'related_pic'},
+                                              {name:"处理意见",value:dataYc[index].proc_advice,listName:'proc_advice'},
+                                              {name:"报警级别",value:dataYc[index].lvl_level,listName:'lvl_level'},
+                                              {name:"声音文件",value:dataYc[index].wave_file,listName:'wave_file'},
+                                              {name:"报警屏蔽",value:dataYc[index].alarm_shield,listName:'alarm_shield'},
+                                              {name:"安全时段",value:dataYc[index].SafeTime,listName:'SafeTime'},
+
+                                              
+                                              {name:"模拟量名称",value:dataYc[index].yc_nm,listName:'yc_nm'},
+                                              
+                                              {name:"回复下限值",value:dataYc[index].restore_min,listName:'restore_min'},
+                                              {name:"回复上限值",value:dataYc[index].restore_max,listName:'restore_max'},
+                                              {name:"实测最小值",value:dataYc[index].yc_min,listName:'yc_min'},
+                                              {name:"实测最大值",value:dataYc[index].yc_max,listName:'yc_max'},
+                                              {name:"越下限事件",value:dataYc[index].outmin_evt,listName:'outmin_evt'},
+                                              {name:"越上限事件",value:dataYc[index].outmax_evt,listName:'outmax_evt'},
+                                              
+                                              {name:"曲线记录阈值",value:dataYc[index].curve_limit,listName:'curve_limit'},
+                                              {name:"报警升级周期",value:dataYc[index].AlarmRiseCycle,listName:'AlarmRiseCycle'},
+                                              {name:"起始安全时段",value:dataYc[index].safe_bgn,listName:'safe_bgn'},
+                                              {name:"结束安全时段",value:dataYc[index].safe_end,listName:'safe_end'},
+                                              
+                                             
+                                              
+                                              {name:"越线滞纳时间(秒)",value:dataYc[index].alarm_acceptable_time,listName:'alarm_acceptable_time'},
+                                              {name:"恢复滞纳时间(秒)",value:dataYc[index].alarm_repeat_time,listName:'alarm_repeat_time'},
+                                              {name:"重复报警时间(分钟)",value:dataYc[index].restore_acceptable_time,listName:'restore_acceptable_time'},
+                                             
+                                             
+                                              
                                             ];
                                             this.configIndex=1;
+                                            this.leftNum=Math.floor(this.uploadInfor.length/2);
+                                            this.chazhiNum=4;
 
                                           }
                                         }
-                                      },"编辑"),
-h('p', {
-  style: {
+                                      }),
+                                        h('p', {
+                                          style: {
+                                            color:"green",
+                                            cursor:"pointer",
+                                            display:"inline-block",
+                                            fontSize:"20px",
+                                          }, class:"iconfont icon-details ",
+                                         on: {
+                                          click: () => {
+                                           let ind=params.index;
 
-   height:"100%",
-   width:"50%",
-   display:"inline-block",
+                                           this.moreInfor=[
+                                          {name:"最小值",value:dataYc[ind].physic_min},
+                                          {name:"最大值",value:dataYc[ind].physic_max},
+                                          {name:"属性值",value:dataYc[ind].val_trait},
 
-   color:"green",
-   cursor:"pointer"
- },
- on: {
-  click: () => {
-   let ind=params.index;
+                                          {name:"操作命令",value:dataYc[ind].main_instruction},
+                                          {name:"操作参数",value:dataYc[ind].minor_instruction},
+                                          {name:"声音文件",value:dataYc[ind].wave_file},
+                                          {name:"报警屏蔽",value:dataYc[ind].alarm_shield},
+                                          {name:"比例变换",value:dataYc[ind].mapping=="True"||dataYc[ind].mapping=="true"?"已变换":"未变换"},
+                                          {name:"安全时段",value:dataYc[ind].SafeTime},
+                                          {name:"处理意见",value:dataYc[ind].proc_advice},
+                                          {name:"报警级别",value:dataYc[ind].lvl_level},
 
-   this.moreInfor=[
-   {name:"比例变换",value:dataYc[ind].mapping=="True"||dataYc[ind].mapping=="true"?"已变换":"未变换"},
-   {name:"曲线记录阈值",value:dataYc[ind].curve_limit},
-   {name:"实测最小值",value:dataYc[ind].yc_min},
-   {name:"实测最大值",value:dataYc[ind].yc_max},
-   {name:"最小值",value:dataYc[ind].physic_min},
-   {name:"最大值",value:dataYc[ind].physic_max},
-   {name:"属性值",value:dataYc[ind].val_trait},
-   {name:"操作命令",value:dataYc[ind].main_instruction},
-   {name:"操作参数",value:dataYc[ind].minor_instruction},
-   {name:"越线滞纳时间（秒）",value:dataYc[ind].alarm_acceptable_time},
-   {name:"恢复滞纳时间（秒）",value:dataYc[ind].alarm_repeat_time},
-   {name:"重复报警时间（分钟）",value:dataYc[ind].restore_acceptable_time},
-   {name:"处理意见",value:dataYc[ind].proc_advice},
-   {name:"报警级别",value:dataYc[ind].lvl_level},
-   {name:"报警升级周期",value:dataYc[ind].AlarmRiseCycle},
-   {name:"越下限事件",value:dataYc[ind].outmin_evt},
-   {name:"越上限事件",value:dataYc[ind].outmax_evt},
-   {name:"声音文件",value:dataYc[ind].wave_file},
-   {name:"报警屏蔽",value:dataYc[ind].alarm_shield},
-   {name:"起始安全时段",value:dataYc[ind].safe_bgn},
-   {name:"结束安全时段",value:dataYc[ind].safe_end},
-   {name:"安全时段",value:dataYc[ind].SafeTime}
-   ];
-   this.modal1=true;
-                                          // console.log(params)
-                                            // this.show(params.index)
+                                          {name:"越下限事件",value:dataYc[ind].outmin_evt},
+                                          {name:"越上限事件",value:dataYc[ind].outmax_evt},
+                                          {name:"实测最小值",value:dataYc[ind].yc_min},
+                                          {name:"实测最大值",value:dataYc[ind].yc_max},
+                                          {name:"报警升级周期",value:dataYc[ind].AlarmRiseCycle},
+                                          {name:"起始安全时段",value:dataYc[ind].safe_bgn},
+                                          {name:"结束安全时段",value:dataYc[ind].safe_end},
+                                          {name:"曲线记录阈值",value:dataYc[ind].curve_limit},
+                                          {name:"越线滞纳时间(秒)",value:dataYc[ind].alarm_acceptable_time},
+                                          {name:"恢复滞纳时间(秒)",value:dataYc[ind].alarm_repeat_time},
+                                          {name:"重复报警时间(分钟)",value:dataYc[ind].restore_acceptable_time},
+                                           
+                                           
+                                           
+                                           ];
+                                           this.modal1=true;
+                                                                                  // console.log(params)
+                                                                                    // this.show(params.index)
                                           }
                                         }
-                                      }, '详情')
+                                      })
 ])
 } 
 })
 
 
-
 for(var i=0;i<dataYc.length;i++){
 
 
-  var nameVideo;
-  var zichanName;
-  for(var m=0;m<videoData.length;m++){
-    var  EquipNum=parseInt(dataYc[i].related_video.split(",")[0]),ID=parseInt(dataYc[i].related_video.split(",")[1])
-    if(EquipNum==videoData[m].EquipNum && ID==videoData[m].ID){
-      nameVideo=videoData[m].ChannelName
-    }
-  }
+      var nameVideo;
+      var zichanName;
+      for(var m=0;m<videoData.length;m++){
+        var  EquipNum=parseInt(dataYc[i].related_video.split(",")[0]),ID=parseInt(dataYc[i].related_video.split(",")[1])
+        if(EquipNum==videoData[m].EquipNum && ID==videoData[m].ID){
+          nameVideo=videoData[m].ChannelName
+        }
+      }
 
-  for(var n=0;n<zichanData.length;n++){
-    if(dataYc[i].ZiChanID==zichanData[n].ZiChanID){
-      zichanName=zichanData[n].ZiChanName
-    }
-  }
+      for(var n=0;n<zichanData.length;n++){
+        if(dataYc[i].ZiChanID==zichanData[n].ZiChanID){
+          zichanName=zichanData[n].ZiChanName
+        }
+      }
 
       //           curve_rcdArr:[],
       // negateArr:[],
@@ -1001,7 +1014,7 @@ for(var i=0;i<dataYc.length;i++){
       }else{
        this.scaleTranArr.push("False")
      }
-
+     // console.log(this.scaleTranArr)
 
      let checkArr=[],isShow,isMarlAl;
      if((dataYc[i].alarm_scheme & 1)>0){
@@ -1079,6 +1092,7 @@ let curve_rcd;
                 }
 
                 this.dataYc.push(itemYc)
+                // console.log( this.dataYc)
               }
             })).catch(err => {})
 
@@ -1118,22 +1132,22 @@ this.Axios.all([this.Axios.post("/oApi/GWService.asmx/GetSystemConfig",{table_na
               }
               this.columnsYx.push(itemAl)
             }
+
+
             this.columnsYx.push({
               title:"操作",
               key:"deal",
               render:(h,params)=>{
                return h("div",[
                 h("p",{
-                  style: {
-
-                    height:"100%",
-                    width:"50%",
-                    display:"inline-block",
-                    marginBottom:"5%",
-                                                    // marginRight:"10px",
-                                                    color:"#2d8cf0",
-                                                    cursor:"pointer"
-                                                  },
+                   style: {
+                        color:"#2d8cf0",
+                        marginRight:"10px",
+                        cursor:"pointer",
+                        fontSize:"20px",
+                        display:"inline-block"       
+                      },
+                    class:"iconfont icon-scheduleMODIFY",
                                                   on: {
                                                     click: () => {
                                                       let index=params.index;
@@ -1175,52 +1189,48 @@ this.Axios.all([this.Axios.post("/oApi/GWService.asmx/GetSystemConfig",{table_na
 
 
                                                       this.configIndex=2;
+                                                      this.leftNum=Math.floor(this.uploadInfor.length/2);
+                                                      this.chazhiNum=4;
                                                         // this.show(params.index)
                                                       }
                                                     }
-                                                  },"编辑"),
-h('p', {
-  style: {
-
-    height:"100%",
-    width:"50%",
-    display:"inline-block",
-    color:"green",
-    cursor:"pointer"
-  },
-  on: {
-    click: () => {
-      let ind=params.index;
-      this.modal1=true; 
-      this.moreInfor=[
-      {name:"取反",value:dataYx[ind].inversion=="True"||dataYx[ind].inversion=="true"?"已取反":"未取反"}, 
-      {name:"处理意见0-1",value:dataYx[ind].proc_advice_r}, 
-      {name:"处理意见1-0",value:dataYx[ind].proc_advice_d},
-      {name:"0-1级别",value:dataYx[ind].level_r},
-      {name:"1-0级别",value:dataYx[ind].level_d}, 
-      {name:"初始状态",value:dataYx[ind].initval},
-      {name: "属性值",value:dataYx[ind].val_trait}, 
-      {name:"操作命令",value:dataYx[ind].main_instruction}, 
-      {name:"操作参数",value:dataYx[ind].minor_instruction}, 
-      {name:"越线滞纳时间（秒）",value:dataYx[ind].alarm_acceptable_time}, 
-      {name:"恢复滞纳时间（秒）",value:dataYx[ind].alarm_repeat_time}, 
-      {name:"重复报警时间（分钟）",value:dataYx[ind].restore_acceptable_time},
-      {name: "声音文件",value:dataYx[ind].wave_file},
-      {name: "报警屏蔽",value:dataYx[ind].alarm_shield}, 
-
-      {name:"报警升级周期（分钟）",value:dataYx[ind].AlarmRiseCycle}, 
-      {name: "起始安全时段",value:dataYx[ind].safe_bgn}, 
-
-      {name:"结束安全时段",value:dataYx[ind].safe_end}, 
-
-      {name:"安全时段",value:dataYx[ind].SafeTime}
-
-      ];
+                                                  }),
+                                                    h('p', {
+                                                   style: {
+                                            color:"green",
+                                            cursor:"pointer",
+                                            display:"inline-block",
+                                            fontSize:"20px",
+                                          }, class:"iconfont icon-details ",
+                                                    on: {
+                                                      click: () => {
+                                                        let ind=params.index;
+                                                        this.modal1=true; 
+                                                        this.moreInfor=[
+                                                          {name:"取反",value:dataYx[ind].inversion=="True"||dataYx[ind].inversion=="true"?"已取反":"未取反"}, 
+                                                          {name:"属性值",value:dataYx[ind].val_trait}, 
+                                                          {name:"安全时段",value:dataYx[ind].SafeTime},
+                                                          {name:"初始状态",value:dataYx[ind].initval},
+                                                          {name:"操作命令",value:dataYx[ind].main_instruction}, 
+                                                          {name:"操作参数",value:dataYx[ind].minor_instruction}, 
+                                                          {name:"声音文件",value:dataYx[ind].wave_file},
+                                                          {name:"报警屏蔽",value:dataYx[ind].alarm_shield}, 
+                                                          {name:"0-1级别",value:dataYx[ind].level_r},
+                                                          {name:"1-0级别",value:dataYx[ind].level_d}, 
+                                                          {name:"起始安全时段",value:dataYx[ind].safe_bgn}, 
+                                                          {name:"结束安全时段",value:dataYx[ind].safe_end}, 
+                                                          {name:"处理意见0-1",value:dataYx[ind].proc_advice_r}, 
+                                                          {name:"处理意见1-0",value:dataYx[ind].proc_advice_d},
+                                                          {name:"越线滞纳时间(秒)",value:dataYx[ind].alarm_acceptable_time}, 
+                                                          {name:"恢复滞纳时间(秒)",value:dataYx[ind].alarm_repeat_time}, 
+                                                          {name:"重复报警时间(分钟)",value:dataYx[ind].restore_acceptable_time},
+                                                          {name:"报警升级周期(分钟)",value:dataYx[ind].AlarmRiseCycle}, 
+                                                        ];
 
 
-    }
-  }
-}, '详情')
+                                                      }
+                                                    }
+                                                    })
 ])
 }
 
@@ -1320,7 +1330,7 @@ this.alarmWayYx[i]=waysArr;
 
         this.columnsSet.splice(10,1)
         for(var i=0;i<dataSet.length;i++){
-
+           
 
           this.columnsSet.push({
             title:"操作",
@@ -1328,15 +1338,14 @@ this.alarmWayYx[i]=waysArr;
             render:(h,params)=>{
              return h("div",[
               h("p",{
-                style: {
-
-                  height:"100%",
-                  width:"100%",
-                  marginBottom:"5%",
-                  marginRight:"10px",
-                  color:"#2d8cf0",
-                  cursor:"pointer"
-                },
+                 style: {
+                        color:"#2d8cf0",
+                        marginRight:"10px",
+                        cursor:"pointer",
+                        fontSize:"20px",
+                        display:"inline-block"       
+                      },
+                    class:"iconfont icon-scheduleMODIFY",
                 on: {
                   click: () => {
                     let index=params.index;
@@ -1359,7 +1368,7 @@ this.alarmWayYx[i]=waysArr;
                     this.configIndex=3;
                   }
                 }
-              },"编辑"),
+              }),
 
               ])
            }
@@ -1461,6 +1470,7 @@ this.alarmWayYx[i]=waysArr;
               var int=res.data.HttpData.data;
               if(int!=0&&res.data.HttpStatus==200){
                 this.$Message.success('修改成功');
+                 this.loadInformation(this.equipId,this.active)
               }else{
                 this.$Message.error('修改失败');
               }
@@ -1528,6 +1538,7 @@ this.alarmWayYx[i]=waysArr;
            var int=res.data.HttpData.data;
            if(int!=0&&res.data.HttpStatus==200){
             this.$Message.success('修改成功');
+             this.loadInformation(this.equipId,this.active)
 
           }else{
             this.$Message.error('修改失败');
@@ -1590,6 +1601,7 @@ this.alarmWayYx[i]=waysArr;
            var int=res.data.HttpData.data;
            if(int!=0&&res.data.HttpStatus==200){
             this.$Message.success('修改成功');
+             this.loadInformation(this.equipId,this.active)
           }else{
             this.$Message.error('修改失败');
           }
@@ -1629,6 +1641,7 @@ this.alarmWayYx[i]=waysArr;
              var int=res.data.HttpData.data;
              if(int!=0&&res.data.HttpStatus==200){
               this.$Message.success('修改成功');
+               this.loadInformation(this.equipId,this.active)
             }else{
               this.$Message.error('修改失败');
             }
@@ -1640,7 +1653,9 @@ this.alarmWayYx[i]=waysArr;
             // console.log(this.uploadInfor)
             break;
           }
-          this.loadInformation(this.equipId)
+          // this.loadInformation(this.equipId)
+         
+
         },getAlarmCode(){
           var code=0;
         // console.log(this.isAlarm,this.isMarkAmarm,this.checkAlarm)
