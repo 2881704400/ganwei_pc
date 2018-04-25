@@ -174,7 +174,7 @@
     <Modal v-model="showAddScene"
     >
       <div slot="header">添加场景</div>
-      <Form :label-width="180"
+      <Form :label-width="100"
       :model="newScene"
       :rules="ruleNewScene"
       ref="sceneValidate"
@@ -543,7 +543,13 @@ export default {
       }
     },
     deleteAct (actIndex, actList) {
-      actList.splice(actIndex, 1)
+      this.$Modal.confirm({
+        title: '确认删除',
+        content: '是否删除该项？',
+        onOk () {
+          actList.splice(actIndex, 1)
+        }
+      })
     },
     submitScene (scene) {
       // console.log(scene)
