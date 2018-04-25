@@ -2,20 +2,22 @@
   <div class="event-query">
      <Row class="wrap">
         <Col span="3" class="itemList">
-			  <p  v-for="(item,$index) in itemList" @click="selectId(item.m_iEquipNo,$index)" :class="$index==activeClass?'clickActive':''">
-              {{item.m_EquipNm}}
-        </p>
-           <!--  :class="$index==active?'clickActive':''" -->
+  			  <p  v-for="(item,$index) in itemList" @click="selectId(item.m_iEquipNo,$index)" :class="$index==activeClass?'clickActive':''">
+                {{item.m_EquipNm}}
+          </p>
         </Col>
         <Col span="21" class="itemDetail">
-          <div class="dateSelect">
-            <DatePicker type="datetimerange" format="yyyy/MM/dd HH:mm" :options="option1" placeholder="请选择日期时间" style="width: 500px" @on-change="dateVale"></DatePicker>
-            <Button type="primary" style="margin-left:10px;border-radius:0;background:#2d8cf0;" @click="selectEvent()">查询</Button >
-          </div>
+         
         	
-          <div class="common-tabSys">
+          <div class="common-tabEve">
               <Tabs type="card"  :animated="false">
+                <div class="dateSelect">
+                    <Button type="primary" style="margin-left:10px;border-radius:0;background:#2d8cf0;" @click="selectEvent()">查询</Button >
+                    <DatePicker type="datetimerange" format="yyyy/MM/dd HH:mm" :options="option1" placeholder="请选择日期时间" style="width: 500px" @on-change="dateVale"></DatePicker>
+                    
+                  </div>
                 <TabPane  label="设备事件" >
+                   
                    <Table :columns="equipTh" :data="equipEvent" :height="tableHeight" :row-class-name="rowClassName"></Table>
                 </TabPane>
                 <TabPane label="设置事件">
@@ -278,7 +280,7 @@ export default {
   box-sizing: border-box;
   color:#2d8cf0;
 }
-.common-tab{padding:12px 0 12px 0;}
+.common-tabEve{padding:12px 0 12px 0;}
 .ivu-tabs-bar{margin-bottom: 0;height: 40px;}
 .ivu-tabs-nav-container{height: 40px !important;}
 .ivu-table-wrapper{
@@ -316,6 +318,9 @@ export default {
 .ivu-table td, .ivu-table th{
   border:none 0;
 }
+.ivu-table td{
+  font-size:1rem;
+}
 .ivu-table:after{
   height: 0;
 }
@@ -329,10 +334,10 @@ export default {
   .ivu-table-row:hover{
       background-color: #ff0 !important; 
   }
-  .common-tab .ivu-tabs-card>.ivu-tabs-content{
+  .common-tabEve .ivu-tabs-card>.ivu-tabs-content{
     margin-top: 0;
   }
-  .common-tab .ivu-tabs-card>.ivu-tabs-content>.ivu-tabs-tabpane{
+  .common-tabEve .ivu-tabs-card>.ivu-tabs-content>.ivu-tabs-tabpane{
     border:none 0;
   }
   .ivu-table:before{
@@ -347,4 +352,12 @@ export default {
   .ivu-btn-small{
     font-size: 14px;
   }
+  .dateSelect{
+    width: auto;
+    position: absolute;
+    top: -20px;
+    right:30px;
+    z-index: 99;
+  }
+
 </style>
