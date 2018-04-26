@@ -2,7 +2,7 @@
 	<div class="snapashot">
 		<div class="common-tab">
 			<Tabs type="card" @on-click="updateCardInfo" v-model="tabPaneValue">
-				<template v-for="(itemTab,indexTab) of btnInfo">
+				<template v-for="itemTab of btnInfo">
 					<TabPane :label="itemTab.btnCount" extra="itemTab.ID" :name="itemTab.btnValue" :class="{active : itemTab.isActive}" v-if="itemTab.btnStatus" :key="itemTab.spanId">
 						<div class="common-table">
 							<table>
@@ -33,7 +33,7 @@
 		</div>
 		<Modal v-model="sureModal" title="确认处理该事件吗？" @on-ok="sureModalFun" @on-cancel="cancel" class="common-moal">
 			<div class="common-moal-content">
-				<h1 v-model="EventMsg">事件：{{EventMsg}}</h1>
+				<h1>事件：{{EventMsg}}</h1>
 				<input type="hidden" v-model="Time" />
 				<p>请输入处理意见（100字以内）：</p>
 				<Input type="textarea" :rows="4" v-model='msgValue'></Input>
