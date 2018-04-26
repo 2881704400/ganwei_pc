@@ -368,7 +368,7 @@
 				        <Radio label="指定开始时间："></Radio><TimePicker v-show="loopType=='指定开始时间：'" type="time" v-model="AppointTime"></TimePicker>
 				    </RadioGroup>
 					<CheckboxGroup v-model="loopTypeCheck" class="execute-type">
-				        <Checkbox label="限制最大循环次数？"></Checkbox><InputNumber v-if="showLoopTypeNum()" v-model="loopMaxCycleNum"></InputNumber><br />
+				        <Checkbox label="限制最大循环次数？"></Checkbox><InputNumber v-if="showLoopTypeNum()" :min="1" v-model="loopMaxCycleNum"></InputNumber><br />
 				        <Checkbox label="是否必须执行完整？"></Checkbox>
 				    </CheckboxGroup>
 				</div>

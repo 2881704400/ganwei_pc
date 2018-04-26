@@ -1,7 +1,7 @@
 <template>
 	<div class="snapashot">
 		<div class="common-tab">
-			<Tabs type="card" @on-click="updateCardInfo" v-model="tabPaneValue">
+			<Tabs type="card" @on-click="updateCardInfo" :animated="false" v-model="tabPaneValue">
 				<template v-for="(itemTab,indexTab) of btnInfo">
 					<TabPane :label="itemTab.btnCount" extra="itemTab.ID" :name="itemTab.btnValue" :class="{active : itemTab.isActive}" v-if="itemTab.btnStatus" :key="itemTab.spanId">
 						<div class="common-table">
@@ -165,7 +165,7 @@
 					levels = this.event_Level_list;
 				}else{
 					levels=tabPaneValue;
-				}console.log(tabPaneValue)
+				}
 				this.Axios.post('/api/event/real_evt', {
 					levels: levels
 				}).then(res => {

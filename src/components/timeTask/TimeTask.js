@@ -25,7 +25,7 @@ export default {
 			selecteLoop: -1, //循环任务选中行值
 			LoopStatus: true, //循环任务是否选中
 			loopCycleList: [], //一个循环周期内容
-			loopMaxCycleNum: 0, //最大循环次数
+			loopMaxCycleNum: 1, //最大循环次数
 			loopBtnType: "", //modal框类型 0增加 1修改
 			loopModalTitle: "", //modal框标题
 			loopTypeS: "", //modal框 设备控制选中值
@@ -599,7 +599,7 @@ export default {
 			this.loopTypeCheck = [];
 			this.loopActionType = "设备控制";
 			this.loopCycleList = [];
-			this.loopMaxCycleNum = 0;
+			this.loopMaxCycleNum = 1;
 			this.loopBtnType = ""; //模态框变更为修改模式
 			this.loopModalTitle = "增加";
 			this.loopTypeS = "";
@@ -1117,7 +1117,7 @@ export default {
 						});
 						loopCycleListDataArr.push(resultData[i].TableID);
 					}
-					this.loopCycleList = loopCycleListData;console.log(loopCycleListData)
+					this.loopCycleList = loopCycleListData;
 					this.MaxDoOrder=loopCycleListDataArr==""?0:Math.max.apply(null,loopCycleListDataArr);
 				}
 			}).catch(err => {
