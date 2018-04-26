@@ -312,11 +312,11 @@
 										<Input v-show="!itemSpec.isCommonSpan" :value="itemSpec.DateName" @input="updateSpecPlanFun(indexSpec,$event,'DateName')" style="text-align: left;"></Input>
 									</td>
 									<td>
-										<span class="specContent" v-show="itemSpec.isCommonSpan">{{itemSpec.BeginDate.split("T")[0]}}</span>
+										<span class="specContent" v-show="itemSpec.isCommonSpan">{{itemSpec.BeginDate.indexOf("T")>-1?itemSpec.BeginDate.split("T")[0]:itemSpec.BeginDate.split(" ")[0]}}</span>
 										<DatePicker type="date" v-show="!itemSpec.isCommonSpan" :value="fmtDate(itemSpec.BeginDate)" @on-change="updateSpecPlanFun(indexSpec,$event,'BeginDate')"></DatePicker>
 									</td>
 									<td>
-										<span class="specContent" v-show="itemSpec.isCommonSpan">{{itemSpec.EndDate.split("T")[0]}}</span>
+										<span class="specContent" v-show="itemSpec.isCommonSpan">{{itemSpec.EndDate.indexOf("T")>-1?itemSpec.EndDate.split("T")[0]:itemSpec.EndDate.split(" ")[0]}}</span>
 										<DatePicker type="date" v-show="!itemSpec.isCommonSpan" :value="fmtDate(itemSpec.EndDate)" @on-change="updateSpecPlanFun(indexSpec,$event,'EndDate')"></DatePicker>
 									</td>
 									<!--<td>

@@ -168,6 +168,7 @@ export default {
 							console.log(err)
 						})
 					}
+					this.specTimePlanList[i].isUpdateFlag=false;
 				}
 			}
 		},
