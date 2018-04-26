@@ -22,7 +22,7 @@
 										</td>
 										<td>{{item.formatTime}}</td>
 										<td>
-											<p>{{item.EventMsg}}</p>
+											<p :title="item.EventMsg">{{item.EventMsg}}</p>
 										</td>
 										<td><button @click="showModalFun(item.EventMsg,item.Time)" v-show="!item.bConfirmed">请确认</button>
 											<i v-show="item.bConfirmed" class="iconfont icon-ok"></i></td>
