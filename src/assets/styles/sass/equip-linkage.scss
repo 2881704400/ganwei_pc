@@ -66,6 +66,10 @@
         
         .scene{
             position: relative;
+            .ivu-collapse{
+                border-radius: 0;
+                border-top: 0;
+            }
             .panel{
                 &:nth-child(odd){
                     background-color: #fff;

@@ -1,7 +1,7 @@
 
 <style >
 .rowClassName{padding-left: 0;padding-right: 0;width: 100%;text-align: center;}
-.ivu-table-cell{padding-left: 0;padding-right: 0;width: 100%;text-align: center;}
+.ivu-table-cell{padding-left: 0;padding-right: 0;width: 100%;text-align: center;white-space: nowrap;overflow: hidden;word-break: keep-all;}
 .uploadWrap .ivu-row{min-height:400px !important;}
 .uploadWrap .ivu-modal{top:50px !important;}
 /*.operta{color:#3498db !important;font-size:15px !important;cursor:pointer;}*/
@@ -33,6 +33,9 @@
   margin:10px auto;
   font-size:15px;
   text-align: center;
+  white-space: nowrap;
+  word-break: keep-all;
+  overflow: hidden;
 }
 .system-conf  .itemList p:hover{
   border:1px solid #2d8cf0;
@@ -78,11 +81,17 @@
   font-weight: 200;
   font-size: 0.9rem;
   text-align: center;
-  color:#333;
+  color:#858585;
 }
 /*.system-conf .ycp .ivu-table .ivu-table-header table .ivu-table-cell{
   font-size: 0.8rem
 }*/
+.system-conf .ycp .ivu-table .ivu-table-header table .ivu-table-cell{
+
+  white-space: nowrap;
+  word-break:keep-all;
+  overflow:hidden
+}
 .system-conf  .ivu-table th{
   background: #fff;
 }
@@ -119,7 +128,7 @@
   <div class="system-conf">
     <Row class="wrap">
       <Col span="3" class="itemList">
-      <p  v-for="(item,$index) in itemList" @click="loadInformation(item.m_iEquipNo,$index)" :class="$index==active?'clickActive':''">
+      <p  v-for="(item,$index) in itemList" @click="loadInformation(item.m_iEquipNo,$index)" :class="$index==active?'clickActive':''" >
         {{item.m_EquipNm}}
       </p>
     </Col>
@@ -151,10 +160,10 @@
     </div>
   </Col>
 </Row>
-<Modal title="查看其他信息" v-model="modal1" class-name="vertical-center-modal" :styles="{top: '50px',width:'850px'}" class="uploadWrap">
+<Modal title="查看其他信息" v-model="modal1" class-name="vertical-center-modal" :styles="{top: '50px',width:'800px'}" class="uploadWrap">
     <Row>
         <Col span="12">
-              <p class="moreInforWord" v-for="(key,val) in moreInfor" :key="val" v-if="val>=0&&val<=10">
+              <p class="moreInforWord" v-for="(key,val) in moreInfor" :key="val" v-if="val>=0&&val<=10" >
                 <span class="lableName" style="width:170px;display:inline-block;text-align:right;">{{key.name}}</span>:<span class="labelVal">{{key.value}}</span> 
               </p>
         </Col>
@@ -169,7 +178,7 @@
 <Row>
     <Col span="12">
           <p v-for="(item,index) in uploadInfor" v-if="index<=(leftNum+chazhiNum)"  style="margin-top:10px;">
-            <span  style="width:120px;display:inline-block;text-align:right;">{{item.name}}:</span>
+            <span  style="width:125px;display:inline-block;text-align:right;">{{item.name}}:</span>
             <Input v-model="item.value"  v-if="index==0||item.name=='模拟量编号'||item.name=='状态量编号'||item.name=='设置号'" disabled placeholder="请输入对应值" style="width: 200px;margin-left:20px;"></Input>
             <Input v-model="item.value"  v-else="index!=0" placeholder="请输入对应值" style="width: 200px;margin-left:20px;"></Input>
           </p>
@@ -263,12 +272,143 @@ export default {
   data () {
     return {
       columnsEq:[
-      { title:"设备号", key:"equip_no"},
-      {title:"设备名称",key:"equip_nm"},
-      {title:"关联界面",key:"related_pic" },
-      {title:"关联视频",key:"related_video" },
-      {title:"资产编号",key:"ZiChanID" },
-      {title:"预案号",key:"PlanNo"},
+      {title:"设备号", key:"equip_no",
+        render: (h, params) => {
+          var txt=params.column.key
+          let types=params.row.equip_no
+         
+          return h('div', [
+            h('span', {
+              style: {
+                 display: 'inline-block',
+                 width: '100%',
+                 overflow: 'hidden',
+                 textOverflow: 'ellipsis',
+                 whiteSpace: 'nowrap'
+             },
+                domProps: {
+                  title: types
+                }
+            },types)
+           
+            ]);
+        }
+
+    },
+      {title:"设备名称",key:"equip_nm",
+      render: (h, params) => {
+          var txt=params.column.key
+          let types=params.row.equip_nm
+         
+          return h('div', [
+
+            h('span', {
+              style: {
+                 display: 'inline-block',
+                 width: '100%',
+                 overflow: 'hidden',
+                 textOverflow: 'ellipsis',
+                 whiteSpace: 'nowrap'
+             },
+                domProps: {
+                  title: types
+                }
+            },types)
+           
+            ]);
+        }
+      },
+      {title:"关联界面",key:"related_pic",
+           render: (h, params) => {
+          var txt=params.column.key
+          let types=params.row.related_pic
+         
+          return h('div', [
+            h('span', {
+              style: {
+                 display: 'inline-block',
+                 width: '100%',
+                 overflow: 'hidden',
+                 textOverflow: 'ellipsis',
+                 whiteSpace: 'nowrap'
+             },
+                domProps: {
+                  title: types
+                }
+            },types)
+           
+            ]);
+        }
+       },
+      {title:"关联视频",key:"related_video",
+          render: (h, params) => {
+          var txt=params.column.key
+          let types=params.row.related_video
+         
+          return h('div', [
+            h('span', {
+              style: {
+                 display: 'inline-block',
+                 width: '100%',
+                 overflow: 'hidden',
+                 textOverflow: 'ellipsis',
+                 whiteSpace: 'nowrap'
+             },
+                domProps: {
+                  title: types
+                }
+            },types)
+           
+            ]);
+        }
+
+       },
+      {title:"资产编号",key:"ZiChanID",
+          render: (h, params) => {
+          var txt=params.column.key
+          let types=params.row.ZiChanID
+         
+          return h('div', [
+            h('span', {
+              style: {
+                 display: 'inline-block',
+                 width: '100%',
+                 overflow: 'hidden',
+                 textOverflow: 'ellipsis',
+                 whiteSpace: 'nowrap'
+             },
+                domProps: {
+                  title: types
+                }
+            },types)
+           
+            ]);
+        }
+       },
+      {title:"预案号",key:"PlanNo",
+        render: (h, params) => {
+                  var txt=params.column.key
+                  let types=params.row.PlanNo
+                 
+                  return h('div', [
+                    h('span', {
+                      style: {
+                 display: 'inline-block',
+                 width: '100%',
+                 overflow: 'hidden',
+                 textOverflow: 'ellipsis',
+                 whiteSpace: 'nowrap'
+             },
+                        domProps: {
+                          title: types
+                        }
+                    },types)
+                   
+                    ]);
+                }
+
+
+    },
       {
         title:"显示报警",
         key:"showAlarm" ,
@@ -278,13 +418,13 @@ export default {
 
           return h('div', [
             h('Icon', {
-              props: {
-                type:types,
+                  props: {
+                    type:types,
 
-              },style:{
-                fontSize:"22px",
-                color:"#2d8cf0"
-              }
+                  },style:{
+                    fontSize:"22px",
+                    color:"#2d8cf0"
+                  }
             }),
             h('strong', params.row.name)
             ]);
@@ -312,19 +452,222 @@ export default {
       ],
       dataEq:[],
       columnsYc:[
-      {title:"设备号",key:"equip_no"
-    },{title:"模拟量编号",key:"yc_no"
-  },{ title:"模拟量名称",key:"yc_nm"
-},{ title:"下限值",key:"val_min"
-},{title:"回复下限值",key:"restore_min"
-},{title:"回复上限值",key:"restore_max"
-},{title:"上限值  ",key:"val_max"
-},{ title:"单位",key:"unit"
-},{title:"关联页面",key:"related_pic"
-},{ title:"关联视频",key:"related_video"
-},{title:"资产编号",key:"ZiChanID"
-},{title:"预案号",key:"PlanNo"
-},{title:"曲线记录",
+      {title:"设备号",key:"equip_no",
+ render: (h, params) => {
+                  var txt=params.column.key
+                  let types=params.row.equip_no
+                 
+                  return h('div', [
+                    h('span', {
+                        domProps: {
+                          title: types
+                        }
+                    },types)
+                   
+                    ]);
+                }
+
+    },{title:"模拟量编号",key:"yc_no",
+ render: (h, params) => {
+                  var txt=params.column.key
+                  let types=params.row.yc_no
+                 
+                  return h('div', [
+                    h('span', {
+                        domProps: {
+                          title: types
+                        }
+                    },types)
+                   
+                    ]);
+                }
+
+    },{ title:"模拟量名称",key:"yc_nm",
+
+ render: (h, params) => {
+                  var txt=params.column.key
+                  let types=params.row.yc_nm
+                 
+                  return h('div', [
+                    h('span', {
+                      style: {
+                 display: 'inline-block',
+                 width: '100%',
+                 overflow: 'hidden',
+                 textOverflow: 'ellipsis',
+                 whiteSpace: 'nowrap'
+             },
+                        domProps: {
+                          title: types
+                        }
+                    },types)
+                   
+                    ]);
+                }
+    },{ title:"下限值",key:"val_min",
+ render: (h, params) => {
+                  var txt=params.column.key
+                  let types=params.row.val_min
+                 
+                  return h('div', [
+                    h('span', {
+                        domProps: {
+                          title: types
+                        }
+                    },types)
+                   
+                    ]);
+                }
+
+    },{title:"回复下限值",key:"restore_min",
+ render: (h, params) => {
+                  var txt=params.column.key
+                  let types=params.row.restore_min
+                 
+                  return h('div', [
+                    h('span', {
+                        domProps: {
+                          title: types
+                        }
+                    },types)
+                   
+                    ]);
+                }
+
+    },{title:"回复上限值",key:"restore_max",
+
+ render: (h, params) => {
+                  var txt=params.column.key
+                  let types=params.row.restore_max
+                 
+                  return h('div', [
+                    h('span', {
+                        domProps: {
+                          title: types
+                        }
+                    },types)
+                   
+                    ]);
+                }
+    },{title:"上限值  ",key:"val_max",
+
+ render: (h, params) => {
+                  var txt=params.column.key
+                  let types=params.row.val_max
+                 
+                  return h('div', [
+                    h('span', {
+                        domProps: {
+                          title: types
+                        }
+                    },types)
+                   
+                    ]);
+                }
+    },{ title:"单位",key:"unit",
+
+ render: (h, params) => {
+                  var txt=params.column.key
+                  let types=params.row.unit
+                 
+                  return h('div', [
+                    h('span', {
+                        domProps: {
+                          title: types
+                        }
+                    },types)
+                   
+                    ]);
+                }
+    },{title:"关联页面",key:"related_pic",
+ render: (h, params) => {
+                  var txt=params.column.key
+                  let types=params.row.related_pic
+                 
+                  return h('div', [
+                    h('span', {
+                      style: {
+                 display: 'inline-block',
+                 width: '100%',
+                 overflow: 'hidden',
+                 textOverflow: 'ellipsis',
+                 whiteSpace: 'nowrap'
+             },
+                        domProps: {
+                          title: types
+                        }
+                    },types)
+                   
+                    ]);
+                }
+
+    },{ title:"关联视频",key:"related_video",
+ render: (h, params) => {
+                  var txt=params.column.key
+                  let types=params.row.related_video
+                 
+                  return h('div', [
+                    h('span', {
+                      style: {
+                 display: 'inline-block',
+                 width: '100%',
+                 overflow: 'hidden',
+                 textOverflow: 'ellipsis',
+                 whiteSpace: 'nowrap'
+             },
+                        domProps: {
+                          title: types
+                        }
+                    },types)
+                   
+                    ]);
+                }
+
+    },{title:"资产编号",key:"ZiChanID",
+
+ render: (h, params) => {
+                  var txt=params.column.key
+                  let types=params.row.ZiChanID
+                 
+                  return h('div', [
+                    h('span', {
+                      style: {
+                 display: 'inline-block',
+                 width: '100%',
+                 overflow: 'hidden',
+                 textOverflow: 'ellipsis',
+                 whiteSpace: 'nowrap'
+             },
+                        domProps: {
+                          title: types
+                        }
+                    },types)
+                   
+                    ]);
+                }
+    },{title:"预案号",key:"PlanNo",
+ render: (h, params) => {
+                  var txt=params.column.key
+                  let types=params.row.PlanNo
+                 
+                  return h('div', [
+                    h('span', {
+                      style: {
+                 display: 'inline-block',
+                 width: '100%',
+                 overflow: 'hidden',
+                 textOverflow: 'ellipsis',
+                 whiteSpace: 'nowrap'
+             },
+                        domProps: {
+                          title: types
+                        }
+                    },types)
+                   
+                    ]);
+                }
+
+    },{title:"曲线记录",
 key:"curve_rcd",
 render:(h,params)=>{
   var txt=params.column.key
@@ -384,15 +727,204 @@ render:(h,params)=>{
 }
 ],dataYc:[],
 columnsYx:[
-{title:"设备号",key:"equip_no"},
-{title:"状态量编号",key:"yx_no"},
-{title:"状态量名称",key:"yx_nm"},
-{title:"0-1事件",key:"evt_01"},
-{title:"1-0事件",key:"evt_10"},
-{title:"关联页面",key:"related_pic"},
-{title:"关联视频",key:"related_video"},
-{title:"资产编号",key:"ZiChanID"},
-{title:"预案号",key:"PlanNo"},
+{title:"设备号",key:"equip_no",
+ render: (h, params) => {
+                  var txt=params.column.key
+                  let types=params.row.equip_no
+                 
+                  return h('div', [
+                    h('span', {
+                      style: {
+                 display: 'inline-block',
+                 width: '100%',
+                 overflow: 'hidden',
+                 textOverflow: 'ellipsis',
+                 whiteSpace: 'nowrap'
+             },
+                        domProps: {
+                          title: types
+                        }
+                    },types)
+                   
+                    ]);
+                }
+},
+{title:"状态量编号",key:"yx_no",
+ render: (h, params) => {
+                  var txt=params.column.key
+                  let types=params.row.yx_no
+                 
+                  return h('div', [
+                    h('span', {
+                      style: {
+                 display: 'inline-block',
+                 width: '100%',
+                 overflow: 'hidden',
+                 textOverflow: 'ellipsis',
+                 whiteSpace: 'nowrap'
+             },
+                        domProps: {
+                          title: types
+                        }
+                    },types)
+                   
+                    ]);
+                }
+},
+{title:"状态量名称",key:"yx_nm",
+ render: (h, params) => {
+                  var txt=params.column.key
+                  let types=params.row.yx_nm
+                 
+                  return h('div', [
+                    h('span', {
+                      style: {
+                 display: 'inline-block',
+                 width: '100%',
+                 overflow: 'hidden',
+                 textOverflow: 'ellipsis',
+                 whiteSpace: 'nowrap'
+             },
+                        domProps: {
+                          title: types
+                        }
+                    },types)
+                   
+                    ]);
+                }
+},
+{title:"0-1事件",key:"evt_01",
+ render: (h, params) => {
+                  var txt=params.column.key
+                  let types=params.row.evt_01
+                 
+                  return h('div', [
+                    h('span', {
+                      style: {
+                 display: 'inline-block',
+                 width: '100%',
+                 overflow: 'hidden',
+                 textOverflow: 'ellipsis',
+                 whiteSpace: 'nowrap'
+             },
+                        domProps: {
+                          title: types
+                        }
+                    },types)
+                   
+                    ]);
+                }
+},
+{title:"1-0事件",key:"evt_10",
+ render: (h, params) => {
+                  var txt=params.column.key
+                  let types=params.row.evt_10
+                 
+                  return h('div', [
+                    h('span', {
+                      style: {
+                 display: 'inline-block',
+                 width: '100%',
+                 overflow: 'hidden',
+                 textOverflow: 'ellipsis',
+                 whiteSpace: 'nowrap'
+             },
+                        domProps: {
+                          title: types
+                        }
+                    },types)
+                   
+                    ]);
+                }
+},
+{title:"关联页面",key:"related_pic",
+ render: (h, params) => {
+                  var txt=params.column.key
+                  let types=params.row.related_pic
+                 
+                  return h('div', [
+                    h('span', {
+                      style: {
+                 display: 'inline-block',
+                 width: '100%',
+                 overflow: 'hidden',
+                 textOverflow: 'ellipsis',
+                 whiteSpace: 'nowrap'
+             },
+                        domProps: {
+                          title: types
+                        }
+                    },types)
+                   
+                    ]);
+                }
+},
+{title:"关联视频",key:"related_video",
+ render: (h, params) => {
+                  var txt=params.column.key
+                  let types=params.row.related_video
+                 
+                  return h('div', [
+                    h('span', {
+                      style: {
+                 display: 'inline-block',
+                 width: '100%',
+                 overflow: 'hidden',
+                 textOverflow: 'ellipsis',
+                 whiteSpace: 'nowrap'
+             },
+                        domProps: {
+                          title: types
+                        }
+                    },types)
+                   
+                    ]);
+                }
+},
+{title:"资产编号",key:"ZiChanID",
+ render: (h, params) => {
+                  var txt=params.column.key
+                  let types=params.row.ZiChanID
+                 
+                  return h('div', [
+                    h('span', {
+                      style: {
+                 display: 'inline-block',
+                 width: '100%',
+                 overflow: 'hidden',
+                 textOverflow: 'ellipsis',
+                 whiteSpace: 'nowrap'
+             },
+                        domProps: {
+                          title: types
+                        }
+                    },types)
+                   
+                    ]);
+                }
+},
+{title:"预案号",key:"PlanNo",
+ render: (h, params) => {
+                  var txt=params.column.key
+                  let types=params.row.PlanNo
+                 
+                  return h('div', [
+                    h('span', {
+                      style: {
+                 display: 'inline-block',
+                 width: '100%',
+                 overflow: 'hidden',
+                 textOverflow: 'ellipsis',
+                 whiteSpace: 'nowrap'
+             },
+                        domProps: {
+                          title: types
+                        }
+                    },types)
+                   
+                    ]);
+                }
+},
 {title:"显示报警",key:"showAlarm",
 render:(h,params)=>{
   var txt=params.column.key
@@ -1213,7 +1745,7 @@ this.Axios.all([this.Axios.post("/oApi/GWService.asmx/GetSystemConfig",{table_na
                                                           {name:"初始状态",value:dataYx[ind].initval},
                                                           {name:"操作命令",value:dataYx[ind].main_instruction}, 
                                                           {name:"操作参数",value:dataYx[ind].minor_instruction}, 
-                                                          {name:"声音文件",value:dataYx[ind].wave_file},
+                                                          
                                                           {name:"报警屏蔽",value:dataYx[ind].alarm_shield}, 
                                                           {name:"0-1级别",value:dataYx[ind].level_r},
                                                           {name:"1-0级别",value:dataYx[ind].level_d}, 
@@ -1225,6 +1757,7 @@ this.Axios.all([this.Axios.post("/oApi/GWService.asmx/GetSystemConfig",{table_na
                                                           {name:"恢复滞纳时间(秒)",value:dataYx[ind].alarm_repeat_time}, 
                                                           {name:"重复报警时间(分钟)",value:dataYx[ind].restore_acceptable_time},
                                                           {name:"报警升级周期(分钟)",value:dataYx[ind].AlarmRiseCycle}, 
+                                                          {name:"声音文件",value:dataYx[ind].wave_file},
                                                         ];
 
 
@@ -1340,7 +1873,7 @@ this.alarmWayYx[i]=waysArr;
               h("p",{
                  style: {
                         color:"#2d8cf0",
-                        marginRight:"10px",
+                       
                         cursor:"pointer",
                         fontSize:"20px",
                         display:"inline-block"       
@@ -1365,6 +1898,7 @@ this.alarmWayYx[i]=waysArr;
                     {name:"操作命令",value:dataSet[index].main_instruction,listName:'main_instruction'},
                     {name:"操作参数",value:dataSet[index].minor_instruction,listName:'minor_instruction'},
                     ]
+                    this.leftNum=Math.floor(this.uploadInfor.length/2);
                     this.configIndex=3;
                   }
                 }

@@ -12,8 +12,8 @@
           <div class="common-tabEve">
               <Tabs type="card"  :animated="false">
                 <div class="dateSelect">
-                    <Button type="primary" style="margin-left:10px;border-radius:0;background:#2d8cf0;" @click="selectEvent()">查询</Button >
-                    <DatePicker type="datetimerange" format="yyyy/MM/dd HH:mm" :options="option1" placeholder="请选择日期时间" style="width: 500px" @on-change="dateVale"></DatePicker>
+                    <Button type="primary" style="margin-right:10px;border-radius:0;background:#2d8cf0;padding:8.5px 21.5px;font-size:14px;line-height:inherit;color:#fff;" @click="selectEvent()">查询</Button >
+                    <DatePicker class="dataSelect" type="datetimerange" format="yyyy/MM/dd HH:mm" :options="option1" placeholder="请选择日期时间" style="width: 500px" @on-change="dateVale"></DatePicker>
                     
                   </div>
                 <TabPane  label="设备事件" >
@@ -310,7 +310,7 @@ export default {
   font-weight: 200;
   font-size: 0.9rem;
   text-align: center;
-  color:#333;
+  color:#858585;
 }
 .ivu-table th{
   background: #fff;
@@ -359,5 +359,7 @@ export default {
     right:30px;
     z-index: 99;
   }
-
+.dataSelect i{
+  font-size: 20px;
+}
 </style>
