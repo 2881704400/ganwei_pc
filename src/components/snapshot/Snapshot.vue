@@ -43,7 +43,7 @@
             <Input type="textarea" :rows="4" v-model="msgValue"></Input>
             <Checkbox  label="是" style="margin: 10px 0;" v-model="isSendSms">是否发送短信？</Checkbox>
             <CheckboxGroup class="groupCheck" v-show="isSendSms" v-model="atorMobiles">
-              <Checkbox v-for="(item,index) of atorMsgInfo" :key="index" class="groupCheckChild" :label="item.MobileTel" >{{item.MobileTel}}({{item.Administrator}})</Checkbox>
+              <Checkbox v-for="(item,index) of atorMsgInfo" :key="index" class="groupCheckChild" :label="item.allInfo" >{{item.MobileTel}}({{item.Administrator}})</Checkbox>
             </CheckboxGroup>
         </Modal>
 	</div>
@@ -76,15 +76,15 @@
 			getIMG(level) {
 				var url="";
 				if(level=="故障"){
-					url = "/static/infor/Errors.png";
+					url = "./static/infor/Errors.png";
 				}else if(level=="警告"){
-					url = "/static/infor/Warnings.png";
+					url = "./static/infor/Warnings.png";
 				}else if(level=="信息"){
-					url = "/static/infor/Informations.png";
+					url = "./static/infor/Informations.png";
 				}else if(level=="设置"){
-					url = "/static/infor/Settings.png";
+					url = "./static/infor/Settings.png";
 				}else if(level=="资产"){
-					url = "/static/infor/Assets.png";
+					url = "./static/infor/Assets.png";
 				}
 				return url;
 			},
@@ -214,7 +214,8 @@
 						for(var i = 0; i < resultData.length; i++) {
 							atorMsgInfoData.push({
 								Administrator: resultData[i].Administrator,
-								MobileTel: resultData[i].MobileTel
+								MobileTel: resultData[i].MobileTel,
+								allInfo: resultData[i].Administrator+"&&"+resultData[i].MobileTel
 							});
 						}
 						this.atorMsgInfo = atorMsgInfoData;
@@ -232,10 +233,18 @@
 				this.sureModal = true;
 			},
 			sureModalFun() {
+				let atorMobiles=this.atorMobiles;
+				let atorMobilesArr=[];
+				for(let i=0;i<atorMobiles.length;i++){
+					if(atorMobiles[i]!=""&&atorMobiles[i]!=null){
+						atorMobilesArr.push(atorMobiles[i].split("&&")[1]);
+					}
+					
+				}
 				this.Axios.post('/api/event/confirm_evt', {
 					msg: this.msgValue,
 					shortmsg: this.isSendSms,
-					tel: this.atorMobiles.join(','),
+					tel: atorMobilesArr.toString(),
 					evtname: this.EventMsg,
 					time: this.Time
 				}).then(res => {
@@ -266,4 +275,3 @@
 </script>
 
 <style lang="css" src="@assets/styles/timetask.css"></style>
-<style lang="scss" src="../../assets/styles/sass/home.scss"></style>

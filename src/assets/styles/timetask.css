@@ -438,10 +438,6 @@
 	table-layout: fixed;
 }
 
-.common-table table thead {
-	width: calc( 100% - 1em)
-}
-
 .common-table table tbody tr td {
 	padding: 6px 10px;
 	color: #2e2e2e;
@@ -972,4 +968,53 @@
 	-webkit-transform: translateZ(0);
 	transform: translateZ(0);
 	color: #2d8cf0;
+}
+
+.modalAlert h1 {
+  font-size: 1rem;
+  font-weight: 200;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.modalAlert p {
+  margin-top: 20px;
+}
+
+.modalAlert .groupCheck {
+  padding: 20px 0;
+  text-indent: 10px;
+  border: 1px solid #eee;
+}
+
+.modalAlert .groupCheck > .groupCheckChild {
+  height: 30px;
+  line-height: 30px;
+  display: block;
+}
+
+.modalAlert .groupCheck > .groupCheckChild:nth-child(2n) {
+  background: white;
+}
+
+.modalAlert .groupCheck > .groupCheckChild:nth-child(2n+1) {
+  background: #F9F9F9;
+}
+
+.modalAlert .groupCheck > .groupCheckChild:hover {
+  background: #eee;
+}
+
+.modalAlert .ivu-btn-primary {
+  color: #DEF0F9;
+  width: 83px;
+  height: 31px;
+  background-color: #2d8cf0;
+  border-color: #2d8cf0;
+  border-radius: 0;
+}
+
+.ivu-modal-content {
+  border-radius: 0 !important;
 }

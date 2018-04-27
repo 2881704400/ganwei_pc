@@ -17,7 +17,7 @@ module.exports = {
         }
       },
       '/oApi': {
-        target: 'http://192.168.0.111:8013',
+        target: 'http://192.168.0.196:7006',
         pathRewrite: {
           '^/oApi': '/'
         }
