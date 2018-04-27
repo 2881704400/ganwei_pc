@@ -18,13 +18,13 @@
                   </div>
                 <TabPane  label="设备事件" >
                    
-                   <Table :columns="equipTh" :data="equipEvent" :height="tableHeight" :row-class-name="rowClassName"></Table>
+                   <Table :columns="equipTh" :data="equipEvent" :height="tableHeight" :row-class-name="rowClassName" :loading="loading"></Table>
                 </TabPane>
                 <TabPane label="设置事件">
-                   <Table :columns="sysTh" :data="setEvent" :height="tableHeight" :row-class-name="rowClassName"></Table>
+                   <Table :columns="sysTh" :data="setEvent" :height="tableHeight" :row-class-name="rowClassName" :loading="loading"></Table>
                 </TabPane>
                 <TabPane label="系统事件">
-                   <Table :columns="sysEventTh" :data="sysEvent" :height="tableHeight" :row-class-name="rowClassName" @on-sort-change="aa"></Table>
+                   <Table :columns="sysEventTh" :data="sysEvent" :height="tableHeight" :row-class-name="rowClassName"  :loading="loading"></Table>
                 </TabPane>
 
               </Tabs>
@@ -46,6 +46,7 @@ export default {
       sysEvent:[],//右侧系统事件
       dateValue:[],
       equipId:0,
+      loading:false,
       equipTh:[
         {
           title:"设备名称",
@@ -125,11 +126,9 @@ export default {
     this.init()
 
   },methods:{
-     aa(){
-        this.rowClassName()
-
-     },
+     
      rowClassName (row, index) {
+      // console.log(2)
                 if (index%2== 0) {
                     return 'demo-table-info-row';
                 } else if (index%2== 1) {
@@ -163,7 +162,7 @@ export default {
         this.dateValue[0]=this.dateValue[1].split(" ")[0];
       }
       timeStr=this.dateValue.toString();
-
+      this.loading=true;
       this.Axios.post("/GWService.asmx/QueryEquipEvt",{times:timeStr,equip_no_list:this.equipId}).then(res=>{//加载模拟量配置
          // this.equipEvent=res.data.HttpData.data;
           if(res.data!='false'){
@@ -180,6 +179,7 @@ export default {
             }
             
           }
+          this.loading=false;
       });
       this.Axios.post("/GWService.asmx/QuerySetupsEvt",{times:timeStr,equip_no_list:this.equipId}).then(res=>{
           if(res.data!='false'){
@@ -195,6 +195,7 @@ export default {
               this.setEvent.push(item);
             }
           }
+           this.loading=false;
       });
       this.Axios.post("/GWService.asmx/QuerySystemEvt",{times:timeStr}).then(res=>{
         // console.log(res)
@@ -213,6 +214,7 @@ export default {
             }
             // data1
           }
+           this.loading=false;
         
       });
      }
@@ -234,12 +236,12 @@ export default {
          // console.log(val)
          if(val.length!=0)this.$Message.success('操作成功');
           
-       },
+       }
      }
 }
 </script>
 
-<style>
+<style lang="css">
 
 *{
   font-family: "微软雅黑"

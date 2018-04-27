@@ -1,5 +1,5 @@
 
-<style >
+<style lang="css">
 .rowClassName{padding-left: 0;padding-right: 0;width: 100%;text-align: center;}
 .ivu-table-cell{padding-left: 0;padding-right: 0;width: 100%;text-align: center;white-space: nowrap;overflow: hidden;word-break: keep-all;}
 .uploadWrap .ivu-row{min-height:400px !important;}

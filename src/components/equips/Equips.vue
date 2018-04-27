@@ -73,6 +73,7 @@
 import { mapState } from 'vuex'
 import gwTabs from "@page/public/GwTabs"
 import gwLoading from "@page/public/GwLoading"
+// import signalR from '@assets/js/signalr.js'
 export default {
   name: 'equips',
   data () {
@@ -104,8 +105,6 @@ export default {
           setList: []
         }
       ],
-      serverHub: null,
-      HUBNAME: 'hub',
       showChart: false
     }
   },
@@ -132,7 +131,7 @@ export default {
         let rt = res.data.HttpData
         if (rt.code === 200) {
           let data = rt.data
-          console.log(data)
+          // console.log(data)
           this.tabData[0].tbList.splice(0, this.tabData[0].tbList.length)
           this.tabData[1].tbList.splice(0, this.tabData[1].tbList.length)
           for (let key in data.YCItemDict) {
@@ -238,24 +237,33 @@ export default {
       })
     },
     connectServer() {
-      // this.Axios.post('/api/Nloves/nsa')
-      //   .then(res => {
-      //     let rt = res
-      //     console.log(rt)
-      //   })
-      //   .catch(err => {
-      //     console.log(err)
-      //   })
+      let url = 'http://localhost:7001'
+      let conn = $.hubConnection(url)
+      let proxy = conn.createHubProxy('serverHub')
+      // console.log(proxy)
+      proxy.on('sendConnect', data => {
+        console.log(data)
+      });
+      proxy.on('sendAll', function (a, b) {
+          console.log(a, b)
+      });
+      proxy.on('sendYcpSingle', data => {
+          console.log(data)
+      });
+      proxy.on('sendYxpSingle', data => {
+          console.log(data)
+      });
       
-      // let hub = $.connection('/signalr/hub')
-      // let hub = $.connection('http://192.168.0.247:7001/signalr')
-      // hub.start()
-      //   .done(() => {
-      //     console.log(123)
-      //   })
-      //   .fail(err => {
-      //     console.log(err)
-      //   })
+      conn.start()
+        .done(() => {
+            console.log('start!')
+            proxy.invoke('Connect')
+            //proxy.invoke('ListenEquipAll', window.localStorage.ac_appkey, window.localStorage.ac_infokey)
+            proxy.invoke('StartListen', 1, window.localStorage.ac_appkey, window.localStorage.ac_infokey)
+        })
+        .fail(err => {
+            console.log('错误-------:', err)
+        })
     },
     toggleModal () {
       this.showChart = !this.showChart
@@ -264,6 +272,7 @@ export default {
   beforeRouteUpdate (to, from, next) {
     this.$store.commit('setEquipNo', to.hash.substr(1))
     this.getAllState()
+    this.connectServer()
     next()
   },
   mounted () {
