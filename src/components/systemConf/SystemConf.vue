@@ -1116,6 +1116,7 @@ isMarkAmarm:"",
 
           // console.log(this.checkAlarm)
           for(var i=0;i<videoData.length;i++){
+             this.columnsEq.splice(8,alarLen+1)
             var item={
               ID:i,
               videoCode:videoData[i].EquipNum+","+videoData[i].ID,
@@ -1143,7 +1144,7 @@ isMarkAmarm:"",
            
             // console.log(this.columnsEq)
             for(var j=0;j<arlarData.length;j++){
-              this.columnsEq.splice(8,alarLen+1)
+             
               var itemAl={
                 title:arlarData[j].Proc_name,
                 key:"way"+j,
@@ -1353,18 +1354,14 @@ this.Axios.all([this.Axios.post("/GWService.asmx/GetSystemConfig",{table_name:'y
  let dataYc=JSON.parse(res.data.d);
  // console.log(dataYc)
  let arlarData=this.alrmData;
- // let arlarData=JSON.parse(alarm.data.d);
-                        let zichanData=this.zcData
-                         let videoData=this.viData
- // let videoData=video.data.HttpData.data;
- // let zichanData=zichan.data.HttpData.data;
-            // console.log(dataYc)
-            // console.log(arlarData)
+      let zichanData=this.zcData
+       let videoData=this.viData
+
             this.dataYc=[];
             let alarLen=arlarData.length;
-           
+           this.columnsYc.splice(15,alarLen+1)
             for(var j=0;j<arlarData.length;j++){
-               this.columnsYc.splice(15,alarLen+1)
+               
               // console.log(arlarData[j].Proc_name)
               var itemAl={
                 title:arlarData[j].Proc_name,
