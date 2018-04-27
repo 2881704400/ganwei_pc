@@ -406,7 +406,7 @@
 
 .common-table table tbody {
 	display: block;
-	height: 768px;
+	height: 758px;
 	overflow-y: auto;
 }
 
@@ -973,5 +973,3 @@
 	transform: translateZ(0);
 	color: #2d8cf0;
 }
-
-.common-tab .ivu-tabs.ivu-tabs-card>.ivu-tabs-bar .ivu-tabs-tab-active:
