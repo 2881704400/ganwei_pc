@@ -230,12 +230,12 @@ export default {
          // console.log(val)
          if(val.length!=0)this.$Message.success('操作成功');
           
-       },
+       }
      }
 }
 </script>
 
-<style>
+<style lang="css">
 
 *{
   font-family: "微软雅黑"
