@@ -24,7 +24,7 @@
                    <Table :columns="sysTh" :data="setEvent" :height="tableHeight" :row-class-name="rowClassName"></Table>
                 </TabPane>
                 <TabPane label="系统事件">
-                   <Table :columns="sysEventTh" :data="sysEvent" :height="tableHeight" :row-class-name="rowClassName"></Table>
+                   <Table :columns="sysEventTh" :data="sysEvent" :height="tableHeight" :row-class-name="rowClassName" @on-sort-change="aa"></Table>
                 </TabPane>
 
               </Tabs>
@@ -125,6 +125,10 @@ export default {
     this.init()
 
   },methods:{
+     aa(){
+        this.rowClassName()
+
+     },
      rowClassName (row, index) {
                 if (index%2== 0) {
                     return 'demo-table-info-row';
@@ -135,7 +139,7 @@ export default {
             },
     init(){
        var h = document.documentElement.clientHeight || document.body.clientHeight;
-        this.tableHeight=h-240;
+        this.tableHeight=h-200;
       this.Axios.post("/api/real/equip_state",{userName:window.localStorage.login_msg}).then(res=>{
         let response=res.data.HttpData.data;
         this.itemList=response;
@@ -160,7 +164,7 @@ export default {
       }
       timeStr=this.dateValue.toString();
 
-      this.Axios.post("/oApi/GWService.asmx/QueryEquipEvt",{times:timeStr,equip_no_list:this.equipId}).then(res=>{//加载模拟量配置
+      this.Axios.post("/GWService.asmx/QueryEquipEvt",{times:timeStr,equip_no_list:this.equipId}).then(res=>{//加载模拟量配置
          // this.equipEvent=res.data.HttpData.data;
           if(res.data!='false'){
             this.equipEvent=[];
@@ -177,7 +181,7 @@ export default {
             
           }
       });
-      this.Axios.post("/oApi/GWService.asmx/QuerySetupsEvt",{times:timeStr,equip_no_list:this.equipId}).then(res=>{
+      this.Axios.post("/GWService.asmx/QuerySetupsEvt",{times:timeStr,equip_no_list:this.equipId}).then(res=>{
           if(res.data!='false'){
             this.setEvent=[];
             let respon=JSON.parse(res.data.d)
@@ -192,7 +196,7 @@ export default {
             }
           }
       });
-      this.Axios.post("/oApi/GWService.asmx/QuerySystemEvt",{times:timeStr}).then(res=>{
+      this.Axios.post("/GWService.asmx/QuerySystemEvt",{times:timeStr}).then(res=>{
         // console.log(res)
         // console.log(res)
           if(res.data!='false'){

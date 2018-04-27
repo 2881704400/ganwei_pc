@@ -1,7 +1,7 @@
 <template>
 	<div class="snapashot">
 		<div class="common-tab tab-content-border">
-			<Tabs type="card" @on-click="updateCardInfo" v-model="tabPaneValue">
+			<Tabs type="card" @on-click="updateCardInfo" :animated="false" v-model="tabPaneValue">
 				<TabPane label="普通任务" name="0" >
 					<div class="three-content">
 						<div class="table-toolbar">
@@ -119,8 +119,8 @@
 					</div>
 				</TabPane>
 				<TabPane label="循环任务" name="1">
-					<div class="table-toolbar">
-						<span>循环任务</span>
+					<div class="table-toolbar table-toolbar-right">
+						<!--<span>循环任务</span>-->
 						<button @click="updateLoopTask()" :class="{bg_disabled:LoopStatus}" :disabled="LoopStatus">修改</button>
 						<button @click="delLoopTask()" :class="{bg_disabled:LoopStatus}" :disabled="LoopStatus">删除</button>
 						<button @click="addLoopTask()">增加</button>
@@ -175,8 +175,8 @@
 					</div>
 				</TabPane>
 				<TabPane label="每周任务安排" name="2">
-					<div class="table-toolbar">
-						<span>每周任务安排</span>
+					<div class="table-toolbar table-toolbar-right">
+						<!--<span>每周任务安排</span>-->
 						<button @click="saveWeekTask()">保存</button>
 					</div>
 					<div class="common-smalltable common-smalltable-checkbox">
@@ -290,20 +290,19 @@
 					</div>
 				</TabPane>
 				<TabPane label="特殊日期安排" name="3">
-					<div class="table-toolbar">
-						<span>特殊日期安排</span>
+					<div class="table-toolbar table-toolbar-right">
+						<!--<span>特殊日期安排</span>-->
 						<button @click="saveSpecPlanFun">保存</button>
-						<button @click="delSpecPlanTask" :class="{bg_disabled:specPlanStatus}" :disabled="specPlanStatus">删除</button>
+						<button @click="delSpecPlanTask">删除</button>
 						<button @click="addSpecPlanTask">增加</button>
 					</div>
 					<div class="common-smalltable common-smalltable-checkboxgroup">
-						<table>
+						<table style="width: 75%;float: left;">
 							<thead>
 								<tr>
 									<th>日期名称	</th>
 									<th>起始日期	</th>
 									<th>结束日期</th>
-									<th>任务名称</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -320,7 +319,27 @@
 										<span class="specContent" v-show="itemSpec.isCommonSpan">{{itemSpec.EndDate.split("T")[0]}}</span>
 										<DatePicker type="date" v-show="!itemSpec.isCommonSpan" :value="fmtDate(itemSpec.EndDate)" @on-change="updateSpecPlanFun(indexSpec,$event,'EndDate')"></DatePicker>
 									</td>
-									<td>
+									<!--<td>
+										<i title="编辑" class="iconfont icon-scheduleMODIFY" @click="editTaskModal(itemSpec)"></i>
+										<font>配置</font>
+										<Checkbox v-for="(item,index) of WeekTaskPlanCommonList" :key="index" :label="item.TableName" :value="itemSpec.CommonTableID.indexOf(item.TableID)>-1"  @on-change="checkSpecCommonChange(0,item.TableID,indexSpec,$event)">{{item.TableName}}</Checkbox>
+									    <font>循环任务</font>
+									    <Checkbox v-for="(itemLoop,indexLoop) of WeekTaskPlanLoopList" :key="itemLoop.TableName" :label="itemLoop.TableName" :value="itemSpec.LoopTableID.indexOf(itemLoop.TableID)>-1" @on-change="checkSpecLoopChange(0,itemLoop.TableID,indexSpec,$event)">{{itemLoop.TableName}}</Checkbox>
+									</td>-->
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="common-smalltable common-smalltable-checkboxgroup common-smalltable-checkboxgroup-tasklist">
+						<table style="width: 25%;">
+							<thead>
+								<tr>
+									<th>任务名称</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td v-for="(itemSpec,indexSpec) of specTimePlanList" v-if="indexSpec==selecteSpecPlan"  :key="indexSpec">
 										<font>普通任务</font>
 										<Checkbox v-for="(item,index) of WeekTaskPlanCommonList" :key="index" :label="item.TableName" :value="itemSpec.CommonTableID.indexOf(item.TableID)>-1"  @on-change="checkSpecCommonChange(0,item.TableID,indexSpec,$event)">{{item.TableName}}</Checkbox>
 									    <font>循环任务</font>

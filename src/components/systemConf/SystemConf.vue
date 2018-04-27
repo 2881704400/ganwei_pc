@@ -1067,7 +1067,7 @@ isMarkAmarm:"",
       this.Axios.post("/api/GWServiceWebAPI/get_DataByTableName",{TableName :"GW_VideoInfo"}).then(res=>{
           this.viData=res.data.HttpData.data;
       });
-      this.Axios.post("/oApi/GWService.asmx/QueryTableData",{tableName:'AlarmProc'}).then(res=>{
+      this.Axios.post("/GWService.asmx/QueryTableData",{tableName:'AlarmProc'}).then(res=>{
           this.alrmData=JSON.parse(res.data.d);
       })
       
@@ -1100,7 +1100,7 @@ isMarkAmarm:"",
         this.active=index;
         this.equipId=id;
         this.getPlanData()
-        this.Axios.all([this.Axios.post("/oApi/GWService.asmx/GetSystemConfig",{table_name:'Equip',equip_no_list:id})]).then(this.Axios.spread((res) => {
+        this.Axios.all([this.Axios.post("/GWService.asmx/GetSystemConfig",{table_name:'Equip',equip_no_list:id})]).then(this.Axios.spread((res) => {
 
 
          let eqData=JSON.parse(res.data.d);
@@ -1140,9 +1140,10 @@ isMarkAmarm:"",
 
            // }
            
-           this.columnsEq.splice(8,alarLen+1)
+           
             // console.log(this.columnsEq)
             for(var j=0;j<arlarData.length;j++){
+              this.columnsEq.splice(8,alarLen+1)
               var itemAl={
                 title:arlarData[j].Proc_name,
                 key:"way"+j,
@@ -1348,7 +1349,7 @@ isMarkAmarm:"",
             })).catch(err => {})
 
 //加载模拟量配置
-this.Axios.all([this.Axios.post("/oApi/GWService.asmx/GetSystemConfig",{table_name:'ycp',equip_no_list:id})]).then(this.Axios.spread((res) => {
+this.Axios.all([this.Axios.post("/GWService.asmx/GetSystemConfig",{table_name:'ycp',equip_no_list:id})]).then(this.Axios.spread((res) => {
  let dataYc=JSON.parse(res.data.d);
  // console.log(dataYc)
  let arlarData=this.alrmData;
@@ -1361,8 +1362,9 @@ this.Axios.all([this.Axios.post("/oApi/GWService.asmx/GetSystemConfig",{table_na
             // console.log(arlarData)
             this.dataYc=[];
             let alarLen=arlarData.length;
-            this.columnsYc.splice(15,alarLen+1)
+           
             for(var j=0;j<arlarData.length;j++){
+               this.columnsYc.splice(15,alarLen+1)
               // console.log(arlarData[j].Proc_name)
               var itemAl={
                 title:arlarData[j].Proc_name,
@@ -1628,42 +1630,40 @@ let curve_rcd;
               }
             })).catch(err => {})
 
-this.Axios.all([this.Axios.post("/oApi/GWService.asmx/GetSystemConfig",{table_name:'yxp',equip_no_list:id})]).then(this.Axios.spread((res) => {
+this.Axios.all([this.Axios.post("/GWService.asmx/GetSystemConfig",{table_name:'yxp',equip_no_list:id})]).then(this.Axios.spread((res) => {
+  
  let dataYx=JSON.parse(res.data.d);
+ console.log(dataYx)
  let arlarData=this.alrmData;
- // let arlarData=JSON.parse(alarm.data.d);
   let zichanData=this.zcData
   let videoData=this.viData
- // let videoData=video.data.HttpData.data;
- // let zichanData=zichan.data.HttpData.data;
-           // console.log(dataYx)
+ 
            this.dataYx=[];
            let alarLen=arlarData.length;
-           this.columnsYx.splice(11,alarLen+1)
+          
            for(var i=0;i<dataYx.length;i++){
-
-            for(var j=0;j<arlarData.length;j++){
-
-              var itemAl={
-                title:arlarData[j].Proc_name,
-                key:"way"+j,
-                render:(h,params)=>{
-                  var txt=params.column.key;
-                  var types=params.row[txt].split('"')[1];
-                  return h("div",[
-                    h("Icon",{
-                      props:{
-                        type:types
-                      },style:{
-                        fontSize:"22px",
-                        color:"#2d8cf0"
+                     this.columnsYx.splice(11,alarLen+1)
+                      for(var j=0;j<arlarData.length;j++){
+                        var itemAl={
+                          title:arlarData[j].Proc_name,
+                          key:"way"+j,
+                          render:(h,params)=>{
+                            var txt=params.column.key;
+                            var types=params.row[txt].split('"')[1];
+                            return h("div",[
+                              h("Icon",{
+                                props:{
+                                  type:types
+                                },style:{
+                                  fontSize:"22px",
+                                  color:"#2d8cf0"
+                                }
+                              })
+                              ])
+                          }
+                        }
+                        this.columnsYx.push(itemAl)
                       }
-                    })
-                    ])
-                }
-              }
-              this.columnsYx.push(itemAl)
-            }
 
 
             this.columnsYx.push({
@@ -1764,72 +1764,72 @@ this.Axios.all([this.Axios.post("/oApi/GWService.asmx/GetSystemConfig",{table_na
                                                       }
                                                     }
                                                     })
-])
-}
+                  ])
+            }
 
-})
+          })
 
-var nameVideo;
-var zichanName;
-for(var m=0;m<videoData.length;m++){
-  var  EquipNum=parseInt(dataYx[i].related_video.split(",")[0]),ID=parseInt(dataYx[i].related_video.split(",")[1])
-  if(EquipNum==videoData[m].EquipNum && ID==videoData[m].ID){
-    nameVideo=videoData[m].ChannelName
-  }
-}
+        var nameVideo;
+        var zichanName;
+        for(var m=0;m<videoData.length;m++){
+          var  EquipNum=parseInt(dataYx[i].related_video.split(",")[0]),ID=parseInt(dataYx[i].related_video.split(",")[1])
+          if(EquipNum==videoData[m].EquipNum && ID==videoData[m].ID){
+            nameVideo=videoData[m].ChannelName
+          }
+        }
 
-for(var n=0;n<zichanData.length;n++){
-  if(dataYx[i].ZiChanID==zichanData[n].ZiChanID){
-    zichanName=zichanData[n].ZiChanName
-  }
-}
-if(dataYx[i].inversion=="True"||dataYx[i].inversion=="true"){
-  this.negateArr.push("True")
-}else{
-  this.negateArr.push("False")
-}
-let checkArr=[],isShow,isMarlAl;
-if((dataYx[i].alarm_scheme & 1)>0){
-  this.alarmArrIsShowYx.push("True")
-  isShow='<Icon type="ios-checkmark-outline"></Icon>'
-}else{
-  this.alarmArrIsShowYx.push("False")
-  isShow='<Icon type="ios-circle-outline"></Icon>' 
-};
+        for(var n=0;n<zichanData.length;n++){
+          if(dataYx[i].ZiChanID==zichanData[n].ZiChanID){
+            zichanName=zichanData[n].ZiChanName
+          }
+        }
+        if(dataYx[i].inversion=="True"||dataYx[i].inversion=="true"){
+          this.negateArr.push("True")
+        }else{
+          this.negateArr.push("False")
+        }
+        let checkArr=[],isShow,isMarlAl;
+        if((dataYx[i].alarm_scheme & 1)>0){
+          this.alarmArrIsShowYx.push("True")
+          isShow='<Icon type="ios-checkmark-outline"></Icon>'
+        }else{
+          this.alarmArrIsShowYx.push("False")
+          isShow='<Icon type="ios-circle-outline"></Icon>' 
+        };
 
-checkArr.push(isShow);
-if((dataYx[i].alarm_scheme & 2)>0){
-  this.alarmArrMarkYx.push("True")
-  isMarlAl='<Icon type="ios-checkmark-outline"></Icon>'
-}else{
-  this.alarmArrMarkYx.push("False")
-  isMarlAl='<Icon type="ios-circle-outline"></Icon>' 
-};
-checkArr.push(isMarlAl);
+        checkArr.push(isShow);
+        if((dataYx[i].alarm_scheme & 2)>0){
+          this.alarmArrMarkYx.push("True")
+          isMarlAl='<Icon type="ios-checkmark-outline"></Icon>'
+        }else{
+          this.alarmArrMarkYx.push("False")
+          isMarlAl='<Icon type="ios-circle-outline"></Icon>' 
+        };
+        checkArr.push(isMarlAl);
 
-let arrName=[],waysArr=[];
-for(var j=0;j<arlarData.length;j++){
-  let itemalar
-  var alays = parseInt(arlarData[j].Proc_Code);
-  if ((dataYx[i].alarm_scheme & alays) > 0) {
-    itemalar={
-      name:arlarData[j].Proc_name,
-      res:"True",
-      code:arlarData[j].Proc_Code
-    }
-    arrName[j]= '<Icon type="ios-checkmark-outline"></Icon>'
-  }
-  else {
-   itemalar={
-    name:arlarData[j].Proc_name,
-    res:"False",
-    code:arlarData[j].Proc_Code
-  }
-  arrName[j]='<Icon type="ios-circle-outline"></Icon>' 
-}
-waysArr.push(itemalar);
-}
-this.alarmWayYx[i]=waysArr;
+        let arrName=[],waysArr=[];
+        for(var j=0;j<arlarData.length;j++){
+          let itemalar
+          var alays = parseInt(arlarData[j].Proc_Code);
+          if ((dataYx[i].alarm_scheme & alays) > 0) {
+            itemalar={
+              name:arlarData[j].Proc_name,
+              res:"True",
+              code:arlarData[j].Proc_Code
+            }
+            arrName[j]= '<Icon type="ios-checkmark-outline"></Icon>'
+          }
+          else {
+           itemalar={
+            name:arlarData[j].Proc_name,
+            res:"False",
+            code:arlarData[j].Proc_Code
+          }
+          arrName[j]='<Icon type="ios-circle-outline"></Icon>' 
+        }
+        waysArr.push(itemalar);
+        }
+        this.alarmWayYx[i]=waysArr;
                  // console.log(checkArr)
 
                  let itemYx={
@@ -1846,24 +1846,24 @@ this.alarmWayYx[i]=waysArr;
                   markAlarm:checkArr[1]
                             // deal
                           }
-                          for(var k=0;k<arrName.length;k++){
-                            itemYx["way"+k]=arrName[k]
-                          }
-                          this.dataYx.push(itemYx);
+          for(var k=0;k<arrName.length;k++){
+            itemYx["way"+k]=arrName[k]
+          }
+          this.dataYx.push(itemYx);
 
-                        }
+        }
 
-                      })).catch(err => {})
+   })).catch(err => {})
 
 
-       this.Axios.post("/oApi/GWService.asmx/GetSystemConfig",{table_name:'SetParm',equip_no_list:id}).then(res4=>{//加载设置配置
+       this.Axios.post("/GWService.asmx/GetSystemConfig",{table_name:'SetParm',equip_no_list:id}).then(res4=>{//加载设置配置
         let data4=res4.data.d;
         let dataSet=JSON.parse(data4);
         this.dataSet=[];
 
-        this.columnsSet.splice(10,1)
+       
         for(var i=0;i<dataSet.length;i++){
-           
+            this.columnsSet.splice(10,1)
 
           this.columnsSet.push({
             title:"操作",

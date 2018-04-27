@@ -54,31 +54,31 @@
                         </tbody>
                     </table>
                     <Modal v-model="user_modal" title="人员设置"  class="ModalUser"  :mask-closable="false">
-                        <Row>
-                            <Col span="6">
+                        <Row :gutter="16">
+                            <Col span="7">
                             <span>人员姓名:</span>
                             </Col>
-                            <Col span="18" class="userParentDev"><input type="text" placeholder="请输入人员姓名" v-model="user_admin" v-on:input="onValidate('user')" id="userAdmin"/></Col>
+                            <Col span="17" class="userParentDev"><input type="text" placeholder="请输入人员姓名" v-model="user_admin" v-on:input="onValidate('user')" id="userAdmin"/></Col>
 
-                            <Col span="6">
+                            <Col span="7">
                             <span>电话号码:</span>
                             </Col>
-                            <Col span="18"><input type="text" placeholder="请输入电话" v-model="user_telphone" v-on:input="onValidate('phone')" id="phoneAdmin"/></Col>
+                            <Col span="17"><input type="text" placeholder="请输入电话" v-model="user_telphone" v-on:input="onValidate('phone')" id="phoneAdmin"/></Col>
 
-                            <Col span="6">
+                            <Col span="7">
                             <span>短信号码:</span>
                             </Col>
-                            <Col span="18"><input type="text" placeholder="请输入短信" v-model="user_molphone" v-on:input="onValidate('msphone')" id="msphoneAdmin"/></Col>
+                            <Col span="17"><input type="text" placeholder="请输入短信" v-model="user_molphone" v-on:input="onValidate('msphone')" id="msphoneAdmin"/></Col>
 
-                            <Col span="6">
+                            <Col span="7">
                             <span>电子邮箱:</span>
                             </Col>
-                            <Col span="18"><input type="text" placeholder="请输入电子邮箱" v-model="user_email" v-on:input="onValidate('eamil')" id="eamilAdmin"/></Col>
+                            <Col span="17"><input type="text" placeholder="请输入电子邮箱" v-model="user_email" v-on:input="onValidate('eamil')" id="eamilAdmin"/></Col>
 
-                            <Col span="6">
+                            <Col span="7">
                             <span>报警通知级别:</span>
                             </Col>
-                            <Col span="18"><input type="number" placeholder="请输入报警通知级别" v-model="user_level" min="0"/></Col>
+                            <Col span="17"><input type="number" placeholder="请输入报警通知级别" v-model="user_level" min="0" id="levelAdmin"/></Col>
                         </Row>
                         <div slot="footer">
                             <Button type="text" size="large" @click="cancalUpdateAdministrator">取消</Button>
@@ -176,21 +176,21 @@
                     </table>
 
                     <Modal v-model="AlmReport_modal" title="管理范围" @on-ok="saveUpdateAlmReportt" class="ModalUser" :mask-closable="false">
-                        <Row>
-                            <Col span="6">
+                        <Row :gutter="16">
+                            <Col span="7">
                             <span>人员姓名:</span>
                             </Col>
-                            <Col span="18">
+                            <Col span="17">
                             <Select v-model="AlmReport_Administrator">
                                 <Option v-for="item_child in Alarm_user" :value="item_child.Administrator" :key="item_child.Administrator">{{item_child.Administrator}}</Option>
                             </Select>
 
                             </Col>
 
-                            <Col span="6">
+                            <Col span="7">
                             <span>设备分组名称:</span>
                             </Col>
-                            <Col span="18">
+                            <Col span="17">
 
                             <Select v-model="AlmReport_group_no">
                                 <Option v-for="item_child in equipUser" :value="item_child.group_no" :key="item_child.group_no">{{item_child.group_name}}</Option>
@@ -249,34 +249,34 @@
                     </table>
 
                     <Modal v-model="Week_modal" title="周排表" @on-ok="saveUpdateWeekAlmReport" class="ModalWeek" :mask-closable="false">
-                        <Row>
-                            <Col span="5">
+                        <Row :gutter="16">
+                            <Col span="7">
                             <span>人员姓名:</span>
                             </Col>
-                            <Col span="19">
+                            <Col span="17">
                             <Select v-model="Week_admin">
                                 <Option v-for="item_child in Alarm_user" :value="item_child.Administrator" :key="item_child.Administrator">{{item_child.Administrator}}</Option>
                             </Select>
                             </Col>
-                            <Col span="5">
+                            <Col span="7">
                             <span>星期:</span>
                             </Col>
-                            <Col span="19">
+                            <Col span="17">
                             <Select v-model="Week_week">
                                 <Option v-for="item_child in WeekWeek" :value="item_child.value" :key="item_child.value">{{item_child.value}}</Option>
                             </Select>
                             </Col>
-                            <Col span="5">
+                            <Col span="7">
                             <span>开始时间:</span>
                             </Col>
-                            <Col span="19">
+                            <Col span="17">
                             <!-- <input placeholder="开始时间"  style="width: 100%;height: 100%;" v-model="Week_stime" /> -->
                             <TimePicker format="HH:mm" type="time" placeholder="开始时间" style="width: 100%;outline: none;"  v-model="Week_stime"></TimePicker>
                             </Col>
-                            <Col span="5">
+                            <Col span="7">
                             <span>结束时间:</span>
                             </Col>
-                            <Col span="19">
+                            <Col span="17">
                             <!-- <input  placeholder="开始时间" style="width: 100%;height: 100%;" v-model="Week_etime" /> -->
                             <TimePicker format="HH:mm" type="time" placeholder="结束时间" style="width: 100%;outline: none;"  v-model="Week_etime"></TimePicker>
                             </Col>
