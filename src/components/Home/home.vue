@@ -104,7 +104,7 @@ export default {
     },
     requestTitle: function(){
         var element = this;
-        let url = "/api/Db/SelectData?tableName=GWSnapshotConfig";
+        let url = "/api/GWServiceWebAPI/SelectData?tableName=GWSnapshotConfig";
         this.XHRGet(url, _success_Title_query);
         function _success_Title_query(response) {
           element.titles.length = 0;
@@ -204,7 +204,7 @@ export default {
     },
     requestUser: function(value){
         var element = this;
-        let url = "/api/Db/SelectData?tableName=Administrator";
+        let url = "/api/GWServiceWebAPI/SelectData?tableName=Administrator";
         this.XHRGet(url, _success_users_query);
         function _success_users_query(response) {
           element.users.length = 0;
