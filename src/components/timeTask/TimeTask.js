@@ -132,7 +132,7 @@ export default {
 						return false;
 					}
 					for(let m=0;m<specTimePlanList.length;m++){
-						if (specTimePlanList[i].DateName == specTimePlanList[m].DateName&&specTimePlanList[m].ID!="") {
+						if (m!=i&&specTimePlanList[i].DateName == specTimePlanList[m].DateName&&specTimePlanList[m].ID!="") {
 							this.$Message.warning("该任务名称已存在");
 							return false;
 						}
@@ -724,7 +724,7 @@ export default {
 					return false;
 				}
 				for(let m=0;m<LoopTaskList.length;m++){
-					if (loopName == LoopTaskList[m].TableName&&LoopTaskList[m].TableID!="") {
+					if (m!=i&&loopName == LoopTaskList[m].TableName&&LoopTaskList[m].TableID!="") {
 						this.$Message.warning("该任务名称已存在");
 						return false;
 					}
@@ -873,7 +873,7 @@ export default {
 					return false;
 				}
 				for(let m=0;m<LoopTaskList.length;m++){
-					if (loopName == LoopTaskList[m].TableName&&LoopTaskList[m].TableID!="") {
+					if (m!=i&&loopName == LoopTaskList[m].TableName&&LoopTaskList[m].TableID!="") {
 						this.$Message.warning("该任务名称已存在");
 						return false;
 					}
@@ -1632,7 +1632,7 @@ export default {
 						return false;
 					}
 					for(let m=0;m<CommonTaskList.length;m++){
-						if (CommonTaskList[i].TableName == CommonTaskList[m].TableName&&CommonTaskList[m].TableID!="") {
+						if (m!=i&&CommonTaskList[i].TableName == CommonTaskList[m].TableName&&CommonTaskList[m].TableID!="") {
 							this.$Message.warning("该任务名称已存在");
 							return false;
 						}
