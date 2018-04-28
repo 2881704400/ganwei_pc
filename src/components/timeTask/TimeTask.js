@@ -724,7 +724,7 @@ export default {
 					return false;
 				}
 				for(let m=0;m<LoopTaskList.length;m++){
-					if (m!=i&&loopName == LoopTaskList[m].TableName&&LoopTaskList[m].TableID!="") {
+					if (m!=this.selecteLoop&&loopName == LoopTaskList[m].TableName&&LoopTaskList[m].TableID!="") {
 						this.$Message.warning("该任务名称已存在");
 						return false;
 					}
@@ -873,7 +873,7 @@ export default {
 					return false;
 				}
 				for(let m=0;m<LoopTaskList.length;m++){
-					if (m!=i&&loopName == LoopTaskList[m].TableName&&LoopTaskList[m].TableID!="") {
+					if (m!=this.selecteLoop&&loopName == LoopTaskList[m].TableName&&LoopTaskList[m].TableID!="") {
 						this.$Message.warning("该任务名称已存在");
 						return false;
 					}
