@@ -16,6 +16,12 @@ module.exports = {
           '^/api': '/api',
         }
       },
+      '/signalr': {
+        target: 'http://192.168.0.210:7001',
+        pathRewrite: {
+          '^/signalr': '/'
+        }
+      },
       '/oApi': {
         target: 'http://192.168.0.210:7001',
         pathRewrite: {

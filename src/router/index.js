@@ -24,59 +24,61 @@ const EquipLinkage = r => require.ensure([], () => r(require('@page/equipLinkage
 Vue.use(Router)
 
 export default new Router({
-	//mode: 'history',
-	base: '/',
-	routes: [{
-			path: '/',
-			redirect: '/login'
-		},
-		{
-			path: '/login',
-			name: 'login',
-			component: Login
-		},
-		{
-			path: '/index',
-			component: Index,
-			children: [{
-					path: '',
-					redirect: 'home'
-				},
-				{
-					path: 'home',
-					component: Home
-				},
-				{
-					name: 'equip',
-					path: 'equips',
-					component: Equips
-				},
-				{
-					path: 'snapshot',
-					name: 'snapshot',
-					component: Snapshot
-				},
-				{
-					path: 'systemConf',
-					component: SystemConf
-				},
-				{
-					path: 'eventQuery',
-					component: EventQuery
-				},
-				{
-					path: 'schedule',
-					component: Schedule
-				},
-				{
-					path: 'timeTask',
-					component: TimeTask
-				},
-				{
-					path: 'equipLinkage',
-					component: EquipLinkage
-				}
-			]
-		}
-	]
+  mode: 'history',
+  base: '/',
+  routes: [
+    {
+      path: '/',
+      redirect: '/login'
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component: Login
+    },
+    {
+      path: '/index',
+      component: Index,
+      children: [
+        {
+          path: '',
+          redirect: 'home'
+        },
+        {
+          path: 'home',
+          component: Home
+        },
+        {
+          name: 'equip',
+          path: 'equips',
+          component: Equips
+        },
+        {
+          path: 'snapshot',
+          name: 'snapshot',
+          component: Snapshot
+        },
+        {
+          path: 'systemConf',
+          component: SystemConf
+        },
+        {
+          path: 'eventQuery',
+          component: EventQuery
+        },
+        {
+          path: 'schedule',
+          component: Schedule
+        },
+        {
+          path: 'timeTask',
+          component: TimeTask
+        },
+        {
+          path: 'equipLinkage',
+          component: EquipLinkage
+        }
+      ]
+    }
+  ]
 })

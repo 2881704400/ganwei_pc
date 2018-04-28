@@ -140,7 +140,7 @@
         </RadioGroup>
         </FormItem>
         <template v-if="insertForm.type === '设备控制'">
-          <FormItem label="选择控制设备：">
+          <FormItem label="选择控制设备：" style="padding-right: 100px">
             <Select v-model="insertForm.actEquip"
             @on-change="judgeSetVal"
             >
@@ -174,12 +174,12 @@
     <Modal v-model="showAddScene"
     >
       <div slot="header">添加场景</div>
-      <Form :label-width="100"
+      <Form :label-width="200"
       :model="newScene"
       :rules="ruleNewScene"
       ref="sceneValidate"
       >
-        <FormItem label="场景名称：" prop="title">
+        <FormItem label="场景名称：" prop="title" style="padding-right: 100px">
           <Input v-model="newScene.title" placeholder="输入场景名称"></Input>
         </FormItem>
       </Form>
@@ -333,7 +333,7 @@ export default {
         linkEquipNo: data.selectedLinkages[0],
         linkNo: data.selectedLinkages[1],
         optCode: data.optCode,
-        remarks: data.remarks
+        remarks: data.remarks.replace(/'/g, '\'\'')
       }
       if (!reqData.equipNo || !reqData.cType || !reqData.linkEquipNo || !reqData.linkNo) {
         this.$Message.info('配置不正确，请选择后操作!')
@@ -393,7 +393,7 @@ export default {
       // console.log(row)
       this.$Modal.confirm({
         title: '操作提示',
-        content: '是否确定删除该设置?',
+        content: '是否删除该设置?',
         onOk: () => {
           this.Axios.post('/api/GWServiceWebAPI/deleteLinkage', {
             id: row.originalData.ID
@@ -518,11 +518,15 @@ export default {
     },
     calDelayTime (time) {
       this.insertForm.totalTime = parseInt(time.split(':')[0]) * 3600000 + parseInt(time.split(':')[1]) * 60000 + parseInt(time.split(':')[2]) * 1000 + parseInt(time.split(':')[3])
+      this.insertForm.totalTime = isNaN(this.insertForm.totalTime) ? 0 : this.insertForm.totalTime
     },
     insertAct (data) {
-      // console.log(data)
       let insertIndex = data.isAfter ? (data.actIndex + 1) : data.actIndex
       if (data.type === '设备控制') {
+        if (data.actEquip === '') {
+          this.$Message.warning('未选择控制项')
+          return
+        }
         let equipNo = parseInt(data.actEquip.split('-')[0]),
           setNo = parseInt(data.actEquip.split('-')[1])
         let newItem = data.insertList.filter(equip => {
@@ -532,6 +536,10 @@ export default {
         this.sceneData[data.scenIndex].children.splice(insertIndex, 0, newItem)
       }
       else if (data.type === '设置延时') {
+        if (data.totalTime <= 0) {
+          this.$Message.warning('设置的延时需大于0ms')
+          return
+        }
         this.sceneData[data.scenIndex].children.splice(insertIndex, 0, {
           isDelay: true,
           parentEquip: {
@@ -583,8 +591,9 @@ export default {
        })
     },
     addScene (sceneList, newItem) {
+      let title = newItem.title.replace(/'/g, '\'\'')
       if (sceneList.some(item => {
-        return item.set_nm === newItem.title
+        return item.set_nm === title
       })) {
         this.$Message.warning('该场景名称已存在，请重试！')
       }
@@ -598,7 +607,7 @@ export default {
               })) ? 1 : 0
             })
             let reqData = {
-              title: newItem.title,
+              title: title,
               setNo: setNo
             }
             this.Axios.post('/api/GWServiceWebAPI/addScene', reqData)

@@ -204,7 +204,9 @@ export default {
           console.log(err)
         })
         .then(() => {
-          this.isLoading = false
+          this.$nextTick(() => {
+            this.isLoading = false
+          })
         })
     },
     setEquip (equip) {
@@ -238,7 +240,7 @@ export default {
     },
     connectServer() {
       let url = 'http://localhost:7001'
-      let conn = $.hubConnection(url)
+      let conn = $.hubConnection('http://192.168.0.247:7001/signalr')
       let proxy = conn.createHubProxy('serverHub')
       // console.log(proxy)
       proxy.on('sendConnect', data => {
@@ -272,13 +274,13 @@ export default {
   beforeRouteUpdate (to, from, next) {
     this.$store.commit('setEquipNo', to.hash.substr(1))
     this.getAllState()
-    this.connectServer()
+    // this.connectServer()
     next()
   },
   mounted () {
     this.$store.commit('setEquipNo', this.$route.hash.substr(1))
     this.getAllState()
-    this.connectServer()
+    // this.connectServer()
   }
 }
 </script>
