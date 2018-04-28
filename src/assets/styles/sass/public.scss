@@ -16,6 +16,13 @@ html{
     [v-cloak]{
       display: none;
     }
+    .ivu-modal-body{
+        .ivu-modal-confirm-body{
+            div:not(.ivu-modal-confirm-body-icon){
+                font-size: 16px;
+            }
+        }
+    }
     .gw{
       height: 100%;
       overflow: hidden;
