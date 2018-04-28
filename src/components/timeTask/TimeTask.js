@@ -126,10 +126,22 @@ export default {
 						alert("起始日期不能大于结束日期");
 						return false;
 					}
+					
+					if (specTimePlanList[i].DateName == "") {
+						this.$Message.warning("任务名称不能为空");
+						return false;
+					}
+					for(let m=0;m<specTimePlanList.length;m++){
+						if (specTimePlanList[i].DateName == specTimePlanList[m].DateName&&specTimePlanList[m].ID!="") {
+							this.$Message.warning("该任务名称已存在");
+							return false;
+						}
+					}
+					
 					if (specTimePlanList[i].ID != "") {
 						this.Axios.post('/api/GWServiceWebAPI/set_BatchUpdate', {
 							tableName: "GWProcSpecTable",
-							cellDataList: " DateName='" + specTimePlanList[i].DateName + "', BeginDate='" + this.formatTimeType(specTimePlanList[i].BeginDate) + "', EndDate='" + this.formatTimeType(specTimePlanList[i].EndDate) + "',[TableID]='" + specTableID + "' ",
+							cellDataList: " DateName='" + specTimePlanList[i].DateName.replace("'","''") + "', BeginDate='" + this.formatTimeType(specTimePlanList[i].BeginDate).replace("'","''") + "', EndDate='" + this.formatTimeType(specTimePlanList[i].EndDate).replace("'","''") + "',[TableID]='" + specTableID + "' ",
 							ifDataList: " ID =" + specTimePlanList[i].ID
 						}).then(res => {
 							let data = res.data.HttpData;
@@ -150,7 +162,7 @@ export default {
 						//插入新计划
 						this.Axios.post('/api/GWServiceWebAPI/set_InsertNewTable', {
 							tableName: "GWProcSpecTable(DateName,BeginDate,EndDate,[TableID])",
-							tableVlue: " select '" + specTimePlanList[i].DateName + "','" + this.formatTimeType(specTimePlanList[i].BeginDate) + "','" + this.formatTimeType(specTimePlanList[i].EndDate) + "','" + specTableID + "' "
+							tableVlue: " select '" + specTimePlanList[i].DateName.replace("'","''") + "','" + this.formatTimeType(specTimePlanList[i].BeginDate).replace("'","''") + "','" + this.formatTimeType(specTimePlanList[i].EndDate).replace("'","''") + "','" + specTableID + "' "
 						}).then(res => {
 							let data = res.data.HttpData;
 							if (data.code == 200 && data.data != null) {
@@ -706,12 +718,24 @@ export default {
 			if (loopBtnType == 1) {
 				let selecteLoop = this.selecteLoop;
 				let LoopTaskList = this.LoopTaskList;
+				
+				if (loopName == "") {
+					this.$Message.warning("任务名称不能为空");
+					return false;
+				}
+				for(let m=0;m<LoopTaskList.length;m++){
+					if (loopName == LoopTaskList[m].TableName&&LoopTaskList[m].TableID!="") {
+						this.$Message.warning("该任务名称已存在");
+						return false;
+					}
+				}
+				
 				this.Axios.post('/api/GWServiceWebAPI/set_BatchUpdate', {
 					tableName: "GWProcCycleTList",
-					cellDataList: " TableName='" + loopName + "', BeginTime='" + this.formatTimeType(loopStartTime) + "'," +
-						"EndTime='" + this.formatTimeType(loopEndTime) + "', ZhenDianDo='" + ZhenDianDo + "'," +
+					cellDataList: " TableName='" + loopName.replace("'","''") + "', BeginTime='" + this.formatTimeType(loopStartTime).replace("'","''") + "'," +
+						"EndTime='" + this.formatTimeType(loopEndTime).replace("'","''") + "', ZhenDianDo='" + ZhenDianDo + "'," +
 						"ZhidingDo='" + ZhidingDo + "', CycleMustFinish='" + CycleMustFinish + "'," +
-						"ZhidingTime='" + this.formatTimeType(AppointTime) + "', MaxCycleNum='" + MaxCycleNum + "' ",
+						"ZhidingTime='" + this.formatTimeType(AppointTime).replace("'","''") + "', MaxCycleNum='" + MaxCycleNum + "' ",
 					ifDataList: " TableID =" + LoopTaskList[selecteLoop].TableID
 				}).then(res => {
 					let data = res.data.HttpData;
@@ -789,7 +813,7 @@ export default {
 								} else if (loopActionType == "S") {
 									this.Axios.post('/api/GWServiceWebAPI/set_InsertNewTable', {
 										tableName: "GWProcCycleTable([TableID],DoOrder,[Type],set_no,proc_code,cmd_nm)",
-										tableVlue: " select " + LoopTaskList[selecteLoop].TableID + "," + this.MaxDoOrder + ",'S',0," + loopCycleList[i].proc_code + ",'" + loopCycleList[i].cmd_nm + "' ",
+										tableVlue: " select " + LoopTaskList[selecteLoop].TableID + "," + this.MaxDoOrder + ",'S',0," + loopCycleList[i].proc_code + ",'" + loopCycleList[i].cmd_nm.replace("'","''") + "' ",
 									}).then(res => {
 										let data = res.data.HttpData;
 										if (data.code == 200 && data.data != null) {
@@ -843,13 +867,24 @@ export default {
 				if (LoopTaskList.length > 0) {
 					newTableID = LoopTaskList.length + 1;
 				}
-
+				
+				if (loopName == "") {
+					this.$Message.warning("任务名称不能为空");
+					return false;
+				}
+				for(let m=0;m<LoopTaskList.length;m++){
+					if (loopName == LoopTaskList[m].TableName&&LoopTaskList[m].TableID!="") {
+						this.$Message.warning("该任务名称已存在");
+						return false;
+					}
+				}
+				
 				this.Axios.post('/api/GWServiceWebAPI/set_InsertNewTable', {
 					tableName: "GWProcCycleTList([TableID],TableName,BeginTime,EndTime,ZhenDianDo,ZhidingDo,CycleMustFinish,ZhidingTime,MaxCycleNum)",
-					tableVlue: " select " + newTableID + ", '" + loopName + "', '" + this.formatTimeType(loopStartTime) + "'," +
-						"'" + this.formatTimeType(loopEndTime) + "', '" + ZhenDianDo + "'," +
+					tableVlue: " select " + newTableID + ", '" + loopName.replace("'","''") + "', '" + this.formatTimeType(loopStartTime).replace("'","''") + "'," +
+						"'" + this.formatTimeType(loopEndTime).replace("'","''") + "', '" + ZhenDianDo + "'," +
 						"'" + ZhidingDo + "', '" + CycleMustFinish + "'," +
-						"'" + this.formatTimeType(AppointTime) + "', '" + MaxCycleNum + "' ",
+						"'" + this.formatTimeType(AppointTime).replace("'","''") + "', '" + MaxCycleNum + "' ",
 				}).then(res => {
 					let data = res.data.HttpData;
 					if (data.code == 200 && data.data != null) {
@@ -910,7 +945,7 @@ export default {
 								} else if (loopActionType == "S") {
 									this.Axios.post('/api/GWServiceWebAPI/set_InsertNewTable', {
 										tableName: "GWProcCycleTable([TableID],DoOrder,[Type],set_no,proc_code,cmd_nm)",
-										tableVlue: " select " + newTableID + "," + (i + 1) + ",'S',0," + loopCycleList[i].proc_code + ",'" + loopCycleList[i].cmd_nm + "' ",
+										tableVlue: " select " + newTableID + "," + (i + 1) + ",'S',0," + loopCycleList[i].proc_code + ",'" + loopCycleList[i].cmd_nm.replace("'","''") + "' ",
 									}).then(res => {
 										let data = res.data.HttpData;
 										if (data.code == 200 && data.data != null) {
@@ -1593,13 +1628,19 @@ export default {
 			for (let i = 0; i < CommonTaskList.length; i++) {
 				if (CommonTaskList[i].isUpdateFlag) {
 					if (CommonTaskList[i].TableName == "") {
-						alert("任务名称不能为空");
+						this.$Message.warning("任务名称不能为空");
 						return false;
+					}
+					for(let m=0;m<CommonTaskList.length;m++){
+						if (CommonTaskList[i].TableName == CommonTaskList[m].TableName&&CommonTaskList[m].TableID!="") {
+							this.$Message.warning("该任务名称已存在");
+							return false;
+						}
 					}
 					if (CommonTaskList[i].TableID != "") {
 						this.Axios.post('/api/GWServiceWebAPI/set_BatchUpdate', {
 							tableName: "GWProcTimeTList",
-							cellDataList: " TableName='" + CommonTaskList[i].TableName + "', Comment='" + CommonTaskList[i].Comment + "'",
+							cellDataList: " TableName='" + CommonTaskList[i].TableName.replace("'","''") + "', Comment='" + CommonTaskList[i].Comment.replace("'","''") + "'",
 							ifDataList: " TableID =" + CommonTaskList[i].TableID
 						}).then(res => {
 							let data = res.data.HttpData;
@@ -1620,7 +1661,7 @@ export default {
 							this.CommonTaskMaxTableID = this.CommonTaskMaxTableID + 1;
 							this.Axios.post('/api/GWServiceWebAPI/set_InsertNewTable', {
 								tableName: "GWProcTimeTList([TableID],TableName,Comment)",
-								tableVlue: " select " + this.CommonTaskMaxTableID + ",'" + CommonTaskList[i].TableName + "','" + CommonTaskList[i].Comment + "' "
+								tableVlue: " select " + this.CommonTaskMaxTableID + ",'" + CommonTaskList[i].TableName.replace("'","''") + "','" + CommonTaskList[i].Comment.replace("'","''") + "' "
 							}).then(res => {
 								let data = res.data.HttpData;
 								if (data.code == 200 && data.data != null) {

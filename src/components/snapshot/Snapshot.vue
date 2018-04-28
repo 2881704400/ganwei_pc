@@ -64,6 +64,7 @@
 				EventMsg: '',
 				Time: '',
 				tabPaneValue: '-1',
+				timeInterval: null
 			}
 		},
 		mounted() {
@@ -123,7 +124,7 @@
 							this.event_Level_list = this.event_Level_list.substring(0, this.event_Level_list.length - 1);
 							this.btnInfo = listAddData;
 							this.getRealTimeEventCount();
-							setInterval(this.getRealTimeEventCount, 5000);
+							this.timeInterval=setInterval(this.getRealTimeEventCount, 5000);
 						}
 					}).catch(err => {
 						console.log(err)
@@ -241,20 +242,34 @@
 					}
 					
 				}
+				let Time=this.Time;
+				let TimeArr=[];
+				let strTimeArr="";
+				if(Time!=""&&Time!=null){
+					TimeArr=Time.split(".");
+					strTimeArr=TimeArr[1].toString();
+					if(strTimeArr.length>=6){
+						strTimeArr=strTimeArr.substring(0,6)
+					}else{
+						strTimeArr=strTimeArr+"000000".substring(0,6-strTimeArr.length)
+					}
+				}
+				
 				this.Axios.post('/api/event/confirm_evt', {
 					msg: this.msgValue,
 					shortmsg: this.isSendSms,
 					tel: atorMobilesArr.toString(),
 					evtname: this.EventMsg,
-					time: this.Time
+					time: TimeArr[0]+"."+strTimeArr
 				}).then(res => {
 					let data = res.data.HttpData;
 					if(data.code == 200) {
 						let resultData = data.data;
 						this.getRealTimeEvent();
 						this.cancel();
+						this.$Message.success("操作成功");
 					} else {
-						alert("提交失败！");
+						this.$Message.error("操作失败");
 					}
 				}).catch(err => {
 					console.log(err)
@@ -270,6 +285,11 @@
 			cancel() {
 
 			}
+		},
+		beforeDestroy() {
+		    if(this.timeInterval) { //如果定时器还在运行 或者直接关闭，不用判断
+		        clearInterval(this.timeInterval); //关闭
+		    }
 		}
 	}
 </script>
