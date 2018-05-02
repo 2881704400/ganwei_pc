@@ -1,126 +1,147 @@
 
-<style lang="css">
-.rowClassName{padding-left: 0;padding-right: 0;width: 100%;text-align: center;}
-.ivu-table-cell{padding-left: 0;padding-right: 0;width: 100%;text-align: center;white-space: nowrap;overflow: hidden;word-break: keep-all;}
-.uploadWrap .ivu-row{min-height:400px !important;}
-.uploadWrap .ivu-modal{top:50px !important;}
-/*.operta{color:#3498db !important;font-size:15px !important;cursor:pointer;}*/
-.moreInforWord{margin-top:10px;font-size:15px;}
-.lableName{font-size: 16px;margin-right:10px;color:#989898;}
-.labelVal{font-size: 15px;margin-left:10px;color:#303030;}
-.system-conf{width:100%;height:100%;}
-.system-conf .wrap{width:100%;height:100%;}
-.system-conf .wrap .itemDetail{height:100%;overflow: hidden;padding-left: 15px;}
-.system-conf .wrap .itemList{height:100%;overflow-y: scroll;}
-::-webkit-scrollbar{/*滚动条整体样式*/
-  width: 4px;     /*高宽分别对应横竖滚动条的尺寸*/
+<style lang="scss">
+$width:100%;
+$height:100%;
+$overflow:hidden;
+$blueColor:#2d8cf0;
+$num0:0px;
+::-webkit-scrollbar{
+  width: 4px;    
   height: 4px;
 }
-::-webkit-scrollbar-thumb{/*滚动条里面小方块*/
+
+::-webkit-scrollbar-thumb{
   border-radius: 5px;
   -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
   background: rgba(0,0,0,0.2);
 }
-::-webkit-scrollbar-track {/*滚动条里面轨道*/
+::-webkit-scrollbar-track {
   -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
   border-radius: 0;
   background: rgba(0,0,0,0.1);
 }
-.system-conf  .itemList p{width:95%;
-  height:50px;
-  line-height: 50px;
-  background: #f9f9f9;
-  margin:10px auto;
-  font-size:15px;
-  text-align: center;
-  white-space: nowrap;
-  word-break: keep-all;
-  overflow: hidden;
-}
-.system-conf  .itemList p:hover{
-  border:1px solid #2d8cf0;
-  box-sizing: border-box;
-  color:#2d8cf0;
-  cursor:pointer;
-}
+.rowClassName{padding-left: $num0;padding-right: $num0;width: $width;text-align: center;}
+.ivu-table-cell{padding-left: $num0;padding-right: $num0;width: $width;text-align: center;white-space: nowrap;overflow: hidden;word-break: keep-all;}
+.uploadWrap .ivu-row{min-height:400px !important;}
+.uploadWrap .ivu-modal{top:50px !important;}
+.moreInforWord{margin-top:10px;font-size:15px;}
+.lableName{font-size: 16px;margin-right:10px;color:#989898;}
+.labelVal{font-size: 15px;margin-left:10px;color:#303030;}
 .clickActive{
- border:1px solid #2d8cf0;
+ border:1px solid $blueColor;
  box-sizing: border-box;
- color:#2d8cf0;
+ color:$blueColor
 }
-
-
-
-.system-conf  .ivu-tabs-bar{margin-bottom: 0;height: 40px;}
-.system-conf  .ivu-tabs-nav-container{height: 40px !important;}
-.system-conf  .ivu-table-wrapper{
-  border:none;
-}
-
-.system-conf  .ivu-tabs.ivu-tabs-card>.ivu-tabs-bar .ivu-tabs-tab{
-  margin-right: 0;
-  border-radius: 0;
-  border-right: none;
-  font-size:15px;
-  height:40px;
-  line-height: 2;
-  border-bottom: 1px solid #dddee1;
-}
-.system-conf  .ivu-tabs.ivu-tabs-card>.ivu-tabs-bar .ivu-tabs-tab:last-child{
- border-right:1px solid #dddee1;
-}
-.system-conf  .ivu-tabs.ivu-tabs-card>.ivu-tabs-bar .ivu-tabs-tab-active{
-  border-top:1px solid #2d8cf0;
-  box-sizing: border-box;
-  background: #F9F9F9;
-}
-.system-conf .ivu-table .ivu-table-header table .ivu-table-cell{
-  padding-left: 0;
-  padding-right: 0;
-  width: 100%;
-  font-weight: 200;
-  font-size: 0.9rem;
-  text-align: center;
-  color:#858585;
-}
-/*.system-conf .ycp .ivu-table .ivu-table-header table .ivu-table-cell{
-  font-size: 0.8rem
-}*/
-.system-conf .ycp .ivu-table .ivu-table-header table .ivu-table-cell{
-
-  white-space: nowrap;
-  word-break:keep-all;
-  overflow:hidden
-}
-.system-conf  .ivu-table th{
-  background: #fff;
-}
-.system-conf  .ivu-table td, .ivu-table th{
-  border:none 0;
-
-}
-.system-conf  .ivu-table td{
-  font-size: 1rem;
-}
-.system-conf  .ivu-table:after{
-  height: 0;
-}
-.system-conf  .ivu-table .demo-table-info-row td{
-  background-color: #f9f9f9;
-
-}
-.system-conf  .ivu-table .demo-table-error-row td{
-  background-color: #fff; 
-}
-.system-conf    .ivu-table-row:hover td{
-  background: #ebf7ff !important; 
-}
-
-.system-conf    .ivu-table:before{
-  height:0;
-}
-.system-conf  .ivu-table-wrapper{
-  height:100%;
+.system-conf{
+    width:$width;
+    height:$height;
+    .wrap{
+        width:$width;
+        height:$height;
+        .itemDetail{
+            height: $height;
+            overflow: $overflow;
+            padding-left: 15px;
+        }
+        .itemList{
+            height: $height;
+            overflow-y: scroll;
+            p{
+              width:95%;
+              height:50px;
+              line-height: 50px;
+              background: #f9f9f9;
+              margin:10px auto;
+              font-size:15px;
+              text-align: center;
+              white-space: nowrap;
+              word-break: keep-all;
+              overflow: $overflow;
+              &:hover{
+                  border:1px solid $blueColor;
+                  box-sizing: border-box;
+                  color:$blueColor;
+                  cursor:pointer;
+              }
+            }
+        }
+    }
+    .ivu-tabs-bar{
+        margin-bottom:$num0;
+        height: 40px;
+    }
+    .ivu-tabs-nav-container{height: 40px !important;}
+    .ivu-table-wrapper{border:none;}
+    .ivu-tabs.ivu-tabs-card>.ivu-tabs-bar{
+        .ivu-tabs-tab{
+              margin-right:$num0;
+              border-radius: $num0;
+              border-right: none;
+              font-size:15px;
+              height:40px;
+              line-height: 2;
+              border-bottom: 1px solid #dddee1;
+              &:last-child{
+                  border-right:1px solid #dddee1;
+              }
+        }
+        .ivu-tabs-tab-active{
+            border-top:1px solid $blueColor;
+            box-sizing: border-box;
+            background: #F9F9F9;
+        }
+    }
+    .ivu-table .ivu-table-header table{ 
+        .ivu-table-cell{
+              padding-left: $num0;
+              padding-right:$num0;
+              width: $width;
+              font-weight: 200;
+              font-size: 0.9rem;
+              text-align: center;
+              color:#858585;
+        }
+    }
+    .ycp .ivu-table .ivu-table-header table{
+        .ivu-table-cell{
+            white-space: nowrap;
+            word-break:keep-all;
+            overflow:$overflow;
+        }
+    }
+    .ivu-table{
+        &:after{
+            height:$num0;
+        }
+        &:before{
+            height:$num0;
+        }
+        th{
+            background: #fff;
+            border:none $num0;
+        }
+        td{
+            border:none $num0;
+            font-size: 1rem;
+        }
+        .demo-table-info-row td{
+            background-color: #f9f9f9;
+        }
+        .demo-table-error-row td{
+            background-color: #fff; 
+        }
+        .ivu-table-row{
+            &:hover{
+                td{
+                    background: #ebf7ff !important; 
+                }
+            }
+        }
+        .ivu-table-wrapper{
+             height:$height;
+        }
+    }
+    
 }
 </style>
 
