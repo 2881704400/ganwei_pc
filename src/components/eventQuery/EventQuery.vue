@@ -160,7 +160,7 @@ export default {
       }
       timeStr=this.dateValue.toString();
 
-      this.Axios.post("/oApi/GWService.asmx/QueryEquipEvt",{times:timeStr,equip_no_list:this.equipId}).then(res=>{//加载模拟量配置
+      this.Axios.post("/GWService.asmx/QueryEquipEvt",{times:timeStr,equip_no_list:this.equipId}).then(res=>{//加载模拟量配置
          // this.equipEvent=res.data.HttpData.data;
           if(res.data!='false'){
             this.equipEvent=[];
@@ -177,7 +177,7 @@ export default {
             
           }
       });
-      this.Axios.post("/oApi/GWService.asmx/QuerySetupsEvt",{times:timeStr,equip_no_list:this.equipId}).then(res=>{
+      this.Axios.post("/GWService.asmx/QuerySetupsEvt",{times:timeStr,equip_no_list:this.equipId}).then(res=>{
           if(res.data!='false'){
             this.setEvent=[];
             let respon=JSON.parse(res.data.d)
@@ -192,7 +192,7 @@ export default {
             }
           }
       });
-      this.Axios.post("/oApi/GWService.asmx/QuerySystemEvt",{times:timeStr}).then(res=>{
+      this.Axios.post("/GWService.asmx/QuerySystemEvt",{times:timeStr}).then(res=>{
         // console.log(res)
         // console.log(res)
           if(res.data!='false'){
