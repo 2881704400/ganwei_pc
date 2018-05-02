@@ -77,15 +77,15 @@
 			getIMG(level) {
 				var url="";
 				if(level=="故障"){
-					url = "../static/infor/Errors.png";
+					url = "./static/infor/Errors.png";
 				}else if(level=="警告"){
-					url = "../static/infor/Warnings.png";
+					url = "./static/infor/Warnings.png";
 				}else if(level=="信息"){
-					url = "../static/infor/Informations.png";
+					url = "./static/infor/Informations.png";
 				}else if(level=="设置"){
-					url = "../static/infor/Settings.png";
+					url = "./static/infor/Settings.png";
 				}else if(level=="资产"){
-					url = "../static/infor/Assets.png";
+					url = "./static/infor/Assets.png";
 				}
 				return url;
 			},
