@@ -16,6 +16,12 @@ module.exports = {
           '^/api': '/api',
         }
       },
+      '/signalr': {
+        target: 'http://192.168.0.247:7001',
+        pathRewrite: {
+          '^/signalr': '/'
+        }
+      },
       '/oApi': {
         target: 'http://192.168.3.110:8013',
         pathRewrite: {
@@ -60,8 +66,8 @@ module.exports = {
 
     // Paths
     assetsRoot: path.resolve(__dirname, '../dist'),
-    assetsSubDirectory: '2.0/static',
-    assetsPublicPath: '/',
+    assetsSubDirectory: 'static',
+    assetsPublicPath: './',
 
     /**
      * Source Maps

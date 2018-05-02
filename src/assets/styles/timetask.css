@@ -381,11 +381,13 @@
 }
 
 .common-table table thead tr th {
-	padding: 17px 10px;
+	padding: 12px 10px;
 	color: #858585;
 	font-size: 16px;
 	font-weight: 500;
 	text-align: left;
+	background: #fff;
+	border-bottom: 1px solid #ddd;
 }
 
 .common-table table thead tr th:first-child {
@@ -404,7 +406,7 @@
 
 .common-table table tbody {
 	display: block;
-	height: 768px;
+	height: 758px;
 	overflow-y: auto;
 }
 
@@ -436,14 +438,10 @@
 	table-layout: fixed;
 }
 
-.common-table table thead {
-	width: calc( 100% - 1em)
-}
-
 .common-table table tbody tr td {
-	padding: 11px 10px;
+	padding: 6px 10px;
 	color: #2e2e2e;
-	font-size: 16px;
+	font-size: 15px;
 	font-weight: 500;
 	text-align: left;
 }
@@ -463,19 +461,28 @@
 }
 
 .common-table table tbody tr td>i {
-	width: 20px;
-	height: 20px;
-	font-size: 18px;
+	/*width: 20px;
+	height: 20px;*/
+	font-size: 1.5rem;
+	color: #05A2E5;
 }
 
 .common-table table tbody tr td>button {
-	width: 83px;
+	width: 63px;
 	height: 31px;
 	background: #2d8cf0;
 	font-size: 14px;
 	color: #fff;
 	border: 0;
 	cursor: pointer;
+}
+.common-table table tbody tr td>p{
+	    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    -o-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+    text-align: left;
 }
 
 .common-table table tbody tr {
@@ -681,7 +688,7 @@
 }
 
 .common-smalltable-checkboxgroup table tbody tr td>.ivu-input-wrapper>.ivu-input {
-	text-align: left !important;
+	text-align: center !important;
 	border: 1px solid #dddee1 !important;
 }
 
@@ -695,7 +702,7 @@
 	border-right: 1px solid #dddee1;
 	height: 36px;
 	border-radius: 0px;
-	text-align: left;
+	text-align: center;
 	margin-top: -2px;
 }
 
@@ -963,4 +970,51 @@
 	color: #2d8cf0;
 }
 
-.common-tab .ivu-tabs.ivu-tabs-card>.ivu-tabs-bar .ivu-tabs-tab-active:
+.modalAlert h1 {
+  font-size: 1rem;
+  font-weight: 200;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.modalAlert p {
+  margin-top: 20px;
+}
+
+.modalAlert .groupCheck {
+  padding: 20px 0;
+  text-indent: 10px;
+  border: 1px solid #eee;
+}
+
+.modalAlert .groupCheck > .groupCheckChild {
+  height: 30px;
+  line-height: 30px;
+  display: block;
+}
+
+.modalAlert .groupCheck > .groupCheckChild:nth-child(2n) {
+  background: white;
+}
+
+.modalAlert .groupCheck > .groupCheckChild:nth-child(2n+1) {
+  background: #F9F9F9;
+}
+
+.modalAlert .groupCheck > .groupCheckChild:hover {
+  background: #eee;
+}
+
+.modalAlert .ivu-btn-primary {
+  color: #DEF0F9;
+  width: 83px;
+  height: 31px;
+  background-color: #2d8cf0;
+  border-color: #2d8cf0;
+  border-radius: 0;
+}
+
+.ivu-modal-content {
+  border-radius: 0 !important;
+}

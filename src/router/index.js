@@ -21,11 +21,10 @@ const TimeTask = r => require.ensure([], () => r(require('@page/timeTask/TimeTas
 // 设备联动组件
 const EquipLinkage = r => require.ensure([], () => r(require('@page/equipLinkage/EquipLinkage')), 'page')
 
-const test = r => require.ensure([], () => r(require('@page/test')), 'page')
 Vue.use(Router)
 
 export default new Router({
-  mode: 'history',
+ // mode: 'history',
   base: '/',
   routes: [
     {
@@ -36,11 +35,6 @@ export default new Router({
       path: '/login',
       name: 'login',
       component: Login
-    },
-    {
-      path: '/test',
-      name: 'test',
-      component: test
     },
     {
       path: '/index',
@@ -84,15 +78,7 @@ export default new Router({
           path: 'equipLinkage',
           component: EquipLinkage
         }
-        // {
-        //   path: '*',
-        //   redirect: '/index'
-        // }
       ]
     }
-    // {
-    //   path: '/*',
-    //   redirect: '/login'
-    // }
   ]
 })

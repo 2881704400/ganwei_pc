@@ -65,6 +65,15 @@ export default {
             "selected": false
         },
         {
+            "title": "实时快照",
+            "href": "snapshot",
+            "iconClass": " iconfont icon-MenuSnapshot",
+            "loading": false,
+            "hasChild": false,
+            "children": [],
+            "selected": false
+        },
+        {
             "title": "系统配置",
             "href": "systemConf",
             "iconClass": " iconfont icon-MenuSystemConf",

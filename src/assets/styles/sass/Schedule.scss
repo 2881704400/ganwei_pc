@@ -5,7 +5,7 @@
     $IconFontSize: 22px;
     $searchHeight: 32px;
 
-    width: 100%;min-width: 700px;height: 100%;
+    width: 100%;min-width: 700px;height: 100% !important;
     .ivu-icon{color: #{$btnBackground};}
     .ivu-checkbox-checked .ivu-checkbox-inner{border-color: #{$btnBackground};background-color: #{$btnBackground};}
 

@@ -1,7 +1,7 @@
 <template>
 	<div class="snapashot">
 		<div class="common-tab">
-			<Tabs type="card" @on-click="updateCardInfo" v-model="tabPaneValue">
+			<Tabs type="card" @on-click="updateCardInfo" :animated="false" v-model="tabPaneValue">
 				<template v-for="(itemTab,indexTab) of btnInfo">
 					<TabPane :label="itemTab.btnCount" extra="itemTab.ID" :name="itemTab.btnValue" :class="{active : itemTab.isActive}" v-if="itemTab.btnStatus" :key="itemTab.spanId">
 						<div class="common-table">
@@ -18,10 +18,14 @@
 								<tbody>
 									<tr v-for="(item,index) of tableInfo" :key="index">
 										<td>
-											<!--<i class="iconfont icon-dian color-error"></i>-->{{item.Level}}</td>
+											<img :src="getIMG(item.Level)" alt="" style="vertical-align: middle;" /> {{item.Level}}
+										</td>
 										<td>{{item.formatTime}}</td>
-										<td>{{item.EventMsg}}</td>
-										<td><button @click="showModalFun(item.EventMsg,item.Time)" v-show="!item.bConfirmed">请确认</button><i class="iconfont icon-gouxuan" v-show="item.bConfirmed"></i></td>
+										<td>
+											<p :title="item.EventMsg">{{item.EventMsg}}</p>
+										</td>
+										<td><button @click="showModalFun(item.EventMsg,item.Time)" v-show="!item.bConfirmed">请确认</button>
+											<i v-show="item.bConfirmed" class="iconfont icon-ok"></i></td>
 										<td>{{item.Proc_advice_Msg}}</td>
 									</tr>
 								</tbody>
@@ -31,23 +35,17 @@
 				</template>
 			</Tabs>
 		</div>
-		<Modal v-model="sureModal" title="确认处理该事件吗？" @on-ok="sureModalFun" @on-cancel="cancel" class="common-moal">
-			<div class="common-moal-content">
-				<h1 v-model="EventMsg">事件：{{EventMsg}}</h1>
-				<input type="hidden" v-model="Time" />
-				<p>请输入处理意见（100字以内）：</p>
-				<Input type="textarea" :rows="4" v-model='msgValue'></Input>
-				<p>
-					<Checkbox v-model="isSendSms" label="是">是否发送短信？</Checkbox>
-				</p>
-				<p>
-					<CheckboxGroup v-model="atorMobiles">
-						<Checkbox v-for="(item,index) of atorMsgInfo" v-show="isSendSms" :label="item.MobileTel" :key="index">{{item.MobileTel}}({{item.Administrator}})</Checkbox>
-					</CheckboxGroup>
-				</p>
-			</div>
-
-		</Modal>
+		
+		<Modal v-model="sureModal" title="确认处理该事件吗？" @on-ok="sureModalFun" @on-cancel="cancel" class="modalAlert">
+            <h1 v-model="EventMsg" :title="EventMsg">事件：<span>{{EventMsg}}</span></h1>
+            <input type="hidden" v-model="Time" />
+            <p>请输入处理意见（100字以内）：</p>
+            <Input type="textarea" :rows="4" v-model="msgValue"></Input>
+            <Checkbox  label="是" style="margin: 10px 0;" v-model="isSendSms">是否发送短信？</Checkbox>
+            <CheckboxGroup class="groupCheck" v-show="isSendSms" v-model="atorMobiles">
+              <Checkbox v-for="(item,index) of atorMsgInfo" :key="index" class="groupCheckChild" :label="item.allInfo" >{{item.MobileTel}}({{item.Administrator}})</Checkbox>
+            </CheckboxGroup>
+        </Modal>
 	</div>
 </template>
 
@@ -75,7 +73,21 @@
 			updateCardInfo() {
 				this.getRealTimeEvent();
 			},
-
+			getIMG(level) {
+				var url="";
+				if(level=="故障"){
+					url = "./static/infor/Errors.png";
+				}else if(level=="警告"){
+					url = "./static/infor/Warnings.png";
+				}else if(level=="信息"){
+					url = "./static/infor/Informations.png";
+				}else if(level=="设置"){
+					url = "./static/infor/Settings.png";
+				}else if(level=="资产"){
+					url = "./static/infor/Assets.png";
+				}
+				return url;
+			},
 			//获取事件的报警配置
 			getAlarmConfig() {
 				this.Axios.post('/api/event/alarm_config')
@@ -108,7 +120,7 @@
 									isActive: false
 								});
 							}
-							this.event_Level_list = this.event_Level_list.substring(0, this.event_Level_list.length - 1);console.log(listAddData)
+							this.event_Level_list = this.event_Level_list.substring(0, this.event_Level_list.length - 1);
 							this.btnInfo = listAddData;
 							this.getRealTimeEventCount();
 							setInterval(this.getRealTimeEventCount, 5000);
@@ -121,7 +133,7 @@
 			getRealTimeEventCount() {
 				let btnInfoLevels = "";
 				for(let i = 0; i < this.btnInfo.length; i++) {
-					if(this.btnInfo[i].btnValue!="-1"){
+					if(this.btnInfo[i].btnValue != "-1") {
 						btnInfoLevels += this.btnInfo[i].btnValue + ";"
 					}
 				}
@@ -134,12 +146,12 @@
 						this.getRealTimeEvent();
 						let resultData = data.data;
 						let resultDataArr = resultData.toString().split(",");
-						let sumValue=0;
+						let sumValue = 0;
 						for(let i = 0; i < resultDataArr.length; i++) {
-							this.btnInfo[i+1].btnCount = this.btnInfo[i+1].spanName+" "+resultDataArr[i];
-							sumValue+=parseInt(resultDataArr[i]);
+							this.btnInfo[i + 1].btnCount = this.btnInfo[i + 1].spanName + " " + resultDataArr[i];
+							sumValue += parseInt(resultDataArr[i]);
 						}
-						this.btnInfo[0].btnCount = this.btnInfo[0].spanName+" "+sumValue;
+						this.btnInfo[0].btnCount = this.btnInfo[0].spanName + " " + sumValue;
 					}
 				}).catch(err => {
 					console.log(err)
@@ -148,10 +160,12 @@
 			//获取当前系统报警的实时事件
 			getRealTimeEvent() {
 				var tabPaneValue = this.tabPaneValue;
-				var levels="";
+				var levels = "";
 				if(tabPaneValue == "-1") {
 					levels = this.event_Level_list;
-				}console.log(tabPaneValue,levels)
+				}else{
+					levels=tabPaneValue;
+				}
 				this.Axios.post('/api/event/real_evt', {
 					levels: levels
 				}).then(res => {
@@ -174,7 +188,7 @@
 							tableListData.push({
 								EventMsg: resultData[i].EventMsg,
 								Proc_advice_Msg: resultData[i].Proc_advice_Msg,
-								Time: resultData[i].Time,
+								Time: resultData[i].Time.replace("T"," "),
 								formatTime: this.formatDate(resultData[i].Time),
 								Level: strLevel,
 								bConfirmed: resultData[i].bConfirmed,
@@ -200,7 +214,8 @@
 						for(var i = 0; i < resultData.length; i++) {
 							atorMsgInfoData.push({
 								Administrator: resultData[i].Administrator,
-								MobileTel: resultData[i].MobileTel
+								MobileTel: resultData[i].MobileTel,
+								allInfo: resultData[i].Administrator+"&&"+resultData[i].MobileTel
 							});
 						}
 						this.atorMsgInfo = atorMsgInfoData;
@@ -218,11 +233,18 @@
 				this.sureModal = true;
 			},
 			sureModalFun() {
-				console.log(this.msgValue, this.isSendSms, this.atorMobiles, this.EventMsg, this.Time);
+				let atorMobiles=this.atorMobiles;
+				let atorMobilesArr=[];
+				for(let i=0;i<atorMobiles.length;i++){
+					if(atorMobiles[i]!=""&&atorMobiles[i]!=null){
+						atorMobilesArr.push(atorMobiles[i].split("&&")[1]);
+					}
+					
+				}
 				this.Axios.post('/api/event/confirm_evt', {
 					msg: this.msgValue,
 					shortmsg: this.isSendSms,
-					tel: this.atorMobiles.join(','),
+					tel: atorMobilesArr.toString(),
 					evtname: this.EventMsg,
 					time: this.Time
 				}).then(res => {
@@ -243,10 +265,10 @@
 				return newTime.substring(0, 19);
 			},
 			ok() {
-				
+
 			},
 			cancel() {
-				
+
 			}
 		}
 	}
