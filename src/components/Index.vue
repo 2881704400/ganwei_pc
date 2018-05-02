@@ -34,7 +34,7 @@
           <span v-if="$store.state.curPage.childName" class="split">>></span>
           <a v-if="$store.state.curPage.childName">{{$store.state.curPage.childName}}</a>
         </div>
-        <router-view class="router-page" v-if="loadCompleted"></router-view>
+        <router-view class="router-page" v-if="loadCompleted" :rootSave="rootSave"></router-view>
       </section>
     </div>
   </div>
@@ -111,8 +111,9 @@ export default {
         }
       ],
       loadCompleted: false,
-      isFold: false,
-      curPath22: ""
+      isFold: true,
+      curPath22: "",
+      rootSave: {},
     };
   },
   methods: {
@@ -131,7 +132,6 @@ export default {
           .then(rt => {
             let data = rt.data.HttpData;
             if (data.code !== 200) {
-              console.log(data);
               this.$router.push("/login");
             } else {
               console.log("密钥验证成功,当前连接的服务:[", data.data, "]");
@@ -344,6 +344,7 @@ export default {
       });
     },
     renderNavItem(h, { root, node, data }) {
+      this.rootSave = root;
       // leftNav节点渲染
       if (data.hasChild) {
         return h(
@@ -465,10 +466,11 @@ export default {
         );
       }
     },
-    navItemClick (root, data, equipNo = null) {
+    navItemClick (root, data, equipNo = null) { 
+     
       if (data.children.length < 1) {
         this.loadNavList(data, rt => {
-          rt.forEach(item => {
+          rt.forEach(item => { 
             data.children.push(item)
           })
           data.loading = false
@@ -483,6 +485,7 @@ export default {
         ele.node.selected = false
       });
       data.selected = true
+     
     },
     setNav () {
       const pathF = this.$route.path.split('/')[1],
