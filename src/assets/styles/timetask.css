@@ -917,7 +917,7 @@
 
 .common-tab .ivu-tabs-card>.ivu-tabs-content>.ivu-tabs-tabpane {
 	background: #fff;
-	border: 1px solid #dddee1;
+	border-top: 1px solid #EEEEEE;
 	min-width: 1115px;
 }
 
