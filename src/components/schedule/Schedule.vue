@@ -502,7 +502,7 @@ export default {
       for(var i=0;i<AlmReportDataLen;i++)
       {   
         if(dtThis.AlmReportData[i].Administrator == dt.Administrator)
-          {this.$Modal.warning({title: "提示",content: '<p style="font-size: 18px;position: relative;top: -6px;">请先删除管理范围对应项!</p>'});return false;}
+          {this.$Modal.warning({title: "提示",content: '<p style="font-size: 14px;position: relative;">请先删除管理范围对应项!</p>'});return false;}
       }        
       this.deleteBaseData("deleteEquipGroup", deleteJson, _success_admin_del);
       function _success_admin_del() {
@@ -711,7 +711,7 @@ export default {
         for(var i=0;i<AlmReportDataLen;i++)
         {
           if(dtThis.AlmReportData[i].group_no == dt.group_no)
-            {this.$Modal.warning({title: "提示",content: '<p style="font-size: 18px;position: relative;top: -6px;">请先删除管理范围对应项!</p>'});return false;}
+            {this.$Modal.warning({title: "提示",content: '<p style="font-size: 14px;position: relative;">请先删除管理范围对应项!</p>'});return false;}
         }
       this.deleteBaseData("deleteEquipGroup", deleteJson, _success_admin_del);
       function _success_admin_del() {
@@ -1304,7 +1304,7 @@ export default {
       this.$Modal.confirm({
         title: "提示",
         content:
-          '<p style="font-size: 18px;position: relative;top: -6px;">确认删除该分组信息?</p>',
+          '<p style="font-size: 14px;position: relative;">确认删除该分组信息?</p>',
         okText: "确认",
         onOk: () => {
           this.XHRPost(api, json, _success);

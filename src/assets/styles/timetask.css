@@ -917,14 +917,14 @@
 
 .common-tab .ivu-tabs-card>.ivu-tabs-content>.ivu-tabs-tabpane {
 	background: #fff;
-	border: 1px solid #dddee1;
+	border-top: 1px solid #EEEEEE;
 	min-width: 1115px;
 }
 
 .tab-content-border .ivu-tabs-card>.ivu-tabs-content>.ivu-tabs-tabpane {
 	background: #fff;
-	border: 1px solid #fff;
-	border-top: 1px solid #dddee1;
+	/*border: 1px solid #fff;*/
+	border-top: 1px solid #EEEEEE;
 }
 
 
