@@ -2,6 +2,9 @@
   <div class="home">
        <h1>深圳市敢为软件技术有限公司</h1>
        <div class="homeContent">
+           <div class="homeTop">
+
+           </div>
            <div class="homeMenu">
              <span v-for="item in rootSave" v-show="!item.parent">
                <a @click="homeMenuClick(rootSave,item)" v-show="item.node.title != '首页'"><i :class="item.node.iconClass"></i>{{item.node.title}}</a>
