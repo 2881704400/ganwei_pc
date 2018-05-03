@@ -67,7 +67,7 @@ export default {
         {
             "title": "实时快照",
             "href": "snapshot",
-            "iconClass": "ios-camera-outline",
+            "iconClass": " iconfont icon-MenuSnapshot",
             "loading": false,
             "hasChild": false,
             "children": [],
