@@ -1,117 +1,147 @@
 
-<style lang="css">
-.rowClassName{padding-left: 0;padding-right: 0;width: 100%;text-align: center;}
-.ivu-table-cell{padding-left: 0;padding-right: 0;width: 100%;text-align: center;}
-.uploadWrap .ivu-row{min-height:400px !important;}
-.uploadWrap .ivu-modal{top:50px !important;}
-/*.operta{color:#3498db !important;font-size:15px !important;cursor:pointer;}*/
-.moreInforWord{margin-top:10px;font-size:15px;}
-.lableName{font-size: 16px;margin-right:10px;color:#989898;}
-.labelVal{font-size: 15px;margin-left:10px;color:#303030;}
-.system-conf{width:100%;height:100%;}
-.system-conf .wrap{width:100%;height:100%;}
-.system-conf .wrap .itemDetail{height:100%;overflow: hidden;padding-left: 15px;}
-.system-conf .wrap .itemList{height:100%;overflow-y: scroll;}
-::-webkit-scrollbar{/*滚动条整体样式*/
-  width: 4px;     /*高宽分别对应横竖滚动条的尺寸*/
+<style lang="scss">
+$width:100%;
+$height:100%;
+$overflow:hidden;
+$blueColor:#2d8cf0;
+$num0:0px;
+::-webkit-scrollbar{
+  width: 4px;    
   height: 4px;
 }
-::-webkit-scrollbar-thumb{/*滚动条里面小方块*/
+
+::-webkit-scrollbar-thumb{
   border-radius: 5px;
   -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
   background: rgba(0,0,0,0.2);
 }
-::-webkit-scrollbar-track {/*滚动条里面轨道*/
+::-webkit-scrollbar-track {
   -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
   border-radius: 0;
   background: rgba(0,0,0,0.1);
 }
-.system-conf  .itemList p{width:95%;
-  height:50px;
-  line-height: 50px;
-  background: #f9f9f9;
-  margin:10px auto;
-  font-size:15px;
-  text-align: center;
-}
-.system-conf  .itemList p:hover{
-  border:1px solid #2d8cf0;
-  box-sizing: border-box;
-  color:#2d8cf0;
-  cursor:pointer;
-}
+.rowClassName{padding-left: $num0;padding-right: $num0;width: $width;text-align: center;}
+.ivu-table-cell{padding-left: $num0;padding-right: $num0;width: $width;text-align: center;white-space: nowrap;overflow: hidden;word-break: keep-all;}
+.uploadWrap .ivu-row{min-height:400px !important;}
+.uploadWrap .ivu-modal{top:50px !important;}
+.moreInforWord{margin-top:10px;font-size:15px;}
+.lableName{font-size: 16px;margin-right:10px;color:#989898;}
+.labelVal{font-size: 15px;margin-left:10px;color:#303030;}
 .clickActive{
- border:1px solid #2d8cf0;
+ border:1px solid $blueColor;
  box-sizing: border-box;
- color:#2d8cf0;
+ color:$blueColor
 }
-
-
-
-.system-conf  .ivu-tabs-bar{margin-bottom: 0;height: 40px;}
-.system-conf  .ivu-tabs-nav-container{height: 40px !important;}
-.system-conf  .ivu-table-wrapper{
-  border:none;
-}
-
-.system-conf  .ivu-tabs.ivu-tabs-card>.ivu-tabs-bar .ivu-tabs-tab{
-  margin-right: 0;
-  border-radius: 0;
-  border-right: none;
-  font-size:15px;
-  height:40px;
-  line-height: 2;
-  border-bottom: 1px solid #dddee1;
-}
-.system-conf  .ivu-tabs.ivu-tabs-card>.ivu-tabs-bar .ivu-tabs-tab:last-child{
- border-right:1px solid #dddee1;
-}
-.system-conf  .ivu-tabs.ivu-tabs-card>.ivu-tabs-bar .ivu-tabs-tab-active{
-  border-top:1px solid #2d8cf0;
-  box-sizing: border-box;
-  background: #F9F9F9;
-}
-.system-conf .ivu-table .ivu-table-header table .ivu-table-cell{
-  padding-left: 0;
-  padding-right: 0;
-  width: 100%;
-  font-weight: 200;
-  font-size: 0.9rem;
-  text-align: center;
-  color:#333;
-}
-/*.system-conf .ycp .ivu-table .ivu-table-header table .ivu-table-cell{
-  font-size: 0.8rem
-}*/
-.system-conf  .ivu-table th{
-  background: #fff;
-}
-.system-conf  .ivu-table td, .ivu-table th{
-  border:none 0;
-
-}
-.system-conf  .ivu-table td{
-  font-size: 1rem;
-}
-.system-conf  .ivu-table:after{
-  height: 0;
-}
-.system-conf  .ivu-table .demo-table-info-row td{
-  background-color: #f9f9f9;
-
-}
-.system-conf  .ivu-table .demo-table-error-row td{
-  background-color: #fff; 
-}
-.system-conf    .ivu-table-row:hover td{
-  background: #ebf7ff !important; 
-}
-
-.system-conf    .ivu-table:before{
-  height:0;
-}
-.system-conf  .ivu-table-wrapper{
-  height:100%;
+.system-conf{
+    width:$width;
+    height:$height;
+    .wrap{
+        width:$width;
+        height:$height;
+        .itemDetail{
+            height: $height;
+            overflow: $overflow;
+            padding-left: 15px;
+        }
+        .itemList{
+            height: $height;
+            overflow-y: scroll;
+            p{
+              width:95%;
+              height:50px;
+              line-height: 50px;
+              background: #f9f9f9;
+              margin:10px auto;
+              font-size:15px;
+              text-align: center;
+              white-space: nowrap;
+              word-break: keep-all;
+              overflow: $overflow;
+              &:hover{
+                  border:1px solid $blueColor;
+                  box-sizing: border-box;
+                  color:$blueColor;
+                  cursor:pointer;
+              }
+            }
+        }
+    }
+    .ivu-tabs-bar{
+        margin-bottom:$num0;
+        height: 40px;
+    }
+    .ivu-tabs-nav-container{height: 40px !important;}
+    .ivu-table-wrapper{border:none;}
+    .ivu-tabs.ivu-tabs-card>.ivu-tabs-bar{
+        .ivu-tabs-tab{
+              margin-right:$num0;
+              border-radius: $num0;
+              border-right: none;
+              font-size:15px;
+              height:40px;
+              line-height: 2;
+              border-bottom: 1px solid #dddee1;
+              &:last-child{
+                  border-right:1px solid #dddee1;
+              }
+        }
+        .ivu-tabs-tab-active{
+            border-top:1px solid $blueColor;
+            box-sizing: border-box;
+            background: #F9F9F9;
+        }
+    }
+    .ivu-table .ivu-table-header table{ 
+        .ivu-table-cell{
+              padding-left: $num0;
+              padding-right:$num0;
+              width: $width;
+              font-weight: 200;
+              font-size: 0.9rem;
+              text-align: center;
+              color:#858585;
+        }
+    }
+    .ycp .ivu-table .ivu-table-header table{
+        .ivu-table-cell{
+            white-space: nowrap;
+            word-break:keep-all;
+            overflow:$overflow;
+        }
+    }
+    .ivu-table{
+        &:after{
+            height:$num0;
+        }
+        &:before{
+            height:$num0;
+        }
+        th{
+            background: #fff;
+            border:none $num0;
+        }
+        td{
+            border:none $num0;
+            font-size: 1rem;
+        }
+        .demo-table-info-row td{
+            background-color: #f9f9f9;
+        }
+        .demo-table-error-row td{
+            background-color: #fff; 
+        }
+        .ivu-table-row{
+            &:hover{
+                td{
+                    background: #ebf7ff !important; 
+                }
+            }
+        }
+        .ivu-table-wrapper{
+             height:$height;
+        }
+    }
+    
 }
 </style>
 
@@ -119,7 +149,7 @@
   <div class="system-conf">
     <Row class="wrap">
       <Col span="3" class="itemList">
-      <p  v-for="(item,$index) in itemList" @click="loadInformation(item.m_iEquipNo,$index)" :class="$index==active?'clickActive':''">
+      <p  v-for="(item,$index) in itemList" @click="loadInformation(item.m_iEquipNo,$index)" :class="$index==active?'clickActive':''" >
         {{item.m_EquipNm}}
       </p>
     </Col>
@@ -151,10 +181,10 @@
     </div>
   </Col>
 </Row>
-<Modal title="查看其他信息" v-model="modal1" class-name="vertical-center-modal" :styles="{top: '50px',width:'850px'}" class="uploadWrap">
+<Modal title="查看其他信息" v-model="modal1" class-name="vertical-center-modal" :styles="{top: '50px',width:'800px'}" class="uploadWrap">
     <Row>
         <Col span="12">
-              <p class="moreInforWord" v-for="(key,val) in moreInfor" :key="val" v-if="val>=0&&val<=10">
+              <p class="moreInforWord" v-for="(key,val) in moreInfor" :key="val" v-if="val>=0&&val<=10" >
                 <span class="lableName" style="width:170px;display:inline-block;text-align:right;">{{key.name}}</span>:<span class="labelVal">{{key.value}}</span> 
               </p>
         </Col>
@@ -169,7 +199,7 @@
 <Row>
     <Col span="12">
           <p v-for="(item,index) in uploadInfor" v-if="index<=(leftNum+chazhiNum)"  style="margin-top:10px;">
-            <span  style="width:120px;display:inline-block;text-align:right;">{{item.name}}:</span>
+            <span  style="width:125px;display:inline-block;text-align:right;">{{item.name}}:</span>
             <Input v-model="item.value"  v-if="index==0||item.name=='模拟量编号'||item.name=='状态量编号'||item.name=='设置号'" disabled placeholder="请输入对应值" style="width: 200px;margin-left:20px;"></Input>
             <Input v-model="item.value"  v-else="index!=0" placeholder="请输入对应值" style="width: 200px;margin-left:20px;"></Input>
           </p>
@@ -263,12 +293,143 @@ export default {
   data () {
     return {
       columnsEq:[
-      { title:"设备号", key:"equip_no"},
-      {title:"设备名称",key:"equip_nm"},
-      {title:"关联界面",key:"related_pic" },
-      {title:"关联视频",key:"related_video" },
-      {title:"资产编号",key:"ZiChanID" },
-      {title:"预案号",key:"PlanNo"},
+      {title:"设备号", key:"equip_no",
+        render: (h, params) => {
+          var txt=params.column.key
+          let types=params.row.equip_no
+         
+          return h('div', [
+            h('span', {
+              style: {
+                 display: 'inline-block',
+                 width: '100%',
+                 overflow: 'hidden',
+                 textOverflow: 'ellipsis',
+                 whiteSpace: 'nowrap'
+             },
+                domProps: {
+                  title: types
+                }
+            },types)
+           
+            ]);
+        }
+
+    },
+      {title:"设备名称",key:"equip_nm",
+      render: (h, params) => {
+          var txt=params.column.key
+          let types=params.row.equip_nm
+         
+          return h('div', [
+
+            h('span', {
+              style: {
+                 display: 'inline-block',
+                 width: '100%',
+                 overflow: 'hidden',
+                 textOverflow: 'ellipsis',
+                 whiteSpace: 'nowrap'
+             },
+                domProps: {
+                  title: types
+                }
+            },types)
+           
+            ]);
+        }
+      },
+      {title:"关联界面",key:"related_pic",
+           render: (h, params) => {
+          var txt=params.column.key
+          let types=params.row.related_pic
+         
+          return h('div', [
+            h('span', {
+              style: {
+                 display: 'inline-block',
+                 width: '100%',
+                 overflow: 'hidden',
+                 textOverflow: 'ellipsis',
+                 whiteSpace: 'nowrap'
+             },
+                domProps: {
+                  title: types
+                }
+            },types)
+           
+            ]);
+        }
+       },
+      {title:"关联视频",key:"related_video",
+          render: (h, params) => {
+          var txt=params.column.key
+          let types=params.row.related_video
+         
+          return h('div', [
+            h('span', {
+              style: {
+                 display: 'inline-block',
+                 width: '100%',
+                 overflow: 'hidden',
+                 textOverflow: 'ellipsis',
+                 whiteSpace: 'nowrap'
+             },
+                domProps: {
+                  title: types
+                }
+            },types)
+           
+            ]);
+        }
+
+       },
+      {title:"资产编号",key:"ZiChanID",
+          render: (h, params) => {
+          var txt=params.column.key
+          let types=params.row.ZiChanID
+         
+          return h('div', [
+            h('span', {
+              style: {
+                 display: 'inline-block',
+                 width: '100%',
+                 overflow: 'hidden',
+                 textOverflow: 'ellipsis',
+                 whiteSpace: 'nowrap'
+             },
+                domProps: {
+                  title: types
+                }
+            },types)
+           
+            ]);
+        }
+       },
+      {title:"预案号",key:"PlanNo",
+        render: (h, params) => {
+                  var txt=params.column.key
+                  let types=params.row.PlanNo
+                 
+                  return h('div', [
+                    h('span', {
+                      style: {
+                 display: 'inline-block',
+                 width: '100%',
+                 overflow: 'hidden',
+                 textOverflow: 'ellipsis',
+                 whiteSpace: 'nowrap'
+             },
+                        domProps: {
+                          title: types
+                        }
+                    },types)
+                   
+                    ]);
+                }
+
+
+    },
       {
         title:"显示报警",
         key:"showAlarm" ,
@@ -278,13 +439,13 @@ export default {
 
           return h('div', [
             h('Icon', {
-              props: {
-                type:types,
+                  props: {
+                    type:types,
 
-              },style:{
-                fontSize:"22px",
-                color:"#2d8cf0"
-              }
+                  },style:{
+                    fontSize:"22px",
+                    color:"#2d8cf0"
+                  }
             }),
             h('strong', params.row.name)
             ]);
@@ -312,19 +473,222 @@ export default {
       ],
       dataEq:[],
       columnsYc:[
-      {title:"设备号",key:"equip_no"
-    },{title:"模拟量编号",key:"yc_no"
-  },{ title:"模拟量名称",key:"yc_nm"
-},{ title:"下限值",key:"val_min"
-},{title:"回复下限值",key:"restore_min"
-},{title:"回复上限值",key:"restore_max"
-},{title:"上限值  ",key:"val_max"
-},{ title:"单位",key:"unit"
-},{title:"关联页面",key:"related_pic"
-},{ title:"关联视频",key:"related_video"
-},{title:"资产编号",key:"ZiChanID"
-},{title:"预案号",key:"PlanNo"
-},{title:"曲线记录",
+      {title:"设备号",key:"equip_no",
+ render: (h, params) => {
+                  var txt=params.column.key
+                  let types=params.row.equip_no
+                 
+                  return h('div', [
+                    h('span', {
+                        domProps: {
+                          title: types
+                        }
+                    },types)
+                   
+                    ]);
+                }
+
+    },{title:"模拟量编号",key:"yc_no",
+ render: (h, params) => {
+                  var txt=params.column.key
+                  let types=params.row.yc_no
+                 
+                  return h('div', [
+                    h('span', {
+                        domProps: {
+                          title: types
+                        }
+                    },types)
+                   
+                    ]);
+                }
+
+    },{ title:"模拟量名称",key:"yc_nm",
+
+ render: (h, params) => {
+                  var txt=params.column.key
+                  let types=params.row.yc_nm
+                 
+                  return h('div', [
+                    h('span', {
+                      style: {
+                 display: 'inline-block',
+                 width: '100%',
+                 overflow: 'hidden',
+                 textOverflow: 'ellipsis',
+                 whiteSpace: 'nowrap'
+             },
+                        domProps: {
+                          title: types
+                        }
+                    },types)
+                   
+                    ]);
+                }
+    },{ title:"下限值",key:"val_min",
+ render: (h, params) => {
+                  var txt=params.column.key
+                  let types=params.row.val_min
+                 
+                  return h('div', [
+                    h('span', {
+                        domProps: {
+                          title: types
+                        }
+                    },types)
+                   
+                    ]);
+                }
+
+    },{title:"回复下限值",key:"restore_min",
+ render: (h, params) => {
+                  var txt=params.column.key
+                  let types=params.row.restore_min
+                 
+                  return h('div', [
+                    h('span', {
+                        domProps: {
+                          title: types
+                        }
+                    },types)
+                   
+                    ]);
+                }
+
+    },{title:"回复上限值",key:"restore_max",
+
+ render: (h, params) => {
+                  var txt=params.column.key
+                  let types=params.row.restore_max
+                 
+                  return h('div', [
+                    h('span', {
+                        domProps: {
+                          title: types
+                        }
+                    },types)
+                   
+                    ]);
+                }
+    },{title:"上限值  ",key:"val_max",
+
+ render: (h, params) => {
+                  var txt=params.column.key
+                  let types=params.row.val_max
+                 
+                  return h('div', [
+                    h('span', {
+                        domProps: {
+                          title: types
+                        }
+                    },types)
+                   
+                    ]);
+                }
+    },{ title:"单位",key:"unit",
+
+ render: (h, params) => {
+                  var txt=params.column.key
+                  let types=params.row.unit
+                 
+                  return h('div', [
+                    h('span', {
+                        domProps: {
+                          title: types
+                        }
+                    },types)
+                   
+                    ]);
+                }
+    },{title:"关联页面",key:"related_pic",
+ render: (h, params) => {
+                  var txt=params.column.key
+                  let types=params.row.related_pic
+                 
+                  return h('div', [
+                    h('span', {
+                      style: {
+                 display: 'inline-block',
+                 width: '100%',
+                 overflow: 'hidden',
+                 textOverflow: 'ellipsis',
+                 whiteSpace: 'nowrap'
+             },
+                        domProps: {
+                          title: types
+                        }
+                    },types)
+                   
+                    ]);
+                }
+
+    },{ title:"关联视频",key:"related_video",
+ render: (h, params) => {
+                  var txt=params.column.key
+                  let types=params.row.related_video
+                 
+                  return h('div', [
+                    h('span', {
+                      style: {
+                 display: 'inline-block',
+                 width: '100%',
+                 overflow: 'hidden',
+                 textOverflow: 'ellipsis',
+                 whiteSpace: 'nowrap'
+             },
+                        domProps: {
+                          title: types
+                        }
+                    },types)
+                   
+                    ]);
+                }
+
+    },{title:"资产编号",key:"ZiChanID",
+
+ render: (h, params) => {
+                  var txt=params.column.key
+                  let types=params.row.ZiChanID
+                 
+                  return h('div', [
+                    h('span', {
+                      style: {
+                 display: 'inline-block',
+                 width: '100%',
+                 overflow: 'hidden',
+                 textOverflow: 'ellipsis',
+                 whiteSpace: 'nowrap'
+             },
+                        domProps: {
+                          title: types
+                        }
+                    },types)
+                   
+                    ]);
+                }
+    },{title:"预案号",key:"PlanNo",
+ render: (h, params) => {
+                  var txt=params.column.key
+                  let types=params.row.PlanNo
+                 
+                  return h('div', [
+                    h('span', {
+                      style: {
+                 display: 'inline-block',
+                 width: '100%',
+                 overflow: 'hidden',
+                 textOverflow: 'ellipsis',
+                 whiteSpace: 'nowrap'
+             },
+                        domProps: {
+                          title: types
+                        }
+                    },types)
+                   
+                    ]);
+                }
+
+    },{title:"曲线记录",
 key:"curve_rcd",
 render:(h,params)=>{
   var txt=params.column.key
@@ -384,15 +748,204 @@ render:(h,params)=>{
 }
 ],dataYc:[],
 columnsYx:[
-{title:"设备号",key:"equip_no"},
-{title:"状态量编号",key:"yx_no"},
-{title:"状态量名称",key:"yx_nm"},
-{title:"0-1事件",key:"evt_01"},
-{title:"1-0事件",key:"evt_10"},
-{title:"关联页面",key:"related_pic"},
-{title:"关联视频",key:"related_video"},
-{title:"资产编号",key:"ZiChanID"},
-{title:"预案号",key:"PlanNo"},
+{title:"设备号",key:"equip_no",
+ render: (h, params) => {
+                  var txt=params.column.key
+                  let types=params.row.equip_no
+                 
+                  return h('div', [
+                    h('span', {
+                      style: {
+                 display: 'inline-block',
+                 width: '100%',
+                 overflow: 'hidden',
+                 textOverflow: 'ellipsis',
+                 whiteSpace: 'nowrap'
+             },
+                        domProps: {
+                          title: types
+                        }
+                    },types)
+                   
+                    ]);
+                }
+},
+{title:"状态量编号",key:"yx_no",
+ render: (h, params) => {
+                  var txt=params.column.key
+                  let types=params.row.yx_no
+                 
+                  return h('div', [
+                    h('span', {
+                      style: {
+                 display: 'inline-block',
+                 width: '100%',
+                 overflow: 'hidden',
+                 textOverflow: 'ellipsis',
+                 whiteSpace: 'nowrap'
+             },
+                        domProps: {
+                          title: types
+                        }
+                    },types)
+                   
+                    ]);
+                }
+},
+{title:"状态量名称",key:"yx_nm",
+ render: (h, params) => {
+                  var txt=params.column.key
+                  let types=params.row.yx_nm
+                 
+                  return h('div', [
+                    h('span', {
+                      style: {
+                 display: 'inline-block',
+                 width: '100%',
+                 overflow: 'hidden',
+                 textOverflow: 'ellipsis',
+                 whiteSpace: 'nowrap'
+             },
+                        domProps: {
+                          title: types
+                        }
+                    },types)
+                   
+                    ]);
+                }
+},
+{title:"0-1事件",key:"evt_01",
+ render: (h, params) => {
+                  var txt=params.column.key
+                  let types=params.row.evt_01
+                 
+                  return h('div', [
+                    h('span', {
+                      style: {
+                 display: 'inline-block',
+                 width: '100%',
+                 overflow: 'hidden',
+                 textOverflow: 'ellipsis',
+                 whiteSpace: 'nowrap'
+             },
+                        domProps: {
+                          title: types
+                        }
+                    },types)
+                   
+                    ]);
+                }
+},
+{title:"1-0事件",key:"evt_10",
+ render: (h, params) => {
+                  var txt=params.column.key
+                  let types=params.row.evt_10
+                 
+                  return h('div', [
+                    h('span', {
+                      style: {
+                 display: 'inline-block',
+                 width: '100%',
+                 overflow: 'hidden',
+                 textOverflow: 'ellipsis',
+                 whiteSpace: 'nowrap'
+             },
+                        domProps: {
+                          title: types
+                        }
+                    },types)
+                   
+                    ]);
+                }
+},
+{title:"关联页面",key:"related_pic",
+ render: (h, params) => {
+                  var txt=params.column.key
+                  let types=params.row.related_pic
+                 
+                  return h('div', [
+                    h('span', {
+                      style: {
+                 display: 'inline-block',
+                 width: '100%',
+                 overflow: 'hidden',
+                 textOverflow: 'ellipsis',
+                 whiteSpace: 'nowrap'
+             },
+                        domProps: {
+                          title: types
+                        }
+                    },types)
+                   
+                    ]);
+                }
+},
+{title:"关联视频",key:"related_video",
+ render: (h, params) => {
+                  var txt=params.column.key
+                  let types=params.row.related_video
+                 
+                  return h('div', [
+                    h('span', {
+                      style: {
+                 display: 'inline-block',
+                 width: '100%',
+                 overflow: 'hidden',
+                 textOverflow: 'ellipsis',
+                 whiteSpace: 'nowrap'
+             },
+                        domProps: {
+                          title: types
+                        }
+                    },types)
+                   
+                    ]);
+                }
+},
+{title:"资产编号",key:"ZiChanID",
+ render: (h, params) => {
+                  var txt=params.column.key
+                  let types=params.row.ZiChanID
+                 
+                  return h('div', [
+                    h('span', {
+                      style: {
+                 display: 'inline-block',
+                 width: '100%',
+                 overflow: 'hidden',
+                 textOverflow: 'ellipsis',
+                 whiteSpace: 'nowrap'
+             },
+                        domProps: {
+                          title: types
+                        }
+                    },types)
+                   
+                    ]);
+                }
+},
+{title:"预案号",key:"PlanNo",
+ render: (h, params) => {
+                  var txt=params.column.key
+                  let types=params.row.PlanNo
+                 
+                  return h('div', [
+                    h('span', {
+                      style: {
+                 display: 'inline-block',
+                 width: '100%',
+                 overflow: 'hidden',
+                 textOverflow: 'ellipsis',
+                 whiteSpace: 'nowrap'
+             },
+                        domProps: {
+                          title: types
+                        }
+                    },types)
+                   
+                    ]);
+                }
+},
 {title:"显示报警",key:"showAlarm",
 render:(h,params)=>{
   var txt=params.column.key
@@ -535,7 +1088,7 @@ isMarkAmarm:"",
       this.Axios.post("/api/GWServiceWebAPI/get_DataByTableName",{TableName :"GW_VideoInfo"}).then(res=>{
           this.viData=res.data.HttpData.data;
       });
-      this.Axios.post("/oApi/GWService.asmx/QueryTableData",{tableName:'AlarmProc'}).then(res=>{
+      this.Axios.post("/GWService.asmx/QueryTableData",{tableName:'AlarmProc'}).then(res=>{
           this.alrmData=JSON.parse(res.data.d);
       })
       
@@ -568,7 +1121,7 @@ isMarkAmarm:"",
         this.active=index;
         this.equipId=id;
         this.getPlanData()
-        this.Axios.all([this.Axios.post("/oApi/GWService.asmx/GetSystemConfig",{table_name:'Equip',equip_no_list:id})]).then(this.Axios.spread((res) => {
+        this.Axios.all([this.Axios.post("/GWService.asmx/GetSystemConfig",{table_name:'Equip',equip_no_list:id})]).then(this.Axios.spread((res) => {
 
 
          let eqData=JSON.parse(res.data.d);
@@ -584,6 +1137,7 @@ isMarkAmarm:"",
 
           // console.log(this.checkAlarm)
           for(var i=0;i<videoData.length;i++){
+             this.columnsEq.splice(8,alarLen+1)
             var item={
               ID:i,
               videoCode:videoData[i].EquipNum+","+videoData[i].ID,
@@ -608,9 +1162,10 @@ isMarkAmarm:"",
 
            // }
            
-           this.columnsEq.splice(8,alarLen+1)
+           
             // console.log(this.columnsEq)
             for(var j=0;j<arlarData.length;j++){
+             
               var itemAl={
                 title:arlarData[j].Proc_name,
                 key:"way"+j,
@@ -816,21 +1371,18 @@ isMarkAmarm:"",
             })).catch(err => {})
 
 //加载模拟量配置
-this.Axios.all([this.Axios.post("/oApi/GWService.asmx/GetSystemConfig",{table_name:'ycp',equip_no_list:id})]).then(this.Axios.spread((res) => {
+this.Axios.all([this.Axios.post("/GWService.asmx/GetSystemConfig",{table_name:'ycp',equip_no_list:id})]).then(this.Axios.spread((res) => {
  let dataYc=JSON.parse(res.data.d);
  // console.log(dataYc)
  let arlarData=this.alrmData;
- // let arlarData=JSON.parse(alarm.data.d);
-                        let zichanData=this.zcData
-                         let videoData=this.viData
- // let videoData=video.data.HttpData.data;
- // let zichanData=zichan.data.HttpData.data;
-            // console.log(dataYc)
-            // console.log(arlarData)
+      let zichanData=this.zcData
+       let videoData=this.viData
+
             this.dataYc=[];
             let alarLen=arlarData.length;
-            this.columnsYc.splice(15,alarLen+1)
+           this.columnsYc.splice(15,alarLen+1)
             for(var j=0;j<arlarData.length;j++){
+               
               // console.log(arlarData[j].Proc_name)
               var itemAl={
                 title:arlarData[j].Proc_name,
@@ -1096,42 +1648,40 @@ let curve_rcd;
               }
             })).catch(err => {})
 
-this.Axios.all([this.Axios.post("/oApi/GWService.asmx/GetSystemConfig",{table_name:'yxp',equip_no_list:id})]).then(this.Axios.spread((res) => {
+this.Axios.all([this.Axios.post("/GWService.asmx/GetSystemConfig",{table_name:'yxp',equip_no_list:id})]).then(this.Axios.spread((res) => {
+  
  let dataYx=JSON.parse(res.data.d);
+ console.log(dataYx)
  let arlarData=this.alrmData;
- // let arlarData=JSON.parse(alarm.data.d);
   let zichanData=this.zcData
   let videoData=this.viData
- // let videoData=video.data.HttpData.data;
- // let zichanData=zichan.data.HttpData.data;
-           // console.log(dataYx)
+ 
            this.dataYx=[];
            let alarLen=arlarData.length;
-           this.columnsYx.splice(11,alarLen+1)
+          
            for(var i=0;i<dataYx.length;i++){
-
-            for(var j=0;j<arlarData.length;j++){
-
-              var itemAl={
-                title:arlarData[j].Proc_name,
-                key:"way"+j,
-                render:(h,params)=>{
-                  var txt=params.column.key;
-                  var types=params.row[txt].split('"')[1];
-                  return h("div",[
-                    h("Icon",{
-                      props:{
-                        type:types
-                      },style:{
-                        fontSize:"22px",
-                        color:"#2d8cf0"
+                     this.columnsYx.splice(11,alarLen+1)
+                      for(var j=0;j<arlarData.length;j++){
+                        var itemAl={
+                          title:arlarData[j].Proc_name,
+                          key:"way"+j,
+                          render:(h,params)=>{
+                            var txt=params.column.key;
+                            var types=params.row[txt].split('"')[1];
+                            return h("div",[
+                              h("Icon",{
+                                props:{
+                                  type:types
+                                },style:{
+                                  fontSize:"22px",
+                                  color:"#2d8cf0"
+                                }
+                              })
+                              ])
+                          }
+                        }
+                        this.columnsYx.push(itemAl)
                       }
-                    })
-                    ])
-                }
-              }
-              this.columnsYx.push(itemAl)
-            }
 
 
             this.columnsYx.push({
@@ -1213,7 +1763,7 @@ this.Axios.all([this.Axios.post("/oApi/GWService.asmx/GetSystemConfig",{table_na
                                                           {name:"初始状态",value:dataYx[ind].initval},
                                                           {name:"操作命令",value:dataYx[ind].main_instruction}, 
                                                           {name:"操作参数",value:dataYx[ind].minor_instruction}, 
-                                                          {name:"声音文件",value:dataYx[ind].wave_file},
+                                                          
                                                           {name:"报警屏蔽",value:dataYx[ind].alarm_shield}, 
                                                           {name:"0-1级别",value:dataYx[ind].level_r},
                                                           {name:"1-0级别",value:dataYx[ind].level_d}, 
@@ -1225,78 +1775,79 @@ this.Axios.all([this.Axios.post("/oApi/GWService.asmx/GetSystemConfig",{table_na
                                                           {name:"恢复滞纳时间(秒)",value:dataYx[ind].alarm_repeat_time}, 
                                                           {name:"重复报警时间(分钟)",value:dataYx[ind].restore_acceptable_time},
                                                           {name:"报警升级周期(分钟)",value:dataYx[ind].AlarmRiseCycle}, 
+                                                          {name:"声音文件",value:dataYx[ind].wave_file},
                                                         ];
 
 
                                                       }
                                                     }
                                                     })
-])
-}
+                  ])
+            }
 
-})
+          })
 
-var nameVideo;
-var zichanName;
-for(var m=0;m<videoData.length;m++){
-  var  EquipNum=parseInt(dataYx[i].related_video.split(",")[0]),ID=parseInt(dataYx[i].related_video.split(",")[1])
-  if(EquipNum==videoData[m].EquipNum && ID==videoData[m].ID){
-    nameVideo=videoData[m].ChannelName
-  }
-}
+        var nameVideo;
+        var zichanName;
+        for(var m=0;m<videoData.length;m++){
+          var  EquipNum=parseInt(dataYx[i].related_video.split(",")[0]),ID=parseInt(dataYx[i].related_video.split(",")[1])
+          if(EquipNum==videoData[m].EquipNum && ID==videoData[m].ID){
+            nameVideo=videoData[m].ChannelName
+          }
+        }
 
-for(var n=0;n<zichanData.length;n++){
-  if(dataYx[i].ZiChanID==zichanData[n].ZiChanID){
-    zichanName=zichanData[n].ZiChanName
-  }
-}
-if(dataYx[i].inversion=="True"||dataYx[i].inversion=="true"){
-  this.negateArr.push("True")
-}else{
-  this.negateArr.push("False")
-}
-let checkArr=[],isShow,isMarlAl;
-if((dataYx[i].alarm_scheme & 1)>0){
-  this.alarmArrIsShowYx.push("True")
-  isShow='<Icon type="ios-checkmark-outline"></Icon>'
-}else{
-  this.alarmArrIsShowYx.push("False")
-  isShow='<Icon type="ios-circle-outline"></Icon>' 
-};
+        for(var n=0;n<zichanData.length;n++){
+          if(dataYx[i].ZiChanID==zichanData[n].ZiChanID){
+            zichanName=zichanData[n].ZiChanName
+          }
+        }
+        if(dataYx[i].inversion=="True"||dataYx[i].inversion=="true"){
+          this.negateArr.push("True")
+        }else{
+          this.negateArr.push("False")
+        }
+        let checkArr=[],isShow,isMarlAl;
+        if((dataYx[i].alarm_scheme & 1)>0){
+          this.alarmArrIsShowYx.push("True")
+          isShow='<Icon type="ios-checkmark-outline"></Icon>'
+        }else{
+          this.alarmArrIsShowYx.push("False")
+          isShow='<Icon type="ios-circle-outline"></Icon>' 
+        };
 
-checkArr.push(isShow);
-if((dataYx[i].alarm_scheme & 2)>0){
-  this.alarmArrMarkYx.push("True")
-  isMarlAl='<Icon type="ios-checkmark-outline"></Icon>'
-}else{
-  this.alarmArrMarkYx.push("False")
-  isMarlAl='<Icon type="ios-circle-outline"></Icon>' 
-};
-checkArr.push(isMarlAl);
+        checkArr.push(isShow);
+        if((dataYx[i].alarm_scheme & 2)>0){
+          this.alarmArrMarkYx.push("True")
+          isMarlAl='<Icon type="ios-checkmark-outline"></Icon>'
+        }else{
+          this.alarmArrMarkYx.push("False")
+          isMarlAl='<Icon type="ios-circle-outline"></Icon>' 
+        };
+        checkArr.push(isMarlAl);
 
-let arrName=[],waysArr=[];
-for(var j=0;j<arlarData.length;j++){
-  let itemalar
-  var alays = parseInt(arlarData[j].Proc_Code);
-  if ((dataYx[i].alarm_scheme & alays) > 0) {
-    itemalar={
-      name:arlarData[j].Proc_name,
-      res:"True",
-      code:arlarData[j].Proc_Code
-    }
-    arrName[j]= '<Icon type="ios-checkmark-outline"></Icon>'
-  }
-  else {
-   itemalar={
-    name:arlarData[j].Proc_name,
-    res:"False",
-    code:arlarData[j].Proc_Code
-  }
-  arrName[j]='<Icon type="ios-circle-outline"></Icon>' 
-}
-waysArr.push(itemalar);
-}
-this.alarmWayYx[i]=waysArr;
+        let arrName=[],waysArr=[];
+        for(var j=0;j<arlarData.length;j++){
+          let itemalar
+          var alays = parseInt(arlarData[j].Proc_Code);
+          if ((dataYx[i].alarm_scheme & alays) > 0) {
+            itemalar={
+              name:arlarData[j].Proc_name,
+              res:"True",
+              code:arlarData[j].Proc_Code
+            }
+            arrName[j]= '<Icon type="ios-checkmark-outline"></Icon>'
+          }
+          else {
+           itemalar={
+            name:arlarData[j].Proc_name,
+            res:"False",
+            code:arlarData[j].Proc_Code
+          }
+          arrName[j]='<Icon type="ios-circle-outline"></Icon>' 
+        }
+        waysArr.push(itemalar);
+        }
+        this.alarmWayYx[i]=waysArr;
                  // console.log(checkArr)
 
                  let itemYx={
@@ -1313,24 +1864,24 @@ this.alarmWayYx[i]=waysArr;
                   markAlarm:checkArr[1]
                             // deal
                           }
-                          for(var k=0;k<arrName.length;k++){
-                            itemYx["way"+k]=arrName[k]
-                          }
-                          this.dataYx.push(itemYx);
+          for(var k=0;k<arrName.length;k++){
+            itemYx["way"+k]=arrName[k]
+          }
+          this.dataYx.push(itemYx);
 
-                        }
+        }
 
-                      })).catch(err => {})
+   })).catch(err => {})
 
 
-       this.Axios.post("/oApi/GWService.asmx/GetSystemConfig",{table_name:'SetParm',equip_no_list:id}).then(res4=>{//加载设置配置
+       this.Axios.post("/GWService.asmx/GetSystemConfig",{table_name:'SetParm',equip_no_list:id}).then(res4=>{//加载设置配置
         let data4=res4.data.d;
         let dataSet=JSON.parse(data4);
         this.dataSet=[];
 
-        this.columnsSet.splice(10,1)
+       
         for(var i=0;i<dataSet.length;i++){
-           
+            this.columnsSet.splice(10,1)
 
           this.columnsSet.push({
             title:"操作",
@@ -1340,7 +1891,7 @@ this.alarmWayYx[i]=waysArr;
               h("p",{
                  style: {
                         color:"#2d8cf0",
-                        marginRight:"10px",
+                       
                         cursor:"pointer",
                         fontSize:"20px",
                         display:"inline-block"       
@@ -1365,6 +1916,7 @@ this.alarmWayYx[i]=waysArr;
                     {name:"操作命令",value:dataSet[index].main_instruction,listName:'main_instruction'},
                     {name:"操作参数",value:dataSet[index].minor_instruction,listName:'minor_instruction'},
                     ]
+                    this.leftNum=Math.floor(this.uploadInfor.length/2);
                     this.configIndex=3;
                   }
                 }

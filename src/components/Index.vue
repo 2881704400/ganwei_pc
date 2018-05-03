@@ -181,7 +181,7 @@ export default {
       if (navItem.hasChild) {
         navItem.loading = true;
         // 异步获取列表节点
-        this.Axios.all([this.Axios.post("/api/real/equip_tree"), this.Axios.post('/api/datas/getEquipList')])
+        this.Axios.all([this.Axios.post("/api/real/equip_tree"), this.Axios.post('/api/GWServiceWebAPI/getEquipList')])
           .then(this.Axios.spread((treeRes, equipRes) => {
             let treeRt = treeRes.data.HttpData,
               equipRt = equipRes.data.HttpData

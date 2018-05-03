@@ -12,19 +12,19 @@
           <div class="common-tabEve">
               <Tabs type="card"  :animated="false">
                 <div class="dateSelect">
-                    <Button type="primary" style="margin-left:10px;border-radius:0;background:#2d8cf0;" @click="selectEvent()">查询</Button >
-                    <DatePicker type="datetimerange" format="yyyy/MM/dd HH:mm" :options="option1" placeholder="请选择日期时间" style="width: 500px" @on-change="dateVale"></DatePicker>
+                    <Button type="primary" style="margin-right:10px;border-radius:0;background:#2d8cf0;padding:8.5px 21.5px;font-size:14px;line-height:inherit;color:#fff;" @click="selectEvent()">查询</Button >
+                    <DatePicker class="dataSelect" type="datetimerange" format="yyyy/MM/dd HH:mm" :options="option1" placeholder="请选择日期时间" style="width: 500px" @on-change="dateVale"></DatePicker>
                     
                   </div>
                 <TabPane  label="设备事件" >
                    
-                   <Table :columns="equipTh" :data="equipEvent" :height="tableHeight" :row-class-name="rowClassName"></Table>
+                   <Table :columns="equipTh" :data="equipEvent" :height="tableHeight" :row-class-name="rowClassName" :loading="loading"></Table>
                 </TabPane>
                 <TabPane label="设置事件">
-                   <Table :columns="sysTh" :data="setEvent" :height="tableHeight" :row-class-name="rowClassName"></Table>
+                   <Table :columns="sysTh" :data="setEvent" :height="tableHeight" :row-class-name="rowClassName" :loading="loading"></Table>
                 </TabPane>
                 <TabPane label="系统事件">
-                   <Table :columns="sysEventTh" :data="sysEvent" :height="tableHeight" :row-class-name="rowClassName"></Table>
+                   <Table :columns="sysEventTh" :data="sysEvent" :height="tableHeight" :row-class-name="rowClassName"  :loading="loading"></Table>
                 </TabPane>
 
               </Tabs>
@@ -46,6 +46,7 @@ export default {
       sysEvent:[],//右侧系统事件
       dateValue:[],
       equipId:0,
+      loading:false,
       equipTh:[
         {
           title:"设备名称",
@@ -125,7 +126,9 @@ export default {
     this.init()
 
   },methods:{
+     
      rowClassName (row, index) {
+      // console.log(2)
                 if (index%2== 0) {
                     return 'demo-table-info-row';
                 } else if (index%2== 1) {
@@ -135,7 +138,7 @@ export default {
             },
     init(){
        var h = document.documentElement.clientHeight || document.body.clientHeight;
-        this.tableHeight=h-240;
+        this.tableHeight=h-200;
       this.Axios.post("/api/real/equip_state",{userName:window.localStorage.login_msg}).then(res=>{
         let response=res.data.HttpData.data;
         this.itemList=response;
@@ -159,8 +162,8 @@ export default {
         this.dateValue[0]=this.dateValue[1].split(" ")[0];
       }
       timeStr=this.dateValue.toString();
-
-      this.Axios.post("/oApi/GWService.asmx/QueryEquipEvt",{times:timeStr,equip_no_list:this.equipId}).then(res=>{//加载模拟量配置
+      this.loading=true;
+      this.Axios.post("/GWService.asmx/QueryEquipEvt",{times:timeStr,equip_no_list:this.equipId}).then(res=>{//加载模拟量配置
          // this.equipEvent=res.data.HttpData.data;
           if(res.data!='false'){
             this.equipEvent=[];
@@ -176,8 +179,9 @@ export default {
             }
             
           }
+          this.loading=false;
       });
-      this.Axios.post("/oApi/GWService.asmx/QuerySetupsEvt",{times:timeStr,equip_no_list:this.equipId}).then(res=>{
+      this.Axios.post("/GWService.asmx/QuerySetupsEvt",{times:timeStr,equip_no_list:this.equipId}).then(res=>{
           if(res.data!='false'){
             this.setEvent=[];
             let respon=JSON.parse(res.data.d)
@@ -191,8 +195,9 @@ export default {
               this.setEvent.push(item);
             }
           }
+           this.loading=false;
       });
-      this.Axios.post("/oApi/GWService.asmx/QuerySystemEvt",{times:timeStr}).then(res=>{
+      this.Axios.post("/GWService.asmx/QuerySystemEvt",{times:timeStr}).then(res=>{
         // console.log(res)
         // console.log(res)
           if(res.data!='false'){
@@ -209,6 +214,7 @@ export default {
             }
             // data1
           }
+           this.loading=false;
         
       });
      }
@@ -310,7 +316,7 @@ export default {
   font-weight: 200;
   font-size: 0.9rem;
   text-align: center;
-  color:#333;
+  color:#858585;
 }
 .ivu-table th{
   background: #fff;
@@ -359,5 +365,7 @@ export default {
     right:30px;
     z-index: 99;
   }
-
+.dataSelect i{
+  font-size: 20px;
+}
 </style>

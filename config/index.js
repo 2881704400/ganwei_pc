@@ -17,7 +17,7 @@ module.exports = {
         }
       },
       '/signalr': {
-        target: 'http://192.168.0.247:7001',
+        target: 'http://192.168.0.210:7001',
         pathRewrite: {
           '^/signalr': '/'
         }
@@ -25,9 +25,9 @@ module.exports = {
       '/oApi': {
         target: 'http://192.168.3.110:8013',
         pathRewrite: {
-          '^/oApi': '/'
+          '^/': '/'
         }
-      }
+       }
     },
     // Various Dev Server settings
     host: '192.168.3.110', // can be overwritten by process.env.HOST
