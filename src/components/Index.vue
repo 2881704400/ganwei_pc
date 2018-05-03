@@ -550,7 +550,7 @@ export default {
     this.getAuth()
     this.setNav()
   }
-};
+}
 </script>
 
 <style lang="scss" src="../assets/styles/sass/index.scss"></style>
