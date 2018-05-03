@@ -62,11 +62,12 @@
                     color: rgb(173, 192, 190);
                 }
                 &.user{
+                    font-size: 18px;
                     padding-right: 24px;
                     margin-right: 12px;
                     box-shadow: -1px 0px 0px 0px rgba(255, 255, 255, 0.4) inset;
                     span{
-                        font-size: 22px;
+                        font-size: 20px;
                         margin-right: 6px;
                     }
                 }
@@ -151,7 +152,7 @@
                 height: 40px;
                 // width: $foldBtnW;
                 // height: $foldBtnH;
-                position: fixed;
+                position: absolute;
                 // right: 50%;
                 // border-radius: 0px 16px 16px 0px;
                 bottom: 0px;
@@ -161,16 +162,16 @@
                 // line-height: $foldBtnH;
                 text-align: center;
                 left: 0;
-                padding-top: 5px;
+                padding-top: 7.5px;
                 // font-size: 20px;
                 z-index: 70;
                 // transition: all 0.1s ease-in;
-                &>img{width: 33px;height: 33px;}
+                &>img{width: 25px;height: 25px;}
                 &.open{width: 240px;
                     // background-color: #ececec;
                     background-color: #2d8cf0;
                 }
-                &.close{width: 50px;
+                &.close{width: 50px;left: 240px;
                     // background-color: $asideBgc;
                     background-color: #2d8cf0;
                     // transform: rotate(180deg);
