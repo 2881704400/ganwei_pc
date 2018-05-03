@@ -162,11 +162,7 @@ export default {
         this.dateValue[0]=this.dateValue[1].split(" ")[0];
       }
       timeStr=this.dateValue.toString();
-<<<<<<< HEAD
-
-=======
       this.loading=true;
->>>>>>> zf
       this.Axios.post("/GWService.asmx/QueryEquipEvt",{times:timeStr,equip_no_list:this.equipId}).then(res=>{//加载模拟量配置
          // this.equipEvent=res.data.HttpData.data;
           if(res.data!='false'){

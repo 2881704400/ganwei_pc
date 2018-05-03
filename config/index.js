@@ -22,16 +22,17 @@ module.exports = {
           '^/signalr': '/'
         }
       },
-      '/oApi': {
+      '/': {
         target: 'http://192.168.0.210:7001',
         pathRewrite: {
           '^/': '/'
         }
-      }
+       }
     },
     // Various Dev Server settings
     host: '192.168.0.210', // can be overwritten by process.env.HOST
     port: 7070, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
+
     autoOpenBrowser: true,
     errorOverlay: true,
     notifyOnErrors: true,
