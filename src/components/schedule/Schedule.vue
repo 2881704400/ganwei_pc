@@ -491,7 +491,7 @@ export default {
         }
       }
     },
-    removeAdministrator: function(dt) {
+    removeAdministrator: function(dt) {var msg = this.$Message;
       var WeekAlmReport = this.Alarm_user,dtThis = this,AlmReportDataLen = this.AlmReportData.length,
         deleteJson = {
           tableName: "Administrator",
@@ -521,7 +521,8 @@ export default {
 
           var emptySpeAlmReport = {"tableName":"SpeAlmReport","Administrator":dt.Administrator};
           dtThis.XHRPost("nullTableCell",emptySpeAlmReport, _success_empty_SpeAlmReport);
-          function _success_empty_SpeAlmReport() {}            
+          function _success_empty_SpeAlmReport() {}   
+          msg.success("操作成功");         
 
       }
     },
@@ -558,7 +559,7 @@ export default {
      document.getElementById("eamilAdmin").parentNode.id="";
     },
     saveUpdateAdministrator: function() {
-      var WeekAlmReport = this.Alarm_user;
+      var WeekAlmReport = this.Alarm_user;var msg = this.$Message;
       //本地更新
       let AdministratorLocal = {
         Administrator: this.user_admin,
@@ -596,6 +597,7 @@ export default {
           _success_admin_update
         );
         function _success_admin_update() {
+           msg.success("操作成功");         
           WeekAlmReport.forEach(function(ele, index) {
             if (ele.Administrator == AdministratorLocal.saveCell) {
               WeekAlmReport.splice(index, 1, AdministratorLocal);
@@ -701,6 +703,7 @@ export default {
       dt.isShow = !dt.isShow;
     },
     removeEquipGroup: function(dt) {
+      var msg = this.$Message;
       var WeekAlmReport = this.equipUser,dtThis = this,AlmReportDataLen = this.AlmReportData.length,
         deleteJson = {
           tableName: "EquipGroup",
@@ -720,12 +723,10 @@ export default {
             WeekAlmReport.splice(index1, 1);
           }
         });
-          // var emptyAlmReport_group_no = {"tableName":"AlmReport_group_no","group_no":dt.group_no};
-          // dtThis.XHRPost("nullTableCell",emptyAlmReport_group_no, _success_empty_AlmReport_group_no);
-          // function _success_empty_AlmReport_group_no() {}          
+         msg.success("操作成功");   
       }
     },
-    addEquipGroup: function() {
+    addEquipGroup: function() {var msg = this.$Message;
       var group_no_value,
         WeekAlmReport = this.equipUser;
       var groupArray = new Array();
@@ -751,10 +752,10 @@ export default {
         _success_equipgroup_insert
       );
       function _success_equipgroup_insert() {
-        WeekAlmReport.push(AdministratorLocal);
+        WeekAlmReport.push(AdministratorLocal); msg.success("操作成功");   
       }
     },
-    saveEquipGroupName: function(dt) {
+    saveEquipGroupName: function(dt) {var msg = this.$Message;
       let WeekAlmReportInsert = {
         tableName: "EquipGroup",
         equipcomb: dt.equipcomb,
@@ -767,7 +768,7 @@ export default {
         _success_equipgroup_update
       );
       function _success_equipgroup_update() {
-        dt.isShow = !dt.isShow;
+        dt.isShow = !dt.isShow; msg.success("操作成功"); 
       }
     },
 
@@ -826,7 +827,7 @@ export default {
         });
       }
     },
-    allCheckbox: function(value) {
+    allCheckbox: function(value) {var msg = this.$Message;
       var group_nameValue,
         equipcombString = "#",
         equipUser = this.equipUser,
@@ -865,10 +866,10 @@ export default {
           if (ele.group_no == selectEquip) {
             ele.equipcomb = equipcombString;
           }
-        });
+        }); msg.success("操作成功");  
       }
     },
-    radioCheckbox: function(dt) {
+    radioCheckbox: function(dt) {var msg = this.$Message;
       var group_nameValue,
         stringListEquip,
         selectEquip = this.selectEquip,
@@ -915,6 +916,7 @@ export default {
             ele.equipcomb = stringListEquip;
           }
         });
+         msg.success("操作成功");  
       }
     },
 
@@ -948,6 +950,7 @@ export default {
       }
     },
     removeAlmReport: function(dt) {
+      var msg = this.$Message;
       var WeekAlmReport = this.AlmReportData,
         deleteJson = {
           tableName: "AlmReport",
@@ -961,7 +964,7 @@ export default {
           if (ele1.id == dt.id) {
             WeekAlmReport.splice(index1, 1);
           }
-        });
+        }); msg.success("操作成功"); 
       }
     },
     modifyAlmReport: function(dt) {
@@ -982,9 +985,10 @@ export default {
       this.AlmReport_Administrator = "";
     },
     saveUpdateAlmReportt: function() {
+      var msg = this.$Message;
       var dthis = this,
         WeekAlmReport = this.AlmReportData,
-        idValue = this.idReturn(this.WeekAlmReport),
+        idValue = this.idReturn(WeekAlmReport),
         weekID = this.AlmReport_isjudege ? idValue : this.AlmReport_id; //获取新建id主键
       //本地更新
       let WeekAlmReportLocal = {
@@ -1008,7 +1012,7 @@ export default {
           _success_Alm_insert
         );
         function _success_Alm_insert() {
-          WeekAlmReport.push(WeekAlmReportLocal);
+          WeekAlmReport.push(WeekAlmReportLocal); msg.success("操作成功"); 
         }
       } else {
         this.XHRPost(
@@ -1018,8 +1022,9 @@ export default {
         );
         function _success_Alm_update() {
           WeekAlmReport.forEach(function(ele, index) {
+             
             if (ele.id == WeekAlmReportLocal.id) {
-              WeekAlmReport.splice(index, 1, WeekAlmReportLocal);
+              WeekAlmReport.splice(index, 1, WeekAlmReportLocal);msg.success("操作成功"); 
               return false;
             }
           });
@@ -1045,8 +1050,8 @@ export default {
                 id: arrayLike[i].id,
                 Administrator: arrayLike[i].Administrator,
                 week_day: WeekAlmReport.weekReturn(arrayLike[i].week_day),
-                begin_time: formatDate(new Date(arrayLike[i].begin_time), "hh:mm"),
-                end_time: formatDate(new Date(arrayLike[i].end_time), "hh:mm"),
+                begin_time: arrayLike[i].begin_time == null?"":formatDate(new Date(arrayLike[i].begin_time), "hh:mm"),
+                end_time: arrayLike[i].end_time==null?"":formatDate(new Date(arrayLike[i].end_time), "hh:mm"),
                 isShow: false
               };
               WeekAlmReport.WeekAlmReport.push(dataJson);
@@ -1059,6 +1064,7 @@ export default {
       }
     },
     removeWeekAlmReport: function(dt) {
+      var msg = this.$Message;
       var dtID = dt.id,
         WeekAlmReport = this.WeekAlmReport,
         deleteJson = {
@@ -1071,7 +1077,7 @@ export default {
       function _success_week_del() {
         WeekAlmReport.forEach(function(ele1, index1) {
           if (ele1.id == dtID) {
-            WeekAlmReport.splice(index1, 1);
+            WeekAlmReport.splice(index1, 1);msg.success("操作成功"); 
           }
         });
       }
@@ -1095,6 +1101,7 @@ export default {
       this.Week_etime = "";
     },
     saveUpdateWeekAlmReport: function() {
+      var msg = this.$Message;
       var weekIndex,
         WeekAlmReport = this.WeekAlmReport,
         weekStr = this.Week_week,
@@ -1116,6 +1123,7 @@ export default {
         isShow: false
       };
       //数据库更新
+
       let WeekAlmReportInsert = {
         tableName: "WeekAlmReport",
         Administrator: this.Week_admin,
@@ -1131,7 +1139,7 @@ export default {
           _success_week_insert
         );
         function _success_week_insert() {
-          WeekAlmReport.push(WeekAlmReportLocal);
+          WeekAlmReport.push(WeekAlmReportLocal);msg.success("操作成功");
         }
       } else {
         this.XHRPost(
@@ -1142,7 +1150,7 @@ export default {
         function _success_week_update() {
           WeekAlmReport.forEach(function(ele, index) {
             if (ele.id == WeekAlmReportLocal.id) {
-              WeekAlmReport.splice(index, 1, WeekAlmReportLocal);
+              WeekAlmReport.splice(index, 1, WeekAlmReportLocal);msg.success("操作成功");
               return false;
             }
           });
@@ -1166,14 +1174,8 @@ export default {
               let dataJson = {
                 id: arrayLike[i].id,
                 Administrator: arrayLike[i].Administrator,
-                begin_time: formatDate(
-                  new Date(arrayLike[i].begin_time),
-                  "yyyy/MM/dd hh:mm:ss"
-                ),
-                end_time: formatDate(
-                  new Date(arrayLike[i].end_time),
-                  "yyyy/MM/dd hh:mm:ss"
-                ),
+                begin_time: arrayLike[i].begin_time == null?"":formatDate(new Date(arrayLike[i].begin_time),"yyyy/MM/dd hh:mm:ss"),
+                end_time: arrayLike[i].end_time == null?"":formatDate(new Date(arrayLike[i].end_time),"yyyy/MM/dd hh:mm:ss"),
                 isShow: false
               };
               WeekAlmReport.SpeAlmReport.push(dataJson);
@@ -1186,6 +1188,7 @@ export default {
       }
     },
     removeSpeAlmReport: function(dt) {
+      var msg = this.$Message;
       var dtID = dt.id,
         WeekAlmReport = this.SpeAlmReport,
         deleteJson = {
@@ -1198,7 +1201,7 @@ export default {
       function _success_Spe_del() {
         WeekAlmReport.forEach(function(ele1, index1) {
           if (ele1.id == dtID) {
-            WeekAlmReport.splice(index1, 1);
+            WeekAlmReport.splice(index1, 1);msg.success("操作成功");
           }
         });
       }
@@ -1221,6 +1224,7 @@ export default {
       this.Spe_end_time = "";
     },
     saveUpdateSpeAlmReport: function() {
+      var msg = this.$Message;
       var weekIndex,
         WeekAlmReport = this.SpeAlmReport,
         idValue = this.idReturn(WeekAlmReport),
@@ -1230,11 +1234,12 @@ export default {
       let WeekAlmReportLocal = {
         id: weekID,
         Administrator: this.Spe_admin,
-        begin_time: formatDate(this.Spe_begin_time,"yyyy/MM/dd hh:mm:ss"),
-        end_time: formatDate(this.Spe_end_time,"yyyy/MM/dd hh:mm:ss"),
+        begin_time: this.Spe_begin_time == ""?"":formatDate(this.Spe_begin_time,"yyyy/MM/dd hh:mm:ss"),
+        end_time: this.Spe_end_time == ""?"":formatDate(this.Spe_end_time,"yyyy/MM/dd hh:mm:ss"),
         isShow: false
       };
       //数据库更新
+     
       let WeekAlmReportInsert = {
         tableName: "SpeAlmReport",
         Administrator: this.Spe_admin,
@@ -1249,7 +1254,7 @@ export default {
           _success_spe_insert
         );
         function _success_spe_insert() {
-          WeekAlmReport.push(WeekAlmReportLocal);
+          WeekAlmReport.push(WeekAlmReportLocal);msg.success("操作成功");
         }
       } else {
         this.XHRPost(
@@ -1260,7 +1265,7 @@ export default {
         function _success_spe_update() {
           WeekAlmReport.forEach(function(ele, index) {
             if (ele.id == WeekAlmReportLocal.id) {
-              WeekAlmReport.splice(index, 1, WeekAlmReportLocal);
+              WeekAlmReport.splice(index, 1, WeekAlmReportLocal);msg.success("操作成功");
               return false;
             }
           });

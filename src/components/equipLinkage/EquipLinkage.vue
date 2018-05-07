@@ -480,7 +480,7 @@ export default {
     loadLinkageEquips (equip, callback) {
       // 联动设备和操作级联
       equip.loading = true
-      this.Axios.post('/api/GWServiceWebAPI/get_setparm', {
+      this.Axios.post('/api/real/get_setparm', {
         equip_nos: equip.value
       })
         .then(res => {

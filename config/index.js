@@ -17,7 +17,7 @@ module.exports = {
         }
       },
       '/signalr': {
-        target: 'http://localhost:7001',
+        target: 'http://localhost:8013',
         pathRewrite: {
           '^/signalr': '/'
         }
