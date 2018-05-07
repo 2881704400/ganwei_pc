@@ -74,6 +74,11 @@ export default {
             this.loading = false
             console.log(data)
             break
+          case 1014:
+            this.$Message.error('服务器错误，请检查服务是否正常运行')
+            this.loading = false
+            console.log(data)
+           break
           default:
             this.$Message.error('服务器错误，请重试！')
             this.loading = false
@@ -84,8 +89,8 @@ export default {
         this.loading = false
         console.log(err)
       })
-    }
-    ,error (nodesc,msg) {
+    },
+    error (nodesc,msg) {
         this.$Notice.error({
             title: '登陆提示',
             desc: msg

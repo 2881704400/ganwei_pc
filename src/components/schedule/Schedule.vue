@@ -1276,7 +1276,7 @@ export default {
         headers: { "Content-type": "application/json" }
       })
         .then(response => {
-          // msg.info("执行成功");
+          // msg.success("操作成功");
           _success();
         })
         .catch(error => {
