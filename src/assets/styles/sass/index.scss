@@ -169,11 +169,11 @@
                 &>img{width: 25px;height: 25px;}
                 &.open{width: 240px;
                     // background-color: #ececec;
-                    background-color: #2d8cf0;
+                    background-color: #222631;
                 }
                 &.close{width: 50px;left: 240px;
                     // background-color: $asideBgc;
-                    background-color: #2d8cf0;
+                    background-color: #222631;
                     // transform: rotate(180deg);
                 }
                 &>.ivu-icon{
@@ -181,7 +181,7 @@
                 }
                 &:hover{
                     // background-color: $asideBgc;
-                    background-color: #569de9;
+                    background-color: #222631;
                     &>.ivu-icon{
                         transform: rotate(90deg);
                     }
