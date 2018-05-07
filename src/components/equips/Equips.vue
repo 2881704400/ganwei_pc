@@ -73,7 +73,6 @@
 import { mapState } from 'vuex'
 import gwTabs from "@page/public/GwTabs"
 import gwLoading from "@page/public/GwLoading"
-// import signalR from '@assets/js/signalr.js'
 export default {
   name: 'equips',
   data () {
@@ -105,7 +104,8 @@ export default {
           setList: []
         }
       ],
-      showChart: false
+      showChart: false,
+      hubConn: null
     }
   },
   components: {
@@ -140,6 +140,7 @@ export default {
           if (this.tabData[0].tbList.length > 0) {
             this.tabClick(this.tabData, this.tabData[0])
             this.tabData[0].isShow = true
+            this.connectServer(this.equipNo)
           }
           else {
             this.tabData[0].isActive = false
@@ -194,19 +195,17 @@ export default {
               this.tabData[2].isShow = false
             }
             // console.log(this.tabData[2].setList)
+            this.isLoading = false
           }
           else {
+            this.isLoading = false
             this.$Message.warning('获取设置操作列表失败，请重试！')
             console.log(rt)
           }
         })
         .catch(err => {
+          this.isLoading = false
           console.log(err)
-        })
-        .then(() => {
-          this.$nextTick(() => {
-            this.isLoading = false
-          })
         })
     },
     setEquip (equip) {
@@ -238,34 +237,83 @@ export default {
         }
       })
     },
-    connectServer() {
-      let url = 'http://localhost:7001'
-      let conn = $.hubConnection('http://192.168.0.247:7001/signalr')
-      let proxy = conn.createHubProxy('serverHub')
+    connectServer(equipNo) {
+      // console.log(this.tabData[0].tbList)
+      // if (this.isLoading) {
+      //   this.isLoading = false
+      // }
+      this.hubConn = null
+      this.hubConn = $.hubConnection()
+      let proxy = this.hubConn.createHubProxy('ServerHub')
       // console.log(proxy)
       proxy.on('sendConnect', data => {
         console.log(data)
       });
-      proxy.on('sendAll', function (a, b) {
-          console.log(a, b)
+
+      proxy.on('sendAll', (info, data) => {
+        console.log('info:---------------------------:' + info)
+        console.log(data)
       });
+
       proxy.on('sendYcpSingle', data => {
-          console.log(data)
+        // console.log(data)
+        // 更新ycp实时数据
+        this.tabData[0].tbList.forEach(item => {
+          if (item.m_iYCNo === parseInt(data.split(',')[0])) {
+            item.m_YCValue = data.split(',')[2]
+          }
+        })
       });
+
       proxy.on('sendYxpSingle', data => {
           console.log(data)
       });
+
+      proxy.on('sendEquipSingle', data => {
+        console.log(data)
+      });
       
-      conn.start()
+      // 连接signalr
+      this.hubConn.start()
         .done(() => {
-            console.log('start!')
+            // console.log('start!')
             proxy.invoke('Connect')
-            //proxy.invoke('ListenEquipAll', window.localStorage.ac_appkey, window.localStorage.ac_infokey)
-            proxy.invoke('StartListen', 1, window.localStorage.ac_appkey, window.localStorage.ac_infokey)
+            // proxy.invoke('ListenEquipAll', window.localStorage.gw_token.split('-')[0], window.localStorage.gw_token.split('-')[1])
+            proxy.invoke('StartListen', equipNo, window.localStorage.gw_token.split('-')[0], window.localStorage.gw_token.split('-')[1])
         })
         .fail(err => {
             console.log('错误-------:', err)
         })
+
+      // 重连时触发
+      this.hubConn.reconnecting(() => {
+        this.hubConn.stop();
+        this.hubConn.start()
+          .done(() => {
+              // console.log('start!')
+              proxy.invoke('Connect')
+              proxy.invoke('ListenEquipAll', window.localStorage.gw_token.split('-')[0], window.localStorage.gw_token.split('-')[1])
+              proxy.invoke('StartListen', equipNo, window.localStorage.gw_token.split('-')[0], window.localStorage.gw_token.split('-')[1])
+          })
+          .fail(err => {
+              console.log('错误-------:', err)
+          })
+      })
+
+      // 断开连接
+      this.hubConn.disconnected((err) => {
+        console.log(err)
+      })
+
+      // 高频连接
+      this.hubConn.connectionSlow((err) => {
+        // console.log(err)
+      })
+
+      // 高频连接
+      this.hubConn.received(() => {
+        // console.log(err)
+      })
     },
     toggleModal () {
       this.showChart = !this.showChart
@@ -274,13 +322,11 @@ export default {
   beforeRouteUpdate (to, from, next) {
     this.$store.commit('setEquipNo', to.hash.substr(1))
     this.getAllState()
-    // this.connectServer()
     next()
   },
   mounted () {
     this.$store.commit('setEquipNo', this.$route.hash.substr(1))
     this.getAllState()
-    // this.connectServer()
   }
 }
 </script>
