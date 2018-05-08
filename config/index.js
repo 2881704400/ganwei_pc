@@ -16,12 +16,6 @@ module.exports = {
           '^/api': '/api',
         }
       },
-      '/signalr': {
-        target: 'http://localhost:8013',
-        pathRewrite: {
-          '^/signalr': '/'
-        }
-      },
       '/': {
         target: 'http://192.168.0.165:8013',
         pathRewrite: {
@@ -62,7 +56,7 @@ module.exports = {
 
   build: {
     // Template for index.html
-    index: path.resolve(__dirname, '../dist/index.html'),
+    index: path.resolve(__dirname, '../dist/2.0/index.html'),
 
     // Paths
     assetsRoot: path.resolve(__dirname, '../dist'),
