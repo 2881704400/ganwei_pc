@@ -149,6 +149,7 @@
                 }
             }
             .fold{
+                transition: all 520ms ease-in-out;
                 height: 40px;
                 // width: $foldBtnW;
                 // height: $foldBtnH;

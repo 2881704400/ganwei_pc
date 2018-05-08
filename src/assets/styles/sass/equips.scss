@@ -4,6 +4,24 @@
     .visual,.state{
         height: 100%;
     }
+    @at-root{
+        #realData{
+            width: 480px;
+            margin: 0 auto;
+            height: 360px;
+        }
+        .set-form{
+            .ivu-form-item{
+                width: 80%;
+                margin: 0 auto;
+            }
+        }
+        .gw-tabs{
+            .tab-alarm{
+                color: #eb303a;
+            }
+        }
+    }
     .gw-table{
         &.yc{
             thead{

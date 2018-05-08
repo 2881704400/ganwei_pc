@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
+    "echarts": "^4.1.0",
     "iview": "^2.11.0",
     "jquery": "^2.2.4",
     "signalr": "^2.2.3",

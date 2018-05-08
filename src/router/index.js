@@ -24,11 +24,7 @@ const EquipLinkage = r => require.ensure([], () => r(require('@page/equipLinkage
 Vue.use(Router)
 
 export default new Router({
-<<<<<<< HEAD
 //mode: 'history',
-=======
-  // mode: 'history',
->>>>>>> zkx
   base: '/',
   routes: [
     {
