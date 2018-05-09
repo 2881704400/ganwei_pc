@@ -470,7 +470,6 @@ export default {
             name: lineObj.m_Unit,
             type: 'line',
             smooth: true,
-            sampling: 'sum',
             itemStyle: {
               color: '#7BB4EB',
               borderColor: '#7BB4EB',
