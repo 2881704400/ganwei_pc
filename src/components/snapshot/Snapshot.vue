@@ -3,7 +3,7 @@
 		<div class="common-tab">
 			<Tabs type="card" @on-click="updateCardInfo" :animated="false" v-model="tabPaneValue">
 				<template v-for="(itemTab,indexTab) of btnInfo">
-					<TabPane :label="itemTab.btnCount" extra="itemTab.ID" :name="itemTab.btnValue" :class="{active : itemTab.isActive}" v-if="itemTab.btnStatus" :key="itemTab.spanId">
+					<TabPane :label="itemTab.btnCount" extra="itemTab.ID" :name="itemTab.btnValue" icon="android-cancel" :class="{active : itemTab.isActive}" v-if="itemTab.btnStatus" :key="itemTab.spanId">
 						<div class="common-table">
 							<table>
 								<thead>
@@ -22,7 +22,8 @@
 											<img v-if="item.Level=='警告'" src="@assets/img/infor/Warnings.png" alt="" style="vertical-align: middle;" />
 											<img v-if="item.Level=='信息'" src="@assets/img/infor/Informations.png" alt="" style="vertical-align: middle;" />
 											<img v-if="item.Level=='设置'" src="@assets/img/infor/Settings.png" alt="" style="vertical-align: middle;" />
-											<img v-if="item.Level=='资产'" src="@assets/img/infor/Assets.png" alt="" style="vertical-align: middle;" />{{item.Level}}
+											<img v-if="item.Level=='资产'" src="@assets/img/infor/Assets.png" alt="" style="vertical-align: middle;" />
+											{{item.Level}}
 										</td>
 										<td>{{item.formatTime}}</td>
 										<td>

@@ -17,7 +17,7 @@ module.exports = {
         }
       },
       '/oApi': {
-        target: 'http://192.168.0.210:7001'
+        target: 'http://192.168.1.110:7001'
        }
     },
     // Various Dev Server settings
