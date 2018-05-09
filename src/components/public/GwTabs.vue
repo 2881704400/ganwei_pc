@@ -4,11 +4,14 @@
       <ul>
         <li
         v-for="(nv, index) of list"
-        :key="index" v-text="nv.title"
+        :key="index"
         :class="{active : nv.isActive}"
         @click="navClick(list, list[index])"
         v-if="nv.isShow"
-        ></li>
+        >
+          <slot :name="'nav-icon-' + index"></slot>
+          <span v-text="nv.title"></span>
+        </li>
       </ul>
       <slot name="tabnav"></slot>
     </div>

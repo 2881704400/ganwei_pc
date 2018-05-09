@@ -348,8 +348,9 @@
                             <span>结束时间:</span>
                             </Col>
                             <Col span="19">
-                            <DatePicker type="datetime" placeholder="结束时间" format="yyyy/MM/dd HH:mm:ss" style="width: 100%;height: 100%;" v-model="Spe_end_time" class="userParentDev" @on-change="onValidateSpeAlmReport()" @on-clear="onValidateSpeAlmReport_cancel()"></DatePicker>
-                            <span id="end_DateSize" style="margin-top: -20px;right: -70px;">开始时间大<br />于结束时间</span>
+                            <DatePicker type="datetime" placeholder="结束时间" format="yyyy/MM/dd HH:mm:ss" style="width: 100%;height: 100%;" v-model="Spe_end_time" @on-change="onValidateSpeAlmReport()" @on-clear="onValidateSpeAlmReport_cancel()"></DatePicker>
+                            <span v-show="!Spe_isDate" id="end_DateIcon" >*</span>
+                            <span v-show="Spe_isDate" id="end_DateSize" style="margin-top: -20px;right: -70px;">开始时间大<br />于结束时间</span>
                             </Col>
                         </Row>
                          <div slot="footer">
@@ -425,7 +426,7 @@ export default {
       Spe_admin: "",
       Spe_begin_time: "",
       Spe_end_time: "",
-
+      Spe_isDate: false,
       //过滤
       filtersArray:[],
       filtersValue: '',
@@ -1316,8 +1317,11 @@ export default {
     },
     onValidateSpeAlmReport: function(){
        if(this.Spe_admin !="" && this.Spe_begin_time !="" && this.Spe_end_time !="")
-         document.getElementById("SpeAlmReport_ok").disabled=false;
-        //  console.log(this.Spe_begin_time +","+ this.Spe_end_time);
+         if(this.isDate())
+          document.getElementById("SpeAlmReport_ok").disabled=false;
+         else
+          document.getElementById("SpeAlmReport_ok").disabled=true;
+        
     },
     onValidateSpeAlmReport_cancel: function(){
         document.getElementById("SpeAlmReport_ok").disabled=true;
@@ -1434,7 +1438,7 @@ export default {
       this.filtersArray = items; 
     },
     isTime: function(){
-       var regexpSy = new RegExp("^(20|21|22|23)|([0-1][0-9]):[0-5][0-9]$");
+       var regexpSy = new RegExp("^(20|21|22|23|([0-1][0-9])):[0-5][0-9]$");
        if(regexpSy.test(this.Week_stime) == false)
            {
              document.getElementById("start_timeIcon").style.display = "none";
@@ -1466,8 +1470,12 @@ export default {
       document.getElementById("start_timeFont").style.display = "none";
     },
     isDate: function(){
-
+       if(this.Spe_begin_time>this.Spe_end_time)
+         { this.Spe_isDate = true; return false;}
+       else
+         { this.Spe_isDate = false; return true;}
     },
+
   },
 };
 </script>
