@@ -40,7 +40,7 @@ export default {
       if (data.selected) return false
       root.forEach(ele => {
         if (ele.node.expand) ele.node.expand = false
-        ele.node.selected = false
+        ele.node.selected = false``
       })
       var dt = this;
       if(data.hasChild)

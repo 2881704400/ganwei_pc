@@ -320,7 +320,7 @@ export default {
 
       // ycp有广播消息
       this.hubProxy.on('sendYcpSingle', data => {
-        // console.log('yccccp----------------', data)
+        console.log('yccccp----------------', data)
         // 更新ycp实时数据
         this.tabData[0].tbList.forEach(item => {
           let rt = data.split(',')
