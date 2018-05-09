@@ -970,6 +970,42 @@
 	color: #2d8cf0;
 }
 
+.common-tab .ivu-tabs.ivu-tabs-card>.ivu-tabs-bar .ivu-tabs-nav .ivu-tabs-tab .ivu-icon {
+    width: 32px;
+    height: 32px;
+    position: relative;
+	top: -22px;
+	margin-right: 0px;
+    font-size: 0px;
+    background-position: 0% 0%;
+    background-size: 100% auto;
+    background-repeat: no-repeat;
+}
+
+.common-tab .ivu-tabs.ivu-tabs-card>.ivu-tabs-bar .ivu-tabs-nav .ivu-tabs-tab:nth-of-type(2) .ivu-icon{
+	background: url(../img/infor/all.png) no-repeat;
+	background-position: 0% 50%;
+}
+
+.common-tab .ivu-tabs.ivu-tabs-card>.ivu-tabs-bar .ivu-tabs-nav .ivu-tabs-tab:nth-of-type(3) .ivu-icon{
+	background: url(../img/infor/Errors.png);
+}
+
+.common-tab .ivu-tabs.ivu-tabs-card>.ivu-tabs-bar .ivu-tabs-nav .ivu-tabs-tab:nth-of-type(4) .ivu-icon{
+	background: url(../img/infor/Warnings.png);
+}
+
+.common-tab .ivu-tabs.ivu-tabs-card>.ivu-tabs-bar .ivu-tabs-nav .ivu-tabs-tab:nth-of-type(5) .ivu-icon{
+	background: url(../img/infor/Informations.png);
+}
+
+.common-tab .ivu-tabs.ivu-tabs-card>.ivu-tabs-bar .ivu-tabs-nav .ivu-tabs-tab:nth-of-type(6) .ivu-icon{
+	background: url(../img/infor/Settings.png);
+}
+
+.common-tab .ivu-tabs.ivu-tabs-card>.ivu-tabs-bar .ivu-tabs-nav .ivu-tabs-tab:nth-of-type(7) .ivu-icon{
+	background: url(../img/infor/Assets.png);
+}
 
 .modalAlert h1 {
   font-size: 1rem;
