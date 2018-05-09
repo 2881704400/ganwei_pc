@@ -3,7 +3,6 @@
     <div>
         <Row class="schedule">
             <Col class="schedule_top" span="24">
-            <!-- <h2><i class="ivu-icon ivu-icon-alert-circled"></i>当前页面 / 报警排表</h2> -->
             </Col>
             <Col class="schedule_bottom" span="24">
             <Tabs value="User" type="card" :animated="false" @on-click="tabsEvent">
@@ -175,29 +174,29 @@
                         </tbody>
                     </table>
 
-                    <Modal v-model="AlmReport_modal" title="管理范围" @on-ok="saveUpdateAlmReportt" class="ModalUser" :mask-closable="false">
+                    <Modal v-model="AlmReport_modal" title="管理范围"  class="ModalUser" :mask-closable="false">
                         <Row :gutter="16">
                             <Col span="7">
                             <span>人员姓名:</span>
                             </Col>
                             <Col span="17">
-                            <Select v-model="AlmReport_Administrator">
+                            <Select v-model="AlmReport_Administrator" class="userParentDev" @on-change="onValidateAlmReport()">
                                 <Option v-for="item_child in Alarm_user" :value="item_child.Administrator" :key="item_child.Administrator">{{item_child.Administrator}}</Option>
                             </Select>
-
                             </Col>
-
                             <Col span="7">
                             <span>设备分组名称:</span>
                             </Col>
                             <Col span="17">
-
-                            <Select v-model="AlmReport_group_no">
+                            <Select v-model="AlmReport_group_no" class="userParentDev" @on-change="onValidateAlmReport()">
                                 <Option v-for="item_child in equipUser" :value="item_child.group_no" :key="item_child.group_no">{{item_child.group_name}}</Option>
                             </Select>
                             </Col>
-
                         </Row>
+                         <div slot="footer">
+                            <Button type="text" size="large" @click="cancalUpdateAlmReportt">取消</Button>
+                            <Button type="primary" size="large" @click="saveUpdateAlmReportt" id="AlmReport_ok" :disabled="false">确定</Button>
+                        </div>  
                     </Modal>
 
                 </TabPane>
@@ -212,8 +211,6 @@
                        </span>
                       <button class="btn_search" @click="nullString(WeekAlmReport)">清空</button>
                     </p>
-
-   
 
                     <table class="gw-table WeekAlmReport-table">
                         <thead>
@@ -248,13 +245,13 @@
                         </tbody>
                     </table>
 
-                    <Modal v-model="Week_modal" title="周排表" @on-ok="saveUpdateWeekAlmReport" class="ModalWeek" :mask-closable="false">
+                    <Modal v-model="Week_modal" title="周排表" class="ModalWeek" :mask-closable="false">
                         <Row :gutter="16">
                             <Col span="7">
                             <span>人员姓名:</span>
                             </Col>
                             <Col span="17">
-                            <Select v-model="Week_admin">
+                            <Select v-model="Week_admin" class="userParentDev" @on-change="onValidateWeekAlmReport()">
                                 <Option v-for="item_child in Alarm_user" :value="item_child.Administrator" :key="item_child.Administrator">{{item_child.Administrator}}</Option>
                             </Select>
                             </Col>
@@ -262,7 +259,7 @@
                             <span>星期:</span>
                             </Col>
                             <Col span="17">
-                            <Select v-model="Week_week">
+                            <Select v-model="Week_week" class="userParentDev" @on-change="onValidateWeekAlmReport()">
                                 <Option v-for="item_child in WeekWeek" :value="item_child.value" :key="item_child.value">{{item_child.value}}</Option>
                             </Select>
                             </Col>
@@ -270,17 +267,26 @@
                             <span>开始时间:</span>
                             </Col>
                             <Col span="17">
-                            <!-- <input placeholder="开始时间"  style="width: 100%;height: 100%;" v-model="Week_stime" /> -->
-                            <TimePicker format="HH:mm" type="time" placeholder="开始时间" style="width: 100%;outline: none;"  v-model="Week_stime"></TimePicker>
+                            <!-- <TimePicker format="HH:mm" type="time" placeholder="开始时间" style="width: 100%;outline: none;"  v-model="Week_stime" class="userParentDev" @on-change="onValidateWeekAlmReport()" @on-clear="onValidateWeekAlmReport_cancel()"></TimePicker> -->
+                            <input type="text" v-model="Week_stime"  @input="onValidateWeekAlmReport()" style="text-indent: 10px;outline: none;" />
+                            <span id="start_timeIcon">*</span>
+                            <span id="start_timeFont">时间格式错误</span>
                             </Col>
                             <Col span="7">
                             <span>结束时间:</span>
                             </Col>
                             <Col span="17">
-                            <!-- <input  placeholder="开始时间" style="width: 100%;height: 100%;" v-model="Week_etime" /> -->
-                            <TimePicker format="HH:mm" type="time" placeholder="结束时间" style="width: 100%;outline: none;"  v-model="Week_etime"></TimePicker>
+                            <!-- <TimePicker format="HH:mm" type="time" placeholder="结束时间" style="width: 100%;outline: none;"  v-model="Week_etime" class="userParentDev" @on-change="onValidateWeekAlmReport()"  @on-clear="onValidateWeekAlmReport_cancel()"></TimePicker> -->
+                            <input type="text" v-model="Week_etime"  @input="onValidateWeekAlmReport()" style="text-indent: 10px;outline: none;"/>
+                            <span id="end_timeIcon">*</span>
+                            <span id="end_timeFont">时间格式错误</span>
+                            <span id="end_timeSize" style="margin-top: -20px;right: -70px;">开始时间大<br />于结束时间</span>
                             </Col>
                         </Row>
+                         <div slot="footer">
+                            <Button type="text" size="large" @click="cancalWeekAlmReport">取消</Button>
+                            <Button type="primary" size="large" @click="saveUpdateWeekAlmReport" id="WeekAlmReport_ok" :disabled="false">确定</Button>
+                        </div>                         
                     </Modal>
 
                 </TabPane>
@@ -322,13 +328,13 @@
                         </tbody>
                     </table>
 
-                    <Modal v-model="Spe_modal" title="周排表" @on-ok="saveUpdateSpeAlmReport" class="ModalWeek" :mask-closable="false">
+                    <Modal v-model="Spe_modal" title="周排表" class="ModalWeek" :mask-closable="false">
                         <Row>
                             <Col span="5">
                             <span>人员姓名:</span>
                             </Col>
                             <Col span="19">
-                            <Select v-model="Spe_admin">
+                            <Select v-model="Spe_admin" class="userParentDev" @on-change="onValidateSpeAlmReport()">
                                 <Option v-for="item_child in Alarm_user" :value="item_child.Administrator" :key="item_child.Administrator">{{item_child.Administrator}}</Option>
                             </Select>
                             </Col>
@@ -336,15 +342,21 @@
                             <span>开始时间:</span>
                             </Col>
                             <Col span="19">
-                            <DatePicker type="datetime" placeholder="开始时间" format="yyyy/MM/dd HH:mm:ss" style="width: 100%;height: 100%;" v-model="Spe_begin_time"></DatePicker>
+                            <DatePicker type="datetime" placeholder="开始时间" format="yyyy/MM/dd HH:mm:ss" style="width: 100%;height: 100%;" v-model="Spe_begin_time" class="userParentDev" @on-change="onValidateSpeAlmReport()" @on-clear="onValidateSpeAlmReport_cancel()"></DatePicker>
                             </Col>
                             <Col span="5">
                             <span>结束时间:</span>
                             </Col>
                             <Col span="19">
-                            <DatePicker type="datetime" placeholder="结束时间" format="yyyy/MM/dd HH:mm:ss" style="width: 100%;height: 100%;" v-model="Spe_end_time"></DatePicker>
+                            <DatePicker type="datetime" placeholder="结束时间" format="yyyy/MM/dd HH:mm:ss" style="width: 100%;height: 100%;" v-model="Spe_end_time" @on-change="onValidateSpeAlmReport()" @on-clear="onValidateSpeAlmReport_cancel()"></DatePicker>
+                            <span v-show="!Spe_isDate" id="end_DateIcon" >*</span>
+                            <span v-show="Spe_isDate" id="end_DateSize" style="margin-top: -20px;right: -70px;">开始时间大<br />于结束时间</span>
                             </Col>
                         </Row>
+                         <div slot="footer">
+                            <Button type="text" size="large" @click="cancalSpeAlmReport">取消</Button>
+                            <Button type="primary" size="large" @click="saveUpdateSpeAlmReport" id="SpeAlmReport_ok" :disabled="false">确定</Button>
+                        </div>                         
                     </Modal>
                 </TabPane>
 
@@ -370,7 +382,6 @@ export default {
       user_email: "",
       user_level: 1,
       user_saveCell: "",
-      disabled: "disabled",
 
       //设备分组范围
       equipUser: [], //设备名称
@@ -406,7 +417,7 @@ export default {
       Week_week: "",
       Week_stime: "",
       Week_etime: "",
-
+      
       //待定日期排表
       SpeAlmReport: [],
       Spe_modal: false,
@@ -415,7 +426,7 @@ export default {
       Spe_admin: "",
       Spe_begin_time: "",
       Spe_end_time: "",
-
+      Spe_isDate: false,
       //过滤
       filtersArray:[],
       filtersValue: '',
@@ -491,7 +502,7 @@ export default {
         }
       }
     },
-    removeAdministrator: function(dt) {
+    removeAdministrator: function(dt) {var msg = this.$Message;
       var WeekAlmReport = this.Alarm_user,dtThis = this,AlmReportDataLen = this.AlmReportData.length,
         deleteJson = {
           tableName: "Administrator",
@@ -502,7 +513,7 @@ export default {
       for(var i=0;i<AlmReportDataLen;i++)
       {   
         if(dtThis.AlmReportData[i].Administrator == dt.Administrator)
-          {this.$Modal.warning({title: "提示",content: '<p style="font-size: 14px;position: relative;">请先删除管理范围对应项!</p>'});return false;}
+          {this.$Modal.warning({title: "提示",content: '<p style="position: relative;top: -4px;">请先删除管理范围对应项!</p>'});return false;}
       }        
       this.deleteBaseData("deleteEquipGroup", deleteJson, _success_admin_del);
       function _success_admin_del() {
@@ -521,7 +532,8 @@ export default {
 
           var emptySpeAlmReport = {"tableName":"SpeAlmReport","Administrator":dt.Administrator};
           dtThis.XHRPost("nullTableCell",emptySpeAlmReport, _success_empty_SpeAlmReport);
-          function _success_empty_SpeAlmReport() {}            
+          function _success_empty_SpeAlmReport() {}   
+          msg.success("操作成功");         
 
       }
     },
@@ -555,10 +567,10 @@ export default {
       document.getElementById("userAdmin").parentNode.id="";
       document.getElementById("phoneAdmin").parentNode.id="";
        document.getElementById("msphoneAdmin").parentNode.id = "";
-     document.getElementById("eamilAdmin").parentNode.id="";
+      document.getElementById("eamilAdmin").parentNode.id="";
     },
     saveUpdateAdministrator: function() {
-      var WeekAlmReport = this.Alarm_user;
+      var WeekAlmReport = this.Alarm_user;var msg = this.$Message;
       //本地更新
       let AdministratorLocal = {
         Administrator: this.user_admin,
@@ -596,6 +608,7 @@ export default {
           _success_admin_update
         );
         function _success_admin_update() {
+           msg.success("操作成功");         
           WeekAlmReport.forEach(function(ele, index) {
             if (ele.Administrator == AdministratorLocal.saveCell) {
               WeekAlmReport.splice(index, 1, AdministratorLocal);
@@ -661,7 +674,6 @@ export default {
         default: break;
       }
     },
-
     //设备分组范围
     getEquipGroup: function() {
       var WeekAlmReport = this;
@@ -701,6 +713,7 @@ export default {
       dt.isShow = !dt.isShow;
     },
     removeEquipGroup: function(dt) {
+      var msg = this.$Message;
       var WeekAlmReport = this.equipUser,dtThis = this,AlmReportDataLen = this.AlmReportData.length,
         deleteJson = {
           tableName: "EquipGroup",
@@ -711,7 +724,7 @@ export default {
         for(var i=0;i<AlmReportDataLen;i++)
         {
           if(dtThis.AlmReportData[i].group_no == dt.group_no)
-            {this.$Modal.warning({title: "提示",content: '<p style="font-size: 14px;position: relative;">请先删除管理范围对应项!</p>'});return false;}
+            {this.$Modal.warning({title: "提示",content: '<p style="position: relative;top: -4px;">请先删除管理范围对应项!</p>'});return false;}
         }
       this.deleteBaseData("deleteEquipGroup", deleteJson, _success_admin_del);
       function _success_admin_del() {
@@ -720,12 +733,10 @@ export default {
             WeekAlmReport.splice(index1, 1);
           }
         });
-          // var emptyAlmReport_group_no = {"tableName":"AlmReport_group_no","group_no":dt.group_no};
-          // dtThis.XHRPost("nullTableCell",emptyAlmReport_group_no, _success_empty_AlmReport_group_no);
-          // function _success_empty_AlmReport_group_no() {}          
+         msg.success("操作成功");   
       }
     },
-    addEquipGroup: function() {
+    addEquipGroup: function() {var msg = this.$Message;
       var group_no_value,
         WeekAlmReport = this.equipUser;
       var groupArray = new Array();
@@ -751,10 +762,10 @@ export default {
         _success_equipgroup_insert
       );
       function _success_equipgroup_insert() {
-        WeekAlmReport.push(AdministratorLocal);
+        WeekAlmReport.push(AdministratorLocal); msg.success("操作成功");   
       }
     },
-    saveEquipGroupName: function(dt) {
+    saveEquipGroupName: function(dt) {var msg = this.$Message;
       let WeekAlmReportInsert = {
         tableName: "EquipGroup",
         equipcomb: dt.equipcomb,
@@ -767,10 +778,9 @@ export default {
         _success_equipgroup_update
       );
       function _success_equipgroup_update() {
-        dt.isShow = !dt.isShow;
+        dt.isShow = !dt.isShow; msg.success("操作成功"); 
       }
     },
-
     //设备分组右侧设备选择
     getEquip: function(groupNo) {
       var dthis = this;
@@ -826,7 +836,7 @@ export default {
         });
       }
     },
-    allCheckbox: function(value) {
+    allCheckbox: function(value) {var msg = this.$Message;
       var group_nameValue,
         equipcombString = "#",
         equipUser = this.equipUser,
@@ -865,10 +875,10 @@ export default {
           if (ele.group_no == selectEquip) {
             ele.equipcomb = equipcombString;
           }
-        });
+        }); msg.success("操作成功");  
       }
     },
-    radioCheckbox: function(dt) {
+    radioCheckbox: function(dt) {var msg = this.$Message;
       var group_nameValue,
         stringListEquip,
         selectEquip = this.selectEquip,
@@ -915,9 +925,9 @@ export default {
             ele.equipcomb = stringListEquip;
           }
         });
+         msg.success("操作成功");  
       }
     },
-
     //管理范围
     getAlmReport: function() {
       var dthis = this;
@@ -948,6 +958,7 @@ export default {
       }
     },
     removeAlmReport: function(dt) {
+      var msg = this.$Message;
       var WeekAlmReport = this.AlmReportData,
         deleteJson = {
           tableName: "AlmReport",
@@ -961,7 +972,7 @@ export default {
           if (ele1.id == dt.id) {
             WeekAlmReport.splice(index1, 1);
           }
-        });
+        }); msg.success("操作成功"); 
       }
     },
     modifyAlmReport: function(dt) {
@@ -973,6 +984,8 @@ export default {
       this.AlmReport_group_name = dt.group_name;
       this.AlmReport_Administrator = dt.Administrator;
       this.AlmReport_isShow = dt.isShow;
+      if(!this.AlmReport_Administrator || !this.AlmReport_group_no)
+         document.getElementById("AlmReport_ok").disabled=true;      
     },
     addAlmReport: function(dt) {
       this.AlmReport_isjudege = true;
@@ -980,11 +993,13 @@ export default {
       this.AlmReport_id = "";
       this.AlmReport_group_no = "";
       this.AlmReport_Administrator = "";
+      document.getElementById("AlmReport_ok").disabled="disabled";
     },
     saveUpdateAlmReportt: function() {
+      var msg = this.$Message;
       var dthis = this,
         WeekAlmReport = this.AlmReportData,
-        idValue = this.idReturn(this.WeekAlmReport),
+        idValue = this.idReturn(WeekAlmReport),
         weekID = this.AlmReport_isjudege ? idValue : this.AlmReport_id; //获取新建id主键
       //本地更新
       let WeekAlmReportLocal = {
@@ -1008,7 +1023,8 @@ export default {
           _success_Alm_insert
         );
         function _success_Alm_insert() {
-          WeekAlmReport.push(WeekAlmReportLocal);
+          WeekAlmReport.push(WeekAlmReportLocal); msg.success("操作成功"); dthis.AlmReport_modal = false;
+          dthis.getAlmReport();
         }
       } else {
         this.XHRPost(
@@ -1018,15 +1034,22 @@ export default {
         );
         function _success_Alm_update() {
           WeekAlmReport.forEach(function(ele, index) {
+             
             if (ele.id == WeekAlmReportLocal.id) {
-              WeekAlmReport.splice(index, 1, WeekAlmReportLocal);
+              WeekAlmReport.splice(index, 1, WeekAlmReportLocal);msg.success("操作成功"); dthis.AlmReport_modal = false;
               return false;
             }
           });
         }
       }
     },
-
+    cancalUpdateAlmReportt: function(){
+       this.AlmReport_modal = false;
+    },
+    onValidateAlmReport: function(){
+       if(this.AlmReport_Administrator && this.AlmReport_group_no)
+         document.getElementById("AlmReport_ok").disabled=false;
+    },
     // 周排表
     getWeekAlmReport: function() {
       var WeekAlmReport = this;
@@ -1045,8 +1068,8 @@ export default {
                 id: arrayLike[i].id,
                 Administrator: arrayLike[i].Administrator,
                 week_day: WeekAlmReport.weekReturn(arrayLike[i].week_day),
-                begin_time: formatDate(new Date(arrayLike[i].begin_time), "hh:mm"),
-                end_time: formatDate(new Date(arrayLike[i].end_time), "hh:mm"),
+                begin_time: arrayLike[i].begin_time == null?"":formatDate(new Date(arrayLike[i].begin_time), "hh:mm"),
+                end_time: arrayLike[i].end_time==null?"":formatDate(new Date(arrayLike[i].end_time), "hh:mm"),
                 isShow: false
               };
               WeekAlmReport.WeekAlmReport.push(dataJson);
@@ -1059,6 +1082,7 @@ export default {
       }
     },
     removeWeekAlmReport: function(dt) {
+      var msg = this.$Message;
       var dtID = dt.id,
         WeekAlmReport = this.WeekAlmReport,
         deleteJson = {
@@ -1071,7 +1095,7 @@ export default {
       function _success_week_del() {
         WeekAlmReport.forEach(function(ele1, index1) {
           if (ele1.id == dtID) {
-            WeekAlmReport.splice(index1, 1);
+            WeekAlmReport.splice(index1, 1);msg.success("操作成功"); 
           }
         });
       }
@@ -1085,16 +1109,22 @@ export default {
       this.Week_week = dt.week_day;
       this.Week_stime = dt.begin_time;
       this.Week_etime = dt.end_time;
+      if(!this.Week_admin || !this.Week_week || !this.Week_stime || !this.Week_etime)
+         document.getElementById("WeekAlmReport_ok").disabled=true;
     },
     addWeekAlmReport: function() {
       this.Week_isjudege = true;
       this.Week_modal = true;
       this.Week_admin = "";
       this.Week_week = "";
-      this.Week_stime = "";
-      this.Week_etime = "";
+      this.Week_stime = "00:00";
+      this.Week_etime = "23:59";
+      document.getElementById("WeekAlmReport_ok").disabled=true;
+      this.isTime_init_tooip();
     },
     saveUpdateWeekAlmReport: function() {
+      this.isTime();
+      var msg = this.$Message,dt=this;
       var weekIndex,
         WeekAlmReport = this.WeekAlmReport,
         weekStr = this.Week_week,
@@ -1131,7 +1161,8 @@ export default {
           _success_week_insert
         );
         function _success_week_insert() {
-          WeekAlmReport.push(WeekAlmReportLocal);
+          WeekAlmReport.push(WeekAlmReportLocal);msg.success("操作成功");dt.Week_modal = false;
+          dt.getWeekAlmReport();
         }
       } else {
         this.XHRPost(
@@ -1142,12 +1173,25 @@ export default {
         function _success_week_update() {
           WeekAlmReport.forEach(function(ele, index) {
             if (ele.id == WeekAlmReportLocal.id) {
-              WeekAlmReport.splice(index, 1, WeekAlmReportLocal);
+              WeekAlmReport.splice(index, 1, WeekAlmReportLocal);msg.success("操作成功");dt.Week_modal = false;
               return false;
             }
           });
         }
       }
+    },
+    cancalWeekAlmReport: function(){
+      this.Week_modal = false;
+    },
+    onValidateWeekAlmReport: function(){
+      var dt = document.getElementById("WeekAlmReport_ok");
+       if(this.Week_admin !="" && this.Week_week !="" && this.Week_stime !="" && this.Week_etime !="")
+         if(this.isTime())
+          dt.disabled=false;
+         else
+          dt.disabled=true;
+       else
+          dt.disabled=true;
     },
 
     // 特定日期排表
@@ -1166,14 +1210,8 @@ export default {
               let dataJson = {
                 id: arrayLike[i].id,
                 Administrator: arrayLike[i].Administrator,
-                begin_time: formatDate(
-                  new Date(arrayLike[i].begin_time),
-                  "yyyy/MM/dd hh:mm:ss"
-                ),
-                end_time: formatDate(
-                  new Date(arrayLike[i].end_time),
-                  "yyyy/MM/dd hh:mm:ss"
-                ),
+                begin_time: arrayLike[i].begin_time == null?"":formatDate(new Date(arrayLike[i].begin_time),"yyyy/MM/dd hh:mm:ss"),
+                end_time: arrayLike[i].end_time == null?"":formatDate(new Date(arrayLike[i].end_time),"yyyy/MM/dd hh:mm:ss"),
                 isShow: false
               };
               WeekAlmReport.SpeAlmReport.push(dataJson);
@@ -1186,6 +1224,7 @@ export default {
       }
     },
     removeSpeAlmReport: function(dt) {
+      var msg = this.$Message;
       var dtID = dt.id,
         WeekAlmReport = this.SpeAlmReport,
         deleteJson = {
@@ -1198,7 +1237,7 @@ export default {
       function _success_Spe_del() {
         WeekAlmReport.forEach(function(ele1, index1) {
           if (ele1.id == dtID) {
-            WeekAlmReport.splice(index1, 1);
+            WeekAlmReport.splice(index1, 1);msg.success("操作成功");
           }
         });
       }
@@ -1211,6 +1250,8 @@ export default {
       this.Spe_admin = dt.Administrator;
       this.Spe_begin_time = dt.begin_time;
       this.Spe_end_time = dt.end_time;
+      if(!this.Spe_admin || !this.Spe_begin_time || !this.Spe_end_time)
+         document.getElementById("SpeAlmReport_ok").disabled=true;      
     },
     addSpeAlmReport: function() {
       this.Spe_isjudege = true;
@@ -1219,8 +1260,10 @@ export default {
       this.Spe_admin = "";
       this.Spe_begin_time = "";
       this.Spe_end_time = "";
+       document.getElementById("SpeAlmReport_ok").disabled=true;
     },
     saveUpdateSpeAlmReport: function() {
+      var msg = this.$Message,dthis = this;
       var weekIndex,
         WeekAlmReport = this.SpeAlmReport,
         idValue = this.idReturn(WeekAlmReport),
@@ -1235,11 +1278,12 @@ export default {
         isShow: false
       };
       //数据库更新
+
       let WeekAlmReportInsert = {
         tableName: "SpeAlmReport",
         Administrator: this.Spe_admin,
-        begin_time: this.Spe_begin_time,
-        end_time: this.Spe_end_time,
+        begin_time: formatDate(this.Spe_begin_time,"yyyy/MM/dd hh:mm:ss"),
+        end_time: formatDate(this.Spe_end_time,"yyyy/MM/dd hh:mm:ss"),
         ifValue: weekID
       };
       if (this.Spe_isjudege) {
@@ -1249,7 +1293,8 @@ export default {
           _success_spe_insert
         );
         function _success_spe_insert() {
-          WeekAlmReport.push(WeekAlmReportLocal);
+          WeekAlmReport.push(WeekAlmReportLocal);msg.success("操作成功"); dthis.Spe_modal = false;
+          dthis.getSpeAlmReport();
         }
       } else {
         this.XHRPost(
@@ -1260,14 +1305,27 @@ export default {
         function _success_spe_update() {
           WeekAlmReport.forEach(function(ele, index) {
             if (ele.id == WeekAlmReportLocal.id) {
-              WeekAlmReport.splice(index, 1, WeekAlmReportLocal);
+              WeekAlmReport.splice(index, 1, WeekAlmReportLocal);msg.success("操作成功"); dthis.Spe_modal = false;
               return false;
             }
           });
         }
       }
     },
-
+    cancalSpeAlmReport: function(){
+      this.Spe_modal = false;
+    },
+    onValidateSpeAlmReport: function(){
+       if(this.Spe_admin !="" && this.Spe_begin_time !="" && this.Spe_end_time !="")
+         if(this.isDate())
+          document.getElementById("SpeAlmReport_ok").disabled=false;
+         else
+          document.getElementById("SpeAlmReport_ok").disabled=true;
+        
+    },
+    onValidateSpeAlmReport_cancel: function(){
+        document.getElementById("SpeAlmReport_ok").disabled=true;
+    },    
     //发送请求
     XHRPost: function(api, updateJson, _success) {
       var msg = this.$Message;
@@ -1304,7 +1362,7 @@ export default {
       this.$Modal.confirm({
         title: "提示",
         content:
-          '<p style="font-size: 14px;position: relative;">确认删除该分组信息?</p>',
+          '<p style="position: relative;top: -4px;">确认删除该分组信息?</p>',
         okText: "确认",
         onOk: () => {
           this.XHRPost(api, json, _success);
@@ -1312,7 +1370,6 @@ export default {
         cancelText: "取消"
       });
     },
-
     //字符串处理
     weekReturn: function(week) {
       var weekString;
@@ -1380,17 +1437,46 @@ export default {
       this.filtersValue = "";
       this.filtersArray = items; 
     },
-
+    isTime: function(){
+       var regexpSy = new RegExp("^(20|21|22|23|([0-1][0-9])):[0-5][0-9]$");
+       if(regexpSy.test(this.Week_stime) == false)
+           {
+             document.getElementById("start_timeIcon").style.display = "none";
+             document.getElementById("start_timeFont").style.display = "block";
+             return false;
+           }
+       else if(regexpSy.test(this.Week_etime) == false)
+           {
+             this.isTime_init_tooip();
+             document.getElementById("end_timeIcon").style.display = "none";
+             document.getElementById("end_timeFont").style.display = "block";
+             return false;
+             }
+       else if(parseInt(this.Week_stime.split(":"))>parseInt(this.Week_etime.split(":")))
+           {
+             this.isTime_init_tooip();
+             document.getElementById("end_timeIcon").style.display = "none";
+             document.getElementById("end_timeSize").style.display = "block";
+             return false;
+          }
+       else
+         {this.isTime_init_tooip();return true;}
+    },
+    isTime_init_tooip: function(){
+      document.getElementById("end_timeIcon").style.display = "block";
+      document.getElementById("end_timeSize").style.display = "none";
+      document.getElementById("end_timeFont").style.display = "none";
+      document.getElementById("start_timeIcon").style.display = "block";
+      document.getElementById("start_timeFont").style.display = "none";
+    },
+    isDate: function(){
+       if(this.Spe_begin_time>this.Spe_end_time)
+         { this.Spe_isDate = true; return false;}
+       else
+         { this.Spe_isDate = false; return true;}
+    },
 
   },
-
-
 };
-
-
-
-
 </script>
-
-
 <style lang="scss" src="../../assets/styles/sass/Schedule.scss"></style>

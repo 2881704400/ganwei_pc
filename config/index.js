@@ -7,7 +7,7 @@ const path = require('path')
 module.exports = {
   dev: {
     // Paths
-    assetsSubDirectory: '2.0/static',
+    assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
       '/api': {
@@ -22,7 +22,7 @@ module.exports = {
     },
     // Various Dev Server settings
     host: 'localhost', // can be overwritten by process.env.HOST
-    port: 7011, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
+    port: 8013, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
     autoOpenBrowser: true,
     errorOverlay: true,
     notifyOnErrors: true,
@@ -53,12 +53,12 @@ module.exports = {
 
   build: {
     // Template for index.html
-    index: path.resolve(__dirname, '../dist/2.0/index.html'),
+    index: path.resolve(__dirname, '../dist/index.html'),
 
     // Paths
     assetsRoot: path.resolve(__dirname, '../dist'),
-    assetsSubDirectory: '2.0/static',
-    assetsPublicPath: '/',
+    assetsSubDirectory: 'static',
+    assetsPublicPath: './',
 
     /**
      * Source Maps

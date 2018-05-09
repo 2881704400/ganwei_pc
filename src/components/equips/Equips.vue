@@ -512,6 +512,7 @@ export default {
     }
   },
   beforeRouteUpdate (to, from, next) {
+    console.log(to);
     this.$store.commit('setEquipNo', to.hash.substr(1))
     next()
     this.getAllState()

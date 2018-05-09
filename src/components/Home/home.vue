@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-       <h1>深圳市敢为软件技术有限公司</h1>
+       <h1 v-text="projectName"></h1>
        <div class="homeContent">
            <div class="homeTop">
 
@@ -21,10 +21,11 @@ export default {
   props: ['rootSave'],
   data () {
     return {
+      projectName:'',
     }
   },
   mounted() {
-  
+     this.getProjectNmae()
 		},
   methods:{
     homeMenuClick(root,item){
@@ -57,7 +58,20 @@ export default {
     },
     callback: function(){
       console.log("success");
-    }
+    },
+    getProjectNmae: function(){
+      var dthis = this;
+      let urlna = "/api/server/auth_name";
+      this.Axios.get(urlna).then(response => {
+            if(response.data.HttpData.code == 200)
+              dthis.projectName =response.data.HttpData.data;
+            else
+              dthis.getProjectNmae();
+        })
+        .catch(error => {
+          // console.log(error);
+        });
+    },
   },
 
 
