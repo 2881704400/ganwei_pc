@@ -138,6 +138,29 @@
                                 // box-shadow: 6px 0px 0px #fff inset;
                                 background-color: #fafafa;
                             }
+                            .alarm-state{
+                                &.offline{
+                                    background-color: #A0A0A0;
+                                }
+                                &.fine{
+                                    background-color: #35b468;
+                                }
+                                &.alarm{
+                                    background-color: #eb303a;
+                                }
+                                &.setting{
+                                    background-color: #FFD600;
+                                }
+                                &.initial{
+                                    background-color: #A0A0A0;
+                                }
+                                &.withdrawing{
+                                    background-color: #FFA500;
+                                }
+                                &.unknown{
+                                    background-color: #D3D3D3;
+                                }
+                            }
                         }
                         li{
                             margin: 0 auto;

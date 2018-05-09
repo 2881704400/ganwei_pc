@@ -159,7 +159,6 @@ export default {
         let rt = res.data.HttpData
         if (rt.code === 200) {
           let data = rt.data
-          // console.log(data)
           this.tabData[0].tbList.splice(0, this.tabData[0].tbList.length)
           this.tabData[1].tbList.splice(0, this.tabData[1].tbList.length)
           for (let key in data.YCItemDict) {
@@ -188,7 +187,6 @@ export default {
           }
           this.tabData[2].equipInfo = data.EquipItem
           this.getSetopt(this.tabData[2].equipInfo.m_iEquipNo)
-          // console.log(this.tabData)
         } else {
           this.$Message.warning('数据获取失败，请重试！')
           this.isLoading = false
@@ -301,7 +299,6 @@ export default {
       this.hubConn = null
       this.hubConn = $.hubConnection()
       this.hubProxy = this.hubConn.createHubProxy('ServerHub')
-
       this.hubProxy.on('sendConnect', data => {
         console.log(data)
       });
@@ -348,8 +345,15 @@ export default {
           })
       });
 
+      // 监听设备状态
       this.hubProxy.on('sendEquipSingle', data => {
-        console.log('equip-------------------', data)
+        // console.log('equip-------------------', data)
+        let rt = data.split(',')
+        if (rt[2] === 'HaveAlarm') {
+          this.updateNavAlarm('alarm')
+        } else if (rt[2] === 'CommunicationOK') {
+          this.updateNavAlarm('fine')
+        }
       });
       
       this.hubConn.stop()
@@ -379,17 +383,14 @@ export default {
               console.log('错误-------:', err)
           })
       })
-
       // signalr断开连接
       this.hubConn.disconnected(() => {
         this.hubConn.stop()
       })
-
       // 高频连接触发
       this.hubConn.connectionSlow((err) => {
         // console.log(err)
       })
-
       // 收到signalr消息触发
       this.hubConn.received(() => {
         // console.log(err)
@@ -438,20 +439,57 @@ export default {
           type: 'time',
           splitLine: {
             show: false
+          },
+          axisLabel: {
+            margin: 12
           }
         },
         yAxis: [{
           name: lineObj.m_Unit,
-          type: 'value'
+          nameTextStyle: {
+            align: 'right',
+            padding: [0, 30, 0, 0]
+          },
+          nameGap: 30,
+          type: 'value',
+          scale: true,
+          axisLine: {
+            show: false
+          },
+          axisTick: {
+            show: false
+          },
+          axisLabel: {
+            margin: 12
+          },
+          // boundaryGap: ['20%', '20%']
+          min: value => value.min -1,
+          max: value => value.max + 1
         }],
         series: [{
             name: lineObj.m_Unit,
             type: 'line',
             smooth: true,
+            sampling: 'sum',
+            itemStyle: {
+              color: '#7BB4EB',
+              borderColor: '#7BB4EB',
+              borderWidth: 4
+            },
+            label: {
+              show: true,
+              distance: 8,
+              color: '#333',
+              formatter: (item) => item.value[1] + lineObj.m_Unit
+            },
+            lineStyle: {
+              color: '#7BB4EB'
+            },
             data: this.realData
         }]
       })
       if (this.timer) clearInterval(this.timer)
+      this.updateChart([new Date().getTime(), parseInt(lineObj.m_YCValue)])
       if (this.chart !== null) {
         this.timer = setInterval(() => {
           this.updateChart([new Date().getTime(), parseInt(lineObj.m_YCValue)])
@@ -469,6 +507,9 @@ export default {
           data: this.realData
         }]
       })
+    },
+    updateNavAlarm (state) {
+      this.$emit('updateNavState', this.equipNo, state)
     }
   },
   beforeRouteUpdate (to, from, next) {

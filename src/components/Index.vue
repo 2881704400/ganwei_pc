@@ -34,7 +34,7 @@
           <span v-if="$store.state.curPage.childName" class="split">>></span>
           <a v-if="$store.state.curPage.childName">{{$store.state.curPage.childName}}</a>
         </div>
-        <router-view class="router-page" v-if="loadCompleted" :rootSave="rootSave"></router-view>
+        <router-view class="router-page" v-if="loadCompleted" :rootSave="rootSave" @updateNavState="doNavState"></router-view>
       </section>
     </div>
   </div>
@@ -120,7 +120,7 @@ export default {
         }
       ],
       loadCompleted: false,
-      isFold: true,
+      isFold: false,
       curPath22: "",
       rootSave: {},
     };
@@ -181,21 +181,23 @@ export default {
       if (navItem.hasChild) {
         navItem.loading = true;
         // 异步获取列表节点
-        this.Axios.all([this.Axios.post("/api/real/equip_tree"), this.Axios.post('/api/GWServiceWebAPI/getEquipList')])
-          .then(this.Axios.spread((treeRes, equipRes) => {
+        this.Axios.all([this.Axios.post("/api/real/equip_tree"), this.Axios.post('/api/GWServiceWebAPI/getEquipList'), this.Axios.post('/api/real/equip_state')])
+          .then(this.Axios.spread((treeRes, equipRes, stateRes) => {
             let treeRt = treeRes.data.HttpData,
-              equipRt = equipRes.data.HttpData
-            if (treeRt.code === 200 && equipRt.code === 200) {
+              equipRt = equipRes.data.HttpData,
+              stateRt = stateRes.data.HttpData
+            if (treeRt.code === 200 && equipRt.code === 200 && stateRt.code === 200) {
               let treeData = []
               let equipData = equipRt.data
+              let stateData = stateRt.data
               treeData = treeRt.data.GWEquipTreeItems
               let resultData = []
-              this.dealNavList(treeData, equipData, resultData)
+              this.dealNavList(treeData, equipData, resultData, stateData)
               callback(resultData)
               console.log("获取设备列表成功!")
             } else {
               this.$Message.warning('获取设备列表失败，请重试！')
-              console.log(treeRes)
+              console.log(treeRt, equipRt, stateRt)
             }
           }))
           .catch(err => {
@@ -205,6 +207,7 @@ export default {
             let equipNo = parseInt(this.$route.hash.substring(1))
             this.findEquip(this.navList[1].children, equipNo)
             this.loadCompleted = true
+            navItem.loading = false
           })
       } else {
         return false;
@@ -228,7 +231,7 @@ export default {
         }
       }
     },
-    dealNavList(arrData, equipList, result) {
+    dealNavList(arrData, equipList, result, stateList = []) {
       // 处理设备数据子列表
       arrData = arrData.filter(item => {
         if (equipList.some(equip => {
@@ -239,7 +242,22 @@ export default {
       })
       arrData.forEach((dt, index) => {
         if (dt.GWEquipTreeItems && dt.GWEquipTreeItems.length) {
+          // 设置报警状态
+          let alarmNum = 0
+          let alarmState = ''
+          let equipTreeArr = dt.GWEquipTreeItems.filter(item => {
+            if (equipList.some(equip => {
+              return equip.equip_no === parseInt(item.EquipNo) || item.EquipNo === ''
+            })) {
+              return item
+            }
+          })
+          equipTreeArr.forEach(item => {
+            alarmNum += (stateList.filter(state => state.m_iEquipNo === parseInt(item.EquipNo))[0].m_State === 2) ? 1 : 0
+          })
+          alarmState = (alarmNum > 0) ? 'alarm' : 'fine'
           result.push({
+            alarmState: alarmState,
             title: dt.Name,
             children: [],
             selected: false,
@@ -279,6 +297,20 @@ export default {
                     "span",
                     {
                       style: {
+                        display: "inline-block",
+                        verticalAlign: "middle",
+                        width: "16px",
+                        height: "16px",
+                        borderRadius: "50%",
+                        marginRight: "6px"
+                      },
+                      class: 'alarm-state ' + data.alarmState
+                    }
+                  ),
+                  h(
+                    "span",
+                    {
+                      style: {
                         lineHeight: "50px"
                       }
                     },
@@ -288,9 +320,34 @@ export default {
               );
             }
           });
-          this.dealNavList(dt.GWEquipTreeItems, equipList, result[index].children);
+          this.dealNavList(dt.GWEquipTreeItems, equipList, result[index].children, stateList)
         } else {
           let equipNo = parseInt(dt.EquipNo)
+          let alarmState = ''
+          let stateNum = stateList.filter(item => item.m_iEquipNo === equipNo)[0].m_State
+          switch (stateNum) {
+            case 0:
+              alarmState = 'offline'
+              break;
+            case 1:
+              alarmState = 'fine'
+              break;
+            case 2:
+              alarmState = 'alarm'
+              break;
+            case 3:
+              alarmState = 'setting'
+              break;
+            case 4:
+              alarmState = 'initial'
+              break;
+            case 5:
+              alarmState = 'withdrawing'
+              break;
+            default:
+              alarmState = 'unknown'
+              break;
+          }
           if (equipNo === 300) {
             dt.Name = '场景控制'
           } else if (equipNo === 1005) {
@@ -300,6 +357,7 @@ export default {
             title: dt.Name,
             equipNo: dt.EquipNo,
             href: "equips",
+            alarmState: alarmState,
             children: [],
             selected: false,
             render: (h, { root, node, data }) => {
@@ -315,6 +373,7 @@ export default {
                   class: ["nav-item", data.selected ? "selected" : ""],
                   on: {
                     click: () => {
+                      // console.log(this.navList[1])
                       if (data.selected) return false
                       let obj = {
                         isHome: false,
@@ -339,8 +398,22 @@ export default {
                     "span",
                     {
                       style: {
-                        lineHeight: "50px",
-                        marginLeft: "30px"
+                        display: "inline-block",
+                        verticalAlign: "middle",
+                        width: "16px",
+                        height: "16px",
+                        borderRadius: "50%",
+                        marginLeft: "28px",
+                        marginRight: "6px"
+                      },
+                      class: 'alarm-state ' + data.alarmState
+                    }
+                  ),
+                  h(
+                    "span",
+                    {
+                      style: {
+                        lineHeight: "50px"
                       }
                     },
                     data.title
@@ -475,8 +548,7 @@ export default {
         );
       }
     },
-    navItemClick (root, data, equipNo = null) { 
-     
+    navItemClick (root, data, equipNo = null) {     
       if (data.children.length < 1) {
         this.loadNavList(data, rt => {
           rt.forEach(item => { 
@@ -494,7 +566,6 @@ export default {
         ele.node.selected = false
       });
       data.selected = true
-     
     },
     setNav () {
       const pathF = this.$route.path.split('/')[1],
@@ -547,6 +618,35 @@ export default {
                 $("body").addClass("full-screen");
             }
         // });
+    },
+    doNavState (equipNo, state) {
+      if (this.navList[1].children.length) {
+        this.dealNavState(this.navList[1].children, equipNo, state)
+        this.dealSumState(this.navList[1].children)
+      }
+    },
+    dealNavState (list, equipNo, state) {
+      list.forEach(item => {
+        if (item.children.length) {
+          this.dealNavState(item.children, equipNo, state)
+        } else {
+          if (parseInt(item.equipNo) === parseInt(equipNo)) {
+            item.alarmState = state
+          }
+        }
+      })
+    },
+    dealSumState (list) {
+      list.forEach(item => {
+        if (item.children.length) {
+          let alarmNum = 0
+          item.children.forEach(nav => {
+            alarmNum += (nav.alarmState === 'alarm') ? 1 : 0
+          })
+          item.alarmState = (alarmNum > 0) ? 'alarm' : 'fine'
+          this.dealSumState(item.children)
+        }
+      })
     }
   },
   created () {
