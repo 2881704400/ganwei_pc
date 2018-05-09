@@ -206,8 +206,8 @@ export default {
           .then(() => {
             let equipNo = parseInt(this.$route.hash.substring(1))
             this.findEquip(this.navList[1].children, equipNo)
-            this.loadCompleted = true
             navItem.loading = false
+            this.loadCompleted = true
           })
       } else {
         return false;
@@ -238,6 +238,12 @@ export default {
           return equip.equip_no === parseInt(item.EquipNo) || item.EquipNo === ''
         })) {
           return item
+        }
+      }).filter(item => {
+        if ((item.EquipNo === '1005' && item.Image === '') || (item.EquipNo === '1005' && item.Image === '精密空调.png')) {
+          return false
+        } else {
+          return true
         }
       })
       arrData.forEach((dt, index) => {
