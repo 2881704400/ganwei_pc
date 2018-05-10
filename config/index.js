@@ -11,18 +11,18 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/api': {
-        target: 'http://localhost:7001',
+        target: 'http://localhost:8013',
         pathRewrite: {
           '^/api': '/api',
         }
       },
       '/oApi': {
-        target: 'http://192.168.1.110:7001'
+        target: 'http://192.168.0.165:8013'
        }
     },
     // Various Dev Server settings
     host: 'localhost', // can be overwritten by process.env.HOST
-    port: 7011, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
+    port: 8013, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
     autoOpenBrowser: true,
     errorOverlay: true,
     notifyOnErrors: true,
