@@ -9,7 +9,6 @@ import iView from 'iview'
 import 'iview/dist/styles/iview.css'
 import './assets/styles/sass/public.scss'
 import Echarts from 'echarts'
-// import 'signalr'
 
 Vue.config.productionTip = false
 
