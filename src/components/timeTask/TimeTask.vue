@@ -10,7 +10,7 @@
 							<button @click="delCommonTask()">删除</button>
 							<button @click="addCommonTask()">增加</button>
 						</div>
-						<div class="common-smalltable">
+						<div class="common-smalltable three-smalltable">
 							<table>
 								<thead>
 									<tr>
@@ -47,7 +47,7 @@
 							<button @click="delSystemFun()" :class="{bg_disabled:SystemStatus}">删除</button>
 							<button @click="addSystemTask()">增加</button>
 						</div>
-						<div class="common-smalltable">
+						<div class="common-smalltable three-smalltable">
 							<table >
 								<thead>
 									<tr>
@@ -85,7 +85,7 @@
 							<button @click="delEquipFun()" :class="{bg_disabled:EquipStatus}">删除</button>
 							<button @click="addEquipFun()">增加</button>
 						</div>
-						<div class="common-smalltable">
+						<div class="common-smalltable three-smalltable">
 							<table>
 								<thead>
 									<tr>
