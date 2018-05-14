@@ -240,7 +240,7 @@ export default {
           return item
         }
       }).filter(item => {
-        if ((item.EquipNo === '1005' && item.Image === '') || (item.EquipNo === '1005' && item.Image === '精密空调.png')) {
+        if (item.EquipNo === '1005' && item.Image === '精密空调.png') {
           return false
         } else {
           return true
