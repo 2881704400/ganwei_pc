@@ -463,7 +463,7 @@ export default {
     //人员
     getAdministrator: function() {
       var WeekAlmReport = this;
-      let url = "/api/Db/SelectData?tableName=Administrator";
+      let url = "/api/GWServiceWebAPI/SelectData?tableName=Administrator";
       this.XHRGet(url, _success_user_query);
       function _success_user_query(response) {
         WeekAlmReport.Alarm_user.length = 0;
@@ -665,7 +665,7 @@ export default {
     //设备分组范围
     getEquipGroup: function() {
       var WeekAlmReport = this;
-      let url = "/api/Db/SelectData?tableName=EquipGroup";
+      let url = "/api/GWServiceWebAPI/SelectData?tableName=EquipGroup";
       this.XHRGet(url, _success_equip_query);
       function _success_equip_query(response) {
         WeekAlmReport.equipUser.length = 0;
@@ -774,7 +774,7 @@ export default {
     //设备分组右侧设备选择
     getEquip: function(groupNo) {
       var dthis = this;
-      let url = "/api/Db/SelectData?tableName=Equip";
+      let url = "/api/GWServiceWebAPI/SelectData?tableName=Equip";
       this.XHRGet(url, _success_equip1_query);
       function _success_equip1_query(response) {
         dthis.equipName.length = 0;
@@ -921,7 +921,7 @@ export default {
     //管理范围
     getAlmReport: function() {
       var dthis = this;
-      let url = "/api/Db/SelectData?tableName=AlmReport";
+      let url = "/api/GWServiceWebAPI/SelectData?tableName=AlmReport";
       this.XHRGet(url, _success_user_query);
       function _success_user_query(response) {
         dthis.AlmReportData.length = 0;
@@ -1031,7 +1031,7 @@ export default {
     getWeekAlmReport: function() {
       var WeekAlmReport = this;
 
-      let url = "/api/Db/SelectData?tableName=WeekAlmReport";
+      let url = "/api/GWServiceWebAPI/SelectData?tableName=WeekAlmReport";
       this.XHRGet(url, _success_week_query);
       function _success_week_query(response) {
         WeekAlmReport.WeekAlmReport.length = 0;
@@ -1153,7 +1153,7 @@ export default {
     // 特定日期排表
     getSpeAlmReport: function() {
       var WeekAlmReport = this;
-      let url = "/api/Db/SelectData?tableName=SpeAlmReport";
+      let url = "/api/GWServiceWebAPI/SelectData?tableName=SpeAlmReport";
       this.XHRGet(url, _success_week_query);
       function _success_week_query(response) {
         WeekAlmReport.SpeAlmReport.length = 0;
@@ -1271,7 +1271,7 @@ export default {
     //发送请求
     XHRPost: function(api, updateJson, _success) {
       var msg = this.$Message;
-      let urlna = "/api/Db/" + api;
+      let urlna = "/api/GWServiceWebAPI/" + api;
       this.Axios.post(urlna, updateJson, {
         headers: { "Content-type": "application/json" }
       })

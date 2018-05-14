@@ -340,7 +340,7 @@ export default {
         return false
       }
       if (data.isEdit === false) {
-        this.Axios.post('/api/datas/addLinkage', reqData)
+        this.Axios.post('/api/GWServiceWebAPI/addLinkage', reqData)
           .then(res => {
             let rt = res.data.HttpData
             if (rt.code === 200) {
@@ -358,7 +358,7 @@ export default {
             console.log(err)
           })
       } else {
-        this.Axios.post('/api/datas/updateLinkage', reqData)
+        this.Axios.post('/api/GWServiceWebAPI/updateLinkage', reqData)
           .then(res => {
             let rt = res.data.HttpData
             if (rt.code === 200) {
@@ -395,7 +395,7 @@ export default {
         title: '操作提示',
         content: '是否删除该设置?',
         onOk: () => {
-          this.Axios.post('/api/datas/deleteLinkage', {
+          this.Axios.post('/api/GWServiceWebAPI/deleteLinkage', {
             id: row.originalData.ID
           })
             .then(res => {
@@ -421,8 +421,8 @@ export default {
         equip_nos: item.value
       };
       this.Axios.all([
-        this.Axios.post("/api/datas/getYcp", reqData),
-        this.Axios.post("/api/datas/getYxp", reqData)
+        this.Axios.post("/api/GWServiceWebAPI/getYcp", reqData),
+        this.Axios.post("/api/GWServiceWebAPI/getYxp", reqData)
       ])
         .then(
           this.Axios.spread((ycpRes, yxpRes) => {
@@ -480,7 +480,7 @@ export default {
     loadLinkageEquips (equip, callback) {
       // 联动设备和操作级联
       equip.loading = true
-      this.Axios.post('/api/real/get_setparm', {
+      this.Axios.post('/api/GWServiceWebAPI/get_setparm', {
         equip_nos: equip.value
       })
         .then(res => {
@@ -576,7 +576,7 @@ export default {
         dataStr: dataStr
       }
       // console.log(reqData)
-      this.Axios.post('/api/datas/updateScene', reqData)
+      this.Axios.post('/api/GWServiceWebAPI/updateScene', reqData)
        .then(res => {
          let rt = res.data.HttpData
          if (rt.code === 200 && rt.data > 0) {
@@ -610,7 +610,7 @@ export default {
               title: title,
               setNo: setNo
             }
-            this.Axios.post('/api/datas/addScene', reqData)
+            this.Axios.post('/api/GWServiceWebAPI/addScene', reqData)
               .then(res => {
                 let rt = res.data.HttpData
                 if (rt.data > 0) {
@@ -639,7 +639,7 @@ export default {
           let reqData = {
             setNo: scene.set_no
           }
-          this.Axios.post('/api/datas/deleteScene', reqData)
+          this.Axios.post('/api/GWServiceWebAPI/deleteScene', reqData)
             .then(res => {
               let rt = res.data.HttpData
               if (rt.code === 200 && rt.data > 0) {
@@ -658,7 +658,7 @@ export default {
     },
     initTableList (dt) {
       this.loadData = true
-      this.Axios.all([this.Axios.post('/api/Datas/getLinkageList'), this.Axios.post('/api/Datas/getYcpList'), this.Axios.post('/api/Datas/getYxpList'), this.Axios.post('/api/Datas/getSetparmList', {
+      this.Axios.all([this.Axios.post('/api/GWServiceWebAPI/getLinkageList'), this.Axios.post('/api/GWServiceWebAPI/getYcpList'), this.Axios.post('/api/GWServiceWebAPI/getYxpList'), this.Axios.post('/api/GWServiceWebAPI/getSetparmList', {
         findEquip: false
       })])
         .then(this.Axios.spread((res, ycpRes, yxpRes, parmRes) => {
@@ -727,7 +727,7 @@ export default {
       // 获取新增设置菜单相关数据
       if (this.listAdd.length < 1 || this.formData.linkageEquips.length < 1) {
         this.loadData = true
-        this.Axios.all([this.Axios.post('/api/datas/getEquipList'), this.Axios.post('/api/Datas/getSetparmList', {findEquip: false})])
+        this.Axios.all([this.Axios.post('/api/GWServiceWebAPI/getEquipList'), this.Axios.post('/api/GWServiceWebAPI/getSetparmList', {findEquip: false})])
           .then(this.Axios.spread((equipRes, parmRes) => {
             let equipRt = equipRes.data.HttpData,
               parmRt = parmRes.data.HttpData
@@ -773,7 +773,7 @@ export default {
     },
     initSceneList () {
       this.sceneLoading = true
-      this.Axios.all([this.Axios.post('/api/datas/getSetparmList', {findEquip: false}), this.Axios.post('/api/datas/getEquipList')])
+      this.Axios.all([this.Axios.post('/api/GWServiceWebAPI/getSetparmList', {findEquip: false}), this.Axios.post('/api/GWServiceWebAPI/getEquipList')])
         .then(this.Axios.spread((res, equipRes) => {
           let rt = res.data.HttpData,
             equipRt = equipRes.data.HttpData

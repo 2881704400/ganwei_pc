@@ -11,39 +11,27 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/api': {
-
         target: 'http://192.168.0.135:7006',//'http://192.168.0.247:7001',
-
-
         pathRewrite: {
           '^/api': '/api',
         }
       },
-
+      '/signalr': {
+        target: 'http://192.168.0.135:7006',
+        pathRewrite: {
+          '^/signalr': '/'
+        }
+      },
       '/': {
         target: 'http://192.168.0.135:7006',
-
-      //   '/signalr': {
-      //     target: 'http://192.168.0.247:7001',
-      //     pathRewrite: {
-      //       '^/signalr': '/'
-      //     }
-      // },
-
-      //   '/oApi': {
-      //     target: 'http://192.168.0.247:7001',
-
-          pathRewrite: {
-            '^/': '/'
-          }
+        pathRewrite: {
+          '^/': '/'
         }
+       }
     },
     // Various Dev Server settings
-
-
     host: '192.168.0.135', // can be overwritten by process.env.HOST
-
-    port: 8080, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
+    port: 7070, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
 
     autoOpenBrowser: true,
     errorOverlay: true,

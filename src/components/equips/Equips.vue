@@ -176,7 +176,7 @@ export default {
         findEquip: true,
         equipNo: equipNo
       }
-      this.Axios.post('/api/datas/getSetparmList', reqData)
+      this.Axios.post('/api/GWServiceWebAPI/getSetparmList', reqData)
         .then(res => {
           let rt = res.data.HttpData
           if (rt.code === 200) {
