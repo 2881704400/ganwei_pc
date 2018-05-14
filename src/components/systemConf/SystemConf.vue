@@ -1135,10 +1135,10 @@ isMarkAmarm:"",
          // zichan.data.HttpData.data;
          this.zizhanList=[];
          this.videoList=[];
-
+ this.columnsEq.splice(8,alarLen+1)
           // console.log(this.checkAlarm)
           for(var i=0;i<videoData.length;i++){
-             this.columnsEq.splice(8,alarLen+1)
+            
             var item={
               ID:i,
               videoCode:videoData[i].EquipNum+","+videoData[i].ID,
