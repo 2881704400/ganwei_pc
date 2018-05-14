@@ -25,7 +25,8 @@ export default {
     }
   },
   mounted() {
-     this.getProjectNmae()
+     this.getProjectNmae();
+
 		},
   methods:{
     homeMenuClick(root,item){
@@ -61,10 +62,10 @@ export default {
     },
     getProjectNmae: function(){
       var dthis = this;
-      let urlna = "/api/server/auth_name";
-      this.Axios.get(urlna).then(response => {
+      let urlna = "/api/real/equip_tree";
+      this.Axios.post(urlna).then(response => {
             if(response.data.HttpData.code == 200)
-              dthis.projectName =response.data.HttpData.data;
+              dthis.projectName =response.data.HttpData.data.Name;
             else
               dthis.getProjectNmae();
         })
