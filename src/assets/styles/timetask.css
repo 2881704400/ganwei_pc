@@ -483,13 +483,14 @@
 	border: 0;
 	cursor: pointer;
 }
-.common-table table tbody tr td>p{
-	    width: 100%;
-    white-space: nowrap;
-    overflow: hidden;
-    -o-text-overflow: ellipsis;
-    text-overflow: ellipsis;
-    text-align: left;
+
+.common-table table tbody tr td>p {
+	width: 100%;
+	white-space: nowrap;
+	overflow: hidden;
+	-o-text-overflow: ellipsis;
+	text-overflow: ellipsis;
+	text-align: left;
 }
 
 .common-table table tbody tr {
@@ -538,7 +539,7 @@
 	height: 100%;
 }
 
-.three-smalltable{
+.three-smalltable {
 	height: 85%;
 }
 
@@ -550,7 +551,7 @@
 	padding: 0;
 }
 
-.three-smalltable table{
+.three-smalltable table {
 	height: 99%;
 }
 
@@ -591,7 +592,7 @@
 	width: 100%;
 	table-layout: fixed;
 	border: 0;
-	border-left: 2px solid rgba(0,0,0,0);
+	border-left: 2px solid rgba(0, 0, 0, 0);
 	box-sizing: border-box;
 }
 
@@ -640,6 +641,7 @@
 	overflow: hidden;
 	text-overflow: ellipsis;
 }
+
 .common-smalltable-checkbox table tbody tr td .ivu-checkbox-wrapper {
 	/*position: relative;
 	left: 20%;*/
@@ -650,22 +652,22 @@
 	text-overflow: ellipsis;
 }
 
-.common-smalltable-checkboxgroup-tasklist table{
+
+.common-smalltable-checkboxgroup {
 	width: 75%;
-	float: left;
+	height: 100%;float: left;
 }
 
-.common-smalltable-checkboxgroup table {
-	/*width: 75%;
-	float: left;*/
+.common-smalltable-checkboxgroup-tasklist{
+	width: 25%;
+	height: 100%;
 }
 
-.common-smalltable-checkboxgroup table tbody tr{
+.common-smalltable-checkboxgroup table tbody tr {
 	border: 0;
-	border-left: 2px solid rgba(0,0,0,0);
+	border-left: 2px solid rgba(0, 0, 0, 0);
 	box-sizing: border-box;
 }
-
 
 .common-smalltable-checkboxgroup table thead tr th {
 	text-align: center;
@@ -683,7 +685,7 @@
 	text-align: left;
 }
 
-.common-smalltable-checkboxgroup-tasklist table tbody tr td>font{
+.common-smalltable-checkboxgroup-tasklist table tbody tr td>font {
 	padding: 20px 8px;
 }
 
@@ -720,7 +722,7 @@
 
 .common-smalltable-checkboxgroup table tr td .ivu-date-picker .ivu-input {
 	-webkit-box-sizing: border-box;
-	 box-sizing: border-box; 
+	box-sizing: border-box;
 	font-size: 14px;
 	border: 0;
 	border-top: 1px solid #dddee1;
@@ -738,9 +740,9 @@
 	font-size: 14px;
 }
 
-.common-smalltable-checkboxgroup table tbody tr td i{
+.common-smalltable-checkboxgroup table tbody tr td i {
 	color: #05A2E5;
-    font-size: 18px;
+	font-size: 18px;
 }
 
 .common-smalltable table tbody tr td>.ivu-input-wrapper>.ivu-input {
@@ -890,7 +892,7 @@
 	margin-top: -1px;
 }
 
-.common-smalltable table tr td:last-child .inputContent input{
+.common-smalltable table tr td:last-child .inputContent input {
 	border-right: 1px solid #dadada;
 }
 
@@ -907,14 +909,15 @@
 
 .common-tab {
 	width: 100%;
-    min-width: 700px;
-    height: 100% !important;
+	min-width: 700px;
+	height: 100% !important;
 }
 
-.common-tab .ivu-tabs{
-	    height: 100%;
-    overflow: visible;
+.common-tab .ivu-tabs {
+	height: 100%;
+	overflow: visible;
 }
+
 
 /* tab列表容器边框 */
 
@@ -928,7 +931,7 @@
 
 .common-tab .ivu-tabs.ivu-tabs-card>.ivu-tabs-bar .ivu-tabs-nav {
 	border: 1px solid #dddee1;
-	border-top: 1px solid rgba(0,0,0,0);
+	border-top: 1px solid rgba(0, 0, 0, 0);
 }
 
 
@@ -955,7 +958,6 @@
 	border-top: 1px solid #EEEEEE;
 	min-width: 1115px;
 	height: 100%;
-	
 }
 
 .tab-content-border .ivu-tabs-card>.ivu-tabs-content>.ivu-tabs-tabpane {
@@ -1010,88 +1012,87 @@
 }
 
 .common-tab .ivu-tabs.ivu-tabs-card>.ivu-tabs-bar .ivu-tabs-nav .ivu-tabs-tab .ivu-icon {
-    width: 32px;
-    height: 32px;
-    position: relative;
+	width: 32px;
+	height: 32px;
+	position: relative;
 	top: -22px;
 	margin-right: 0px;
-    font-size: 0px;
-    background-position: 0% 0%;
-    background-size: 100% auto;
-    background-repeat: no-repeat;
+	font-size: 0px;
+	background-position: 0% 0%;
+	background-size: 100% auto;
+	background-repeat: no-repeat;
 }
 
-.common-tab .ivu-tabs.ivu-tabs-card>.ivu-tabs-bar .ivu-tabs-nav .ivu-tabs-tab:nth-of-type(2) .ivu-icon{
+.common-tab .ivu-tabs.ivu-tabs-card>.ivu-tabs-bar .ivu-tabs-nav .ivu-tabs-tab:nth-of-type(2) .ivu-icon {
 	background: url(../img/infor/all.png) no-repeat;
 	background-position: 0% 50%;
 }
 
-.common-tab .ivu-tabs.ivu-tabs-card>.ivu-tabs-bar .ivu-tabs-nav .ivu-tabs-tab:nth-of-type(3) .ivu-icon{
+.common-tab .ivu-tabs.ivu-tabs-card>.ivu-tabs-bar .ivu-tabs-nav .ivu-tabs-tab:nth-of-type(3) .ivu-icon {
 	background: url(../img/infor/Errors.png);
 }
 
-.common-tab .ivu-tabs.ivu-tabs-card>.ivu-tabs-bar .ivu-tabs-nav .ivu-tabs-tab:nth-of-type(4) .ivu-icon{
+.common-tab .ivu-tabs.ivu-tabs-card>.ivu-tabs-bar .ivu-tabs-nav .ivu-tabs-tab:nth-of-type(4) .ivu-icon {
 	background: url(../img/infor/Warnings.png);
 }
 
-.common-tab .ivu-tabs.ivu-tabs-card>.ivu-tabs-bar .ivu-tabs-nav .ivu-tabs-tab:nth-of-type(5) .ivu-icon{
+.common-tab .ivu-tabs.ivu-tabs-card>.ivu-tabs-bar .ivu-tabs-nav .ivu-tabs-tab:nth-of-type(5) .ivu-icon {
 	background: url(../img/infor/Informations.png);
 }
 
-.common-tab .ivu-tabs.ivu-tabs-card>.ivu-tabs-bar .ivu-tabs-nav .ivu-tabs-tab:nth-of-type(6) .ivu-icon{
+.common-tab .ivu-tabs.ivu-tabs-card>.ivu-tabs-bar .ivu-tabs-nav .ivu-tabs-tab:nth-of-type(6) .ivu-icon {
 	background: url(../img/infor/Settings.png);
 }
 
-.common-tab .ivu-tabs.ivu-tabs-card>.ivu-tabs-bar .ivu-tabs-nav .ivu-tabs-tab:nth-of-type(7) .ivu-icon{
+.common-tab .ivu-tabs.ivu-tabs-card>.ivu-tabs-bar .ivu-tabs-nav .ivu-tabs-tab:nth-of-type(7) .ivu-icon {
 	background: url(../img/infor/Assets.png);
 }
 
 .modalAlert h1 {
-  font-size: 1rem;
-  font-weight: 200;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+	font-size: 1rem;
+	font-weight: 200;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 .modalAlert p {
-  margin-top: 20px;
+	margin-top: 20px;
 }
 
 .modalAlert .groupCheck {
-  padding: 20px 0;
-  text-indent: 10px;
-  border: 1px solid #eee;
+	padding: 20px 0;
+	text-indent: 10px;
+	border: 1px solid #eee;
 }
 
-.modalAlert .groupCheck > .groupCheckChild {
-  height: 30px;
-  line-height: 30px;
-  display: block;
+.modalAlert .groupCheck>.groupCheckChild {
+	height: 30px;
+	line-height: 30px;
+	display: block;
 }
 
-.modalAlert .groupCheck > .groupCheckChild:nth-child(2n) {
-  background: white;
+.modalAlert .groupCheck>.groupCheckChild:nth-child(2n) {
+	background: white;
 }
 
-.modalAlert .groupCheck > .groupCheckChild:nth-child(2n+1) {
-  background: #F9F9F9;
+.modalAlert .groupCheck>.groupCheckChild:nth-child(2n+1) {
+	background: #F9F9F9;
 }
 
-.modalAlert .groupCheck > .groupCheckChild:hover {
-  background: #eee;
+.modalAlert .groupCheck>.groupCheckChild:hover {
+	background: #eee;
 }
 
 .modalAlert .ivu-btn-primary {
-  color: #DEF0F9;
-  width: 83px;
-  height: 31px;
-  background-color: #2d8cf0;
-  border-color: #2d8cf0;
-  border-radius: 0;
+	color: #DEF0F9;
+	width: 83px;
+	height: 31px;
+	background-color: #2d8cf0;
+	border-color: #2d8cf0;
+	border-radius: 0;
 }
 
 .ivu-modal-content {
-  border-radius: 0 !important;
+	border-radius: 0 !important;
 }
-

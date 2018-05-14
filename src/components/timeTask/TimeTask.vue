@@ -297,7 +297,7 @@
 						<button @click="addSpecPlanTask">增加</button>
 					</div>
 					<div class="common-smalltable common-smalltable-checkboxgroup">
-						<table style="width: 75%;float: left;">
+						<table>
 							<thead>
 								<tr>
 									<th>日期名称	</th>
@@ -331,7 +331,7 @@
 						</table>
 					</div>
 					<div class="common-smalltable common-smalltable-checkboxgroup common-smalltable-checkboxgroup-tasklist">
-						<table style="width: 25%;">
+						<table>
 							<thead>
 								<tr>
 									<th>任务名称</th>
