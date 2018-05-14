@@ -16,8 +16,11 @@ module.exports = {
           '^/api': '/api',
         }
       },
-      '/oApi': {
-        target: 'http://192.168.0.165:8013'
+      '/': {
+        target: 'http://192.168.0.165:8013',
+        pathRewrite: {
+          '^/': '/',
+        }
        }
     },
     // Various Dev Server settings

@@ -255,7 +255,7 @@ export default {
                 const rt = res.data.HttpData
                 if (rt.code === 201) {
                   this.$Message.success(rt.message)
-                  this.getAllState()
+                  // this.getAllState()
                 } else {
                   console.log(rt)
                   this.$Message.warning('操作失败，请重试')
@@ -283,7 +283,7 @@ export default {
             const rt = res.data.HttpData
             if (rt.code === 201) {
               this.$Message.success(rt.message)
-              this.getAllState()
+              // this.getAllState()
             } else {
               console.log(rt)
               this.$Message.warning('操作失败，请重试')

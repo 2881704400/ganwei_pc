@@ -181,7 +181,7 @@ export default {
       if (navItem.hasChild) {
         navItem.loading = true;
         // 异步获取列表节点
-        this.Axios.all([this.Axios.post("/api/real/equip_tree"), this.Axios.post('/api/GWServiceWebAPI/getEquipList'), this.Axios.post('/api/real/equip_state')])
+        this.Axios.all([this.Axios.post("/api/real/equip_tree"), this.Axios.post('/api/GWServiceWebAPI/getEquipList'), this.Axios.get('/api/GWServiceWebAPI/getEquipState')])
           .then(this.Axios.spread((treeRes, equipRes, stateRes) => {
             let treeRt = treeRes.data.HttpData,
               equipRt = equipRes.data.HttpData,
@@ -206,8 +206,8 @@ export default {
           .then(() => {
             let equipNo = parseInt(this.$route.hash.substring(1))
             this.findEquip(this.navList[1].children, equipNo)
-            this.loadCompleted = true
             navItem.loading = false
+            this.loadCompleted = true
           })
       } else {
         return false;
@@ -238,6 +238,12 @@ export default {
           return equip.equip_no === parseInt(item.EquipNo) || item.EquipNo === ''
         })) {
           return item
+        }
+      }).filter(item => {
+        if ((item.EquipNo === '1005' && item.Image === '') || (item.EquipNo === '1005' && item.Image === '精密空调.png')) {
+          return false
+        } else {
+          return true
         }
       })
       arrData.forEach((dt, index) => {
