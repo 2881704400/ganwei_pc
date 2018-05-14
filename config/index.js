@@ -11,11 +11,16 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/api': {
+// <<<<<<< HEAD
         target: 'http://192.168.0.135:7006',//'http://192.168.0.247:7001',
+// =======
+//         target: 'http://localhost:7003',
+// >>>>>>> dev
         pathRewrite: {
           '^/api': '/api',
         }
       },
+// <<<<<<< HEAD
       '/signalr': {
         target: 'http://192.168.0.135:7006',
         pathRewrite: {
@@ -30,9 +35,18 @@ module.exports = {
        }
     },
     // Various Dev Server settings
-    host: '192.168.0.135', // can be overwritten by process.env.HOST
-    port: 7070, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
-
+    // host: '192.168.0.135', // can be overwritten by process.env.HOST
+    // port: 7070, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
+// "echarts": "^4.1.0",
+// =======
+//       '/oApi': {
+//         target: 'http://192.168.0.165:8013'
+//        }
+//     },
+    // Various Dev Server settings
+    host: 'localhost', // can be overwritten by process.env.HOST
+    port: 7007, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
+// >>>>>>> dev
     autoOpenBrowser: true,
     errorOverlay: true,
     notifyOnErrors: true,
@@ -63,7 +77,7 @@ module.exports = {
 
   build: {
     // Template for index.html
-    index: path.resolve(__dirname, '../dist/index.html'),
+    index: path.resolve(__dirname, '../dist/2.0/index.html'),
 
     // Paths
     assetsRoot: path.resolve(__dirname, '../dist'),

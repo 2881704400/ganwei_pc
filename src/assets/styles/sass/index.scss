@@ -62,11 +62,12 @@
                     color: rgb(173, 192, 190);
                 }
                 &.user{
+                    font-size: 18px;
                     padding-right: 24px;
                     margin-right: 12px;
                     box-shadow: -1px 0px 0px 0px rgba(255, 255, 255, 0.4) inset;
                     span{
-                        font-size: 22px;
+                        font-size: 20px;
                         margin-right: 6px;
                     }
                 }
@@ -137,6 +138,29 @@
                                 // box-shadow: 6px 0px 0px #fff inset;
                                 background-color: #fafafa;
                             }
+                            .alarm-state{
+                                &.offline{
+                                    background-color: #A0A0A0;
+                                }
+                                &.fine{
+                                    background-color: #35b468;
+                                }
+                                &.alarm{
+                                    background-color: #eb303a;
+                                }
+                                &.setting{
+                                    background-color: #FFD600;
+                                }
+                                &.initial{
+                                    background-color: #A0A0A0;
+                                }
+                                &.withdrawing{
+                                    background-color: #FFA500;
+                                }
+                                &.unknown{
+                                    background-color: #D3D3D3;
+                                }
+                            }
                         }
                         li{
                             margin: 0 auto;
@@ -148,10 +172,11 @@
                 }
             }
             .fold{
+                transition: all 520ms ease-in-out;
                 height: 40px;
                 // width: $foldBtnW;
                 // height: $foldBtnH;
-                position: fixed;
+                position: absolute;
                 // right: 50%;
                 // border-radius: 0px 16px 16px 0px;
                 bottom: 0px;
@@ -161,18 +186,18 @@
                 // line-height: $foldBtnH;
                 text-align: center;
                 left: 0;
-                padding-top: 5px;
+                padding-top: 7.5px;
                 // font-size: 20px;
                 z-index: 70;
                 // transition: all 0.1s ease-in;
-                &>img{width: 33px;height: 33px;}
+                &>img{width: 25px;height: 25px;}
                 &.open{width: 240px;
                     // background-color: #ececec;
-                    background-color: #2d8cf0;
+                    background-color: #222631;
                 }
-                &.close{width: 50px;
+                &.close{width: 50px;left: 240px;
                     // background-color: $asideBgc;
-                    background-color: #2d8cf0;
+                    background-color: #222631;
                     // transform: rotate(180deg);
                 }
                 &>.ivu-icon{
@@ -180,7 +205,7 @@
                 }
                 &:hover{
                     // background-color: $asideBgc;
-                    background-color: #569de9;
+                    background-color: #222631;
                     &>.ivu-icon{
                         transform: rotate(90deg);
                     }
