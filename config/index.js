@@ -16,8 +16,11 @@ module.exports = {
           '^/api': '/api',
         }
       },
-      '/oApi': {
-        target: 'http://localhost:7001'
+      '/': {
+        target: 'http://localhost:7001',
+        pathRewrite: {
+          '/': '/',
+        }
        }
     },
     // Various Dev Server settings
