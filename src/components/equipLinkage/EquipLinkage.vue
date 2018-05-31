@@ -294,7 +294,7 @@ export default {
         actEquip: 0,
         actVal: 0,
         type: '设备控制',
-        delayTime: '00:00:00:00',
+        delayTime: '00:00:00:000',
         totalTime: 0
       },
       newScene: {
