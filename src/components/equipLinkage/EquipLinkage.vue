@@ -164,7 +164,7 @@
             v-model="insertForm.delayTime"
             type="time"
             placeholder="设置时间"
-            format="HH:mm:ss:SS"
+            format="HH:mm:ss:SSS"
             @on-change="calDelayTime"
             ></TimePicker>
           </FormItem>
