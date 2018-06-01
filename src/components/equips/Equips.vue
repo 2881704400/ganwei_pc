@@ -237,7 +237,7 @@ export default {
         })
     },
     doSet (equip) {
-      // console.log(equip)
+      console.log(equip)
       if (equip.set_type === 'V') {
         this.setEquip = equip
         this.$set(this.setEquip, 'newVal', this.setEquip.value)
@@ -250,11 +250,12 @@ export default {
             const reqData = {
               equip_no: '' + equip.equip_no,
               main_instr: equip.main_instruction,
-              mino_instr: equip.minor_instruction,
+              mino_instr: equip.minor_instruction || '-',
               value: equip.value
             }
             this.Axios.post('/api/real/setup', reqData)
               .then(res => {
+                console.log(reqData)
                 const rt = res.data.HttpData
                 if (rt.code === 201) {
                   this.$Message.success(rt.message)
