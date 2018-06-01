@@ -8,7 +8,7 @@
         <span class="user" title="当前登陆用户">
           <span class="iconfont">&#xe62e;</span>{{$store.state.loginMsg}}</span>
         <!-- <span class="iconfont icon-Menu" :title="isFold ?'展开面板':'收缩面板'" :class="[isFold ? 'close' : 'open']" @click="foldAside"></span> -->
-        <span class="iconfont icon-pullScreen" title="设置" @click="fullScreen"></span>
+        <span :class="screenAll?'iconfont icon-pullScreenexit':'iconfont icon-pullScreen'" :title="screenAll?'还原':'全屏'" @click="fullScreen" ></span>
         <span class="iconfont" title="退出登陆" @click="logout">&#xe641;</span>
       </div>
     </header>
@@ -17,7 +17,7 @@
         <nav class="nav-list">
           <Tree v-if="navList.length" :data="navList" :render="renderNavItem"></Tree>
         </nav>
-        <div class="fold" :class="[isFold ? 'close' : 'open']" @click="foldAside">
+        <div class="fold" :class="[isFold ? 'close' : 'open']" :title="isFold ?'展开面板':'收缩面板'" @click="foldAside">
           <!-- <span class="ivu-icon" :class="[isFold ? 'ivu-icon-arrow-left-b' : 'ivu-icon-arrow-right-b']"></span> -->
             <!-- <span class="iconfont icon-Menu"></span> -->
             <img src="@assets/img/menu.png" alt="" />
@@ -123,6 +123,7 @@ export default {
       isFold: false,
       curPath22: "",
       rootSave: {},
+      screenAll: false,//是否全屏
     };
   },
   methods: {
@@ -598,8 +599,8 @@ export default {
     },
     fullScreen(){
       //全屏事件
-        // $(document).on('click', '[data-action="launchFullscreen"]', function () {
             if ($("body").hasClass("full-screen")) {
+              this.screenAll = false;
                 var de = document;
                 if (de.exitFullscreen) {
                     de.exitFullscreen();
@@ -610,7 +611,7 @@ export default {
                 }
                 $("body").removeClass("full-screen");
             }
-            else {
+            else {this.screenAll = true;
                 var de = document.documentElement;
                 if (de.requestFullscreen) {
                     de.requestFullscreen();
@@ -623,7 +624,6 @@ export default {
                 }
                 $("body").addClass("full-screen");
             }
-        // });
     },
     doNavState (equipNo, state) {
       if (this.navList[1].children.length) {
