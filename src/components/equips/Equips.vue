@@ -220,15 +220,9 @@ export default {
               this.tabData[2].hasSet = false
               this.tabData[2].isShow = false
             }
-            // this.tabData[2].setList = this.tabData[2].setList.sort((obja, objb) => {
-            //   let a = obja.set_nm[0],
-            //       b = objb.set_nm[0]
-            //   if (/^\d/.test(a) ^ /^\D/.test(b)) {
-            //     return a<b?1:(a==b?0:-1)
-            //   }
-            //   return a<b?-1:(a==b?0:1)
-            // })
-            // console.log(this.tabData[2].setList)
+            this.tabData[2].setList = this.tabData[2].setList.sort((a, b) => {
+              return a.set_no - b.set_no
+            })
             this.isLoading = false
           }
           else {
@@ -337,7 +331,7 @@ export default {
 
       // ycp有广播消息
       this.hubProxy.on('sendYcpSingle', data => {
-        console.log('yccccp----------------', data)
+        // console.log('yccccp----------------', data)
         // 更新ycp实时数据
         this.tabData[0].tbList.forEach(item => {
           let rt = data.split(',')
