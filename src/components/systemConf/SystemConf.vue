@@ -22,8 +22,12 @@ $num0:0px;
 }
 .rowClassName{padding-left: $num0;padding-right: $num0;width: $width;text-align: center;}
 .ivu-table-cell{padding-left: $num0;padding-right: $num0;width: $width;text-align: center;white-space: nowrap;overflow: hidden;word-break: keep-all;}
-.uploadWrap .ivu-row{min-height:400px !important;}
-.uploadWrap .ivu-modal{top:50px !important;}
+
+.ivu-modal{
+  .ivu-modal-content>.ivu-modal-body{
+     max-height:600px;overflow:auto;
+  }
+}
 .moreInforWord{margin-top:10px;font-size:15px;}
 .lableName{font-size: 16px;margin-right:10px;color:#989898;}
 .labelVal{font-size: 15px;margin-left:10px;color:#303030;}
@@ -104,11 +108,13 @@ $num0:0px;
     }
     .ycp .ivu-table .ivu-table-header table{
         .ivu-table-cell{
+
             white-space: nowrap;
             word-break:keep-all;
             overflow:$overflow;
         }
     }
+   
     .ivu-table{
         &:after{
             height:$num0;
@@ -141,7 +147,20 @@ $num0:0px;
              height:$height;
         }
     }
+    .ivu-table-fixed,.ivu-table-fixed-right{
+      .ivu-table-fixed-header{
+        .ivu-table-cell{
+          font-size:0.9rem;
+          color:#858585;
+          font-weight:200;
+        }
+      }
+    }
+    .ivu-table-fixed-right::before, .ivu-table-fixed::before{
+      height:0;
+    }
     
+  
 }
 </style>
 
@@ -156,23 +175,23 @@ $num0:0px;
     <Col span="21" class="itemDetail">
     <div class="common-tabSys">
       <Tabs type="card" :animated="false">
-        <TabPane label="设备配置" >
+        <TabPane label="设备配置" class="ycp">
 
           <Table :columns="columnsEq" :data="dataEq" :height="tableHeight"  :row-class-name="rowClassName"></Table>
           
         </TabPane>
 
-        <TabPane label="模拟量配置" class="ycp">
+        <TabPane label="遥测量配置" class="ycp">
 
           <Table :columns="columnsYc" :data="dataYc"  :height="tableHeight"  :row-class-name="rowClassName"></Table>
           
         </TabPane>
-        <TabPane label="状态量配置">
+        <TabPane label="遥信量配置" class="ycp">
 
           <Table :columns="columnsYx" :data="dataYx" :height="tableHeight"  :row-class-name="rowClassName"></Table>
 
         </TabPane>
-        <TabPane label="设置配置">
+        <TabPane label="设置配置" class="ycp">
 
           <Table :columns="columnsSet" :data="dataSet" :height="tableHeight" :row-class-name="rowClassName" ></Table>
 
@@ -195,7 +214,7 @@ $num0:0px;
         </Col>
     </Row>
 </Modal>
-<Modal title="编辑信息" v-model="modal2" class-name="vertical-center-modal"  :styles="{top: '50px',width:'800px'}" class="uploadWrap" @on-ok="configData(configIndex)">
+<Modal title="编辑信息" v-model="modal2" class-name="vertical-center-modal"  :styles="{top: '50px',width:'800px'}"  class="uploadWrap"  @on-ok="configData(configIndex)">
 <Row>
     <Col span="12">
           <p v-for="(item,index) in uploadInfor" v-if="index<=(leftNum+chazhiNum)"  style="margin-top:10px;">
@@ -205,77 +224,77 @@ $num0:0px;
           </p>
     </Col>
 <Col span="12">
- <p v-for="(item,index) in uploadInfor" v-if="index>(leftNum+chazhiNum)"  style="margin-top:10px;">
+        <p v-for="(item,index) in uploadInfor" v-if="index>(leftNum+chazhiNum)"  style="margin-top:10px;">
           <span  style="width:125px;display:inline-block;text-align:right;">{{item.name}}:</span>
           <Input v-model="item.value"  v-if="index==0||item.name=='模拟量编号'||item.name=='状态量编号'||item.name=='设置号'" disabled placeholder="请输入对应值" style="width: 200px;margin-left:20px;"></Input>
           <Input v-model="item.value"  v-else="index!=0" placeholder="请输入对应值" style="width: 200px;margin-left:20px;"></Input>
         </p>
         <p style="margin-top:10px;" v-show="isSet_P">
           <span style="width:125px;display:inline-block;text-align:right;">关联视频:</span>
-          <Select style="width:200px;margin-left:20px;"  v-model="loadDefVideo"  >
+          <Select style="width:200px;margin-left:20px;" clearable v-model="loadDefVideo"  placement="bottom" filterable  transfer>
             <Option v-for="item in  videoList" :key="item.ID"   :value="item.videoCode" >{{item.ChannelName}}</Option>
 
           </Select>
         </p>
         <p style="margin-top:10px;" v-show="isSet_P">
           <span style="width:125px;display:inline-block;text-align:right;">资产编号:</span>
-          <Select  style="width:200px;margin-left:20px;"  v-model="loadDefZic">
+          <Select  style="width:200px;margin-left:20px;"  clearable v-model="loadDefZic"  placement="bottom" filterable transfer>
             <Option v-for="item in  zizhanList" :key="item.ZiChanID" :value="item.ZiChanID">{{item.ZiChanName}}</Option>
           </Select>
         </p>
         <p style="margin-top:10px;" v-show="isSet_P">
           <span style="width:125px;display:inline-block;text-align:right;">预案号:</span>
-          <Select  style="width:200px;margin-left:20px;" v-model="loadDefPlan">
+          <Select  style="width:200px;margin-left:20px;"  clearable v-model="loadDefPlan"  placement="bottom" filterable transfer>
             <Option v-for="item in  planList" :key="item.ID" :value="item.PlanNo">{{item.PlanNo}}</Option>
           </Select>
         </p>
 
         <p style="margin-top:10px;" v-show="isSet_P">
           <span style="width:125px;display:inline-block;text-align:right;">是否显示报警 :</span>
-          <Select  style="width:200px;margin-left:20px;" v-model="isAlarm">
+          <Select  style="width:200px;margin-left:20px;" v-model="isAlarm" transfer>
            <Option v-for="item in swit" :key="item.keys" :value="item.keys">{{item.txt}}</Option>          
          </Select>
         </p> 
         <p style="margin-top:10px;" v-show="isSet_P">
           <span style="width:125px;display:inline-block;text-align:right;">是否记录报警 :</span>
-          <Select  style="width:200px;margin-left:20px;" v-model="isMarkAmarm">
+          <Select  style="width:200px;margin-left:20px;" v-model="isMarkAmarm" transfer>
            <Option v-for="item in swit" :key="item.keys" :value="item.keys">{{item.txt}}</Option>               
          </Select>
         </p>  
           <p style="margin-top:10px;" v-show="isSet_P" v-for="(item,index) in checkAlarm">
             <span style="width:125px;display:inline-block;text-align:right;">是否{{item.name}}:</span>
-            <Select  style="width:200px;margin-left:20px;" v-model="item.res">
+            <Select  style="width:200px;margin-left:20px;" v-model="item.res" transfer>
              <Option v-for="item in swit" :key="item.keys" :value="item.keys">{{item.txt}}</Option>
            </Select>
          </p>
 
          <p style="margin-top:10px;" v-show="isYc">
           <span style="width:125px;display:inline-block;text-align:right;" >是否曲线记录:</span>
-          <Select style="width:200px;margin-left:20px;" v-model="curve_rcd">
+          <Select style="width:200px;margin-left:20px;" v-model="curve_rcd" transfer>
            <Option v-for="item in switB" :key="item.keys" :value="item.keys">{{item.txt}}</Option>
          </Select>
        </p>
        <p style="margin-top:10px;" v-show="isYc">
         <span style="width:125px;display:inline-block;text-align:right;" >是否比例变换:</span>
-        <Select style="width:200px;margin-left:20px;" v-model="scaleTran">
+        <Select style="width:200px;margin-left:20px;" v-model="scaleTran" transfer>
          <Option v-for="item in switB" :key="item.keys" :value="item.keys">{{item.txt}}</Option>
        </Select>
      </p>
        <p style="margin-top:10px;"  v-show="!isSet_P">
         <span style="width:125px;display:inline-block;text-align:right;">是否记录:</span>
-        <Select  style="width:200px;margin-left:20px;" v-model="isMarkSet">
+        <Select  style="width:200px;margin-left:20px;" v-model="isMarkSet" transfer>
           <Option v-for="item in switB" :key="item.keys" :value="item.keys">{{item.txt}}</Option>
         </Select>
       </p>   
       <p style="margin-top:10px;"  v-show="!isSet_P">
         <span style="width:125px;display:inline-block;text-align:right;">是否可执行:</span>
-        <Select  style="width:200px;margin-left:20px;" v-model="isExeSet">
+        <Select  style="width:200px;margin-left:20px;" v-model="isExeSet" transfer>
           <Option v-for="item in switB" :key="item.keys" :value="item.keys">{{item.txt}}</Option>
         </Select>
       </p>  
       <p style="margin-top:10px;"  v-show="isYx">
         <span style="width:125px;display:inline-block;text-align:right;">是否取反:</span>
-        <Select  style="width:200px;margin-left:20px;" v-model="negate">
+        <Select  style="width:200px;margin-left:20px;" v-model="negate" transfer>
           <Option v-for="item in switB" :key="item.keys" :value="item.keys">{{item.txt}}</Option>
         </Select>
       </p>   
@@ -293,7 +312,7 @@ export default {
   data () {
     return {
       columnsEq:[
-      {title:"设备号", key:"equip_no",
+      {title:"设备号", key:"equip_no",fixed:'left',width:93,
         render: (h, params) => {
           var txt=params.column.key
           let types=params.row.equip_no
@@ -316,7 +335,7 @@ export default {
         }
 
     },
-      {title:"设备名称",key:"equip_nm",
+      {title:"设备名称",key:"equip_nm",width:200,
       render: (h, params) => {
           var txt=params.column.key
           let types=params.row.equip_nm
@@ -339,7 +358,7 @@ export default {
             ]);
         }
       },
-      {title:"关联界面",key:"related_pic",
+      {title:"关联界面",key:"related_pic",width:200,
            render: (h, params) => {
           var txt=params.column.key
           let types=params.row.related_pic
@@ -361,7 +380,7 @@ export default {
             ]);
         }
        },
-      {title:"关联视频",key:"related_video",
+      {title:"关联视频",key:"related_video",width:200,
           render: (h, params) => {
           var txt=params.column.key
           let types=params.row.related_video
@@ -384,7 +403,7 @@ export default {
         }
 
        },
-      {title:"资产编号",key:"ZiChanID",
+      {title:"资产编号",key:"ZiChanID",width:200,
           render: (h, params) => {
           var txt=params.column.key
           let types=params.row.ZiChanID
@@ -406,7 +425,7 @@ export default {
             ]);
         }
        },
-      {title:"预案号",key:"PlanNo",
+      {title:"预案号",key:"PlanNo",width:200,
         render: (h, params) => {
                   var txt=params.column.key
                   let types=params.row.PlanNo
@@ -431,7 +450,7 @@ export default {
 
     },
       {
-        title:"显示报警",
+        title:"显示报警",width:100,
         key:"showAlarm" ,
         render: (h, params) => {
           var txt=params.column.key
@@ -452,7 +471,7 @@ export default {
         }
       },{
         title:"记录报警",
-        key:"markAlarm",
+        key:"markAlarm",width:100,
         render: (h, params) => {
           var txt=params.column.key
           let types=params.row[txt].split('"')[1]
@@ -473,7 +492,7 @@ export default {
       ],
       dataEq:[],
       columnsYc:[
-      {title:"设备号",key:"equip_no",
+      {title:"设备号",key:"equip_no",fixed:"left",width:93,
  render: (h, params) => {
                   var txt=params.column.key
                   let types=params.row.equip_no
@@ -488,7 +507,7 @@ export default {
                     ]);
                 }
 
-    },{title:"模拟量编号",key:"yc_no",
+    },{title:"模拟量编号",key:"yc_no",width:100,
  render: (h, params) => {
                   var txt=params.column.key
                   let types=params.row.yc_no
@@ -503,7 +522,7 @@ export default {
                     ]);
                 }
 
-    },{ title:"模拟量名称",key:"yc_nm",
+    },{ title:"模拟量名称",key:"yc_nm",width:200,
 
  render: (h, params) => {
                   var txt=params.column.key
@@ -525,7 +544,7 @@ export default {
                    
                     ]);
                 }
-    },{ title:"下限值",key:"val_min",
+    },{ title:"下限值",key:"val_min",width:100,
  render: (h, params) => {
                   var txt=params.column.key
                   let types=params.row.val_min
@@ -540,7 +559,7 @@ export default {
                     ]);
                 }
 
-    },{title:"回复下限值",key:"restore_min",
+    },{title:"回复下限值",key:"restore_min",width:100,
  render: (h, params) => {
                   var txt=params.column.key
                   let types=params.row.restore_min
@@ -555,7 +574,7 @@ export default {
                     ]);
                 }
 
-    },{title:"回复上限值",key:"restore_max",
+    },{title:"回复上限值",key:"restore_max",width:100,
 
  render: (h, params) => {
                   var txt=params.column.key
@@ -570,7 +589,7 @@ export default {
                    
                     ]);
                 }
-    },{title:"上限值  ",key:"val_max",
+    },{title:"上限值  ",key:"val_max",width:100,
 
  render: (h, params) => {
                   var txt=params.column.key
@@ -585,7 +604,7 @@ export default {
                    
                     ]);
                 }
-    },{ title:"单位",key:"unit",
+    },{ title:"单位",key:"unit",width:50,
 
  render: (h, params) => {
                   var txt=params.column.key
@@ -600,7 +619,7 @@ export default {
                    
                     ]);
                 }
-    },{title:"关联页面",key:"related_pic",
+    },{title:"关联页面",key:"related_pic",width:100,
  render: (h, params) => {
                   var txt=params.column.key
                   let types=params.row.related_pic
@@ -622,7 +641,7 @@ export default {
                     ]);
                 }
 
-    },{ title:"关联视频",key:"related_video",
+    },{ title:"关联视频",key:"related_video",width:100,
  render: (h, params) => {
                   var txt=params.column.key
                   let types=params.row.related_video
@@ -644,7 +663,7 @@ export default {
                     ]);
                 }
 
-    },{title:"资产编号",key:"ZiChanID",
+    },{title:"资产编号",key:"ZiChanID",width:100,
 
  render: (h, params) => {
                   var txt=params.column.key
@@ -666,7 +685,7 @@ export default {
                    
                     ]);
                 }
-    },{title:"预案号",key:"PlanNo",
+    },{title:"预案号",key:"PlanNo",width:100,
  render: (h, params) => {
                   var txt=params.column.key
                   let types=params.row.PlanNo
@@ -688,7 +707,7 @@ export default {
                     ]);
                 }
 
-    },{title:"曲线记录",
+    },{title:"曲线记录",width:100,
 key:"curve_rcd",
 render:(h,params)=>{
   var txt=params.column.key
@@ -707,7 +726,7 @@ render:(h,params)=>{
 
 }
 },{
-  title:"显示报警",
+  title:"显示报警",width:100,
   key:"showAlarm" ,
   render:(h,params)=>{
     var txt=params.column.key
@@ -727,7 +746,7 @@ render:(h,params)=>{
 
 
 },{
-  title:"记录报警",
+  title:"记录报警",width:100,
   key:"markAlarm",
   render:(h,params)=>{
     var txt=params.column.key
@@ -748,7 +767,7 @@ render:(h,params)=>{
 }
 ],dataYc:[],
 columnsYx:[
-{title:"设备号",key:"equip_no",
+{title:"设备号",key:"equip_no",fixed:'left',width:93,
  render: (h, params) => {
                   var txt=params.column.key
                   let types=params.row.equip_no
@@ -770,7 +789,7 @@ columnsYx:[
                     ]);
                 }
 },
-{title:"状态量编号",key:"yx_no",
+{title:"状态量编号",key:"yx_no",width:200,
  render: (h, params) => {
                   var txt=params.column.key
                   let types=params.row.yx_no
@@ -792,7 +811,7 @@ columnsYx:[
                     ]);
                 }
 },
-{title:"状态量名称",key:"yx_nm",
+{title:"状态量名称",key:"yx_nm",width:200,
  render: (h, params) => {
                   var txt=params.column.key
                   let types=params.row.yx_nm
@@ -814,7 +833,7 @@ columnsYx:[
                     ]);
                 }
 },
-{title:"0-1事件",key:"evt_01",
+{title:"0-1事件",key:"evt_01",width:200,
  render: (h, params) => {
                   var txt=params.column.key
                   let types=params.row.evt_01
@@ -836,7 +855,7 @@ columnsYx:[
                     ]);
                 }
 },
-{title:"1-0事件",key:"evt_10",
+{title:"1-0事件",key:"evt_10",width:200,
  render: (h, params) => {
                   var txt=params.column.key
                   let types=params.row.evt_10
@@ -858,7 +877,7 @@ columnsYx:[
                     ]);
                 }
 },
-{title:"关联页面",key:"related_pic",
+{title:"关联页面",key:"related_pic",width:200,
  render: (h, params) => {
                   var txt=params.column.key
                   let types=params.row.related_pic
@@ -880,7 +899,7 @@ columnsYx:[
                     ]);
                 }
 },
-{title:"关联视频",key:"related_video",
+{title:"关联视频",key:"related_video",width:200,
  render: (h, params) => {
                   var txt=params.column.key
                   let types=params.row.related_video
@@ -902,7 +921,7 @@ columnsYx:[
                     ]);
                 }
 },
-{title:"资产编号",key:"ZiChanID",
+{title:"资产编号",key:"ZiChanID",width:200,
  render: (h, params) => {
                   var txt=params.column.key
                   let types=params.row.ZiChanID
@@ -924,7 +943,7 @@ columnsYx:[
                     ]);
                 }
 },
-{title:"预案号",key:"PlanNo",
+{title:"预案号",key:"PlanNo",width:200,
  render: (h, params) => {
                   var txt=params.column.key
                   let types=params.row.PlanNo
@@ -946,7 +965,7 @@ columnsYx:[
                     ]);
                 }
 },
-{title:"显示报警",key:"showAlarm",
+{title:"显示报警",key:"showAlarm",width:100,
 render:(h,params)=>{
   var txt=params.column.key
   let types=params.row[txt].split('"')[1]
@@ -963,7 +982,7 @@ render:(h,params)=>{
     ]);
 }
 },
-{title:"记录报警",key:"markAlarm",
+{title:"记录报警",key:"markAlarm",width:100,
 render:(h,params)=>{
   var txt=params.column.key
   let types=params.row[txt].split('"')[1]
@@ -983,13 +1002,13 @@ render:(h,params)=>{
 
 ],dataYx:[],
 columnsSet:[
-{title:"设备号",key:"equip_no"},
-{title:"设置号",key:"set_no"},
-{title:"设置名称",key:"set_nm"},
-{title:"设置类型",key:"set_type"},
-{title:"操作命令",key:"main_instruction"},
-{title:"操作参数",key:"minor_instruction"},
-{title:"记录",key:"record",
+{title:"设备号",fixed:'left',width:93,key:"equip_no"},
+{title:"设置号",width:200,key:"set_no"},
+{title:"设置名称",width:200,key:"set_nm"},
+{title:"设置类型",width:200,key:"set_type"},
+{title:"操作命令",width:200,key:"main_instruction"},
+{title:"操作参数",width:200,key:"minor_instruction"},
+{title:"记录",key:"record",width:100,
 render:(h,params)=>{
   var txt=params.column.key
   let types=params.row[txt].split('"')[1]
@@ -1006,9 +1025,9 @@ render:(h,params)=>{
     ]);
 }
 },
-{title:"动作",key:"action"},
-{title:"值",key:"value"},
-{title:"是否可以执行",key:"canexecution",
+{title:"动作",key:"action",width:200,},
+{title:"值",key:"value",width:200,},
+{title:"是否可以执行",key:"canexecution",width:100,
 render:(h,params)=>{
   var txt=params.column.key
   let types=params.row[txt].split('"')[1]
@@ -1105,7 +1124,7 @@ isMarkAmarm:"",
   },
   init(){
     var h = document.documentElement.clientHeight || document.body.clientHeight;
-    this.tableHeight=h-175;
+    this.tableHeight=h-160;
         // console.log(this.tableHeight)
         // console.log(h)
         this.Axios.post("/api/real/equip_state",{userName:window.localStorage.login_msg}).then(res=>{
@@ -1169,6 +1188,7 @@ isMarkAmarm:"",
               var itemAl={
                 title:arlarData[j].Proc_name,
                 key:"way"+j,
+                width:100,
                 render:(h,params)=>{
                   var txt=params.column.key
                   let types=params.row[txt].split('"')[1]
@@ -1190,6 +1210,8 @@ isMarkAmarm:"",
             this.columnsEq.push({
               title:"操作",
               key:"deal",
+              fixed:'right',
+              width:100,
               render:(h,params)=>{
                 return h('div', [
                   h('p', {
@@ -1213,7 +1235,8 @@ isMarkAmarm:"",
                                               this.isAlarm=this.alarmArrIsShow[ind];
                                               this.isMarkAmarm=this.alarmArrMark[ind];
                                               this.checkAlarm=this.alarmWay[ind];
-                                              this.isSet_P=true
+                                              this.isSet_P=true;
+                                              this.isYx=false;
                                               // console.log(this.alarmWay)
                                               // console.log(this.alarmWay)
                                               this.uploadInfor=[
@@ -1336,8 +1359,8 @@ isMarkAmarm:"",
                   this.alarmWay[i]=waysArr;
                   // console.log(i);
                   // console.log()
-                  var nameVideo;
-                  var zichanName;
+                  let nameVideo;
+                  let zichanName;
                   for(var m=0;m<videoData.length;m++){
                     var  EquipNum=parseInt(eqData[i].related_video.split(",")[0]),ID=parseInt(eqData[i].related_video.split(",")[1])
                     if(EquipNum==videoData[m].EquipNum && ID==videoData[m].ID){
@@ -1386,6 +1409,7 @@ this.Axios.all([this.Axios.post("/GWService.asmx/GetSystemConfig",{table_name:'y
               // console.log(arlarData[j].Proc_name)
               var itemAl={
                 title:arlarData[j].Proc_name,
+                width:100,
                 key:"way"+j,
                 render:(h,params)=>{
                     // console.log(params);
@@ -1407,7 +1431,8 @@ this.Axios.all([this.Axios.post("/GWService.asmx/GetSystemConfig",{table_name:'y
               }
               this.columnsYc.push({
                 title:"操作",
-                key:"deal",
+                key:"deal",width:100,
+                 fixed: 'right',
                 render:(h,params)=>{
                  return h("div",[
                   h("p",{
@@ -1424,7 +1449,8 @@ this.Axios.all([this.Axios.post("/GWService.asmx/GetSystemConfig",{table_name:'y
                                           // console.log(this.alarmArrMarkYc)
                                           let index=params.index;
                                           // console.log(index)
-                                          this.modal2=true
+                                          this.modal2=true;
+                                          this.isSet_P=true;
                                           this.loadDefZic=dataYc[index].ZiChanID;
                                           this.loadDefVideo=dataYc[index].related_video;
                                           this.loadDefPlan=dataYc[index].PlanNo;
@@ -1543,8 +1569,8 @@ this.Axios.all([this.Axios.post("/GWService.asmx/GetSystemConfig",{table_name:'y
 for(var i=0;i<dataYc.length;i++){
 
 
-      var nameVideo;
-      var zichanName;
+      let nameVideo;
+      let zichanName;
       for(var m=0;m<videoData.length;m++){
         var  EquipNum=parseInt(dataYc[i].related_video.split(",")[0]),ID=parseInt(dataYc[i].related_video.split(",")[1])
         if(EquipNum==videoData[m].EquipNum && ID==videoData[m].ID){
@@ -1578,14 +1604,14 @@ for(var i=0;i<dataYc.length;i++){
      };
      checkArr.push(isShow);
      if((dataYc[i].alarm_scheme & 2)>0){
-      this.alarmArrMarkYc.push("True")
+        this.alarmArrMarkYc.push("True")
 
-      isMarlAl='<Icon type="ios-checkmark-outline"></Icon>'
-    }else{
-     this.alarmArrMarkYc.push("False")
+        isMarlAl='<Icon type="ios-checkmark-outline"></Icon>'
+      }else{
+       this.alarmArrMarkYc.push("False")
 
-     isMarlAl='<Icon type="ios-circle-outline"></Icon>' 
-   };
+       isMarlAl='<Icon type="ios-circle-outline"></Icon>' 
+     };
    checkArr.push(isMarlAl);
 
    let arrName=[],waysArr=[];
@@ -1651,7 +1677,7 @@ let curve_rcd;
 this.Axios.all([this.Axios.post("/GWService.asmx/GetSystemConfig",{table_name:'yxp',equip_no_list:id})]).then(this.Axios.spread((res) => {
   
  let dataYx=JSON.parse(res.data.d);
- console.log(dataYx)
+ // console.log(dataYx)
  let arlarData=this.alrmData;
   let zichanData=this.zcData
   let videoData=this.viData
@@ -1659,12 +1685,13 @@ this.Axios.all([this.Axios.post("/GWService.asmx/GetSystemConfig",{table_name:'y
            this.dataYx=[];
            let alarLen=arlarData.length;
           
-           for(var i=0;i<dataYx.length;i++){
+      for(var i=0;i<dataYx.length;i++){
                      this.columnsYx.splice(11,alarLen+1)
                       for(var j=0;j<arlarData.length;j++){
                         var itemAl={
                           title:arlarData[j].Proc_name,
                           key:"way"+j,
+                          width:100,
                           render:(h,params)=>{
                             var txt=params.column.key;
                             var types=params.row[txt].split('"')[1];
@@ -1684,190 +1711,197 @@ this.Axios.all([this.Axios.post("/GWService.asmx/GetSystemConfig",{table_name:'y
                       }
 
 
-            this.columnsYx.push({
-              title:"操作",
-              key:"deal",
-              render:(h,params)=>{
-               return h("div",[
-                h("p",{
-                   style: {
-                        color:"#2d8cf0",
-                        marginRight:"10px",
-                        cursor:"pointer",
-                        fontSize:"20px",
-                        display:"inline-block"       
-                      },
-                    class:"iconfont icon-scheduleMODIFY",
-                                                  on: {
-                                                    click: () => {
-                                                      let index=params.index;
-                                                      this.modal2=true;
-                                                      this.isYx=true;
-                                                      this.isYc=false;
-                                                      this.loadDefZic=dataYx[index].ZiChanID;
-                                                      this.loadDefVideo=dataYx[index].related_video;
-                                                      this.loadDefPlan=dataYx[index].PlanNo;
+                      this.columnsYx.push({
+                        title:"操作",
+                        key:"deal",
+                        fixed:'right',
+                        width:100,
+                        render:(h,params)=>{
+                         return h("div",[
+                          h("p",{
+                             style: {
+                                  color:"#2d8cf0",
+                                  marginRight:"10px",
+                                  cursor:"pointer",
+                                  fontSize:"20px",
+                                  display:"inline-block"       
+                                },
+                              class:"iconfont icon-scheduleMODIFY",
+                                                            on: {
+                                                              click: () => {
+                                                                let index=params.index;
 
-                                                      this.isAlarm=this.alarmArrIsShowYx[index];
+                                                                this.modal2=true;
+                                                                this.isSet_P=true;
+                                                                this.isYx=true;
+                                                                this.isYc=false;
+                                                                this.loadDefZic=dataYx[index].ZiChanID;
+                                                                this.loadDefVideo=dataYx[index].related_video;
+                                                                this.loadDefPlan=dataYx[index].PlanNo;
 
-                                                      this.isMarkAmarm=this.alarmArrMarkYx[index];
-                                                      this.checkAlarm=this.alarmWayYx[index];
-                                                      this.negate=this.negateArr[index]
-                                                      this.uploadInfor=[
-                                                      {name:"设备号",value:dataYx[index].equip_no,listName:'equip_no'},
-                                                      {name:"模拟量编号",value:dataYx[index].yx_no,listName:'yx_no'},
-                                                      {name:"状态量名称",value:dataYx[index].yx_nm,listName:'yx_nm'},
-                                                      {name:"0-1事件  ",value:dataYx[index].evt_01,listName:'evt_01'},
-                                                      {name:"1-0事件",value:dataYx[index].evt_10,listName:'evt_10'},
-                                                      {name:"关联页面",value:dataYx[index].related_pic,listName:'related_pic'},
-                                                      {name:"处理意见0-1",value:dataYx[index].proc_advice_r,listName:'proc_advice_r'}, 
-                                                      {name:"处理意见1-0",value:dataYx[index].proc_advice_d,listName:'proc_advice_d'},
-                                                      {name:"0-1级别",value:dataYx[index].level_r,listName:'level_r'},
-                                                      {name:"1-0级别",value:dataYx[index].level_d,listName:'level_d'}, 
-                                                      {name:"初始状态",value:dataYx[index].initval,listName:'initval'},
-                                                      {name: "属性值",value:dataYx[index].val_trait,listName:'val_trait'}, 
-                                                      {name:"操作命令",value:dataYx[index].main_instruction,listName:'main_instruction'}, 
-                                                      {name:"操作参数",value:dataYx[index].minor_instruction,listName:'minor_instruction'}, 
-                                                      {name:"越线滞纳时间（秒）",value:dataYx[index].alarm_acceptable_time,listName:'alarm_acceptable_time'}, 
-                                                      {name:"恢复滞纳时间（秒）",value:dataYx[index].alarm_repeat_time,listName:'alarm_repeat_time'}, 
-                                                      {name:"重复报警时间（分钟）",value:dataYx[index].restore_acceptable_time,listName:'restore_acceptable_time'},
-                                                      {name: "声音文件",value:dataYx[index].wave_file,listName:'wave_file'},
-                                                      {name: "报警屏蔽",value:dataYx[index].alarm_shield,listName:'alarm_shield'}, 
-                                                      {name:"报警升级周期（分钟）",value:dataYx[index].AlarmRiseCycle,listName:'AlarmRiseCycle'}, 
-                                                      {name:"安全时段",value:dataYx[index].SafeTime,listName:'SafeTime'}
-                                                      ];
+                                                                this.isAlarm=this.alarmArrIsShowYx[index];
 
-
-                                                      this.configIndex=2;
-                                                      this.leftNum=Math.floor(this.uploadInfor.length/2);
-                                                      this.chazhiNum=4;
-                                                        // this.show(params.index)
-                                                      }
-                                                    }
-                                                  }),
-                                                    h('p', {
-                                                   style: {
-                                            color:"green",
-                                            cursor:"pointer",
-                                            display:"inline-block",
-                                            fontSize:"20px",
-                                          }, class:"iconfont icon-details ",
-                                                    on: {
-                                                      click: () => {
-                                                        let ind=params.index;
-                                                        this.modal1=true; 
-                                                        this.moreInfor=[
-                                                          {name:"取反",value:dataYx[ind].inversion=="True"||dataYx[ind].inversion=="true"?"已取反":"未取反"}, 
-                                                          {name:"属性值",value:dataYx[ind].val_trait}, 
-                                                          {name:"安全时段",value:dataYx[ind].SafeTime},
-                                                          {name:"初始状态",value:dataYx[ind].initval},
-                                                          {name:"操作命令",value:dataYx[ind].main_instruction}, 
-                                                          {name:"操作参数",value:dataYx[ind].minor_instruction}, 
-                                                          
-                                                          {name:"报警屏蔽",value:dataYx[ind].alarm_shield}, 
-                                                          {name:"0-1级别",value:dataYx[ind].level_r},
-                                                          {name:"1-0级别",value:dataYx[ind].level_d}, 
-                                                          {name:"起始安全时段",value:dataYx[ind].safe_bgn}, 
-                                                          {name:"结束安全时段",value:dataYx[ind].safe_end}, 
-                                                          {name:"处理意见0-1",value:dataYx[ind].proc_advice_r}, 
-                                                          {name:"处理意见1-0",value:dataYx[ind].proc_advice_d},
-                                                          {name:"越线滞纳时间(秒)",value:dataYx[ind].alarm_acceptable_time}, 
-                                                          {name:"恢复滞纳时间(秒)",value:dataYx[ind].alarm_repeat_time}, 
-                                                          {name:"重复报警时间(分钟)",value:dataYx[ind].restore_acceptable_time},
-                                                          {name:"报警升级周期(分钟)",value:dataYx[ind].AlarmRiseCycle}, 
-                                                          {name:"声音文件",value:dataYx[ind].wave_file},
-                                                        ];
+                                                                this.isMarkAmarm=this.alarmArrMarkYx[index];
+                                                                this.checkAlarm=this.alarmWayYx[index];
+                                                                this.negate=this.negateArr[index]
+                                                                this.uploadInfor=[
+                                                                {name:"设备号",value:dataYx[index].equip_no,listName:'equip_no'},
+                                                                {name:"模拟量编号",value:dataYx[index].yx_no,listName:'yx_no'},
+                                                                {name:"状态量名称",value:dataYx[index].yx_nm,listName:'yx_nm'},
+                                                                {name:"0-1事件  ",value:dataYx[index].evt_01,listName:'evt_01'},
+                                                                {name:"1-0事件",value:dataYx[index].evt_10,listName:'evt_10'},
+                                                                {name:"关联页面",value:dataYx[index].related_pic,listName:'related_pic'},
+                                                                {name:"处理意见0-1",value:dataYx[index].proc_advice_r,listName:'proc_advice_r'}, 
+                                                                {name:"处理意见1-0",value:dataYx[index].proc_advice_d,listName:'proc_advice_d'},
+                                                                {name:"0-1级别",value:dataYx[index].level_r,listName:'level_r'},
+                                                                {name:"1-0级别",value:dataYx[index].level_d,listName:'level_d'}, 
+                                                                {name:"初始状态",value:dataYx[index].initval,listName:'initval'},
+                                                                {name: "属性值",value:dataYx[index].val_trait,listName:'val_trait'}, 
+                                                                {name:"操作命令",value:dataYx[index].main_instruction,listName:'main_instruction'}, 
+                                                                {name:"操作参数",value:dataYx[index].minor_instruction,listName:'minor_instruction'}, 
+                                                                {name:"越线滞纳时间（秒）",value:dataYx[index].alarm_acceptable_time,listName:'alarm_acceptable_time'}, 
+                                                                {name:"恢复滞纳时间（秒）",value:dataYx[index].alarm_repeat_time,listName:'alarm_repeat_time'}, 
+                                                                {name:"重复报警时间（分钟）",value:dataYx[index].restore_acceptable_time,listName:'restore_acceptable_time'},
+                                                                {name: "声音文件",value:dataYx[index].wave_file,listName:'wave_file'},
+                                                                {name: "报警屏蔽",value:dataYx[index].alarm_shield,listName:'alarm_shield'}, 
+                                                                {name:"报警升级周期（分钟）",value:dataYx[index].AlarmRiseCycle,listName:'AlarmRiseCycle'}, 
+                                                                {name:"安全时段",value:dataYx[index].SafeTime,listName:'SafeTime'}
+                                                                ];
 
 
-                                                      }
-                                                    }
-                                                    })
-                  ])
-            }
+                                                                this.configIndex=2;
+                                                                this.leftNum=Math.floor(this.uploadInfor.length/2);
+                                                                this.chazhiNum=4;
+                                                                  // this.show(params.index)
+                                                                }
+                                                              }
+                                                            }),
+                                                              h('p', {
+                                                             style: {
+                                                      color:"green",
+                                                      cursor:"pointer",
+                                                      display:"inline-block",
+                                                      fontSize:"20px",
+                                                    }, class:"iconfont icon-details ",
+                                                              on: {
+                                                                click: () => {
+                                                                  let ind=params.index;
+                                                                  this.modal1=true; 
+                                                                  this.moreInfor=[
+                                                                    {name:"取反",value:dataYx[ind].inversion=="True"||dataYx[ind].inversion=="true"?"已取反":"未取反"}, 
+                                                                    {name:"属性值",value:dataYx[ind].val_trait}, 
+                                                                    {name:"安全时段",value:dataYx[ind].SafeTime},
+                                                                    {name:"初始状态",value:dataYx[ind].initval},
+                                                                    {name:"操作命令",value:dataYx[ind].main_instruction}, 
+                                                                    {name:"操作参数",value:dataYx[ind].minor_instruction}, 
+                                                                    
+                                                                    {name:"报警屏蔽",value:dataYx[ind].alarm_shield}, 
+                                                                    {name:"0-1级别",value:dataYx[ind].level_r},
+                                                                    {name:"1-0级别",value:dataYx[ind].level_d}, 
+                                                                    {name:"起始安全时段",value:dataYx[ind].safe_bgn}, 
+                                                                    {name:"结束安全时段",value:dataYx[ind].safe_end}, 
+                                                                    {name:"处理意见0-1",value:dataYx[ind].proc_advice_r}, 
+                                                                    {name:"处理意见1-0",value:dataYx[ind].proc_advice_d},
+                                                                    {name:"越线滞纳时间(秒)",value:dataYx[ind].alarm_acceptable_time}, 
+                                                                    {name:"恢复滞纳时间(秒)",value:dataYx[ind].alarm_repeat_time}, 
+                                                                    {name:"重复报警时间(分钟)",value:dataYx[ind].restore_acceptable_time},
+                                                                    {name:"报警升级周期(分钟)",value:dataYx[ind].AlarmRiseCycle}, 
+                                                                    {name:"声音文件",value:dataYx[ind].wave_file},
+                                                                  ];
 
-          })
 
-        var nameVideo;
-        var zichanName;
-        for(var m=0;m<videoData.length;m++){
-          var  EquipNum=parseInt(dataYx[i].related_video.split(",")[0]),ID=parseInt(dataYx[i].related_video.split(",")[1])
-          if(EquipNum==videoData[m].EquipNum && ID==videoData[m].ID){
-            nameVideo=videoData[m].ChannelName
-          }
-        }
+                                                                }
+                                                              }
+                                                              })
+                            ])
+                      }
 
-        for(var n=0;n<zichanData.length;n++){
-          if(dataYx[i].ZiChanID==zichanData[n].ZiChanID){
-            zichanName=zichanData[n].ZiChanName
-          }
-        }
-        if(dataYx[i].inversion=="True"||dataYx[i].inversion=="true"){
-          this.negateArr.push("True")
-        }else{
-          this.negateArr.push("False")
-        }
-        let checkArr=[],isShow,isMarlAl;
-        if((dataYx[i].alarm_scheme & 1)>0){
-          this.alarmArrIsShowYx.push("True")
-          isShow='<Icon type="ios-checkmark-outline"></Icon>'
-        }else{
-          this.alarmArrIsShowYx.push("False")
-          isShow='<Icon type="ios-circle-outline"></Icon>' 
-        };
+                      })
 
-        checkArr.push(isShow);
-        if((dataYx[i].alarm_scheme & 2)>0){
-          this.alarmArrMarkYx.push("True")
-          isMarlAl='<Icon type="ios-checkmark-outline"></Icon>'
-        }else{
-          this.alarmArrMarkYx.push("False")
-          isMarlAl='<Icon type="ios-circle-outline"></Icon>' 
-        };
-        checkArr.push(isMarlAl);
+                      let nameVideo;
+                      let zichanName;
+                      for(var m=0;m<videoData.length;m++){
+                        // console.log(nameVideo);
+                       var  EquipNum=parseInt(dataYx[i].related_video.split(",")[0]),ID=parseInt(dataYx[i].related_video.split(",")[1]);
+                        if(EquipNum==videoData[m].EquipNum && ID==videoData[m].ID){
+                          nameVideo=videoData[m].ChannelName
+                        }
+                      }
+                      // console.log(nameVideo);
+                        for(var n=0;n<zichanData.length;n++){
+                          if(dataYx[i].ZiChanID==zichanData[n].ZiChanID){
+                            zichanName=zichanData[n].ZiChanName
+                          }
+                        }
+                      if(dataYx[i].inversion=="True"||dataYx[i].inversion=="true"){
+                        this.negateArr.push("True")
+                      }else{
+                        this.negateArr.push("False")
+                      }
+                      let checkArr=[],isShow,isMarlAl;
+                        if((dataYx[i].alarm_scheme & 1)>0){
+                          this.alarmArrIsShowYx.push("True")
+                          isShow='<Icon type="ios-checkmark-outline"></Icon>'
+                        }else{
+                          this.alarmArrIsShowYx.push("False")
+                          isShow='<Icon type="ios-circle-outline"></Icon>' 
+                        };
 
-        let arrName=[],waysArr=[];
-        for(var j=0;j<arlarData.length;j++){
-          let itemalar
-          var alays = parseInt(arlarData[j].Proc_Code);
-          if ((dataYx[i].alarm_scheme & alays) > 0) {
-            itemalar={
-              name:arlarData[j].Proc_name,
-              res:"True",
-              code:arlarData[j].Proc_Code
-            }
-            arrName[j]= '<Icon type="ios-checkmark-outline"></Icon>'
-          }
-          else {
-           itemalar={
-            name:arlarData[j].Proc_name,
-            res:"False",
-            code:arlarData[j].Proc_Code
-          }
-          arrName[j]='<Icon type="ios-circle-outline"></Icon>' 
-        }
-        waysArr.push(itemalar);
-        }
-        this.alarmWayYx[i]=waysArr;
+                        checkArr.push(isShow);
+                        if((dataYx[i].alarm_scheme & 2)>0){
+                          this.alarmArrMarkYx.push("True")
+                          isMarlAl='<Icon type="ios-checkmark-outline"></Icon>'
+                        }else{
+                          this.alarmArrMarkYx.push("False")
+                          isMarlAl='<Icon type="ios-circle-outline"></Icon>' 
+                        };
+                        checkArr.push(isMarlAl);
+
+                         let arrName=[],waysArr=[];
+                        for(var j=0;j<arlarData.length;j++){
+                            let itemalar;
+                            var alays = parseInt(arlarData[j].Proc_Code);
+                          if ((dataYx[i].alarm_scheme & alays) > 0) {
+                              itemalar={
+                                name:arlarData[j].Proc_name,
+                                res:"True",
+                                code:arlarData[j].Proc_Code
+                              }
+                              arrName[j]= '<Icon type="ios-checkmark-outline"></Icon>'
+                            }else {
+                             itemalar={
+                              name:arlarData[j].Proc_name,
+                              res:"False",
+                              code:arlarData[j].Proc_Code
+                            }
+                            arrName[j]='<Icon type="ios-circle-outline"></Icon>' 
+                          }
+                          waysArr.push(itemalar);
+                          
+                        }
+        
+                        this.alarmWayYx[i]=waysArr;
                  // console.log(checkArr)
 
-                 let itemYx={
-                  equip_no:dataYx[i].equip_no,
-                  yx_no:dataYx[i].yx_no,
-                  yx_nm:dataYx[i].yx_nm,
-                  evt_01:dataYx[i].evt_01,
-                  evt_10:dataYx[i].evt_10,
-                  related_pic:dataYx[i].related_pic,
-                  related_video:nameVideo,
-                  ZiChanID:zichanName,
-                  PlanNo:dataYx[i].PlanNo,
-                  showAlarm:checkArr[0],
-                  markAlarm:checkArr[1]
+                       let itemYx={
+                        equip_no:dataYx[i].equip_no,
+                        yx_no:dataYx[i].yx_no,
+                        yx_nm:dataYx[i].yx_nm,
+                        evt_01:dataYx[i].evt_01,
+                        evt_10:dataYx[i].evt_10,
+                        related_pic:dataYx[i].related_pic,
+                        related_video:nameVideo,
+                        ZiChanID:zichanName,
+                        PlanNo:dataYx[i].PlanNo,
+                        showAlarm:checkArr[0],
+                        markAlarm:checkArr[1]
                             // deal
                           }
-          for(var k=0;k<arrName.length;k++){
-            itemYx["way"+k]=arrName[k]
-          }
-          this.dataYx.push(itemYx);
+                        for(var k=0;k<arrName.length;k++){
+                          itemYx["way"+k]=arrName[k]
+                        }
+                        // console.log(itemYx)
+                        this.dataYx.push(itemYx);
 
         }
 
@@ -1886,6 +1920,8 @@ this.Axios.all([this.Axios.post("/GWService.asmx/GetSystemConfig",{table_name:'y
           this.columnsSet.push({
             title:"操作",
             key:"deal",
+            fixed:"right",
+            width:100,
             render:(h,params)=>{
              return h("div",[
               h("p",{

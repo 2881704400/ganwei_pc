@@ -170,10 +170,11 @@ export default {
             let respon=JSON.parse(res.data.d)
             // this.equipEvent=JSON.parse(res.data.d);
             for(var i=0;i<respon.length;i++){
+              let timeStrs=this.getDateStr(respon[i].time);
               let item={
                 name:respon[i].equip_nm,
                 event:respon[i].event,
-                time:respon[i].time
+                time:timeStrs
               }
               this.equipEvent.push(item);
             }
@@ -186,11 +187,12 @@ export default {
             this.setEvent=[];
             let respon=JSON.parse(res.data.d)
             for(var i=0;i<respon.length;i++){
+              let timeStrs=this.getDateStr(respon[i].time);
               let item={
                 name:respon[i].equip_nm,
                 event:respon[i].event,
                 person:respon[i].operator,
-                time:respon[i].time
+                time:timeStrs
               }
               this.setEvent.push(item);
             }
@@ -204,19 +206,49 @@ export default {
             this.sysEvent=[];
             // this.sysEvent=JSON.parse(res.data.d);
             let respon=JSON.parse(res.data.d)
+            // console.log(respon)
             for(var i=0;i<respon.length;i++){
+              let timeStrs=this.getDateStr(respon[i].time);
+              // console.log(timeStrs)
               let item={
-                // name:,
+                
                 event:respon[i].event,
-                time:respon[i].time
+                time:timeStrs
               }
+
+
               this.sysEvent.push(item)
+             
             }
-            // data1
+          
           }
            this.loading=false;
+
         
       });
+     },appendZero(obj){
+        var a=obj.split("");
+        if(obj<10&&a.length<2){
+          return "0"+obj;
+        }else{
+          return obj
+        }
+     },getDateStr(dateStr){
+        if(dateStr.indexOf("-")!=-1){
+             var date=dateStr.split(" ")[0].split("-");
+        }else{
+            var date=dateStr.split(" ")[0].split("/");
+        }
+       
+        var time=dateStr.split(" ")[1].split(":");
+
+        var year=this.appendZero(date[0]);
+        var mon=this.appendZero(date[1]);
+        var day=this.appendZero(date[2]);
+        var hou=this.appendZero(time[0]);
+        var min=this.appendZero(time[1]);
+        var sec=this.appendZero(time[2]);
+        return year+"-"+mon+"-"+day+" "+hou+":"+min+":"+sec;
      }
 
    
@@ -224,17 +256,17 @@ export default {
   watch:{
        equipEvent:function(val){
          // console.log(val)
-         if(val.length!=0)this.$Message.success('操作成功');
+         if(val.length!=0)this.$Message.success('设备事件查询成功');
           
        },
        setEvent:function(val){
          // console.log(val)
-         if(val.length!=0)this.$Message.success('操作成功');
+         if(val.length!=0)this.$Message.success('设置事件查询成功');
           
        },
        sysEvent:function(val){
          // console.log(val)
-         if(val.length!=0)this.$Message.success('操作成功');
+         if(val.length!=0)this.$Message.success('系统事件查询成功');
           
        }
      }
