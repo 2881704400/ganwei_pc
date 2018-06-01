@@ -600,7 +600,11 @@ export default {
       else {
         this.$refs['sceneValidate'].validate(flag => {
           if (flag) {
-            let setNo = 0
+            let setNo = 0,
+              equipNo = 0
+            if (this.equipList.filter(equip => equip.communication_drv === 'GWChangJing.NET.dll').length > 0) {
+              equipNo = this.equipList.filter(equip => equip.communication_drv === 'GWChangJing.NET.dll')[0].equip_no
+            }
             sceneList.forEach(item => {
               setNo += (sceneList.some(scene => {
                 return scene.set_no === setNo
@@ -608,8 +612,10 @@ export default {
             })
             let reqData = {
               title: title,
+              equipNo: equipNo,
               setNo: setNo
             }
+            
             this.Axios.post('/api/GWServiceWebAPI/addScene', reqData)
               .then(res => {
                 let rt = res.data.HttpData
@@ -631,12 +637,13 @@ export default {
       }
     },
     deleteScene (scene) {
-      console.log(this.sceneData)
+      // console.log(this.sceneData)
       this.$Modal.confirm({
         title: '删除场景',
         content: '是否删除该场景？',
         onOk: () => {
           let reqData = {
+            equipNo: scene.equip_no,
             setNo: scene.set_no
           }
           this.Axios.post('/api/GWServiceWebAPI/deleteScene', reqData)

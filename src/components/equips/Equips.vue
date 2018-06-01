@@ -208,6 +208,7 @@ export default {
           if (rt.code === 200) {
             let data = rt.data
             if (data.length > 0) {
+              // console.log(data)
               this.tabData[2].hasSet = true
               this.tabData[2].isShow = true
               this.tabData[2].setList = data
@@ -219,6 +220,14 @@ export default {
               this.tabData[2].hasSet = false
               this.tabData[2].isShow = false
             }
+            // this.tabData[2].setList = this.tabData[2].setList.sort((obja, objb) => {
+            //   let a = obja.set_nm[0],
+            //       b = objb.set_nm[0]
+            //   if (/^\d/.test(a) ^ /^\D/.test(b)) {
+            //     return a<b?1:(a==b?0:-1)
+            //   }
+            //   return a<b?-1:(a==b?0:1)
+            // })
             // console.log(this.tabData[2].setList)
             this.isLoading = false
           }
@@ -308,10 +317,21 @@ export default {
         // console.log('ycyxall--------------' + type, data)
         // 更新报警状态
         let rt = JSON.parse(data)
+        // console.log(rt)
         if (type === 'ycp') {
           this.tabData[0].hasAlarm = rt.some(item => item.m_IsAlarm === 'True')
+          if (this.tabData[0].hasAlarm) {
+            this.updateNavAlarm('alarm')
+          } else {
+            this.updateNavAlarm('fine')
+          }
         } else if (type === 'yxp') {
           this.tabData[1].hasAlarm = rt.some(item => item.m_IsAlarm === 'True')
+          if (this.tabData[1].hasAlarm) {
+            this.updateNavAlarm('alarm')
+          } else {
+            this.updateNavAlarm('fine')
+          }
         }
       });
 
