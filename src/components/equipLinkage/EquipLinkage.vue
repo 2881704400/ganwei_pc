@@ -600,7 +600,7 @@ export default {
       else {
         this.$refs['sceneValidate'].validate(flag => {
           if (flag) {
-            let setNo = 0,
+            let setNo = 1,
               equipNo = 0
             if (this.equipList.filter(equip => equip.communication_drv === 'GWChangJing.NET.dll').length > 0) {
               equipNo = this.equipList.filter(equip => equip.communication_drv === 'GWChangJing.NET.dll')[0].equip_no
