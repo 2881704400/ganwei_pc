@@ -114,6 +114,8 @@
                     #start_timeFont,#end_timeFont,#end_timeSize{display: none;font-size: 12px;color: red;position: absolute;right: -80px;top: 5px;}
                     #end_DateSize{font-size: 12px;color: red;position: absolute;right: -80px;top: 5px;}
                     #msgInfo:after,#phoneInfo:after,#msphoneInfo:after,#emailInfo:after{font-size: 14px;color: red;position: absolute;right: -75px;top: 2px;}     
+                    #phoneInfo:after,#msphoneInfo:after,#emailInfo:after{content: "格式不对";}
+                    #msgInfo:after{content: "重复命名";}
             }
         }
         
