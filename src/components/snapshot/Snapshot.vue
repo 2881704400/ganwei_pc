@@ -8,11 +8,25 @@
 							<table>
 								<thead>
 									<tr>
-										<th>类型</th>
-										<th>时间</th>
-										<th>事件</th>
-										<th>确认</th>
-										<th>处理意见</th>
+										<th @click="setTableSortFunc(0)">类型
+											<i v-if="tableSortType==0" v-show="tableSortDirection[0]==0" class="iconfont icon-triangle-bottom"></i>
+											<i v-if="tableSortType==0" v-show="tableSortDirection[0]==1" class="iconfont icon-triangle-top"></i></th>
+										<th @click="setTableSortFunc(1)">时间
+											<i v-if="tableSortType==1" v-show="tableSortDirection[1]==0" class="iconfont icon-triangle-bottom"></i>
+											<i v-if="tableSortType==1" v-show="tableSortDirection[1]==1" class="iconfont icon-triangle-top"></i></th>
+										</th>
+										<th @click="setTableSortFunc(2)">事件
+											<i v-if="tableSortType==2" v-show="tableSortDirection[2]==0" class="iconfont icon-triangle-bottom"></i>
+											<i v-if="tableSortType==2" v-show="tableSortDirection[2]==1" class="iconfont icon-triangle-top"></i></th>
+										</th>
+										<th @click="setTableSortFunc(3)">确认
+											<i v-if="tableSortType==3" v-show="tableSortDirection[3]==0" class="iconfont icon-triangle-bottom"></i>
+											<i v-if="tableSortType==3" v-show="tableSortDirection[3]==1" class="iconfont icon-triangle-top"></i></th>
+										</th>
+										<th @click="setTableSortFunc(4)">处理意见
+											<i v-if="tableSortType==4" v-show="tableSortDirection[4]==0" class="iconfont icon-triangle-bottom"></i>
+											<i v-if="tableSortType==4" v-show="tableSortDirection[4]==1" class="iconfont icon-triangle-top"></i></th>
+										</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -22,8 +36,7 @@
 											<img v-if="item.Level=='警告'" src="@assets/img/infor/Warnings.png" alt="" style="vertical-align: middle;" />
 											<img v-if="item.Level=='信息'" src="@assets/img/infor/Informations.png" alt="" style="vertical-align: middle;" />
 											<img v-if="item.Level=='设置'" src="@assets/img/infor/Settings.png" alt="" style="vertical-align: middle;" />
-											<img v-if="item.Level=='资产'" src="@assets/img/infor/Assets.png" alt="" style="vertical-align: middle;" />
-											{{item.Level}}
+											<img v-if="item.Level=='资产'" src="@assets/img/infor/Assets.png" alt="" style="vertical-align: middle;" /> {{item.Level}}
 										</td>
 										<td>{{item.formatTime}}</td>
 										<td>
@@ -40,17 +53,17 @@
 				</template>
 			</Tabs>
 		</div>
-		
+
 		<Modal v-model="sureModal" title="确认处理该事件吗？" @on-ok="sureModalFun" @on-cancel="cancel" class="modalAlert">
-            <h1 v-model="EventMsg" :title="EventMsg">事件：<span>{{EventMsg}}</span></h1>
-            <input type="hidden" v-model="Time" />
-            <p>请输入处理意见（100字以内）：</p>
-            <Input type="textarea" :rows="4" v-model="msgValue"></Input>
-            <Checkbox  label="是" style="margin: 10px 0;" v-model="isSendSms">是否发送短信？</Checkbox>
-            <CheckboxGroup class="groupCheck" v-show="isSendSms" v-model="atorMobiles">
-              <Checkbox v-for="(item,index) of atorMsgInfo" :key="index" class="groupCheckChild" :label="item.allInfo" >{{item.MobileTel}}({{item.Administrator}})</Checkbox>
-            </CheckboxGroup>
-        </Modal>
+			<h1 v-model="EventMsg" :title="EventMsg">事件：<span>{{EventMsg}}</span></h1>
+			<input type="hidden" v-model="Time" />
+			<p>请输入处理意见（100字以内）：</p>
+			<Input type="textarea" :rows="4" v-model="msgValue"></Input>
+			<Checkbox label="是" style="margin: 10px 0;" v-model="isSendSms">是否发送短信？</Checkbox>
+			<CheckboxGroup class="groupCheck" v-show="isSendSms" v-model="atorMobiles">
+				<Checkbox v-for="(item,index) of atorMsgInfo" :key="index" class="groupCheckChild" :label="item.allInfo">{{item.MobileTel}}({{item.Administrator}})</Checkbox>
+			</CheckboxGroup>
+		</Modal>
 	</div>
 </template>
 
@@ -69,7 +82,9 @@
 				EventMsg: '',
 				Time: '',
 				tabPaneValue: '-1',
-				timeInterval: null
+				timeInterval: null,
+				tableSortType: 0,
+				tableSortDirection: [0,0,0,0,0]
 			}
 		},
 		mounted() {
@@ -80,19 +95,63 @@
 				this.getRealTimeEvent();
 			},
 			getIMG(level) {
-				var url="";
-				if(level=="故障"){
+				var url = "";
+				if(level == "故障") {
 					url = "./static/infor/Warnings.png";
-				}else if(level=="警告"){
+				} else if(level == "警告") {
 					url = "./static/infor/Warnings.png";
-				}else if(level=="信息"){
+				} else if(level == "信息") {
 					url = "./static/infor/Informations.png";
-				}else if(level=="设置"){
+				} else if(level == "设置") {
 					url = "./static/infor/Settings.png";
-				}else if(level=="资产"){
+				} else if(level == "资产") {
 					url = "./static/infor/Assets.png";
 				}
 				return url;
+			},
+			//设置表格排序
+			setTableSortFunc(num) {
+				let tableSortType = this.tableSortType= num;
+				this.tableInfo.sort(this.tableSort);
+				if(this.tableSortDirection[tableSortType]==0){
+					this.tableSortDirection.splice(tableSortType,1,1)
+				}else{
+					this.tableSortDirection.splice(tableSortType,1,0)
+				}
+			},
+			tableSort: function(a, b) {
+				let tableSortType = this.tableSortType;
+				let tableSortDirection = this.tableSortDirection;console.log(tableSortDirection)
+				if(tableSortDirection[tableSortType] == 0) {
+					if(tableSortType == "0") {
+						return a.Level.localeCompare(b.Level);
+					} else if(tableSortType == "1") {
+						return a.Time.localeCompare(b.Time);
+					} else if(tableSortType == "2") {
+						return a.EventMsg.localeCompare(b.EventMsg);
+					} else if(tableSortType == "3") {
+						return a.bConfirmed-b.bConfirmed;
+					} else if(tableSortType == "4") {
+						return a.Proc_advice_Msg-b.Proc_advice_Msg;
+					} else {
+						return a.Level.localeCompare(b.Level);
+					}
+				} else {
+					if(tableSortType == "0") {
+						return b.Level.localeCompare(a.Level);
+					} else if(tableSortType == "1") {
+						return b.Time.localeCompare(a.Time);
+					} else if(tableSortType == "2") {
+						return b.EventMsg.localeCompare(a.EventMsg);
+					} else if(tableSortType == "3") {
+						return b.bConfirmed-a.bConfirmed;
+					} else if(tableSortType == "4") {
+						return b.Proc_advice_Msg-a.Proc_advice_Msg;
+					} else {
+						return b.Level.localeCompare(a.Level);
+					}
+				}
+				
 			},
 			//获取事件的报警配置
 			getAlarmConfig() {
@@ -129,7 +188,7 @@
 							this.event_Level_list = this.event_Level_list.substring(0, this.event_Level_list.length - 1);
 							this.btnInfo = listAddData;
 							this.getRealTimeEventCount();
-							this.timeInterval=setInterval(this.getRealTimeEventCount, 5000);
+							//							this.timeInterval=setInterval(this.getRealTimeEventCount, 5000);
 						}
 					}).catch(err => {
 						console.log(err)
@@ -169,8 +228,8 @@
 				var levels = "";
 				if(tabPaneValue == "-1") {
 					levels = this.event_Level_list;
-				}else{
-					levels=tabPaneValue;
+				} else {
+					levels = tabPaneValue;
 				}
 				this.Axios.post('/api/event/real_evt', {
 					levels: levels
@@ -194,7 +253,7 @@
 							tableListData.push({
 								EventMsg: resultData[i].EventMsg,
 								Proc_advice_Msg: resultData[i].Proc_advice_Msg,
-								Time: resultData[i].Time.replace("T"," "),
+								Time: resultData[i].Time.replace("T", " "),
 								formatTime: this.formatDate(resultData[i].Time),
 								Level: strLevel,
 								bConfirmed: resultData[i].bConfirmed,
@@ -221,7 +280,7 @@
 							atorMsgInfoData.push({
 								Administrator: resultData[i].Administrator,
 								MobileTel: resultData[i].MobileTel,
-								allInfo: resultData[i].Administrator+"&&"+resultData[i].MobileTel
+								allInfo: resultData[i].Administrator + "&&" + resultData[i].MobileTel
 							});
 						}
 						this.atorMsgInfo = atorMsgInfoData;
@@ -239,33 +298,34 @@
 				this.sureModal = true;
 			},
 			sureModalFun() {
-				let atorMobiles=this.atorMobiles;
-				let atorMobilesArr=[];
-				for(let i=0;i<atorMobiles.length;i++){
-					if(atorMobiles[i]!=""&&atorMobiles[i]!=null){
+				let atorMobiles = this.atorMobiles;
+				let atorMobilesArr = [];
+				for(let i = 0; i < atorMobiles.length; i++) {
+					if(atorMobiles[i] != "" && atorMobiles[i] != null) {
 						atorMobilesArr.push(atorMobiles[i].split("&&")[1]);
 					}
-					
+
 				}
-				let Time=this.Time;
-				let TimeArr=[];
-				let strTimeArr="";
-				if(Time!=""&&Time!=null){
-					TimeArr=Time.split(".");
-					strTimeArr=TimeArr[1].toString();
-					if(strTimeArr.length>=6){
-						strTimeArr=strTimeArr.substring(0,6)
-					}else{
-						strTimeArr=strTimeArr+"000000".substring(0,6-strTimeArr.length)
+				let Time = this.Time;
+				let TimeArr = [];
+				let strTimeArr = "";
+				if(Time != "" && Time != null) {
+					TimeArr = Time.split(".");
+					strTimeArr = TimeArr[1].toString();
+					if(strTimeArr.length >= 6) {
+						strTimeArr = strTimeArr.substring(0, 6)
+					} else {
+						strTimeArr = strTimeArr + "000000".substring(0, 6 - strTimeArr.length)
 					}
 				}
-				
+
 				this.Axios.post('/api/event/confirm_evt', {
 					msg: this.msgValue,
 					shortmsg: this.isSendSms,
 					tel: atorMobilesArr.toString(),
 					evtname: this.EventMsg,
-					time: TimeArr[0]+"."+strTimeArr
+					time: TimeArr[0] + "." + strTimeArr,
+					userName: this.$store.state.loginMsg
 				}).then(res => {
 					let data = res.data.HttpData;
 					if(data.code == 200) {
@@ -292,9 +352,9 @@
 			}
 		},
 		beforeDestroy() {
-		    if(this.timeInterval) { //如果定时器还在运行 或者直接关闭，不用判断
-		        clearInterval(this.timeInterval); //关闭
-		    }
+			if(this.timeInterval) { //如果定时器还在运行 或者直接关闭，不用判断
+				clearInterval(this.timeInterval); //关闭
+			}
 		}
 	}
 </script>
