@@ -2,7 +2,7 @@
   <div class="event-query">
      <Row class="wrap">
         <Col span="3" class="itemList">
-  			  <p  v-for="(item,$index) in itemList" @click="selectId(item.m_iEquipNo,$index)" ref="mybox">
+  			  <p  v-for="(item,$index) in itemList" @click="selectId(item.m_iEquipNo,$index)" ref="mybox" :title="item.m_EquipNm">
             <!-- :class="$index==activeClass?'clickActive':'' -->
                 {{item.m_EquipNm}}
           </p>
@@ -307,13 +307,17 @@ export default {
 .dateSelect{padding:20px  0;}
 
 
-.event-query .itemList p{width:95%;
+.event-query .itemList p{
+  width:95%;
   height:50px;
   line-height: 50px;
   background: #f9f9f9 !important;
   margin:10px auto;
   font-size:15px;
   text-align: center;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 .event-query .itemList p:hover{
   border:1px solid #2d8cf0;

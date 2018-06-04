@@ -75,6 +75,7 @@ $num0:0px;
               text-align: center;
               white-space: nowrap;
               word-break: keep-all;
+               text-overflow: ellipsis;
               overflow: $overflow;
               &:hover{
                   border:1px solid $blueColor;
@@ -189,7 +190,7 @@ $num0:0px;
   <div class="system-conf">
     <Row class="wrap">
       <Col span="3" class="itemList">
-      <p  v-for="(item,$index) in itemList" @click="loadInformation(item.m_iEquipNo,$index)"   ref="mybox" >
+      <p  v-for="(item,$index) in itemList" @click="loadInformation(item.m_iEquipNo,$index)"   ref="mybox" :title="item.m_EquipNm">
         <!-- :class="$index==active?'clickActive':''" -->
         {{item.m_EquipNm}}
       </p>
