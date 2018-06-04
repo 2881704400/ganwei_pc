@@ -623,11 +623,12 @@ export default {
       this.user_modal = false;
     },
     onValidate(old){
+     
       switch(old)
       {
-        case "user":
+        case "user": 
             var dtThis = this,dt=document.getElementById("userAdmin").parentNode;
-            if(dtThis.user_admin !="")
+            if(dtThis.user_admin !="" && dtThis.Alarm_user.length !=0)
               for(var i=0;i<dtThis.Alarm_user.length;i++)
               {
                   if(dtThis.Alarm_user[i].Administrator == dtThis.user_admin)
@@ -642,12 +643,17 @@ export default {
                       document.getElementById("user_ok").disabled="";
                     }
               }
+            else if(dtThis.user_admin !="" && dtThis.Alarm_user.length ==0)
+              {
+                     dt.id = "";
+                     document.getElementById("user_ok").disabled="";
+              }
             else
               document.getElementById("user_ok").disabled="disabled";        
         break;
         case "phone": 
            var str = new RegExp("^((13[0-9])|(14[5|7])|(15([0-3]|[5-9]))|(18[0,5-9]))\\d{8}$",'g');   
-           var str1 = new RegExp("^0\\d{3}-\\d{8}$",'g');
+           var str1 = new RegExp("^0\\d{3}\\d{8}$",'g');
            var value = document.getElementById("phoneAdmin").value;
            if(str.test(value) || str1.test(value))
              document.getElementById("phoneAdmin").parentNode.id = "";
@@ -656,7 +662,7 @@ export default {
         break;
         case "msphone": 
            var str = new RegExp("^((13[0-9])|(14[5|7])|(15([0-3]|[5-9]))|(18[0,5-9]))\\d{8}$",'g');   
-           var str1 = new RegExp("^0\\d{3}-\\d{8}$",'g');
+           var str1 = new RegExp("^0\\d{3}\\d{8}$",'g');
            var value = document.getElementById("msphoneAdmin").value;
            if(str.test(value) || str1.test(value))
              document.getElementById("msphoneAdmin").parentNode.id = "";

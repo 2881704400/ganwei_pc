@@ -5,6 +5,21 @@ $height:100%;
 $overflow:hidden;
 $blueColor:#2d8cf0;
 $num0:0px;
+// .ivu-table-body::-webkit-scrollbar{
+//   width: 4px;    
+//   height: 10px;
+// }
+
+// .ivu-table-body::-webkit-scrollbar-thumb{
+//   border-radius: 5px;
+//   -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+//   background: rgba(0,0,0,0.2);
+// }
+// .ivu-table-body::-webkit-scrollbar-track {
+//   -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+//   border-radius: 0;
+//   background: rgba(0,0,0,0.1);
+// }
 ::-webkit-scrollbar{
   width: 4px;    
   height: 4px;
@@ -156,10 +171,16 @@ $num0:0px;
         }
       }
     }
+
     .ivu-table-fixed-right::before, .ivu-table-fixed::before{
       height:0;
     }
-    
+    .ivu-table-fixed, .ivu-table-fixed-right{
+      box-shadow:none;
+    }
+    .ivu-table-fixed-right{
+      right:-1;
+    }
   
 }
 </style>
@@ -168,13 +189,16 @@ $num0:0px;
   <div class="system-conf">
     <Row class="wrap">
       <Col span="3" class="itemList">
-      <p  v-for="(item,$index) in itemList" @click="loadInformation(item.m_iEquipNo,$index)" :class="$index==active?'clickActive':''" >
+      <p  v-for="(item,$index) in itemList" @click="loadInformation(item.m_iEquipNo,$index)"   ref="mybox" >
+        <!-- :class="$index==active?'clickActive':''" -->
         {{item.m_EquipNm}}
       </p>
     </Col>
     <Col span="21" class="itemDetail">
     <div class="common-tabSys">
+      <Button type="primary" style="margin-right:10px;border-radius:0;background:#2d8cf0;padding:8.5px 21.5px;font-size:14px;line-height:inherit;color:#fff;position:absolute;right:0;z-index: 99;" @click="selectEvent()">查询</Button >
       <Tabs type="card" :animated="false">
+
         <TabPane label="设备配置" class="ycp">
 
           <Table :columns="columnsEq" :data="dataEq" :height="tableHeight"  :row-class-name="rowClassName"></Table>
@@ -1097,7 +1121,8 @@ isMarkAmarm:"",
       equipId:0,//当前设备id
       zcData:[],
       viData:[],
-      alrmData:[]
+      alrmData:[],
+      searchArr:[]
     }
   },beforeCreate(){
       this.Axios.post("/api/GWServiceWebAPI/get_DataByTableName",{TableName:'GWZiChanTable'}).then(res=>{
@@ -1112,7 +1137,7 @@ isMarkAmarm:"",
       })
       
   },mounted (){
-    this.init();
+      this.init();
   },methods:{
    rowClassName (row, index) {
     if (index%2== 0) {
@@ -1125,36 +1150,59 @@ isMarkAmarm:"",
   init(){
     var h = document.documentElement.clientHeight || document.body.clientHeight;
     this.tableHeight=h-160;
-        // console.log(this.tableHeight)
-        // console.log(h)
         this.Axios.post("/api/real/equip_state",{userName:window.localStorage.login_msg}).then(res=>{
           let response=res.data.HttpData.data;
           this.itemList=response;
-        // console.log(response)
 
-        this.loadInformation(response[0].m_iEquipNo,0)
+        //* this.loadInformation(response[0].m_iEquipNo,0)
 
       })
       },loadInformation(id,index){
+        let nameStr=this.$refs.mybox[index].className;
 
-        this.active=index;
-        this.equipId=id;
+        if(nameStr=="clickActive"){
+         
+          this.$refs.mybox[index].className=""
+           var that = this;
+           for (var i = 0;i <that.searchArr.length;i++) {
+               var ind = that.searchArr[i];
+               if (ind==index) {
+                   that.searchArr.splice(i,1);
+               }
+           }
+        }else{
+          
+          this.$refs.mybox[index].className="clickActive"
+          this.searchArr.push(id);
+
+        }
+        // console.log(this.searchArr)
+
+      },selectEvent(){
+        // id,index
+
+         // 布局完成,js尚未
+        let id=this.searchArr.toString();
+        // console.log(id)
         this.getPlanData()
+        // this.active=index;
+        this.equipId=id;
+        
         this.Axios.all([this.Axios.post("/GWService.asmx/GetSystemConfig",{table_name:'Equip',equip_no_list:id})]).then(this.Axios.spread((res) => {
 
 
          let eqData=JSON.parse(res.data.d);
-         // let arlarData=JSON.parse(alarm.data.d);
+         // console.log(eqData);
          let arlarData=this.alrmData;
          let alarLen=arlarData.length;
-         // let videoData=video.data.HttpData.data;
+         
          let zichanData=this.zcData;
          let videoData=this.viData;
-         // zichan.data.HttpData.data;
+         
          this.zizhanList=[];
          this.videoList=[];
- this.columnsEq.splice(8,alarLen+1)
-          // console.log(this.checkAlarm)
+        this.columnsEq.splice(8,alarLen+1)
+          
           for(var i=0;i<videoData.length;i++){
             
             var item={
@@ -1171,18 +1219,10 @@ isMarkAmarm:"",
             }
             this.zizhanList.push(item)
           }
-            // console.log(zichanData)
-          // console.log(eqData)
-          //this.videoList，zizhanList
-            // console.log(arlarData);
+            
             this.dataEq=[];
 
-           // for(var i=this.columnsEq.length-1;i;i--){
-
-           // }
            
-           
-            // console.log(this.columnsEq)
             for(var j=0;j<arlarData.length;j++){
              
               var itemAl={
@@ -1225,9 +1265,7 @@ isMarkAmarm:"",
                     class:"iconfont icon-scheduleMODIFY",
                     on: {
                       click: () => {
-                                            // console.log(params)
-                                            // isAlarm   ,   isMarkAmarm    
-                                              // alarmArrMark,alarmArrIsShow
+                                          
                                               let ind=params.index;
                                               this.loadDefZic=eqData[ind].ZiChanID;
                                               this.loadDefVideo=eqData[ind].related_video;
@@ -1237,8 +1275,7 @@ isMarkAmarm:"",
                                               this.checkAlarm=this.alarmWay[ind];
                                               this.isSet_P=true;
                                               this.isYx=false;
-                                              // console.log(this.alarmWay)
-                                              // console.log(this.alarmWay)
+                                              this.equipId=eqData[ind].equip_no;
                                               this.uploadInfor=[
                                               {name:"设备号",value:eqData[ind].equip_no,listName:'equip_no'},
                                               {name:"设备名称",value:eqData[ind].equip_nm,listName:'equip_nm'},
@@ -1275,7 +1312,7 @@ isMarkAmarm:"",
                     }, class:"iconfont icon-details ",
                     on: {
                       click: () => {
-                                          // console.log(params)
+                                         
                                           let ind=params.index;
 
                                           this.modal1=true;
@@ -1305,7 +1342,7 @@ isMarkAmarm:"",
 }
 
 });
-            // var aaa= this.alarmSchemes(35,arlarData)
+           
             
             for(var i=0;i<eqData.length;i++){
 
@@ -1353,7 +1390,7 @@ isMarkAmarm:"",
                       arrName[j]='<Icon type="ios-circle-outline"></Icon>' ;
                     }
                     waysArr.push(itemalar);
-                    // console.log(waysArr);
+                    
                   }
 
                   this.alarmWay[i]=waysArr;
@@ -1396,7 +1433,7 @@ isMarkAmarm:"",
 //加载模拟量配置
 this.Axios.all([this.Axios.post("/GWService.asmx/GetSystemConfig",{table_name:'ycp',equip_no_list:id})]).then(this.Axios.spread((res) => {
  let dataYc=JSON.parse(res.data.d);
- // console.log(dataYc)
+ 
  let arlarData=this.alrmData;
       let zichanData=this.zcData
        let videoData=this.viData
@@ -1406,13 +1443,13 @@ this.Axios.all([this.Axios.post("/GWService.asmx/GetSystemConfig",{table_name:'y
            this.columnsYc.splice(15,alarLen+1)
             for(var j=0;j<arlarData.length;j++){
                
-              // console.log(arlarData[j].Proc_name)
+              
               var itemAl={
                 title:arlarData[j].Proc_name,
                 width:100,
                 key:"way"+j,
                 render:(h,params)=>{
-                    // console.log(params);
+                   
                     var txt=params.column.key;
                     var types=params.row[txt].split('"')[1];
                     return h("div",[
@@ -1446,9 +1483,9 @@ this.Axios.all([this.Axios.post("/GWService.asmx/GetSystemConfig",{table_name:'y
                     class:"iconfont icon-scheduleMODIFY",
                                       on: {
                                         click: () => {
-                                          // console.log(this.alarmArrMarkYc)
+                                         
                                           let index=params.index;
-                                          // console.log(index)
+                                          
                                           this.modal2=true;
                                           this.isSet_P=true;
                                           this.loadDefZic=dataYc[index].ZiChanID;
@@ -1463,6 +1500,7 @@ this.Axios.all([this.Axios.post("/GWService.asmx/GetSystemConfig",{table_name:'y
                                           this.curve_rcd=this.curve_rcdArr[index];
                                           this.scaleTran=this.scaleTranArr[index];
                                           this.isYc=true;
+                                           this.equipId=dataYc[index].equip_no;
                                             // console.log(this.alarmWay[index])
                                             this.uploadInfor=[
                                               {name:"设备号",value:dataYc[index].equip_no,listName:'equip_no'},
@@ -1556,8 +1594,7 @@ this.Axios.all([this.Axios.post("/GWService.asmx/GetSystemConfig",{table_name:'y
                                            
                                            ];
                                            this.modal1=true;
-                                                                                  // console.log(params)
-                                                                                    // this.show(params.index)
+                                                                                
                                           }
                                         }
                                       })
@@ -1584,15 +1621,13 @@ for(var i=0;i<dataYc.length;i++){
         }
       }
 
-      //           curve_rcdArr:[],
-      // negateArr:[],
-      // scaleTranArr:[],
+
       if(dataYc[i].mapping=="True"||dataYc[i].mapping=="true"){
         this.scaleTranArr.push("True")
       }else{
        this.scaleTranArr.push("False")
      }
-     // console.log(this.scaleTranArr)
+   
 
      let checkArr=[],isShow,isMarlAl;
      if((dataYc[i].alarm_scheme & 1)>0){
@@ -1740,7 +1775,7 @@ this.Axios.all([this.Axios.post("/GWService.asmx/GetSystemConfig",{table_name:'y
                                                                 this.loadDefPlan=dataYx[index].PlanNo;
 
                                                                 this.isAlarm=this.alarmArrIsShowYx[index];
-
+                                                                this.equipId=dataYx[index].equip_no;
                                                                 this.isMarkAmarm=this.alarmArrMarkYx[index];
                                                                 this.checkAlarm=this.alarmWayYx[index];
                                                                 this.negate=this.negateArr[index]
@@ -1942,6 +1977,7 @@ this.Axios.all([this.Axios.post("/GWService.asmx/GetSystemConfig",{table_name:'y
                     this.isYc=false;
                     this.isMarkSet =this.isMarkSetArr[index]
                     this.isExeSet =this.isExeSetArr[index]
+                    this.equipId=dataSet[index].equip_no;
                     this.uploadInfor=[
                     {name:"设备号",value:dataSet[index].equip_no,listName:'equip_no'},
                     {name:"设置号",value:dataSet[index].set_no,listName:'set_no'},
@@ -2058,7 +2094,8 @@ this.Axios.all([this.Axios.post("/GWService.asmx/GetSystemConfig",{table_name:'y
               var int=res.data.HttpData.data;
               if(int!=0&&res.data.HttpStatus==200){
                 this.$Message.success('修改成功');
-                 this.loadInformation(this.equipId,this.active)
+                this.selectEvent()
+                 // this.loadInformation(this.equipId,this.active)
               }else{
                 this.$Message.error('修改失败');
               }
@@ -2126,7 +2163,8 @@ this.Axios.all([this.Axios.post("/GWService.asmx/GetSystemConfig",{table_name:'y
            var int=res.data.HttpData.data;
            if(int!=0&&res.data.HttpStatus==200){
             this.$Message.success('修改成功');
-             this.loadInformation(this.equipId,this.active)
+             this.selectEvent()
+             // this.loadInformation(this.equipId,this.active)
 
           }else{
             this.$Message.error('修改失败');
@@ -2189,7 +2227,8 @@ this.Axios.all([this.Axios.post("/GWService.asmx/GetSystemConfig",{table_name:'y
            var int=res.data.HttpData.data;
            if(int!=0&&res.data.HttpStatus==200){
             this.$Message.success('修改成功');
-             this.loadInformation(this.equipId,this.active)
+             this.selectEvent()
+             // this.loadInformation(this.equipId,this.active)
           }else{
             this.$Message.error('修改失败');
           }
@@ -2229,7 +2268,8 @@ this.Axios.all([this.Axios.post("/GWService.asmx/GetSystemConfig",{table_name:'y
              var int=res.data.HttpData.data;
              if(int!=0&&res.data.HttpStatus==200){
               this.$Message.success('修改成功');
-               this.loadInformation(this.equipId,this.active)
+               // this.loadInformation(this.equipId,this.active)
+              this.selectEvent()
             }else{
               this.$Message.error('修改失败');
             }

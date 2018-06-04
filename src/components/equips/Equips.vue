@@ -208,6 +208,7 @@ export default {
           if (rt.code === 200) {
             let data = rt.data
             if (data.length > 0) {
+              // console.log(data)
               this.tabData[2].hasSet = true
               this.tabData[2].isShow = true
               this.tabData[2].setList = data
@@ -219,7 +220,9 @@ export default {
               this.tabData[2].hasSet = false
               this.tabData[2].isShow = false
             }
-            // console.log(this.tabData[2].setList)
+            this.tabData[2].setList = this.tabData[2].setList.sort((a, b) => {
+              return a.set_no - b.set_no
+            })
             this.isLoading = false
           }
           else {
@@ -234,7 +237,7 @@ export default {
         })
     },
     doSet (equip) {
-      // console.log(equip)
+      console.log(equip)
       if (equip.set_type === 'V') {
         this.setEquip = equip
         this.$set(this.setEquip, 'newVal', this.setEquip.value)
@@ -247,11 +250,12 @@ export default {
             const reqData = {
               equip_no: '' + equip.equip_no,
               main_instr: equip.main_instruction,
-              mino_instr: equip.minor_instruction,
+              mino_instr: equip.minor_instruction || '-',
               value: equip.value
             }
             this.Axios.post('/api/real/setup', reqData)
               .then(res => {
+                console.log(reqData)
                 const rt = res.data.HttpData
                 if (rt.code === 201) {
                   this.$Message.success(rt.message)
@@ -308,16 +312,27 @@ export default {
         // console.log('ycyxall--------------' + type, data)
         // 更新报警状态
         let rt = JSON.parse(data)
+        // console.log(rt)
         if (type === 'ycp') {
           this.tabData[0].hasAlarm = rt.some(item => item.m_IsAlarm === 'True')
+          if (this.tabData[0].hasAlarm) {
+            this.updateNavAlarm('alarm')
+          } else {
+            this.updateNavAlarm('fine')
+          }
         } else if (type === 'yxp') {
           this.tabData[1].hasAlarm = rt.some(item => item.m_IsAlarm === 'True')
+          if (this.tabData[1].hasAlarm) {
+            this.updateNavAlarm('alarm')
+          } else {
+            this.updateNavAlarm('fine')
+          }
         }
       });
 
       // ycp有广播消息
       this.hubProxy.on('sendYcpSingle', data => {
-        console.log('yccccp----------------', data)
+        // console.log('yccccp----------------', data)
         // 更新ycp实时数据
         this.tabData[0].tbList.forEach(item => {
           let rt = data.split(',')

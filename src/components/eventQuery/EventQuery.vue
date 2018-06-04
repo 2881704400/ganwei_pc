@@ -2,7 +2,8 @@
   <div class="event-query">
      <Row class="wrap">
         <Col span="3" class="itemList">
-  			  <p  v-for="(item,$index) in itemList" @click="selectId(item.m_iEquipNo,$index)" :class="$index==activeClass?'clickActive':''">
+  			  <p  v-for="(item,$index) in itemList" @click="selectId(item.m_iEquipNo,$index)" ref="mybox">
+            <!-- :class="$index==activeClass?'clickActive':'' -->
                 {{item.m_EquipNm}}
           </p>
         </Col>
@@ -50,29 +51,36 @@ export default {
       equipTh:[
         {
           title:"设备名称",
+          align: 'center',
           key:"name"
         },{
           title:"设备事件",
+          align: 'center',
           key:"event"
         },{
           title:"时间",
           key:"time",
+          align: 'center',
           sortable: true
         }
       ],
       sysTh:[
           {
             title:"设备名称",
+            align: 'center',
             key:"name"
           },{
             title:"设置事件",
+            align: 'center',
             key:"event"
           },{
             title:"操作人员",
+            align: 'center',
             key:"person"
           },{
             title:"时间",
             key:"time",
+            align: 'center',
             sortable: true
           }
       ],
@@ -80,11 +88,13 @@ export default {
 
           {
               title: '设备事件',
-              key: 'event'
+              key: 'event',
+               align: 'center',
           },
           {
               title: '时间',
               key: 'time',
+              align: 'center',
               sortable: true
           }
       ],
@@ -120,7 +130,7 @@ export default {
                       }
 
                   ]
-      }
+      },searchArr:[]
     }
   },mounted (){
     this.init()
@@ -145,9 +155,20 @@ export default {
       })
      },
      selectId(id,index){
-        this.equipId=id;
-        this.activeClass=index;
-
+        let nameStr=this.$refs.mybox[index].className;
+        if(nameStr=="clickActive"){
+          this.$refs.mybox[index].className=""
+           var that = this;
+           for (var i = 0;i <that.searchArr.length;i++) {
+               var ind = that.searchArr[i];
+               if (ind==index) {
+                   that.searchArr.splice(i,1);
+               }
+           }
+        }else{
+          this.$refs.mybox[index].className="clickActive"
+          this.searchArr.push(id);
+        }
      },
      selectEvent(){
         this.loadEventList();
@@ -156,6 +177,7 @@ export default {
         this.dateValue=val;
      },
      loadEventList(){
+      let id=this.searchArr.toString();
       let dates=this.dateValue;
       let timeStr="";
       if(this.dateValue[0]==""){
@@ -163,12 +185,10 @@ export default {
       }
       timeStr=this.dateValue.toString();
       this.loading=true;
-      this.Axios.post("/GWService.asmx/QueryEquipEvt",{times:timeStr,equip_no_list:this.equipId}).then(res=>{//加载模拟量配置
-         // this.equipEvent=res.data.HttpData.data;
+      this.Axios.post("/GWService.asmx/QueryEquipEvt",{times:timeStr,equip_no_list:id}).then(res=>{//加载模拟量配置
           if(res.data!='false'){
             this.equipEvent=[];
             let respon=JSON.parse(res.data.d)
-            // this.equipEvent=JSON.parse(res.data.d);
             for(var i=0;i<respon.length;i++){
               let timeStrs=this.getDateStr(respon[i].time);
               let item={
@@ -182,7 +202,7 @@ export default {
           }
           this.loading=false;
       });
-      this.Axios.post("/GWService.asmx/QuerySetupsEvt",{times:timeStr,equip_no_list:this.equipId}).then(res=>{
+      this.Axios.post("/GWService.asmx/QuerySetupsEvt",{times:timeStr,equip_no_list:id}).then(res=>{
           if(res.data!='false'){
             this.setEvent=[];
             let respon=JSON.parse(res.data.d)
@@ -200,31 +220,21 @@ export default {
            this.loading=false;
       });
       this.Axios.post("/GWService.asmx/QuerySystemEvt",{times:timeStr}).then(res=>{
-        // console.log(res)
-        // console.log(res)
           if(res.data!='false'){
             this.sysEvent=[];
-            // this.sysEvent=JSON.parse(res.data.d);
             let respon=JSON.parse(res.data.d)
             // console.log(respon)
             for(var i=0;i<respon.length;i++){
               let timeStrs=this.getDateStr(respon[i].time);
-              // console.log(timeStrs)
               let item={
                 
                 event:respon[i].event,
                 time:timeStrs
               }
-
-
               this.sysEvent.push(item)
-             
             }
-          
           }
            this.loading=false;
-
-        
       });
      },appendZero(obj){
         var a=obj.split("");
@@ -239,9 +249,7 @@ export default {
         }else{
             var date=dateStr.split(" ")[0].split("/");
         }
-       
         var time=dateStr.split(" ")[1].split(":");
-
         var year=this.appendZero(date[0]);
         var mon=this.appendZero(date[1]);
         var day=this.appendZero(date[2]);

@@ -385,6 +385,7 @@
 
 .common-table table thead tr {
 	background: #fff;
+	cursor: pointer;
 }
 
 .common-table table thead tr th {
@@ -515,7 +516,6 @@
 
 .common-table table tbody tr:hover {
 	background: rgba(255, 255, 255, .2)!important;
-	cursor: pointer;
 }
 
 .common-table table tbody>.active {
@@ -553,6 +553,7 @@
 
 .three-smalltable table {
 	height: 99%;
+	border: 1px solid #ddd;
 }
 
 .common-smalltable table tbody {
@@ -601,14 +602,14 @@
 }
 
 .common-smalltable table thead tr th {
-	padding: 12px 10px;
+	padding: 10px 10px;
 	color: #858585;
 	font-size: 13px;
 	font-weight: 500;
 	text-align: center;
 	background: #fff;
-	/*box-shadow: 0 3px 0px 0px #ddd;*/
 	border-bottom: 1px solid #ddd;
+	cursor: pointer;
 }
 
 .common-smalltable table tbody {
