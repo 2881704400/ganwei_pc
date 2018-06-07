@@ -1700,118 +1700,6 @@ export default {
 		},
 		//------普通任务（含普通任务列表、系统控制、设备列表）:保存编辑信息---------
 		saveCommonTaskFun() {
-			//设备列表
-			let CommonTaskEquipControl = this.CommonTaskEquipControl;
-			for(let i = 0; i < CommonTaskEquipControl.length; i++) {
-				if(CommonTaskEquipControl[i].isUpdateFlag) {
-					if(CommonTaskEquipControl[i].set_nom == "") {
-						alert("请选择控制类型");
-						return false;
-					}
-					let set_nom = CommonTaskEquipControl[i].set_nom;
-					let equip_no = set_nom.split(",")[0];
-					let set_no = set_nom.split(",")[1];
-					if(CommonTaskEquipControl[i].ID != "") {
-						this.Axios.post('/api/GWServiceWebAPI/set_BatchUpdate', {
-							tableName: "GWProcTimeEqpTable",
-							cellDataList: " [Time]='" + this.formatTimeType(CommonTaskEquipControl[i].Time) + "', TimeDur='" + this.formatTimeType(CommonTaskEquipControl[i].TimeDur) + "', equip_no='" + equip_no + "', set_no='" + set_no + "' ",
-							ifDataList: " ID =" + CommonTaskEquipControl[i].ID
-						}).then(res => {
-							let data = res.data.HttpData;
-							if(data.code == 200 && data.data != null) {
-								let resultData = data.data;
-								if(resultData == "1") {
-									this.$Message.success("更新成功");
-									this.CommonTaskEquipControl[i].isCommonSpan = true;
-								} else {
-									this.$Message.error("更新失败");
-								}
-
-							}
-						}).catch(err => {
-							console.log(err)
-						})
-					} else {
-						if(CommonTaskEquipControl[i].set_no != "") {
-							this.Axios.post('/api/GWServiceWebAPI/set_InsertNewTable', {
-								tableName: "GWProcTimeEqpTable([TableID],[Time],TimeDur,equip_no,set_no)",
-								tableVlue: " select " + this.CommonTaskTableID + ",'" + this.formatTimeType(CommonTaskEquipControl[i].Time) + "','" + this.formatTimeType(CommonTaskEquipControl[i].TimeDur) + "'," + equip_no + "," + set_no + " "
-
-							}).then(res => {
-								let data = res.data.HttpData;
-								if(data.code == 200 && data.data != null) {
-									let resultData = data.data;
-									if(resultData == "1") {
-										this.$Message.success("增加成功");
-										this.getCommonTaskEquipControl();
-									} else {
-										this.$Message.error("增加失败");
-									}
-
-								}
-							}).catch(err => {
-								console.log(err)
-							})
-						}
-					}
-					this.CommonTaskEquipControl[i].isUpdateFlag = false;
-				}
-			}
-			//系统控制
-			let CommonTaskSystemControl = this.CommonTaskSystemControl;
-			for(let i = 0; i < CommonTaskSystemControl.length; i++) {
-				if(CommonTaskSystemControl[i].isUpdateFlag) {
-					if(CommonTaskSystemControl[i].proc_code == "") {
-						alert("请选择控制类型");
-						return false;
-					}
-					if(CommonTaskSystemControl[i].ID != "") {
-						this.Axios.post('/api/GWServiceWebAPI/set_BatchUpdate', {
-							tableName: "GWProcTimeSysTable",
-							cellDataList: " [Time]='" + this.formatTimeType(CommonTaskSystemControl[i].Time) + "', TimeDur='" + this.formatTimeType(CommonTaskSystemControl[i].TimeDur) + "', proc_code='" + CommonTaskSystemControl[i].proc_code + "' ",
-							ifDataList: " TableID =" + CommonTaskSystemControl[i].TableID + " and ID=" + CommonTaskSystemControl[i].ID
-						}).then(res => {
-							let data = res.data.HttpData;
-							if(data.code == 200 && data.data != null) {
-								let resultData = data.data;
-								if(resultData == "1") {
-									this.$Message.success("更新成功");
-									this.CommonTaskSystemControl[i].isCommonSpan = true;
-								} else {
-									this.$Message.error("更新失败");
-								}
-
-							}
-						}).catch(err => {
-							console.log(err)
-						})
-					} else {
-						if(CommonTaskSystemControl[i].proc_code != "") {
-							this.Axios.post('/api/GWServiceWebAPI/set_InsertNewTable', {
-								tableName: "GWProcTimeSysTable([TableID],[Time],TimeDur,proc_code)",
-								tableVlue: " select " + this.CommonTaskTableID + ",'" + this.formatTimeType(CommonTaskSystemControl[i].Time) + "','" + this.formatTimeType(CommonTaskSystemControl[i].TimeDur) + "'," + CommonTaskSystemControl[i].proc_code + " "
-							}).then(res => {
-								let data = res.data.HttpData;
-								if(data.code == 200 && data.data != null) {
-									let resultData = data.data;
-									if(resultData == "1") {
-										this.$Message.success("增加成功");
-										this.getCommonTaskSystemControl();
-									} else {
-										this.$Message.error("增加失败");
-									}
-
-								}
-							}).catch(err => {
-								console.log(err)
-							})
-						} else {
-							this.$Message.warning("请选择控制类型");
-						}
-					}
-					this.CommonTaskSystemControl[i].isUpdateFlag = false;
-				}
-			}
 			//普通任务列表
 			let CommonTaskList = this.CommonTaskList;
 			for(let i = 0; i < CommonTaskList.length; i++) {
@@ -1870,6 +1758,126 @@ export default {
 						}
 					}
 					this.CommonTaskList[i].isUpdateFlag = false;
+				}
+			}
+			//系统控制
+			let CommonTaskSystemControl = this.CommonTaskSystemControl;
+			for(let i = 0; i < CommonTaskSystemControl.length; i++) {
+				if(CommonTaskSystemControl[i].isUpdateFlag) {
+					if(CommonTaskSystemControl[i].proc_code == "") {
+						alert("请选择控制类型");
+						return false;
+					}
+					if(CommonTaskSystemControl[i].ID != "") {
+						this.Axios.post('/api/GWServiceWebAPI/set_BatchUpdate', {
+							tableName: "GWProcTimeSysTable",
+							cellDataList: " [Time]='" + this.formatTimeType(CommonTaskSystemControl[i].Time) + "', TimeDur='" + this.formatTimeType(CommonTaskSystemControl[i].TimeDur) + "', proc_code='" + CommonTaskSystemControl[i].proc_code + "' ",
+							ifDataList: " TableID =" + CommonTaskSystemControl[i].TableID + " and ID=" + CommonTaskSystemControl[i].ID
+						}).then(res => {
+							let data = res.data.HttpData;
+							if(data.code == 200 && data.data != null) {
+								let resultData = data.data;
+								if(resultData == "1") {
+									this.$Message.success("更新成功");
+									this.CommonTaskSystemControl[i].isCommonSpan = true;
+								} else {
+									this.$Message.error("更新失败");
+								}
+
+							}
+						}).catch(err => {
+							console.log(err)
+						})
+					} else {
+						if(CommonTaskSystemControl[i].proc_code != "") {
+							var newCommTaskID=this.CommonTaskTableID;
+							if(this.CommonTaskTableID==""){
+								newCommTaskID=this.CommonTaskMaxTableID;
+							}
+							this.Axios.post('/api/GWServiceWebAPI/set_InsertNewTable', {
+								tableName: "GWProcTimeSysTable([TableID],[Time],TimeDur,proc_code,cmd_nm)",
+								tableVlue: " select " + newCommTaskID + ",'" + this.formatTimeType(CommonTaskSystemControl[i].Time) + "','" + this.formatTimeType(CommonTaskSystemControl[i].TimeDur) + "', " + CommonTaskSystemControl[i].proc_code + ", '" + CommonTaskSystemControl[i].proc_code + "' "
+							}).then(res => {
+								let data = res.data.HttpData;
+								if(data.code == 200 && data.data != null) {
+									let resultData = data.data;
+									if(resultData == "1") {
+										this.$Message.success("增加成功");
+										this.getCommonTaskSystemControl();
+									} else {
+										this.$Message.error("增加失败");
+									}
+
+								}
+							}).catch(err => {
+								console.log(err)
+							})
+						} else {
+							this.$Message.warning("请选择控制类型");
+						}
+					}
+					this.CommonTaskSystemControl[i].isUpdateFlag = false;
+				}
+			}
+			//设备列表
+			let CommonTaskEquipControl = this.CommonTaskEquipControl;
+			for(let i = 0; i < CommonTaskEquipControl.length; i++) {
+				if(CommonTaskEquipControl[i].isUpdateFlag) {
+					if(CommonTaskEquipControl[i].set_nom == "") {
+						alert("请选择控制类型");
+						return false;
+					}
+					let set_nom = CommonTaskEquipControl[i].set_nom;
+					let equip_no = set_nom.split(",")[0];
+					let set_no = set_nom.split(",")[1];
+					if(CommonTaskEquipControl[i].ID != "") {
+						this.Axios.post('/api/GWServiceWebAPI/set_BatchUpdate', {
+							tableName: "GWProcTimeEqpTable",
+							cellDataList: " [Time]='" + this.formatTimeType(CommonTaskEquipControl[i].Time) + "', TimeDur='" + this.formatTimeType(CommonTaskEquipControl[i].TimeDur) + "', equip_no='" + equip_no + "', set_no='" + set_no + "' ",
+							ifDataList: " ID =" + CommonTaskEquipControl[i].ID
+						}).then(res => {
+							let data = res.data.HttpData;
+							if(data.code == 200 && data.data != null) {
+								let resultData = data.data;
+								if(resultData == "1") {
+									this.$Message.success("更新成功");
+									this.CommonTaskEquipControl[i].isCommonSpan = true;
+								} else {
+									this.$Message.error("更新失败");
+								}
+
+							}
+						}).catch(err => {
+							console.log(err)
+						})
+					} else {
+						if(CommonTaskEquipControl[i].set_no != "") {
+							var newCommTaskID=this.CommonTaskTableID;
+							if(this.CommonTaskTableID==""){
+								newCommTaskID=this.CommonTaskMaxTableID;
+							}
+							this.Axios.post('/api/GWServiceWebAPI/set_InsertNewTable', {
+								tableName: "GWProcTimeEqpTable([TableID],[Time],TimeDur,equip_no,set_no)",
+								tableVlue: " select " + newCommTaskID + ",'" + this.formatTimeType(CommonTaskEquipControl[i].Time) + "','" + this.formatTimeType(CommonTaskEquipControl[i].TimeDur) + "'," + equip_no + "," + set_no + " "
+
+							}).then(res => {
+								let data = res.data.HttpData;
+								if(data.code == 200 && data.data != null) {
+									let resultData = data.data;
+									if(resultData == "1") {
+										this.$Message.success("增加成功");
+										this.getCommonTaskEquipControl();
+									} else {
+										this.$Message.error("增加失败");
+									}
+
+								}
+							}).catch(err => {
+								console.log(err)
+							})
+						}
+					}
+					this.CommonTaskEquipControl[i].isUpdateFlag = false;
 				}
 			}
 		},
@@ -1939,8 +1947,15 @@ export default {
 				Comment: "",
 				isCommonSpan: false,
 				isUpdateFlag: true
-			});
-
+			});console.log(this.CommonTaskList)
+			this.selecteTable = this.CommonTaskList.length-1;
+			this.SystemStatus = true;
+			this.EquipStatus = true;
+			this.selecteSystem = -1;
+			this.selecteEquip = -1;
+			this.CommonTaskTableID = this.CommonTaskList.length;
+			this.getCommonTaskSystemControl();
+			this.getCommonTaskEquipControl();
 		},
 
 		//------普通任务列表:编辑---------
@@ -1953,7 +1968,7 @@ export default {
 			this.CommonTaskList[index].isUpdateFlag = true;
 		},
 		//------普通任务列表:选中行---------
-		SelecteTableFun(index) {
+		SelecteTableFun(index) {console.log(index)
 			let TableID;
 			for(var i = 0; i < this.CommonTaskList.length; i++) {
 				TableID = this.CommonTaskList[i].TableID;

@@ -12,7 +12,7 @@ module.exports = {
     proxyTable: {
       '/api': {
 
-        target: 'http://192.168.0.135:7006',
+        target: 'http://localhost:7001',
 
         pathRewrite: {
           '^/api': '/api',
@@ -20,7 +20,7 @@ module.exports = {
       },
       '/': {
 
-        target: 'http://192.168.0.135:7006',
+        target: 'http://localhost:7001',
 
         pathRewrite: {
           '^/': '/',
