@@ -121,7 +121,7 @@
 			},
 			tableSort: function(a, b) {
 				let tableSortType = this.tableSortType;
-				let tableSortDirection = this.tableSortDirection;console.log(tableSortDirection)
+				let tableSortDirection = this.tableSortDirection;
 				if(tableSortDirection[tableSortType] == 0) {
 					if(tableSortType == "0") {
 						return a.Level.localeCompare(b.Level);
@@ -188,7 +188,7 @@
 							this.event_Level_list = this.event_Level_list.substring(0, this.event_Level_list.length - 1);
 							this.btnInfo = listAddData;
 							this.getRealTimeEventCount();
-							//							this.timeInterval=setInterval(this.getRealTimeEventCount, 5000);
+							this.timeInterval=setInterval(this.getRealTimeEventCount, 5000);
 						}
 					}).catch(err => {
 						console.log(err)
