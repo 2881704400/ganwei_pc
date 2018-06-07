@@ -1570,7 +1570,7 @@ export default {
 							cmd_nm: resultData[i].cmd_nm
 						});
 					}
-					this.ProcCmdList = ProcCmdListData;
+					this.ProcCmdList = ProcCmdListData;console.log(ProcCmdListData)
 				}
 			}).catch(err => {
 				console.log(err)
@@ -1692,7 +1692,7 @@ export default {
 							isUpdateFlag: false
 						});
 					}
-					this.CommonTaskSystemControl = CommonTaskSystemControlData;
+					this.CommonTaskSystemControl = CommonTaskSystemControlData;console.log(CommonTaskSystemControlData)
 				}
 			}).catch(err => {
 				console.log(err)
@@ -1794,9 +1794,16 @@ export default {
 							if(this.CommonTaskTableID==""){
 								newCommTaskID=this.CommonTaskMaxTableID;
 							}
+							let ProcCmdList=this.ProcCmdList;
+							let cmd_nm;
+							for(let j=0;j<ProcCmdList.length;j++){
+								if(ProcCmdList[j].proc_code==CommonTaskSystemControl[i].proc_code){
+									cmd_nm=ProcCmdList[j].cmd_nm;
+								}
+							}
 							this.Axios.post('/api/GWServiceWebAPI/set_InsertNewTable', {
 								tableName: "GWProcTimeSysTable([TableID],[Time],TimeDur,proc_code,cmd_nm)",
-								tableVlue: " select " + newCommTaskID + ",'" + this.formatTimeType(CommonTaskSystemControl[i].Time) + "','" + this.formatTimeType(CommonTaskSystemControl[i].TimeDur) + "', " + CommonTaskSystemControl[i].proc_code + ", '" + CommonTaskSystemControl[i].proc_code + "' "
+								tableVlue: " select " + newCommTaskID + ",'" + this.formatTimeType(CommonTaskSystemControl[i].Time) + "','" + this.formatTimeType(CommonTaskSystemControl[i].TimeDur) + "', " + CommonTaskSystemControl[i].proc_code + ", '" + cmd_nm + "' "
 							}).then(res => {
 								let data = res.data.HttpData;
 								if(data.code == 200 && data.data != null) {
