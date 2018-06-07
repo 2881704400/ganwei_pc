@@ -1,8 +1,9 @@
 <style lang="css">
 
 *{
-  font-family: "微软雅黑"
+  font-family: "微软雅黑",
 }
+/*sss*/
  ::-webkit-scrollbar {/*滚动条整体样式*/
     width: 4px;     /*高宽分别对应横竖滚动条的尺寸*/
     height: 4px;
@@ -48,13 +49,13 @@
   color:#2d8cf0;
 }
 .common-tabEve{padding:12px 0 12px 0;}
-.ivu-tabs-bar{margin-bottom: 0;height: 40px;}
-.ivu-tabs-nav-container{height: 40px !important;}
-.ivu-table-wrapper{
+.event-query .ivu-tabs-bar{margin-bottom: 0;height: 40px;}
+.event-query .ivu-tabs-nav-container{height: 40px !important;}
+.event-query .ivu-table-wrapper{
   border:none;
 }
 
-.ivu-tabs.ivu-tabs-card>.ivu-tabs-bar .ivu-tabs-tab{
+.event-query .ivu-tabs.ivu-tabs-card>.ivu-tabs-bar .ivu-tabs-tab{
   margin-right: 0;
   border-radius: 0;
   border-right: none;
@@ -62,15 +63,15 @@
   height:40px;
   border-bottom: 1px solid #dddee1;
 }
-.ivu-tabs.ivu-tabs-card>.ivu-tabs-bar .ivu-tabs-tab:last-child{
+.event-query .ivu-tabs.ivu-tabs-card>.ivu-tabs-bar .ivu-tabs-tab:last-child{
    border-right:1px solid #dddee1;
 }
-.ivu-tabs.ivu-tabs-card>.ivu-tabs-bar .ivu-tabs-tab-active{
+.event-query .ivu-tabs.ivu-tabs-card>.ivu-tabs-bar .ivu-tabs-tab-active{
   border-top:1px solid #2d8cf0;
   box-sizing: border-box;
   background: #F9F9F9;
 }
-.ivu-table .ivu-table-header table .ivu-table-cell{
+.event-query .ivu-table .ivu-table-header table .ivu-table-cell{
   padding-left: 0;
   padding-right: 0;
   width: 100%;
@@ -79,44 +80,44 @@
   text-align: center;
   color:#858585;
 }
-.ivu-table th{
+.event-query  .ivu-table th{
   background: #fff;
 }
-.ivu-table td, .ivu-table th{
+.event-query .ivu-table td,.event-query  .ivu-table th{
   border:none 0;
 }
-.ivu-table td{
+.event-query .ivu-table td{
   font-size:1rem;
 }
-.ivu-table:after{
+.event-query .ivu-table:after{
   height: 0;
 }
-.ivu-table .demo-table-info-row td{
+.event-query .ivu-table .demo-table-info-row td{
         background-color: #f9f9f9;
 
     }
-.ivu-table .demo-table-error-row td{
+.event-query .ivu-table .demo-table-error-row td{
     background-color: #fff; 
   }
-  .ivu-table-row:hover{
+.event-query   .ivu-table-row:hover{
       background-color: #ff0 !important; 
   }
-  .common-tabEve .ivu-tabs-card>.ivu-tabs-content{
+.event-query   .common-tabEve .ivu-tabs-card>.ivu-tabs-content{
     margin-top: 0;
   }
-  .common-tabEve .ivu-tabs-card>.ivu-tabs-content>.ivu-tabs-tabpane{
+.event-query   .common-tabEve .ivu-tabs-card>.ivu-tabs-content>.ivu-tabs-tabpane{
     border:none 0;
   }
-  .ivu-table:before{
+.event-query   .ivu-table:before{
     height:0;
   }
-    .ivu-table-row:hover td{
+.event-query     .ivu-table-row:hover td{
       background: #ebf7ff !important; 
   }
-  .ivu-date-picker-cells span em{
+.event-query   .ivu-date-picker-cells span em{
     font-size: 15px !important;
   }
-  .ivu-btn-small{
+.event-query   .ivu-btn-small{
     font-size: 14px;
   }
   .dateSelect{
