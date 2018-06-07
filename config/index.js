@@ -21,6 +21,7 @@ module.exports = {
         pathRewrite: {
           '^/': '/',
         }
+
        }
     },
     // Various Dev Server settings
