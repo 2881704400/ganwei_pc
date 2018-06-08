@@ -99,7 +99,7 @@ export default {
       tabData: [
         {
           name: 'ycData',
-          title: '模拟量',
+          title: '遥测量',
           isActive: false,
           isShow: false,
           hasAlarm: false,
@@ -108,7 +108,7 @@ export default {
         },
         {
           name: 'yxData',
-          title: '状态量',
+          title: '遥信量',
           isActive: false,
           isShow: false,
           hasAlarm: false,
@@ -157,8 +157,10 @@ export default {
         equip_no: this.equipNo
       }).then(res => {
         let rt = res.data.HttpData
+
         if (rt.code === 200) {
           let data = rt.data
+           console.log(data);
           this.tabData[0].tbList.splice(0, this.tabData[0].tbList.length)
           this.tabData[1].tbList.splice(0, this.tabData[1].tbList.length)
           for (let key in data.YCItemDict) {
@@ -207,6 +209,7 @@ export default {
           let rt = res.data.HttpData
           if (rt.code === 200) {
             let data = rt.data
+            console.log(data)
             if (data.length > 0) {
               // console.log(data)
               this.tabData[2].hasSet = true
@@ -250,15 +253,18 @@ export default {
             const reqData = {
               equip_no: '' + equip.equip_no,
               main_instr: equip.main_instruction,
-              mino_instr: equip.minor_instruction || '-',
+              mino_instr: equip.minor_instruction || "",
               value: equip.value
             }
+            console.log(reqData);
             this.Axios.post('/api/real/setup', reqData)
               .then(res => {
                 console.log(reqData)
                 const rt = res.data.HttpData
                 if (rt.code === 201) {
+                  console.log(rt);
                   this.$Message.success(rt.message)
+
                   // this.getAllState()
                 } else {
                   console.log(rt)

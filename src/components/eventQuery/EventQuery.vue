@@ -159,7 +159,7 @@
                    <Table :columns="sysTh" :data="setEvent" :height="tableHeight" :row-class-name="rowClassName" :loading="loading"></Table>
                 </TabPane>
                 <TabPane label="系统事件">
-                   <Table :columns="sysEventTh" :data="sysEvent" :height="tableHeight" :row-class-name="rowClassName"  :loading="loading"></Table>
+                   <Table :columns="sysEventTh" :data="sysEvent" :height="tableHeight" :row-class-name="rowClassName"  :loading="loading" ></Table>
                 </TabPane>
 
               </Tabs>
@@ -318,82 +318,60 @@ export default {
         this.dateValue[0]=this.dateValue[1].split(" ")[0];
       }
       timeStr=this.dateValue.toString();
-      this.loading=true;
-      this.Axios.post("/GWService.asmx/QueryEquipEvt",{times:timeStr,equip_no_list:id}).then(res=>{//加载模拟量配置
-          if(res.data!='false'){
+      //this.loading=true;
+     this.Axios.post("/api/event/get_equip_evt",{times:timeStr,equip_nos:id}).then(res=>{//加载模拟量配置
+          if(res.data.HttpStatus==200&&res.data.HttpData.data.length!=0){
             this.equipEvent=[];
-            let respon=JSON.parse(res.data.d);
-            console.log(respon)
+            let respon=res.data.HttpData.data
+
             for(var i=0;i<respon.length;i++){
-              let timeStrs=this.getDateStr(respon[i].time);
               let item={
                 name:respon[i].equip_nm,
                 event:respon[i].event,
-                time:timeStrs
+                time:respon[i].time.replace("T"," ")
               }
               this.equipEvent.push(item);
             }
             
           }
           this.loading=false;
-      });
-      this.Axios.post("/GWService.asmx/QuerySetupsEvt",{times:timeStr,equip_no_list:id}).then(res=>{
-          if(res.data!='false'){
+     });
+     this.Axios.post("/api/event/get_set_evt",{times:timeStr,equip_nos:id}).then(res=>{
+
+
+          if(res.data.HttpStatus==200&&res.data.HttpData.data.length!=0){
             this.setEvent=[];
-            let respon=JSON.parse(res.data.d)
-            console.log(respon)
+            let respon=res.data.HttpData.data
             for(var i=0;i<respon.length;i++){
-              let timeStrs=this.getDateStr(respon[i].time);
               let item={
                 name:respon[i].equip_nm,
                 event:respon[i].event,
                 person:respon[i].operator,
-                time:timeStrs
+                time:respon[i].time.replace("T"," ")
               }
               this.setEvent.push(item);
             }
           }
            this.loading=false;
       });
-      this.Axios.post("/GWService.asmx/QuerySystemEvt",{times:timeStr}).then(res=>{
-          if(res.data!='false'){
+      this.Axios.post("/api/event/get_sys_evt",{times:timeStr}).then(res=>{
+        
+          if(res.data.HttpStatus==200&&res.data.HttpData.data.length!=0){
             this.sysEvent=[];
-            let respon=JSON.parse(res.data.d)
-            console.log(respon)
-            // console.log(respon)
+            let respon=res.data.HttpData.data
+          //   // console.log(respon)
             for(var i=0;i<respon.length;i++){
-              let timeStrs=this.getDateStr(respon[i].time);
+              
               let item={
                 
                 event:respon[i].event,
-                time:timeStrs
+                time:respon[i].time.replace("T"," ")
               }
               this.sysEvent.push(item)
             }
           }
            this.loading=false;
       });
-     },appendZero(obj){
-        var a=obj.split("");
-        if(obj<10&&a.length<2){
-          return "0"+obj;
-        }else{
-          return obj
-        }
-     },getDateStr(dateStr){
-        if(dateStr.indexOf("-")!=-1){
-             var date=dateStr.split(" ")[0].split("-");
-        }else{
-            var date=dateStr.split(" ")[0].split("/");
-        }
-        var time=dateStr.split(" ")[1].split(":");
-        var year=this.appendZero(date[0]);
-        var mon=this.appendZero(date[1]);
-        var day=this.appendZero(date[2]);
-        var hou=this.appendZero(time[0]);
-        var min=this.appendZero(time[1]);
-        var sec=this.appendZero(time[2]);
-        return year+"-"+mon+"-"+day+" "+hou+":"+min+":"+sec;
      }
 
    
