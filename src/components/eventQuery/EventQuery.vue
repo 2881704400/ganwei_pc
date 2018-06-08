@@ -79,7 +79,11 @@
   font-size: 0.9rem;
   text-align: center;
   color:#858585;
+  width: 100%;
+  height: 100%;
+  line-height: 40px;
 }
+
 .event-query  .ivu-table th{
   background: #fff;
 }

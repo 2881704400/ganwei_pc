@@ -106,6 +106,9 @@ $num0:0px;
               font-size: 0.9rem;
               text-align: center;
               color:#858585;
+              width:$width;
+              height:$height;
+              line-height:40px;
         }
     }
     .ycp .ivu-table .ivu-table-header table{
@@ -114,6 +117,9 @@ $num0:0px;
             white-space: nowrap;
             word-break:keep-all;
             overflow:$overflow;
+           
+           
+
         }
     }
    

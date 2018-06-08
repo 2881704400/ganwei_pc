@@ -81,7 +81,7 @@
 											<span class="spanContent" v-show="item.isCommonSpan">
 												<font v-for="(itemProc,indexProc) in ProcCmdList" v-show="item.proc_code==itemProc.proc_code" :key="indexProc">{{ itemProc.cmd_nm }}</font>
 											</span>
-											<Select v-model="item.proc_code" v-show="!item.isCommonSpan" size="large" transfer filterable @on-change="updateCommonSystemFun(index,$event,'proc_code')">
+											<Select v-model="item.proc_code" v-show="!item.isCommonSpan" size="large" filterable @on-change="updateCommonSystemFun(index,$event,'proc_code')">
 												<Option v-for="itemProc in ProcCmdList" :value="itemProc.proc_code" :key="itemProc.cmd_nm">{{ itemProc.cmd_nm }}</Option>
 											</Select>
 										</td>
@@ -128,7 +128,7 @@
 											<span class="spanContent" v-show="item.isCommonSpan">
 												<font v-for="(itemEquip,indexEquip) in EquipControlList" v-show="item.set_nom==itemEquip.set_nom" :key="'equipspan'+indexEquip">{{ itemEquip.set_nm }}</font>
 											</span>
-											<Select v-model="item.set_nom" v-show="!item.isCommonSpan" transfer filterable @on-change="updateCommonEquipFun(index,$event,'set_no')">
+											<Select v-model="item.set_nom" v-show="!item.isCommonSpan" filterable @on-change="updateCommonEquipFun(index,$event,'set_no')">
 												<Option v-for="(itemEquip,indexEquip) in EquipControlList" :value="itemEquip.set_nom" :key="'equipselect'+indexEquip">{{ itemEquip.set_nm }}</Option>
 											</Select>
 										</td>
