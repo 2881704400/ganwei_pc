@@ -126,12 +126,10 @@
         </FormItem>
       </Form>
     </Modal>
-    <Modal v-model="showAct"
-    @on-ok="insertAct(insertForm)"
-    >
+    <Modal  v-model="showAct" @on-ok="insertAct(insertForm)">
       <div slot="header">插入控制</div>
       <Form :label-width="180"
-      :model="insertForm"
+      :model="insertForm" style="height:220px;"
       >
         <FormItem>
           <RadioGroup v-model="insertForm.type">
