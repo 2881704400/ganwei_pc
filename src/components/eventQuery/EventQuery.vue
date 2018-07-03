@@ -1,5 +1,5 @@
-<style lang="css">
 
+<style lang="css">
 *{
   font-family: "微软雅黑",
 }
@@ -23,8 +23,6 @@
 .event-query .wrap .itemDetail{height:100%;overflow: hidden;padding-left: 15px;}
 .event-query .wrap .itemList{height:100%;overflow-y: scroll;}
 .dateSelect{padding:20px  0;}
-
-
 .event-query .itemList p{
   width:95%;
   height:50px;
@@ -54,7 +52,6 @@
 .event-query .ivu-table-wrapper{
   border:none;
 }
-
 .event-query .ivu-tabs.ivu-tabs-card>.ivu-tabs-bar .ivu-tabs-tab{
   margin-right: 0;
   border-radius: 0;
@@ -83,7 +80,6 @@
   height: 100%;
   line-height: 40px;
 }
-
 .event-query  .ivu-table th{
   background: #fff;
 }
@@ -98,7 +94,6 @@
 }
 .event-query .ivu-table .demo-table-info-row td{
         background-color: #f9f9f9;
-
     }
 .event-query .ivu-table .demo-table-error-row td{
     background-color: #fff; 
@@ -133,6 +128,13 @@
   }
 .dataSelect i{
   font-size: 20px;
+  color:#777;
+}
+.ivu-input::-webkit-input-placeholder{
+  color:#777;
+}
+#placeholder{
+  color:#777;
 }
 </style>
 
@@ -140,14 +142,15 @@
   <div class="event-query">
      <Row class="wrap">
         <Col span="3" class="itemList">
-  			  <p  v-for="(item,$index) in itemList" @click="selectId(item.m_iEquipNo,$index)" ref="mybox" :title="item.m_EquipNm">
+          <p title="全选" @click="selectAll()" :class="allSelect?'clickActive':''">全选</p>
+          <p  v-for="(item,$index) in itemList" @click="selectId(item.m_iEquipNo,$index)" ref="mybox" :title="item.m_EquipNm">
             <!-- :class="$index==activeClass?'clickActive':'' -->
-                {{item.m_EquipNm}}
+                {{item.m_EquipNm}}{{item.m_iEquipNo}}
           </p>
         </Col>
         <Col span="21" class="itemDetail">
          
-        	
+          
           <div class="common-tabEve">
               <Tabs type="card"  :animated="false">
                 <div class="dateSelect">
@@ -186,6 +189,7 @@ export default {
       dateValue:[],
       equipId:0,
       loading:false,
+      allSelect:false,
       equipTh:[
         {
           title:"设备名称",
@@ -223,7 +227,6 @@ export default {
           }
       ],
       sysEventTh:[
-
           {
               title: '设备事件',
               key: 'event',
@@ -238,7 +241,6 @@ export default {
       ],
       // data1:[],
       activeClass:null,
-
       option1:{
         shortcuts:[
                       {
@@ -266,13 +268,11 @@ export default {
                                 return [start, end];
                             }
                       }
-
                   ]
       },searchArr:[]
     }
   },mounted (){
     this.init()
-
   },methods:{
      
      rowClassName (row, index) {
@@ -296,16 +296,37 @@ export default {
         let nameStr=this.$refs.mybox[index].className;
         if(nameStr=="clickActive"){
           this.$refs.mybox[index].className=""
+           this.allSelect=false;
            var that = this;
            for (var i = 0;i <that.searchArr.length;i++) {
                var ind = that.searchArr[i];
-               if (ind==index) {
+               if (ind==id) {
                    that.searchArr.splice(i,1);
                }
            }
         }else{
           this.$refs.mybox[index].className="clickActive"
           this.searchArr.push(id);
+          if(this.searchArr.length==this.itemList.length){
+            this.allSelect=true;
+          }
+        }
+     },selectAll(){
+        
+        if(!this.allSelect){
+          this.allSelect=true;
+          this.searchArr=[];
+          for(var i=0;i<this.itemList.length;i++){
+            this.$refs.mybox[i].className="clickActive";
+            this.searchArr.push(this.itemList[i].m_iEquipNo);
+          }
+        }else{
+          this.allSelect=false;
+          this.searchArr=[];
+          for(var i=0;i<this.itemList.length;i++){
+            this.$refs.mybox[i].className="";
+          }
+          
         }
      },
      selectEvent(){
@@ -316,7 +337,13 @@ export default {
      },
      loadEventList(){
       let id=this.searchArr.toString();
+       console.log(id);
       let dates=this.dateValue;
+      
+      if(dates.length==0){
+        this.$Message.warning('请选择日期时间');
+        return
+      }
       let timeStr="";
       if(this.dateValue[0]==""){
         this.dateValue[0]=this.dateValue[1].split(" ")[0];
@@ -327,7 +354,6 @@ export default {
           if(res.data.HttpStatus==200&&res.data.HttpData.data.length!=0){
             this.equipEvent=[];
             let respon=res.data.HttpData.data
-
             for(var i=0;i<respon.length;i++){
               let item={
                 name:respon[i].equip_nm,
@@ -341,8 +367,6 @@ export default {
           this.loading=false;
      });
      this.Axios.post("/api/event/get_set_evt",{times:timeStr,equip_nos:id}).then(res=>{
-
-
           if(res.data.HttpStatus==200&&res.data.HttpData.data.length!=0){
             this.setEvent=[];
             let respon=res.data.HttpData.data
@@ -377,7 +401,6 @@ export default {
            this.loading=false;
       });
      }
-
    
   },
   watch:{

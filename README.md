@@ -1,6 +1,9 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> dev
 # gw-bsweb
 
 > 敢为软件
@@ -28,6 +31,9 @@ For a detailed explanation on how things work, check out the [guide](http://vuej
 =======
 # ganwei_pc
 >>>>>>> e2d594c296c4e9cf8e62642719f7b4d94a9a1282
+<<<<<<< HEAD
 =======
 # ganwei_pc
 >>>>>>> e2d594c296c4e9cf8e62642719f7b4d94a9a1282
+=======
+>>>>>>> dev

@@ -1,16 +1,15 @@
 
+
 <style lang="scss">
 $width:100%;
 $height:100%;
 $overflow:hidden;
 $blueColor:#2d8cf0;
 $num0:0px;
-
 ::-webkit-scrollbar{
   width: 4px;    
   height: 4px;
 }
-
 ::-webkit-scrollbar-thumb{
   border-radius: 5px;
   -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
@@ -23,7 +22,6 @@ $num0:0px;
 }
 .rowClassName{padding-left: $num0;padding-right: $num0;width: $width;text-align: center;}
 .ivu-table-cell{padding-left: $num0;padding-right: $num0;width: $width;text-align: center;white-space: nowrap;overflow: hidden;word-break: keep-all;}
-
 .ivu-modal{
   .ivu-modal-content>.ivu-modal-body{
      max-height:600px;overflow:auto;
@@ -113,13 +111,11 @@ $num0:0px;
     }
     .ycp .ivu-table .ivu-table-header table{
         .ivu-table-cell{
-
             white-space: nowrap;
             word-break:keep-all;
             overflow:$overflow;
            
            
-
         }
     }
    
@@ -164,7 +160,6 @@ $num0:0px;
         }
       }
     }
-
     .ivu-table-fixed-right::before, .ivu-table-fixed::before{
       height:0;
     }
@@ -182,6 +177,7 @@ $num0:0px;
   <div class="system-conf">
     <Row class="wrap">
       <Col span="3" class="itemList">
+      <p title="全选" @click="selectAll()" :class="allSelect?'clickActive':''">全选</p>
       <p  v-for="(item,$index) in itemList" @click="loadInformation(item.m_iEquipNo,$index)"   ref="mybox" :title="item.m_EquipNm">
         <!-- :class="$index==active?'clickActive':''" -->
         {{item.m_EquipNm}}
@@ -324,10 +320,10 @@ $num0:0px;
 </template>
 
 <script>
-
 export default {
   data () {
     return {
+       allSelect:false,
       columnsEq:[
       {title:"设备号", key:"equip_no",fixed:'left',width:93,
         render: (h, params) => {
@@ -350,7 +346,6 @@ export default {
            
             ]);
         }
-
     },
       {title:"设备名称",key:"equip_nm",width:200,
       render: (h, params) => {
@@ -358,7 +353,6 @@ export default {
           let types=params.row.equip_nm
          
           return h('div', [
-
             h('span', {
               style: {
                  display: 'inline-block',
@@ -418,7 +412,6 @@ export default {
            
             ]);
         }
-
        },
       {title:"资产编号",key:"ZiChanID",width:200,
           render: (h, params) => {
@@ -463,8 +456,6 @@ export default {
                    
                     ]);
                 }
-
-
     },
       {
         title:"显示报警",width:100,
@@ -472,12 +463,10 @@ export default {
         render: (h, params) => {
           var txt=params.column.key
           let types=params.row[txt].split('"')[1]
-
           return h('div', [
             h('Icon', {
                   props: {
                     type:types,
-
                   },style:{
                     fontSize:"22px",
                     color:"#2d8cf0"
@@ -504,7 +493,6 @@ export default {
             h('strong', params.row.name)
             ]);
         }
-
       }
       ],
       dataEq:[],
@@ -523,7 +511,6 @@ export default {
                    
                     ]);
                 }
-
     },{title:"模拟量编号",key:"yc_no",width:100,
  render: (h, params) => {
                   var txt=params.column.key
@@ -538,9 +525,7 @@ export default {
                    
                     ]);
                 }
-
     },{ title:"模拟量名称",key:"yc_nm",width:200,
-
  render: (h, params) => {
                   var txt=params.column.key
                   let types=params.row.yc_nm
@@ -575,7 +560,6 @@ export default {
                    
                     ]);
                 }
-
     },{title:"回复下限值",key:"restore_min",width:100,
  render: (h, params) => {
                   var txt=params.column.key
@@ -590,9 +574,7 @@ export default {
                    
                     ]);
                 }
-
     },{title:"回复上限值",key:"restore_max",width:100,
-
  render: (h, params) => {
                   var txt=params.column.key
                   let types=params.row.restore_max
@@ -607,7 +589,6 @@ export default {
                     ]);
                 }
     },{title:"上限值  ",key:"val_max",width:100,
-
  render: (h, params) => {
                   var txt=params.column.key
                   let types=params.row.val_max
@@ -622,7 +603,6 @@ export default {
                     ]);
                 }
     },{ title:"单位",key:"unit",width:50,
-
  render: (h, params) => {
                   var txt=params.column.key
                   let types=params.row.unit
@@ -657,7 +637,6 @@ export default {
                    
                     ]);
                 }
-
     },{ title:"关联视频",key:"related_video",width:100,
  render: (h, params) => {
                   var txt=params.column.key
@@ -679,9 +658,7 @@ export default {
                    
                     ]);
                 }
-
     },{title:"资产编号",key:"ZiChanID",width:100,
-
  render: (h, params) => {
                   var txt=params.column.key
                   let types=params.row.ZiChanID
@@ -723,7 +700,6 @@ export default {
                    
                     ]);
                 }
-
     },{title:"曲线记录",width:100,
 key:"curve_rcd",
 render:(h,params)=>{
@@ -740,7 +716,6 @@ render:(h,params)=>{
     }),
     h('strong', params.row.name)
     ]);
-
 }
 },{
   title:"显示报警",width:100,
@@ -760,8 +735,6 @@ render:(h,params)=>{
       h('strong', params.row.name)
       ]);
   }
-
-
 },{
   title:"记录报警",width:100,
   key:"markAlarm",
@@ -780,7 +753,6 @@ render:(h,params)=>{
       h('strong', params.row.name)
       ]);
   }
-
 }
 ],dataYc:[],
 columnsYx:[
@@ -1016,7 +988,6 @@ render:(h,params)=>{
     ]);
 }
 },
-
 ],dataYx:[],
 columnsSet:[
 {title:"设备号",fixed:'left',width:93,key:"equip_no"},
@@ -1146,20 +1117,17 @@ isMarkAmarm:"",
         this.Axios.post("/api/real/equip_state",{userName:window.localStorage.login_msg}).then(res=>{
           let response=res.data.HttpData.data;
           this.itemList=response;
-
         //* this.loadInformation(response[0].m_iEquipNo,0)
-
       })
       },loadInformation(id,index){
         let nameStr=this.$refs.mybox[index].className;
-
         if(nameStr=="clickActive"){
-         
+          this.allSelect=false;
           this.$refs.mybox[index].className=""
            var that = this;
            for (var i = 0;i <that.searchArr.length;i++) {
                var ind = that.searchArr[i];
-               if (ind==index) {
+               if (ind==id) {
                    that.searchArr.splice(i,1);
                }
            }
@@ -1167,13 +1135,30 @@ isMarkAmarm:"",
           
           this.$refs.mybox[index].className="clickActive"
           this.searchArr.push(id);
-
+          if(this.searchArr.length==this.itemList.length){
+            this.allSelect=true;
+          }
         }
         // console.log(this.searchArr)
-
-      },selectEvent(){
+      },selectAll(){
+        
+        if(!this.allSelect){
+          this.allSelect=true;
+          this.searchArr=[];
+          for(var i=0;i<this.itemList.length;i++){
+            this.$refs.mybox[i].className="clickActive";
+            this.searchArr.push(this.itemList[i].m_iEquipNo);
+          }
+        }else{
+          this.allSelect=false;
+          this.searchArr=[];
+          for(var i=0;i<this.itemList.length;i++){
+            this.$refs.mybox[i].className="";
+          }
+          
+        }
+     },selectEvent(){
         // id,index
-
          // 布局完成,js尚未
         let id=this.searchArr.toString();
         // console.log(id)
@@ -1182,8 +1167,6 @@ isMarkAmarm:"",
         this.equipId=id;
         
         this.Axios.all([this.Axios.post("/GWService.asmx/GetSystemConfig",{table_name:'Equip',equip_no_list:id})]).then(this.Axios.spread((res) => {
-
-
          let eqData=JSON.parse(res.data.d);
          // console.log(eqData);
          let arlarData=this.alrmData;
@@ -1214,7 +1197,6 @@ isMarkAmarm:"",
           }
             
             this.dataEq=[];
-
            
             for(var j=0;j<arlarData.length;j++){
              
@@ -1307,7 +1289,6 @@ isMarkAmarm:"",
                       click: () => {
                                          
                                           let ind=params.index;
-
                                           this.modal1=true;
                                           this.moreInfor=[
                                             {name:"属性",value:eqData[ind].attrib},
@@ -1330,19 +1311,14 @@ isMarkAmarm:"",
                                         }
                                       }
                                     })
-
                   ]);
 }
-
 });
            
             
             for(var i=0;i<eqData.length;i++){
-
               let checkArr=[],isShow,isMarlAl;
-
               if((parseInt(eqData[i].alarm_scheme)  & 1)>0){
-
                 this.alarmArrIsShow.push("True");
                 isShow='<Icon type="ios-checkmark-outline"></Icon>';
               }else{
@@ -1355,13 +1331,10 @@ isMarkAmarm:"",
                       isMarlAl='<Icon type="ios-checkmark-outline"></Icon>';
                     }else{
                       this.alarmArrMark.push("False")
-
                       isMarlAl='<Icon type="ios-circle-outline"></Icon>' ;
                     };
                     checkArr.push(isMarlAl);
-
                     let arrName=[],waysArr=[];
-
                     for(var j=0;j<arlarData.length;j++){
                       let itemalar;
                       var alays = parseInt(arlarData[j].Proc_Code);
@@ -1370,8 +1343,6 @@ isMarkAmarm:"",
                           name:arlarData[j].Proc_name,
                           res:"True",
                           code:arlarData[j].Proc_Code
-
-
                         }
                         arrName[j]= '<Icon type="ios-checkmark-outline"></Icon>';
                       } else {
@@ -1385,7 +1356,6 @@ isMarkAmarm:"",
                     waysArr.push(itemalar);
                     
                   }
-
                   this.alarmWay[i]=waysArr;
                   // console.log(i);
                   // console.log()
@@ -1395,7 +1365,6 @@ isMarkAmarm:"",
                     var  EquipNum=parseInt(eqData[i].related_video.split(",")[0]),ID=parseInt(eqData[i].related_video.split(",")[1])
                     if(EquipNum==videoData[m].EquipNum && ID==videoData[m].ID){
                       nameVideo=videoData[m].ChannelName;
-
                     }
                   }
                   for(var n=0;n<zichanData.length;n++){
@@ -1403,7 +1372,6 @@ isMarkAmarm:"",
                       zichanName=zichanData[n].ZiChanName
                     }
                   }
-
                   var itemEq={
                    equip_no:eqData[i].equip_no,
                    equip_nm: eqData[i].equip_nm,
@@ -1413,16 +1381,13 @@ isMarkAmarm:"",
                    PlanNo:eqData[i].PlanNo,
                    showAlarm:checkArr[0],
                    markAlarm:checkArr[1],
-
                  }
                  for(var q=0;q<arrName.length;q++){
                   itemEq["way"+q]=arrName[q]
                 }
                 this.dataEq.push(itemEq);
               }
-
             })).catch(err => {})
-
 //加载模拟量配置
 this.Axios.all([this.Axios.post("/GWService.asmx/GetSystemConfig",{table_name:'ycp',equip_no_list:id})]).then(this.Axios.spread((res) => {
  let dataYc=JSON.parse(res.data.d);
@@ -1430,7 +1395,6 @@ this.Axios.all([this.Axios.post("/GWService.asmx/GetSystemConfig",{table_name:'y
  let arlarData=this.alrmData;
       let zichanData=this.zcData
        let videoData=this.viData
-
             this.dataYc=[];
             let alarLen=arlarData.length;
            this.columnsYc.splice(15,alarLen+1)
@@ -1484,12 +1448,9 @@ this.Axios.all([this.Axios.post("/GWService.asmx/GetSystemConfig",{table_name:'y
                                           this.loadDefZic=dataYc[index].ZiChanID;
                                           this.loadDefVideo=dataYc[index].related_video;
                                           this.loadDefPlan=dataYc[index].PlanNo;
-
                                           this.isAlarm=this.alarmArrIsShowYc[index];
-
                                           this.isMarkAmarm=this.alarmArrMarkYc[index];
                                           this.checkAlarm=this.alarmWayYc[index];
-
                                           this.curve_rcd=this.curve_rcdArr[index];
                                           this.scaleTran=this.scaleTranArr[index];
                                           this.isYc=true;
@@ -1505,7 +1466,6 @@ this.Axios.all([this.Axios.post("/GWService.asmx/GetSystemConfig",{table_name:'y
                                               {name:"上限值",value:dataYc[index].val_max,listName:'val_max'},
                                               {name:"最小值",value:dataYc[index].physic_min,listName:'physic_min'},
                                               {name:"最大值",value:dataYc[index].physic_max,listName:'physic_max'},
-
                                               {name:"操作命令",value:dataYc[index].main_instruction,listName:'main_instruction'},
                                               {name:"操作参数",value:dataYc[index].minor_instruction,listName:'minor_instruction'},
                                               {name:"关联页面",value:dataYc[index].related_pic,listName:'related_pic'},
@@ -1514,7 +1474,6 @@ this.Axios.all([this.Axios.post("/GWService.asmx/GetSystemConfig",{table_name:'y
                                               {name:"声音文件",value:dataYc[index].wave_file,listName:'wave_file'},
                                               {name:"报警屏蔽",value:dataYc[index].alarm_shield,listName:'alarm_shield'},
                                               {name:"安全时段",value:dataYc[index].SafeTime,listName:'SafeTime'},
-
                                               
                                               {name:"模拟量名称",value:dataYc[index].yc_nm,listName:'yc_nm'},
                                               
@@ -1542,7 +1501,6 @@ this.Axios.all([this.Axios.post("/GWService.asmx/GetSystemConfig",{table_name:'y
                                             this.configIndex=1;
                                             this.leftNum=Math.floor(this.uploadInfor.length/2);
                                             this.chazhiNum=4;
-
                                           }
                                         }
                                       }),
@@ -1556,12 +1514,10 @@ this.Axios.all([this.Axios.post("/GWService.asmx/GetSystemConfig",{table_name:'y
                                          on: {
                                           click: () => {
                                            let ind=params.index;
-
                                            this.moreInfor=[
                                           {name:"最小值",value:dataYc[ind].physic_min},
                                           {name:"最大值",value:dataYc[ind].physic_max},
                                           {name:"属性值",value:dataYc[ind].val_trait},
-
                                           {name:"操作命令",value:dataYc[ind].main_instruction},
                                           {name:"操作参数",value:dataYc[ind].minor_instruction},
                                           {name:"声音文件",value:dataYc[ind].wave_file},
@@ -1570,7 +1526,6 @@ this.Axios.all([this.Axios.post("/GWService.asmx/GetSystemConfig",{table_name:'y
                                           {name:"安全时段",value:dataYc[ind].SafeTime},
                                           {name:"处理意见",value:dataYc[ind].proc_advice},
                                           {name:"报警级别",value:dataYc[ind].lvl_level},
-
                                           {name:"越下限事件",value:dataYc[ind].outmin_evt},
                                           {name:"越上限事件",value:dataYc[ind].outmax_evt},
                                           {name:"实测最小值",value:dataYc[ind].yc_min},
@@ -1594,11 +1549,7 @@ this.Axios.all([this.Axios.post("/GWService.asmx/GetSystemConfig",{table_name:'y
 ])
 } 
 })
-
-
 for(var i=0;i<dataYc.length;i++){
-
-
       let nameVideo;
       let zichanName;
       for(var m=0;m<videoData.length;m++){
@@ -1607,21 +1558,17 @@ for(var i=0;i<dataYc.length;i++){
           nameVideo=videoData[m].ChannelName
         }
       }
-
       for(var n=0;n<zichanData.length;n++){
         if(dataYc[i].ZiChanID==zichanData[n].ZiChanID){
           zichanName=zichanData[n].ZiChanName
         }
       }
-
-
       if(dataYc[i].mapping=="True"||dataYc[i].mapping=="true"){
         this.scaleTranArr.push("True")
       }else{
        this.scaleTranArr.push("False")
      }
    
-
      let checkArr=[],isShow,isMarlAl;
      if((dataYc[i].alarm_scheme & 1)>0){
        this.alarmArrIsShowYc.push("True");  
@@ -1633,15 +1580,12 @@ for(var i=0;i<dataYc.length;i++){
      checkArr.push(isShow);
      if((dataYc[i].alarm_scheme & 2)>0){
         this.alarmArrMarkYc.push("True")
-
         isMarlAl='<Icon type="ios-checkmark-outline"></Icon>'
       }else{
        this.alarmArrMarkYc.push("False")
-
        isMarlAl='<Icon type="ios-circle-outline"></Icon>' 
      };
    checkArr.push(isMarlAl);
-
    let arrName=[],waysArr=[];
    for(var j=0;j<arlarData.length;j++){
     let itemalar;
@@ -1674,7 +1618,6 @@ let curve_rcd;
                    curve_rcd='<Icon type="ios-circle-outline"></Icon>' 
                    this.curve_rcdArr.push("False")
                  }
-
                  let itemYc={
                   equip_no:dataYc[i].equip_no,
                   yc_no:dataYc[i].yc_no,
@@ -1691,17 +1634,14 @@ let curve_rcd;
                   curve_rcd:curve_rcd,
                   markAlarm:checkArr[1],
                   showAlarm:checkArr[0]
-
                 }
                 for(var k=0;k<arrName.length;k++){
                   itemYc["way"+k]=arrName[k]
                 }
-
                 this.dataYc.push(itemYc)
                 // console.log( this.dataYc)
               }
             })).catch(err => {})
-
 this.Axios.all([this.Axios.post("/GWService.asmx/GetSystemConfig",{table_name:'yxp',equip_no_list:id})]).then(this.Axios.spread((res) => {
   
  let dataYx=JSON.parse(res.data.d);
@@ -1737,8 +1677,6 @@ this.Axios.all([this.Axios.post("/GWService.asmx/GetSystemConfig",{table_name:'y
                         }
                         this.columnsYx.push(itemAl)
                       }
-
-
                       this.columnsYx.push({
                         title:"操作",
                         key:"deal",
@@ -1758,7 +1696,6 @@ this.Axios.all([this.Axios.post("/GWService.asmx/GetSystemConfig",{table_name:'y
                                                             on: {
                                                               click: () => {
                                                                 let index=params.index;
-
                                                                 this.modal2=true;
                                                                 this.isSet_P=true;
                                                                 this.isYx=true;
@@ -1766,7 +1703,6 @@ this.Axios.all([this.Axios.post("/GWService.asmx/GetSystemConfig",{table_name:'y
                                                                 this.loadDefZic=dataYx[index].ZiChanID;
                                                                 this.loadDefVideo=dataYx[index].related_video;
                                                                 this.loadDefPlan=dataYx[index].PlanNo;
-
                                                                 this.isAlarm=this.alarmArrIsShowYx[index];
                                                                 this.equipId=dataYx[index].equip_no;
                                                                 this.isMarkAmarm=this.alarmArrMarkYx[index];
@@ -1795,8 +1731,6 @@ this.Axios.all([this.Axios.post("/GWService.asmx/GetSystemConfig",{table_name:'y
                                                                 {name:"报警升级周期（分钟）",value:dataYx[index].AlarmRiseCycle,listName:'AlarmRiseCycle'}, 
                                                                 {name:"安全时段",value:dataYx[index].SafeTime,listName:'SafeTime'}
                                                                 ];
-
-
                                                                 this.configIndex=2;
                                                                 this.leftNum=Math.floor(this.uploadInfor.length/2);
                                                                 this.chazhiNum=4;
@@ -1836,16 +1770,12 @@ this.Axios.all([this.Axios.post("/GWService.asmx/GetSystemConfig",{table_name:'y
                                                                     {name:"报警升级周期(分钟)",value:dataYx[ind].AlarmRiseCycle}, 
                                                                     {name:"声音文件",value:dataYx[ind].wave_file},
                                                                   ];
-
-
                                                                 }
                                                               }
                                                               })
                             ])
                       }
-
                       })
-
                       let nameVideo;
                       let zichanName;
                       for(var m=0;m<videoData.length;m++){
@@ -1874,7 +1804,6 @@ this.Axios.all([this.Axios.post("/GWService.asmx/GetSystemConfig",{table_name:'y
                           this.alarmArrIsShowYx.push("False")
                           isShow='<Icon type="ios-circle-outline"></Icon>' 
                         };
-
                         checkArr.push(isShow);
                         if((dataYx[i].alarm_scheme & 2)>0){
                           this.alarmArrMarkYx.push("True")
@@ -1884,7 +1813,6 @@ this.Axios.all([this.Axios.post("/GWService.asmx/GetSystemConfig",{table_name:'y
                           isMarlAl='<Icon type="ios-circle-outline"></Icon>' 
                         };
                         checkArr.push(isMarlAl);
-
                          let arrName=[],waysArr=[];
                         for(var j=0;j<arlarData.length;j++){
                             let itemalar;
@@ -1910,7 +1838,6 @@ this.Axios.all([this.Axios.post("/GWService.asmx/GetSystemConfig",{table_name:'y
         
                         this.alarmWayYx[i]=waysArr;
                  // console.log(checkArr)
-
                        let itemYx={
                         equip_no:dataYx[i].equip_no,
                         yx_no:dataYx[i].yx_no,
@@ -1930,21 +1857,15 @@ this.Axios.all([this.Axios.post("/GWService.asmx/GetSystemConfig",{table_name:'y
                         }
                         // console.log(itemYx)
                         this.dataYx.push(itemYx);
-
         }
-
    })).catch(err => {})
-
-
        this.Axios.post("/GWService.asmx/GetSystemConfig",{table_name:'SetParm',equip_no_list:id}).then(res4=>{//加载设置配置
         let data4=res4.data.d;
         let dataSet=JSON.parse(data4);
         this.dataSet=[];
-
        
         for(var i=0;i<dataSet.length;i++){
             this.columnsSet.splice(10,1)
-
           this.columnsSet.push({
             title:"操作",
             key:"deal",
@@ -1964,7 +1885,6 @@ this.Axios.all([this.Axios.post("/GWService.asmx/GetSystemConfig",{table_name:'y
                 on: {
                   click: () => {
                     let index=params.index;
-
                     this.modal2=true;
                     this.isSet_P=false;
                     this.isYc=false;
@@ -1986,12 +1906,9 @@ this.Axios.all([this.Axios.post("/GWService.asmx/GetSystemConfig",{table_name:'y
                   }
                 }
               }),
-
               ])
            }
-
          })
-
           let record
           if(dataSet[i].record=="True"||dataSet[i].record=="true"){
             record='<Icon type="ios-checkmark-outline"></Icon>'
@@ -2005,7 +1922,6 @@ this.Axios.all([this.Axios.post("/GWService.asmx/GetSystemConfig",{table_name:'y
               if(dataSet[i].canexecution=="true"||dataSet[i].canexecution=="True"){
                 canexecution='<Icon type="ios-checkmark-outline"></Icon>'
                 this.isExeSetArr.push("True")
-
               }else{
                 canexecution='<Icon type="ios-circle-outline"></Icon>' 
                 this.isExeSetArr.push("False")
@@ -2021,13 +1937,10 @@ this.Axios.all([this.Axios.post("/GWService.asmx/GetSystemConfig",{table_name:'y
                 action:dataSet[i].action,
                 value:dataSet[i].value,
                 canexecution:canexecution,
-
               }
               this.dataSet.push(itemSet);
             }
-
           });
-
      },getPlanData(){
       this.Axios.post("/api/GWServiceWebAPI/get_DataByTableName",{TableName :"GWPlan"}).then(res=>{
         let datas=res.data.HttpData.data;
@@ -2039,10 +1952,7 @@ this.Axios.all([this.Axios.post("/GWService.asmx/GetSystemConfig",{table_name:'y
           }
           this.planList.push(item)
         }
-
       })
-
-
     },configData(num){
         // console.log("点击确定"+num);
         switch (num)
@@ -2092,14 +2002,9 @@ this.Axios.all([this.Axios.post("/GWService.asmx/GetSystemConfig",{table_name:'y
               }else{
                 this.$Message.error('修改失败');
               }
-
-
-
-
             });
             break;
             case 1:
-
             var updateJSON=[];
             for(var i=0;i<this.uploadInfor.length;i++){
               var item={
@@ -2158,11 +2063,9 @@ this.Axios.all([this.Axios.post("/GWService.asmx/GetSystemConfig",{table_name:'y
             this.$Message.success('修改成功');
              this.selectEvent()
              // this.loadInformation(this.equipId,this.active)
-
           }else{
             this.$Message.error('修改失败');
           }
-
           
           
         });
@@ -2208,7 +2111,6 @@ this.Axios.all([this.Axios.post("/GWService.asmx/GetSystemConfig",{table_name:'y
             "vlaue":"'"+this.loadDefPlan+"'"
           };
           updateJSON.push(planNo)
-
           var negate={
             "id":this.equipId,
             "yx_no":this.uploadInfor[1].value,
@@ -2230,7 +2132,6 @@ this.Axios.all([this.Axios.post("/GWService.asmx/GetSystemConfig",{table_name:'y
         });
             // console.log(updateJSON)
             // console.log(this.uploadInfor)
-
             break;
             case 3:
             var updateJSON=[];
@@ -2266,9 +2167,6 @@ this.Axios.all([this.Axios.post("/GWService.asmx/GetSystemConfig",{table_name:'y
             }else{
               this.$Message.error('修改失败');
             }
-
-
-
           });
             // console.log(updateJSON)
             // console.log(this.uploadInfor)
@@ -2276,7 +2174,6 @@ this.Axios.all([this.Axios.post("/GWService.asmx/GetSystemConfig",{table_name:'y
           }
           // this.loadInformation(this.equipId)
          
-
         },getAlarmCode(){
           var code=0;
         // console.log(this.isAlarm,this.isMarkAmarm,this.checkAlarm)
@@ -2288,7 +2185,6 @@ this.Axios.all([this.Axios.post("/GWService.asmx/GetSystemConfig",{table_name:'y
             code+=parseInt(this.checkAlarm[i].code) 
           }
         }
-
         //获取报警代码
         return code;
       }
@@ -2296,4 +2192,3 @@ this.Axios.all([this.Axios.post("/GWService.asmx/GetSystemConfig",{table_name:'y
   }
   </script>
 
-  
