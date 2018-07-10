@@ -190,23 +190,23 @@ $num0:0px;
 
         <TabPane label="设备配置" class="ycp">
 
-          <Table :columns="columnsEq" :data="dataEq" :height="tableHeight"  :row-class-name="rowClassName"></Table>
+          <Table :loading="loading" :columns="columnsEq" :data="dataEq" :height="tableHeight"  :row-class-name="rowClassName"></Table>
           
         </TabPane>
 
         <TabPane label="遥测量配置" class="ycp">
 
-          <Table :columns="columnsYc" :data="dataYc"  :height="tableHeight"  :row-class-name="rowClassName"></Table>
+          <Table :loading="loading" :columns="columnsYc" :data="dataYc"  :height="tableHeight"  :row-class-name="rowClassName"></Table>
           
         </TabPane>
         <TabPane label="遥信量配置" class="ycp">
 
-          <Table :columns="columnsYx" :data="dataYx" :height="tableHeight"  :row-class-name="rowClassName"></Table>
+          <Table :loading="loading" :columns="columnsYx" :data="dataYx" :height="tableHeight"  :row-class-name="rowClassName"></Table>
 
         </TabPane>
         <TabPane label="设置配置" class="ycp">
 
-          <Table :columns="columnsSet" :data="dataSet" :height="tableHeight" :row-class-name="rowClassName" ></Table>
+          <Table :loading="loading" :columns="columnsSet" :data="dataSet" :height="tableHeight" :row-class-name="rowClassName" ></Table>
 
         </TabPane>
       </Tabs>
@@ -323,6 +323,7 @@ $num0:0px;
 export default {
   data () {
     return {
+      loading:false,
        allSelect:false,
       columnsEq:[
       {title:"设备号", key:"equip_no",fixed:'left',width:93,
@@ -1158,6 +1159,7 @@ isMarkAmarm:"",
           
         }
      },selectEvent(){
+      this.loading=true;
         // id,index
          // 布局完成,js尚未
         let id=this.searchArr.toString();
@@ -1165,10 +1167,9 @@ isMarkAmarm:"",
         this.getPlanData()
         // this.active=index;
         this.equipId=id;
-        
-        this.Axios.all([this.Axios.post("/GWService.asmx/GetSystemConfig",{table_name:'Equip',equip_no_list:id})]).then(this.Axios.spread((res) => {
-         let eqData=JSON.parse(res.data.d);
-         // console.log(eqData);
+        console.log(id);
+        this.Axios.all([this.Axios.post("/api/Real/get_equip",{equip_nos:id})]).then(this.Axios.spread((res) => {
+         let eqData=res.data.HttpData.data;
          let arlarData=this.alrmData;
          let alarLen=arlarData.length;
          
@@ -1322,20 +1323,20 @@ isMarkAmarm:"",
                 this.alarmArrIsShow.push("True");
                 isShow='<Icon type="ios-checkmark-outline"></Icon>';
               }else{
-               isShow='<Icon type="ios-circle-outline"></Icon>' ;
-               this.alarmArrIsShow.push("False");
-                    };
-                    checkArr.push(isShow);
-                    if((parseInt(eqData[i].alarm_scheme) & 2)>0){
-                      this.alarmArrMark.push("True")
-                      isMarlAl='<Icon type="ios-checkmark-outline"></Icon>';
-                    }else{
-                      this.alarmArrMark.push("False")
-                      isMarlAl='<Icon type="ios-circle-outline"></Icon>' ;
-                    };
-                    checkArr.push(isMarlAl);
-                    let arrName=[],waysArr=[];
-                    for(var j=0;j<arlarData.length;j++){
+                isShow='<Icon type="ios-circle-outline"></Icon>' ;
+                this.alarmArrIsShow.push("False");
+              };
+              checkArr.push(isShow);
+              if((parseInt(eqData[i].alarm_scheme) & 2)>0){
+                this.alarmArrMark.push("True")
+                isMarlAl='<Icon type="ios-checkmark-outline"></Icon>';
+              }else{
+                this.alarmArrMark.push("False")
+                isMarlAl='<Icon type="ios-circle-outline"></Icon>' ;
+              };
+              checkArr.push(isMarlAl);
+              let arrName=[],waysArr=[];
+               for(var j=0;j<arlarData.length;j++){
                       let itemalar;
                       var alays = parseInt(arlarData[j].Proc_Code);
                       if ((parseInt(eqData[i].alarm_scheme) & alays) > 0) {
@@ -1357,21 +1358,25 @@ isMarkAmarm:"",
                     
                   }
                   this.alarmWay[i]=waysArr;
-                  // console.log(i);
-                  // console.log()
-                  let nameVideo;
-                  let zichanName;
-                  for(var m=0;m<videoData.length;m++){
-                    var  EquipNum=parseInt(eqData[i].related_video.split(",")[0]),ID=parseInt(eqData[i].related_video.split(",")[1])
-                    if(EquipNum==videoData[m].EquipNum && ID==videoData[m].ID){
-                      nameVideo=videoData[m].ChannelName;
+                  let nameVideo="";
+                  let zichanName="";
+                  
+                  if(eqData[i].related_video){
+                       for(var m=0;m<videoData.length;m++){
+                          var  EquipNum=parseInt(eqData[i].related_video.split(",")[0]),
+                          ID=parseInt(eqData[i].related_video.split(",")[1]);
+                          if(EquipNum==videoData[m].EquipNum && ID==videoData[m].ID){
+                            nameVideo=videoData[m].ChannelName;
+                          }
                     }
                   }
-                  for(var n=0;n<zichanData.length;n++){
-                    if(eqData[i].ZiChanID==zichanData[n].ZiChanID){
-                      zichanName=zichanData[n].ZiChanName
+                 if(eqData[i].ZiChanID){
+                     for(var n=0;n<zichanData.length;n++){
+                      if(eqData[i].ZiChanID==zichanData[n].ZiChanID){
+                        zichanName=zichanData[n].ZiChanName
+                        }
                     }
-                  }
+                 }
                   var itemEq={
                    equip_no:eqData[i].equip_no,
                    equip_nm: eqData[i].equip_nm,
@@ -1389,9 +1394,9 @@ isMarkAmarm:"",
               }
             })).catch(err => {})
 //加载模拟量配置
-this.Axios.all([this.Axios.post("/GWService.asmx/GetSystemConfig",{table_name:'ycp',equip_no_list:id})]).then(this.Axios.spread((res) => {
- let dataYc=JSON.parse(res.data.d);
- 
+this.Axios.all([this.Axios.post("/api/real/get_ycp",{equip_nos:id})]).then(this.Axios.spread((res) => {
+
+ let dataYc=res.data.HttpData.data;
  let arlarData=this.alrmData;
       let zichanData=this.zcData
        let videoData=this.viData
@@ -1550,19 +1555,25 @@ this.Axios.all([this.Axios.post("/GWService.asmx/GetSystemConfig",{table_name:'y
 } 
 })
 for(var i=0;i<dataYc.length;i++){
-      let nameVideo;
-      let zichanName;
-      for(var m=0;m<videoData.length;m++){
-        var  EquipNum=parseInt(dataYc[i].related_video.split(",")[0]),ID=parseInt(dataYc[i].related_video.split(",")[1])
-        if(EquipNum==videoData[m].EquipNum && ID==videoData[m].ID){
-          nameVideo=videoData[m].ChannelName
-        }
+    console.log(dataYc.length);
+      let nameVideo="";
+      let zichanName="";
+      if(dataYc[i].related_video){
+         for(var m=0;m<videoData.length;m++){
+            var  EquipNum=parseInt(dataYc[i].related_video.split(",")[0]),ID=parseInt(dataYc[i].related_video.split(",")[1])
+            if(EquipNum==videoData[m].EquipNum && ID==videoData[m].ID){
+              nameVideo=videoData[m].ChannelName
+            }
+         }
       }
-      for(var n=0;n<zichanData.length;n++){
-        if(dataYc[i].ZiChanID==zichanData[n].ZiChanID){
-          zichanName=zichanData[n].ZiChanName
-        }
+      if(dataYc[i].ZiChanID){
+           for(var n=0;n<zichanData.length;n++){
+              if(dataYc[i].ZiChanID==zichanData[n].ZiChanID){
+                zichanName=zichanData[n].ZiChanName
+              }
+            }
       }
+     
       if(dataYc[i].mapping=="True"||dataYc[i].mapping=="true"){
         this.scaleTranArr.push("True")
       }else{
@@ -1642,9 +1653,9 @@ let curve_rcd;
                 // console.log( this.dataYc)
               }
             })).catch(err => {})
-this.Axios.all([this.Axios.post("/GWService.asmx/GetSystemConfig",{table_name:'yxp',equip_no_list:id})]).then(this.Axios.spread((res) => {
+this.Axios.all([this.Axios.post("/api/Real/get_yxp",{equip_nos:id})]).then(this.Axios.spread((res) => {
   
- let dataYx=JSON.parse(res.data.d);
+ let dataYx=res.data.HttpData.data;
  // console.log(dataYx)
  let arlarData=this.alrmData;
   let zichanData=this.zcData
@@ -1776,21 +1787,26 @@ this.Axios.all([this.Axios.post("/GWService.asmx/GetSystemConfig",{table_name:'y
                             ])
                       }
                       })
-                      let nameVideo;
-                      let zichanName;
-                      for(var m=0;m<videoData.length;m++){
-                        // console.log(nameVideo);
-                       var  EquipNum=parseInt(dataYx[i].related_video.split(",")[0]),ID=parseInt(dataYx[i].related_video.split(",")[1]);
-                        if(EquipNum==videoData[m].EquipNum && ID==videoData[m].ID){
-                          nameVideo=videoData[m].ChannelName
+                      let nameVideo="";
+                      let zichanName="";
+                      if(dataYx[i].related_video){
+                        for(var m=0;m<videoData.length;m++){
+                          // console.log(nameVideo);
+                         var  EquipNum=parseInt(dataYx[i].related_video.split(",")[0]),ID=parseInt(dataYx[i].related_video.split(",")[1]);
+                          if(EquipNum==videoData[m].EquipNum && ID==videoData[m].ID){
+                            nameVideo=videoData[m].ChannelName
+                          }
                         }
                       }
-                      // console.log(nameVideo);
+                        
+                      if(dataYx[i].ZiChanID){
                         for(var n=0;n<zichanData.length;n++){
                           if(dataYx[i].ZiChanID==zichanData[n].ZiChanID){
                             zichanName=zichanData[n].ZiChanName
                           }
                         }
+                      }
+                        
                       if(dataYx[i].inversion=="True"||dataYx[i].inversion=="true"){
                         this.negateArr.push("True")
                       }else{
@@ -1859,9 +1875,10 @@ this.Axios.all([this.Axios.post("/GWService.asmx/GetSystemConfig",{table_name:'y
                         this.dataYx.push(itemYx);
         }
    })).catch(err => {})
-       this.Axios.post("/GWService.asmx/GetSystemConfig",{table_name:'SetParm',equip_no_list:id}).then(res4=>{//加载设置配置
-        let data4=res4.data.d;
-        let dataSet=JSON.parse(data4);
+       this.Axios.post("/api/Real/get_setparm",{equip_nos:id}).then(res4=>{//加载设置配置
+        this.loading=false;
+        // let data4=res4.data.d;
+        let dataSet=res4.data.HttpData.data;
         this.dataSet=[];
        
         for(var i=0;i<dataSet.length;i++){

@@ -318,9 +318,12 @@ export default {
         // console.log('ycyxall--------------' + type, data)
         // 更新报警状态
         let rt = JSON.parse(data)
-        // console.log(rt)
+        console.log(rt)
+        console.log(data)
+        console.log(type)
         if (type === 'ycp') {
           this.tabData[0].hasAlarm = rt.some(item => item.m_IsAlarm === 'True')
+         
           if (this.tabData[0].hasAlarm) {
             this.updateNavAlarm('alarm')
           } else {
@@ -529,6 +532,7 @@ export default {
       })
     },
     updateNavAlarm (state) {
+      console.log(state);
       this.$emit('updateNavState', this.equipNo, state)
     }
   },
