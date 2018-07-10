@@ -120,7 +120,7 @@ export default {
         }
       ],
       loadCompleted: false,
-      isFold: false,
+      isFold: true,
       curPath22: "",
       rootSave: {},
       screenAll: false,//是否全屏
