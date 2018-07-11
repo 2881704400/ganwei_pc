@@ -1097,8 +1097,10 @@ isMarkAmarm:"",
       this.Axios.post("/api/GWServiceWebAPI/get_DataByTableName",{TableName :"GW_VideoInfo"}).then(res=>{
           this.viData=res.data.HttpData.data;
       });
-      this.Axios.post("/GWService.asmx/QueryTableData",{tableName:'AlarmProc'}).then(res=>{
-          this.alrmData=JSON.parse(res.data.d);
+
+      this.Axios.post("/api/GWServiceWebAPI/get_DataByTableName",{TableName:'AlarmProc'}).then(res=>{
+        // console.log(res);
+          this.alrmData=res.data.HttpData.data;
       })
       
   },mounted (){
@@ -1167,7 +1169,6 @@ isMarkAmarm:"",
         this.getPlanData()
         // this.active=index;
         this.equipId=id;
-        console.log(id);
         this.Axios.all([this.Axios.post("/api/Real/get_equip",{equip_nos:id})]).then(this.Axios.spread((res) => {
          let eqData=res.data.HttpData.data;
          let arlarData=this.alrmData;
@@ -1660,9 +1661,8 @@ this.Axios.all([this.Axios.post("/api/Real/get_yxp",{equip_nos:id})]).then(this.
  let arlarData=this.alrmData;
   let zichanData=this.zcData
   let videoData=this.viData
- 
-           this.dataYx=[];
-           let alarLen=arlarData.length;
+ this.dataYx=[];
+  let alarLen=arlarData.length;
           
       for(var i=0;i<dataYx.length;i++){
                      this.columnsYx.splice(11,alarLen+1)
