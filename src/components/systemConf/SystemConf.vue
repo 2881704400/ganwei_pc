@@ -603,7 +603,7 @@ export default {
                    
                     ]);
                 }
-    },{ title:"单位",key:"unit",width:50,
+    },{ title:"单位",key:"unit",width:100,
  render: (h, params) => {
                   var txt=params.column.key
                   let types=params.row.unit
