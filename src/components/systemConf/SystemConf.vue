@@ -1072,7 +1072,7 @@ isMarkAmarm:"",
       isSet_P:true,
       isYx:false,
       switB:[
-      {txt:"是",keys:'True'},
+       {txt:"是",keys:'True'},
       {txt:"否",keys:'False'}
       ],
       isYc:false,
@@ -1528,7 +1528,7 @@ this.Axios.all([this.Axios.post("/api/real/get_ycp",{equip_nos:id})]).then(this.
                                           {name:"操作参数",value:dataYc[ind].minor_instruction},
                                           {name:"声音文件",value:dataYc[ind].wave_file},
                                           {name:"报警屏蔽",value:dataYc[ind].alarm_shield},
-                                          {name:"比例变换",value:dataYc[ind].mapping=="True"||dataYc[ind].mapping=="true"?"已变换":"未变换"},
+                                          {name:"比例变换",value:dataYc[ind].mapping=="True"||dataYc[ind].mapping=="true"||dataYc[ind].mapping?"已变换":"未变换"},
                                           {name:"安全时段",value:dataYc[ind].SafeTime},
                                           {name:"处理意见",value:dataYc[ind].proc_advice},
                                           {name:"报警级别",value:dataYc[ind].lvl_level},
@@ -1556,7 +1556,6 @@ this.Axios.all([this.Axios.post("/api/real/get_ycp",{equip_nos:id})]).then(this.
 } 
 })
 for(var i=0;i<dataYc.length;i++){
-    console.log(dataYc.length);
       let nameVideo="";
       let zichanName="";
       if(dataYc[i].related_video){
@@ -1575,7 +1574,7 @@ for(var i=0;i<dataYc.length;i++){
             }
       }
      
-      if(dataYc[i].mapping=="True"||dataYc[i].mapping=="true"){
+      if(dataYc[i].mapping=="True"||dataYc[i].mapping=="true"||dataYc[i].mapping){
         this.scaleTranArr.push("True")
       }else{
        this.scaleTranArr.push("False")
@@ -1623,7 +1622,7 @@ for(var i=0;i<dataYc.length;i++){
 this.alarmWayYc[i]=waysArr;
 let curve_rcd;
                   // console.log(arrName)
-                  if(dataYc[i].curve_rcd=="True"||dataYc[i].curve_rcd=="true"){
+                  if(dataYc[i].curve_rcd=="True"||dataYc[i].curve_rcd=="true"||dataYc[i].curve_rcd){
                     curve_rcd='<Icon type="ios-checkmark-outline"></Icon>'
                     this.curve_rcdArr.push("True")
                   }else{
@@ -1657,7 +1656,7 @@ let curve_rcd;
 this.Axios.all([this.Axios.post("/api/Real/get_yxp",{equip_nos:id})]).then(this.Axios.spread((res) => {
   
  let dataYx=res.data.HttpData.data;
- // console.log(dataYx)
+ console.log(dataYx)
  let arlarData=this.alrmData;
   let zichanData=this.zcData
   let videoData=this.viData
@@ -1761,7 +1760,7 @@ this.Axios.all([this.Axios.post("/api/Real/get_yxp",{equip_nos:id})]).then(this.
                                                                   let ind=params.index;
                                                                   this.modal1=true; 
                                                                   this.moreInfor=[
-                                                                    {name:"取反",value:dataYx[ind].inversion=="True"||dataYx[ind].inversion=="true"?"已取反":"未取反"}, 
+                                                                    {name:"取反",value:dataYx[ind].inversion=="True"||dataYx[ind].inversion=="true"||dataYx[ind].inversion?"已取反":"未取反"}, 
                                                                     {name:"属性值",value:dataYx[ind].val_trait}, 
                                                                     {name:"安全时段",value:dataYx[ind].SafeTime},
                                                                     {name:"初始状态",value:dataYx[ind].initval},
@@ -1807,7 +1806,7 @@ this.Axios.all([this.Axios.post("/api/Real/get_yxp",{equip_nos:id})]).then(this.
                         }
                       }
                         
-                      if(dataYx[i].inversion=="True"||dataYx[i].inversion=="true"){
+                      if(dataYx[i].inversion=="True"||dataYx[i].inversion=="true"||dataYx[i].inversion){
                         this.negateArr.push("True")
                       }else{
                         this.negateArr.push("False")
@@ -1908,6 +1907,7 @@ this.Axios.all([this.Axios.post("/api/Real/get_yxp",{equip_nos:id})]).then(this.
                     this.isMarkSet =this.isMarkSetArr[index]
                     this.isExeSet =this.isExeSetArr[index]
                     this.equipId=dataSet[index].equip_no;
+                    this.isYx=false;
                     this.uploadInfor=[
                     {name:"设备号",value:dataSet[index].equip_no,listName:'equip_no'},
                     {name:"设置号",value:dataSet[index].set_no,listName:'set_no'},
@@ -1927,7 +1927,7 @@ this.Axios.all([this.Axios.post("/api/Real/get_yxp",{equip_nos:id})]).then(this.
            }
          })
           let record
-          if(dataSet[i].record=="True"||dataSet[i].record=="true"){
+          if(dataSet[i].record){
             record='<Icon type="ios-checkmark-outline"></Icon>'
             this.isMarkSetArr.push("True")
           }else{
@@ -1936,7 +1936,7 @@ this.Axios.all([this.Axios.post("/api/Real/get_yxp",{equip_nos:id})]).then(this.
          }
          let canexecution
               // console.log(dataSet[i].canexecution)
-              if(dataSet[i].canexecution=="true"||dataSet[i].canexecution=="True"){
+              if(dataSet[i].canexecution){
                 canexecution='<Icon type="ios-checkmark-outline"></Icon>'
                 this.isExeSetArr.push("True")
               }else{
@@ -2064,14 +2064,14 @@ this.Axios.all([this.Axios.post("/api/Real/get_yxp",{equip_nos:id})]).then(this.
             "id":this.equipId,
             "yc_no":this.uploadInfor[1].value,
             "listName":"curve_rcd",
-            "vlaue":"'"+this.curve_rcd+"'"
+            "vlaue":this.curve_rcd=="False"?false:true
           }
           updateJSON.push(curve_rcd);
           var scaleTran={
             "id":this.equipId,
             "yc_no":this.uploadInfor[1].value,
             "listName":"mapping",
-            "vlaue":"'"+this.scaleTran+"'"
+            "vlaue":this.scaleTran=="False"?false:true
           }
           updateJSON.push(scaleTran);
           this.Axios.post("/api/real/update_ycp",{update:JSON.stringify(updateJSON)}).then(res=>{
@@ -2132,9 +2132,11 @@ this.Axios.all([this.Axios.post("/api/Real/get_yxp",{equip_nos:id})]).then(this.
             "id":this.equipId,
             "yx_no":this.uploadInfor[1].value,
             "listName":"inversion",
-            "vlaue":"'"+this.negate+"'"
+            "vlaue":this.negate=="False"?false:true
           }
           updateJSON.push(negate);
+            console.log(updateJSON);
+
           this.Axios.post("/api/real/update_yxp",{update:JSON.stringify(updateJSON)}).then(res=>{
            var int=res.data.HttpData.data;
            if(int!=0&&res.data.HttpStatus==200){
@@ -2165,17 +2167,18 @@ this.Axios.all([this.Axios.post("/api/Real/get_yxp",{equip_nos:id})]).then(this.
               "id":this.equipId,
               "yx_no":this.uploadInfor[1].value,
               "listName":"[record]",
-              "vlaue":this.isMarkSet
+              "vlaue":this.isMarkSet=="False"?false:true
             }//是否记录,
             updateJSON.push(record);
             var canexecution={
               "id":this.equipId,
               "yx_no":this.uploadInfor[1].value,
               "listName":"[canexecution]",
-              "vlaue":this.isExeSet
+              "vlaue":this.isExeSet=="False"?false:true
             }//是否可执行
             updateJSON.push(canexecution);
             this.Axios.post("/api/real/update_setparm",{update:JSON.stringify(updateJSON)}).then(res=>{
+              console.log(res);
              var int=res.data.HttpData.data;
              if(int!=0&&res.data.HttpStatus==200){
               this.$Message.success('修改成功');
