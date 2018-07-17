@@ -177,6 +177,7 @@ export default {
           for (let key in data.YXItemDict) {
             this.tabData[1].tbList.push(data.YXItemDict[key])
           }
+          console.log(this.tabData[0]);
           if (this.tabData[1].tbList.length > 0) {
             this.tabData[1].isShow = true
             if (!this.tabData[0].isActive) {
@@ -416,8 +417,8 @@ export default {
         // console.log(err)
       })
       // 收到signalr消息触发
-      this.hubConn.received(() => {
-        // console.log(err)
+      this.hubConn.received((err) => {
+           console.log(err)
       })
     },
     connectHub (equipNo) {

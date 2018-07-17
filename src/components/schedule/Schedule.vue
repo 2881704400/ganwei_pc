@@ -380,7 +380,7 @@ export default {
       user_telphone: "",
       user_molphone: "",
       user_email: "",
-      user_level: 1,
+      user_level: 0,
       user_saveCell: "",
 
       //设备分组范围
