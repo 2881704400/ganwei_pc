@@ -192,7 +192,7 @@ $num0:0px;
     <Col span="21" class="itemDetail">
     <div class="common-tabSys">
       <Button type="primary" style="margin-right:10px;border-radius:0;background:#2d8cf0;padding:8.5px 21.5px;font-size:14px;line-height:inherit;color:#fff;position:absolute;right:0;z-index: 99;" @click="selectEvent()">查询</Button >
-      <Page :total="allNum" :page-size="20" @on-change="changePage" show-elevator style="position:absolute;right:100px;z-index: 99;"></Page>
+      
       <Tabs type="card" :animated="false" @on-click="changeTabs" v-model="tabsId">
 
         <TabPane label="设备配置" class="ycp">
@@ -217,6 +217,7 @@ $num0:0px;
 
         </TabPane>
       </Tabs>
+      <Page :total="allNum" :page-size="20" @on-change="changePage" show-elevator style="margin-top: 20px;"></Page>
     </div>
   </Col>
 </Row>
@@ -1160,7 +1161,7 @@ isMarkAmarm:"",
   },
   init(){
     var h = document.documentElement.clientHeight || document.body.clientHeight;
-    this.tableHeight=h-160;
+    this.tableHeight=h-220;
         this.Axios.post("/api/real/equip_state",{userName:window.localStorage.login_msg}).then(res=>{
           let response=res.data.HttpData.data;
           this.itemList=response;
