@@ -173,7 +173,7 @@ $num0:0px;
       box-shadow:none;
     }
     .ivu-table-fixed-right{
-      right:5px;
+      right:-1px;
     }
   
 }
