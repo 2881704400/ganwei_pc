@@ -27,7 +27,7 @@ $num0:0px;
      max-height:600px;overflow:auto;
   }
 }
-.moreInforWord{margin-top:10px;font-size:15px;float: left;width: 50%;}
+.moreInforWord{margin-top:10px;font-size:15px;float: left;width: 49%;}
 .uploadWrap{
 	p{
 		float: left;
@@ -221,7 +221,7 @@ $num0:0px;
     </div>
   </Col>
 </Row>
-<Modal title="查看其他信息" v-model="modal1" class-name="vertical-center-modal" :styles="{top: '50px',width:'800px'}" class="uploadWrap">
+<Modal title="查看其他信息" v-model="modal1" class-name="vertical-center-modal" :styles="{top: '50px',width:'800px'}" >
     
         
               <p class="moreInforWord" v-for="(key,val) in moreInfor" :key="val" >
