@@ -54,7 +54,7 @@ $num0:0px;
         }
         .itemList{
             height: $height;
-            overflow-y: scroll;
+            overflow-y: auto;
             p{
               width:95%;
               height:50px;
