@@ -1207,7 +1207,7 @@ isMarkAmarm:"",
         }
      },selectEvent(){
 //   	this.allNum=0;
-		this.thisPage=1;
+//		this.thisPage=1;
 //    	this.loading=true;
         // id,index
          // 布局完成,js尚未
@@ -1971,7 +1971,9 @@ let curve_rcd;
 //		if(this.tabsId==3){
 //			this.allNum=this.waitDataSet.length;
 //		}
+//			console.log(this.thisPage)
      	let dataSet=this.waitDataSet.slice((this.thisPage-1)*20,this.thisPage*20);
+//   	console.log(dataSet)
         this.dataSet=[];
        
         for(var i=0;i<dataSet.length;i++){
