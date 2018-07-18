@@ -309,6 +309,7 @@ export default {
       this.hubProxy = this.hubConn.createHubProxy('ServerHub')
       this.hubProxy.on('sendConnect', data => {
         console.log(data,"data0")
+        //连接
       });
 
       // 来自广播新消息类型和数据
@@ -375,6 +376,8 @@ export default {
           this.updateNavAlarm('alarm')
         } else if (rt[2] === 'CommunicationOK') {
           this.updateNavAlarm('fine')
+        }else if (rt[2] === 'NoCommunication'){
+        	this.updateNavAlarm('offline')
         }
       });
       
@@ -408,6 +411,7 @@ export default {
       // signalr断开连接
       this.hubConn.disconnected(() => {
         this.hubConn.stop()
+//      alert(1)点击设备数据的时候触发
       })
       // 高频连接触发
       this.hubConn.connectionSlow((err) => {
@@ -415,7 +419,7 @@ export default {
       })
       // 收到signalr消息触发
       this.hubConn.received((err) => {
-           // console.log(err,"shoudaoxiaoxi")
+//            console.log(err,"shoudaoxiaoxi")
       })
     },
     connectHub (equipNo) {
