@@ -347,6 +347,7 @@ export default {
           if (item.m_iYCNo === parseInt(rt[0])) {
             item.m_YCValue = rt[2]
             item.m_IsAlarm = rt[4] === 'True' ? true : false
+
             item.m_AdviceMsg = rt[3]
             this.tabData[0].hasAlarm = item.m_IsAlarm
           }
@@ -378,6 +379,7 @@ export default {
           this.updateNavAlarm('fine')
         }else if (rt[2] === 'NoCommunication'){
         	this.updateNavAlarm('offline')
+        	
         }
       });
       
