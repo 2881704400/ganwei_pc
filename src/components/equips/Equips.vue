@@ -209,7 +209,6 @@ export default {
           let rt = res.data.HttpData
           if (rt.code === 200) {
             let data = rt.data
-            console.log(data)
             if (data.length > 0) {
               // console.log(data)
               this.tabData[2].hasSet = true
@@ -231,7 +230,6 @@ export default {
           else {
             this.isLoading = false
             this.$Message.warning('获取设置操作列表失败，请重试！')
-            console.log(rt)
           }
         })
         .catch(err => {
@@ -310,7 +308,8 @@ export default {
       this.hubConn = $.hubConnection()
       this.hubProxy = this.hubConn.createHubProxy('ServerHub')
       this.hubProxy.on('sendConnect', data => {
-        console.log(data)
+        console.log(data,"data0")
+        //连接
       });
 
       // 来自广播新消息类型和数据
@@ -318,9 +317,12 @@ export default {
         // console.log('ycyxall--------------' + type, data)
         // 更新报警状态
         let rt = JSON.parse(data)
-        // console.log(rt)
+        console.log(rt,"rt")
+        console.log(data,"data")
+        console.log(type,"type")
         if (type === 'ycp') {
           this.tabData[0].hasAlarm = rt.some(item => item.m_IsAlarm === 'True')
+         
           if (this.tabData[0].hasAlarm) {
             this.updateNavAlarm('alarm')
           } else {
@@ -345,6 +347,7 @@ export default {
           if (item.m_iYCNo === parseInt(rt[0])) {
             item.m_YCValue = rt[2]
             item.m_IsAlarm = rt[4] === 'True' ? true : false
+
             item.m_AdviceMsg = rt[3]
             this.tabData[0].hasAlarm = item.m_IsAlarm
           }
@@ -374,6 +377,9 @@ export default {
           this.updateNavAlarm('alarm')
         } else if (rt[2] === 'CommunicationOK') {
           this.updateNavAlarm('fine')
+        }else if (rt[2] === 'NoCommunication'){
+        	this.updateNavAlarm('offline')
+        	
         }
       });
       
@@ -407,14 +413,15 @@ export default {
       // signalr断开连接
       this.hubConn.disconnected(() => {
         this.hubConn.stop()
+//      alert(1)点击设备数据的时候触发
       })
       // 高频连接触发
       this.hubConn.connectionSlow((err) => {
         // console.log(err)
       })
       // 收到signalr消息触发
-      this.hubConn.received(() => {
-        // console.log(err)
+      this.hubConn.received((err) => {
+//            console.log(err,"shoudaoxiaoxi")
       })
     },
     connectHub (equipNo) {
@@ -529,6 +536,7 @@ export default {
       })
     },
     updateNavAlarm (state) {
+      console.log(state);
       this.$emit('updateNavState', this.equipNo, state)
     }
   },

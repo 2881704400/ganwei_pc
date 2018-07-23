@@ -186,12 +186,16 @@ export default {
           .then(this.Axios.spread((treeRes, equipRes, stateRes) => {
             let treeRt = treeRes.data.HttpData,
               equipRt = equipRes.data.HttpData,
-              stateRt = stateRes.data.HttpData
+              stateRt = stateRes.data.HttpData;
+              // console.log(treeRt,"aaaa")
+              // console.log(equipRt,"aaaa")
+              // console.log(stateRt,"aaaa")
             if (treeRt.code === 200 && equipRt.code === 200 && stateRt.code === 200) {
               let treeData = []
               let equipData = equipRt.data
               let stateData = stateRt.data
               treeData = treeRt.data.GWEquipTreeItems
+              //获取下拉的内容
               let resultData = []
               this.dealNavList(treeData, equipData, resultData, stateData)
               callback(resultData)
@@ -247,6 +251,7 @@ export default {
           return true
         }
       })
+
       arrData.forEach((dt, index) => {
         if (dt.GWEquipTreeItems && dt.GWEquipTreeItems.length) {
           // 设置报警状态
@@ -626,6 +631,7 @@ export default {
             }
     },
     doNavState (equipNo, state) {
+      console.log(equipNo,state);
       if (this.navList[1].children.length) {
         this.dealNavState(this.navList[1].children, equipNo, state)
         this.dealSumState(this.navList[1].children)
@@ -633,6 +639,7 @@ export default {
     },
     dealNavState (list, equipNo, state) {
       list.forEach(item => {
+        console.log(item);
         if (item.children.length) {
           this.dealNavState(item.children, equipNo, state)
         } else {

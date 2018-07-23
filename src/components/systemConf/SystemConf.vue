@@ -27,7 +27,13 @@ $num0:0px;
      max-height:600px;overflow:auto;
   }
 }
-.moreInforWord{margin-top:10px;font-size:15px;}
+.moreInforWord{margin-top:10px;font-size:15px;float: left;width: 49%;}
+.uploadWrap{
+	p{
+		float: left;
+		margin-left:10px ;
+	}
+}
 .lableName{font-size: 16px;margin-right:10px;color:#989898;}
 .labelVal{font-size: 15px;margin-left:10px;color:#303030;}
 .clickActive{
@@ -48,7 +54,7 @@ $num0:0px;
         }
         .itemList{
             height: $height;
-            overflow-y: scroll;
+            overflow-y: auto;
             p{
               width:95%;
               height:50px;
@@ -167,7 +173,7 @@ $num0:0px;
       box-shadow:none;
     }
     .ivu-table-fixed-right{
-      right:-1;
+      right:-1px;
     }
   
 }
@@ -186,62 +192,64 @@ $num0:0px;
     <Col span="21" class="itemDetail">
     <div class="common-tabSys">
       <Button type="primary" style="margin-right:10px;border-radius:0;background:#2d8cf0;padding:8.5px 21.5px;font-size:14px;line-height:inherit;color:#fff;position:absolute;right:0;z-index: 99;" @click="selectEvent()">查询</Button >
-      <Tabs type="card" :animated="false">
+      
+      <Tabs type="card" :animated="false" @on-click="changeTabs" v-model="tabsId">
 
         <TabPane label="设备配置" class="ycp">
 
-          <Table :columns="columnsEq" :data="dataEq" :height="tableHeight"  :row-class-name="rowClassName"></Table>
+          <Table :loading="loading" :columns="columnsEq" :data="dataEq" :height="tableHeight"  :row-class-name="rowClassName"></Table>
           
         </TabPane>
 
         <TabPane label="遥测量配置" class="ycp">
 
-          <Table :columns="columnsYc" :data="dataYc"  :height="tableHeight"  :row-class-name="rowClassName"></Table>
+          <Table :loading="loading" :columns="columnsYc" :data="dataYc"  :height="tableHeight"  :row-class-name="rowClassName"></Table>
           
         </TabPane>
         <TabPane label="遥信量配置" class="ycp">
 
-          <Table :columns="columnsYx" :data="dataYx" :height="tableHeight"  :row-class-name="rowClassName"></Table>
+          <Table :loading="loading" :columns="columnsYx" :data="dataYx" :height="tableHeight"  :row-class-name="rowClassName"></Table>
 
         </TabPane>
         <TabPane label="设置配置" class="ycp">
 
-          <Table :columns="columnsSet" :data="dataSet" :height="tableHeight" :row-class-name="rowClassName" ></Table>
+          <Table :loading="loading" :columns="columnsSet" :data="dataSet" :height="tableHeight" :row-class-name="rowClassName" ></Table>
 
         </TabPane>
       </Tabs>
+      <Page :total="allNum" :page-size="20" @on-change="changePage" show-elevator style="margin-top: 20px;"></Page>
     </div>
   </Col>
 </Row>
-<Modal title="查看其他信息" v-model="modal1" class-name="vertical-center-modal" :styles="{top: '50px',width:'800px'}" class="uploadWrap">
-    <Row>
-        <Col span="12">
-              <p class="moreInforWord" v-for="(key,val) in moreInfor" :key="val" v-if="val>=0&&val<=10" >
+<Modal title="查看其他信息" v-model="modal1" class-name="vertical-center-modal" :styles="{top: '50px',width:'800px'}" >
+    
+        
+              <p class="moreInforWord" v-for="(key,val) in moreInfor" :key="val" >
                 <span class="lableName" style="width:170px;display:inline-block;text-align:right;">{{key.name}}</span>:<span class="labelVal">{{key.value}}</span> 
               </p>
-        </Col>
-        <Col span="12">
+        
+        <!--<Col span="12">
             <p class="moreInforWord" v-for="(key,val) in moreInfor" :key="val" v-if="val>10">
               <span class="lableName" style="width:170px;display:inline-block;text-align:right;">{{key.name}}</span>:<span class="labelVal">{{key.value}}</span> 
             </p>
-        </Col>
-    </Row>
+        </Col>-->
+    
 </Modal>
 <Modal title="编辑信息" v-model="modal2" class-name="vertical-center-modal"  :styles="{top: '50px',width:'800px'}"  class="uploadWrap"  @on-ok="configData(configIndex)">
 <Row>
-    <Col span="12">
-          <p v-for="(item,index) in uploadInfor" v-if="index<=(leftNum+chazhiNum)"  style="margin-top:10px;">
+    <!--<Col span="12">-->
+          <p v-for="(item,index) in uploadInfor"   style="margin-top:10px;">
             <span  style="width:125px;display:inline-block;text-align:right;">{{item.name}}:</span>
             <Input v-model="item.value"  v-if="index==0||item.name=='模拟量编号'||item.name=='状态量编号'||item.name=='设置号'" disabled placeholder="请输入对应值" style="width: 200px;margin-left:20px;"></Input>
             <Input v-model="item.value"  v-else="index!=0" placeholder="请输入对应值" style="width: 200px;margin-left:20px;"></Input>
           </p>
-    </Col>
-<Col span="12">
-        <p v-for="(item,index) in uploadInfor" v-if="index>(leftNum+chazhiNum)"  style="margin-top:10px;">
+    <!--</Col>-->
+<!--<Col span="12">-->
+        <!--<p v-for="(item,index) in uploadInfor" v-if="index>(leftNum+chazhiNum)"  style="margin-top:10px;">
           <span  style="width:125px;display:inline-block;text-align:right;">{{item.name}}:</span>
           <Input v-model="item.value"  v-if="index==0||item.name=='模拟量编号'||item.name=='状态量编号'||item.name=='设置号'" disabled placeholder="请输入对应值" style="width: 200px;margin-left:20px;"></Input>
           <Input v-model="item.value"  v-else="index!=0" placeholder="请输入对应值" style="width: 200px;margin-left:20px;"></Input>
-        </p>
+        </p>-->
         <p style="margin-top:10px;" v-show="isSet_P">
           <span style="width:125px;display:inline-block;text-align:right;">关联视频:</span>
           <Select style="width:200px;margin-left:20px;" clearable v-model="loadDefVideo"  placement="bottom" filterable  transfer>
@@ -311,7 +319,7 @@ $num0:0px;
           <Option v-for="item in switB" :key="item.keys" :value="item.keys">{{item.txt}}</Option>
         </Select>
       </p>   
-  </Col>
+  <!--</Col>-->
 </Row>
 
 
@@ -323,6 +331,7 @@ $num0:0px;
 export default {
   data () {
     return {
+      loading:false,
        allSelect:false,
       columnsEq:[
       {title:"设备号", key:"equip_no",fixed:'left',width:93,
@@ -602,7 +611,7 @@ export default {
                    
                     ]);
                 }
-    },{ title:"单位",key:"unit",width:50,
+    },{ title:"单位",key:"unit",width:100,
  render: (h, params) => {
                   var txt=params.column.key
                   let types=params.row.unit
@@ -1055,7 +1064,7 @@ isMarkAmarm:"",
       modal1:false,
       modal2:false,
       uploadInfor:[],
-      leftNum:0,
+//    leftNum:0,
       chazhiNum:0,
       videoList:[],//视频表获取关联视频
       zizhanList:[],//资产编号
@@ -1071,7 +1080,7 @@ isMarkAmarm:"",
       isSet_P:true,
       isYx:false,
       switB:[
-      {txt:"是",keys:'True'},
+       {txt:"是",keys:'True'},
       {txt:"否",keys:'False'}
       ],
       isYc:false,
@@ -1086,7 +1095,14 @@ isMarkAmarm:"",
       zcData:[],
       viData:[],
       alrmData:[],
-      searchArr:[]
+      searchArr:[],
+      waitDataEq:[],
+	waitDataYc:[],
+	waitDataYx:[],
+	waitDataSet:[],
+	thisPage:1,
+	tabsId:0,
+	allNum:0
     }
   },beforeCreate(){
       this.Axios.post("/api/GWServiceWebAPI/get_DataByTableName",{TableName:'GWZiChanTable'}).then(res=>{
@@ -1096,8 +1112,10 @@ isMarkAmarm:"",
       this.Axios.post("/api/GWServiceWebAPI/get_DataByTableName",{TableName :"GW_VideoInfo"}).then(res=>{
           this.viData=res.data.HttpData.data;
       });
-      this.Axios.post("/GWService.asmx/QueryTableData",{tableName:'AlarmProc'}).then(res=>{
-          this.alrmData=JSON.parse(res.data.d);
+
+      this.Axios.post("/api/GWServiceWebAPI/get_DataByTableName",{TableName:'AlarmProc'}).then(res=>{
+        // console.log(res);
+          this.alrmData=res.data.HttpData.data;
       })
       
   },mounted (){
@@ -1110,10 +1128,40 @@ isMarkAmarm:"",
       return 'demo-table-error-row';
     }
     return '';
+  },changeTabs(id){
+
+//	this.tabsId=id;
+  	if(id==0){
+  		this.thisPage=1;
+  		this.allNum=this.waitDataEq.length
+  		this.loadEq()
+  	}else if(id==1){
+  		this.thisPage=1;
+  		this.allNum=this.waitDataYc.length
+  		this.loadYc();
+  	}else if(id==2){
+  		this.thisPage=1;
+  		this.allNum=this.waitDataYx.length
+  		this.loadYx();
+  	}else{
+  		this.thisPage=1;
+  		this.allNum=this.waitDataSet.length
+  		this.loadSet();
+  	}
+  	
+//	this.thisPage=1;
+  },
+  changePage(page){
+  	this.thisPage=page;
+  	this.loadSet();
+	this.loadYx();
+	this.loadYc();
+	this.loadEq()
+//		console.log(page)
   },
   init(){
     var h = document.documentElement.clientHeight || document.body.clientHeight;
-    this.tableHeight=h-160;
+    this.tableHeight=h-220;
         this.Axios.post("/api/real/equip_state",{userName:window.localStorage.login_msg}).then(res=>{
           let response=res.data.HttpData.data;
           this.itemList=response;
@@ -1158,6 +1206,9 @@ isMarkAmarm:"",
           
         }
      },selectEvent(){
+//   	this.allNum=0;
+//		this.thisPage=1;
+//    	this.loading=true;
         // id,index
          // 布局完成,js尚未
         let id=this.searchArr.toString();
@@ -1165,18 +1216,65 @@ isMarkAmarm:"",
         this.getPlanData()
         // this.active=index;
         this.equipId=id;
-        
-        this.Axios.all([this.Axios.post("/GWService.asmx/GetSystemConfig",{table_name:'Equip',equip_no_list:id})]).then(this.Axios.spread((res) => {
-         let eqData=JSON.parse(res.data.d);
-         // console.log(eqData);
-         let arlarData=this.alrmData;
-         let alarLen=arlarData.length;
+        this.Axios.all([this.Axios.post("/api/Real/get_equip",{equip_nos:id})]).then(this.Axios.spread((res) => {
+//      this.waitDataEq=[];
+        this.waitDataEq=res.data.HttpData.data;
+        	if(this.tabsId==0){
+				this.allNum=this.waitDataEq.length;
+			}
+        	this.loadEq();
          
-         let zichanData=this.zcData;
-         let videoData=this.viData;
+           })).catch(err => {})
+//加载模拟量配置
+this.Axios.all([this.Axios.post("/api/real/get_ycp",{equip_nos:id})]).then(this.Axios.spread((res) => {
+//			this.waitDataYc=[];
+			this.waitDataYc=res.data.HttpData.data;
+			if(this.tabsId==1){
+				this.allNum=this.waitDataYc.length;
+			}
+			this.loadYc()
+	
+ 
+            })).catch(err => {})
+this.Axios.all([this.Axios.post("/api/Real/get_yxp",{equip_nos:id})]).then(this.Axios.spread((res) => {
+//			this.waitDataYx=[];
+			this.waitDataYx=res.data.HttpData.data;
+			if(this.tabsId==2){
+				this.allNum=this.waitDataYx.length;
+			}
+			
+  			this.loadYx()
+  
+
+       
+   })).catch(err => {})
+       this.Axios.post("/api/Real/get_setparm",{equip_nos:id}).then(res=>{//加载设置配置
+       	
+//      this.loading=false;
+//      this.waitDataSet=[]
+
+        // let data4=res4.data.d;
+		this.waitDataSet=res.data.HttpData.data;
+		if(this.tabsId==3){
+				this.allNum=this.waitDataSet.length;
+			}
+		
+
+//		console.log(this.waitDataSet)
+		this.loadSet();
+      	
+          });
+     },loadEq(){
+     	
+     	let eqData= this.waitDataEq.slice((this.thisPage-1)*20,this.thisPage*20);
+        let arlarData=this.alrmData;
+        let alarLen=arlarData.length;
          
-         this.zizhanList=[];
-         this.videoList=[];
+        let zichanData=this.zcData;
+        let videoData=this.viData;
+         
+        this.zizhanList=[];
+        this.videoList=[];
         this.columnsEq.splice(8,alarLen+1)
           
           for(var i=0;i<videoData.length;i++){
@@ -1273,7 +1371,7 @@ isMarkAmarm:"",
                                               ];
                                               this.modal2=true;
                                               this.configIndex=0;
-                                              this.leftNum=Math.floor(this.uploadInfor.length/2);
+//                                            this.leftNum=Math.floor(this.uploadInfor.length/2);
                                               this.chazhiNum=3;
                                             }
                                           }
@@ -1322,20 +1420,20 @@ isMarkAmarm:"",
                 this.alarmArrIsShow.push("True");
                 isShow='<Icon type="ios-checkmark-outline"></Icon>';
               }else{
-               isShow='<Icon type="ios-circle-outline"></Icon>' ;
-               this.alarmArrIsShow.push("False");
-                    };
-                    checkArr.push(isShow);
-                    if((parseInt(eqData[i].alarm_scheme) & 2)>0){
-                      this.alarmArrMark.push("True")
-                      isMarlAl='<Icon type="ios-checkmark-outline"></Icon>';
-                    }else{
-                      this.alarmArrMark.push("False")
-                      isMarlAl='<Icon type="ios-circle-outline"></Icon>' ;
-                    };
-                    checkArr.push(isMarlAl);
-                    let arrName=[],waysArr=[];
-                    for(var j=0;j<arlarData.length;j++){
+                isShow='<Icon type="ios-circle-outline"></Icon>' ;
+                this.alarmArrIsShow.push("False");
+              };
+              checkArr.push(isShow);
+              if((parseInt(eqData[i].alarm_scheme) & 2)>0){
+                this.alarmArrMark.push("True")
+                isMarlAl='<Icon type="ios-checkmark-outline"></Icon>';
+              }else{
+                this.alarmArrMark.push("False")
+                isMarlAl='<Icon type="ios-circle-outline"></Icon>' ;
+              };
+              checkArr.push(isMarlAl);
+              let arrName=[],waysArr=[];
+               for(var j=0;j<arlarData.length;j++){
                       let itemalar;
                       var alays = parseInt(arlarData[j].Proc_Code);
                       if ((parseInt(eqData[i].alarm_scheme) & alays) > 0) {
@@ -1357,21 +1455,25 @@ isMarkAmarm:"",
                     
                   }
                   this.alarmWay[i]=waysArr;
-                  // console.log(i);
-                  // console.log()
-                  let nameVideo;
-                  let zichanName;
-                  for(var m=0;m<videoData.length;m++){
-                    var  EquipNum=parseInt(eqData[i].related_video.split(",")[0]),ID=parseInt(eqData[i].related_video.split(",")[1])
-                    if(EquipNum==videoData[m].EquipNum && ID==videoData[m].ID){
-                      nameVideo=videoData[m].ChannelName;
+                  let nameVideo="";
+                  let zichanName="";
+                  
+                  if(eqData[i].related_video){
+                       for(var m=0;m<videoData.length;m++){
+                          var  EquipNum=parseInt(eqData[i].related_video.split(",")[0]),
+                          ID=parseInt(eqData[i].related_video.split(",")[1]);
+                          if(EquipNum==videoData[m].EquipNum && ID==videoData[m].ID){
+                            nameVideo=videoData[m].ChannelName;
+                          }
                     }
                   }
-                  for(var n=0;n<zichanData.length;n++){
-                    if(eqData[i].ZiChanID==zichanData[n].ZiChanID){
-                      zichanName=zichanData[n].ZiChanName
+                 if(eqData[i].ZiChanID){
+                     for(var n=0;n<zichanData.length;n++){
+                      if(eqData[i].ZiChanID==zichanData[n].ZiChanID){
+                        zichanName=zichanData[n].ZiChanName
+                        }
                     }
-                  }
+                 }
                   var itemEq={
                    equip_no:eqData[i].equip_no,
                    equip_nm: eqData[i].equip_nm,
@@ -1387,13 +1489,10 @@ isMarkAmarm:"",
                 }
                 this.dataEq.push(itemEq);
               }
-            })).catch(err => {})
-//加载模拟量配置
-this.Axios.all([this.Axios.post("/GWService.asmx/GetSystemConfig",{table_name:'ycp',equip_no_list:id})]).then(this.Axios.spread((res) => {
- let dataYc=JSON.parse(res.data.d);
- 
- let arlarData=this.alrmData;
-      let zichanData=this.zcData
+     },loadYc(){
+     	let dataYc=this.waitDataYc.slice((this.thisPage-1)*20,this.thisPage*20)
+ 		let arlarData=this.alrmData;
+      	let zichanData=this.zcData
        let videoData=this.viData
             this.dataYc=[];
             let alarLen=arlarData.length;
@@ -1499,7 +1598,7 @@ this.Axios.all([this.Axios.post("/GWService.asmx/GetSystemConfig",{table_name:'y
                                               
                                             ];
                                             this.configIndex=1;
-                                            this.leftNum=Math.floor(this.uploadInfor.length/2);
+//                                          this.leftNum=Math.floor(this.uploadInfor.length/2);
                                             this.chazhiNum=4;
                                           }
                                         }
@@ -1522,7 +1621,7 @@ this.Axios.all([this.Axios.post("/GWService.asmx/GetSystemConfig",{table_name:'y
                                           {name:"操作参数",value:dataYc[ind].minor_instruction},
                                           {name:"声音文件",value:dataYc[ind].wave_file},
                                           {name:"报警屏蔽",value:dataYc[ind].alarm_shield},
-                                          {name:"比例变换",value:dataYc[ind].mapping=="True"||dataYc[ind].mapping=="true"?"已变换":"未变换"},
+                                          {name:"比例变换",value:dataYc[ind].mapping=="True"||dataYc[ind].mapping=="true"||dataYc[ind].mapping?"已变换":"未变换"},
                                           {name:"安全时段",value:dataYc[ind].SafeTime},
                                           {name:"处理意见",value:dataYc[ind].proc_advice},
                                           {name:"报警级别",value:dataYc[ind].lvl_level},
@@ -1550,20 +1649,25 @@ this.Axios.all([this.Axios.post("/GWService.asmx/GetSystemConfig",{table_name:'y
 } 
 })
 for(var i=0;i<dataYc.length;i++){
-      let nameVideo;
-      let zichanName;
-      for(var m=0;m<videoData.length;m++){
-        var  EquipNum=parseInt(dataYc[i].related_video.split(",")[0]),ID=parseInt(dataYc[i].related_video.split(",")[1])
-        if(EquipNum==videoData[m].EquipNum && ID==videoData[m].ID){
-          nameVideo=videoData[m].ChannelName
-        }
+      let nameVideo="";
+      let zichanName="";
+      if(dataYc[i].related_video){
+         for(var m=0;m<videoData.length;m++){
+            var  EquipNum=parseInt(dataYc[i].related_video.split(",")[0]),ID=parseInt(dataYc[i].related_video.split(",")[1])
+            if(EquipNum==videoData[m].EquipNum && ID==videoData[m].ID){
+              nameVideo=videoData[m].ChannelName
+            }
+         }
       }
-      for(var n=0;n<zichanData.length;n++){
-        if(dataYc[i].ZiChanID==zichanData[n].ZiChanID){
-          zichanName=zichanData[n].ZiChanName
-        }
+      if(dataYc[i].ZiChanID){
+           for(var n=0;n<zichanData.length;n++){
+              if(dataYc[i].ZiChanID==zichanData[n].ZiChanID){
+                zichanName=zichanData[n].ZiChanName
+              }
+            }
       }
-      if(dataYc[i].mapping=="True"||dataYc[i].mapping=="true"){
+     
+      if(dataYc[i].mapping=="True"||dataYc[i].mapping=="true"||dataYc[i].mapping){
         this.scaleTranArr.push("True")
       }else{
        this.scaleTranArr.push("False")
@@ -1611,7 +1715,7 @@ for(var i=0;i<dataYc.length;i++){
 this.alarmWayYc[i]=waysArr;
 let curve_rcd;
                   // console.log(arrName)
-                  if(dataYc[i].curve_rcd=="True"||dataYc[i].curve_rcd=="true"){
+                  if(dataYc[i].curve_rcd=="True"||dataYc[i].curve_rcd=="true"||dataYc[i].curve_rcd){
                     curve_rcd='<Icon type="ios-checkmark-outline"></Icon>'
                     this.curve_rcdArr.push("True")
                   }else{
@@ -1641,19 +1745,19 @@ let curve_rcd;
                 this.dataYc.push(itemYc)
                 // console.log( this.dataYc)
               }
-            })).catch(err => {})
-this.Axios.all([this.Axios.post("/GWService.asmx/GetSystemConfig",{table_name:'yxp',equip_no_list:id})]).then(this.Axios.spread((res) => {
-  
- let dataYx=JSON.parse(res.data.d);
- // console.log(dataYx)
- let arlarData=this.alrmData;
-  let zichanData=this.zcData
-  let videoData=this.viData
+     },loadYx(){
+
+     	let dataYx=this.waitDataYx.slice((this.thisPage-1)*20,this.thisPage*20);
+//   	 let dataYx=res.data.HttpData.data;
  
-           this.dataYx=[];
-           let alarLen=arlarData.length;
+
+		let arlarData=this.alrmData;
+		let zichanData=this.zcData
+		let videoData=this.viData
+		this.dataYx=[];
+		let alarLen=arlarData.length;
           
-      for(var i=0;i<dataYx.length;i++){
+      	for(var i=0;i<dataYx.length;i++){
                      this.columnsYx.splice(11,alarLen+1)
                       for(var j=0;j<arlarData.length;j++){
                         var itemAl={
@@ -1732,7 +1836,7 @@ this.Axios.all([this.Axios.post("/GWService.asmx/GetSystemConfig",{table_name:'y
                                                                 {name:"安全时段",value:dataYx[index].SafeTime,listName:'SafeTime'}
                                                                 ];
                                                                 this.configIndex=2;
-                                                                this.leftNum=Math.floor(this.uploadInfor.length/2);
+//                                                              this.leftNum=Math.floor(this.uploadInfor.length/2);
                                                                 this.chazhiNum=4;
                                                                   // this.show(params.index)
                                                                 }
@@ -1750,7 +1854,7 @@ this.Axios.all([this.Axios.post("/GWService.asmx/GetSystemConfig",{table_name:'y
                                                                   let ind=params.index;
                                                                   this.modal1=true; 
                                                                   this.moreInfor=[
-                                                                    {name:"取反",value:dataYx[ind].inversion=="True"||dataYx[ind].inversion=="true"?"已取反":"未取反"}, 
+                                                                    {name:"取反",value:dataYx[ind].inversion=="True"||dataYx[ind].inversion=="true"||dataYx[ind].inversion?"已取反":"未取反"}, 
                                                                     {name:"属性值",value:dataYx[ind].val_trait}, 
                                                                     {name:"安全时段",value:dataYx[ind].SafeTime},
                                                                     {name:"初始状态",value:dataYx[ind].initval},
@@ -1776,22 +1880,27 @@ this.Axios.all([this.Axios.post("/GWService.asmx/GetSystemConfig",{table_name:'y
                             ])
                       }
                       })
-                      let nameVideo;
-                      let zichanName;
-                      for(var m=0;m<videoData.length;m++){
-                        // console.log(nameVideo);
-                       var  EquipNum=parseInt(dataYx[i].related_video.split(",")[0]),ID=parseInt(dataYx[i].related_video.split(",")[1]);
-                        if(EquipNum==videoData[m].EquipNum && ID==videoData[m].ID){
-                          nameVideo=videoData[m].ChannelName
+                      let nameVideo="";
+                      let zichanName="";
+                      if(dataYx[i].related_video){
+                        for(var m=0;m<videoData.length;m++){
+                          // console.log(nameVideo);
+                         var  EquipNum=parseInt(dataYx[i].related_video.split(",")[0]),ID=parseInt(dataYx[i].related_video.split(",")[1]);
+                          if(EquipNum==videoData[m].EquipNum && ID==videoData[m].ID){
+                            nameVideo=videoData[m].ChannelName
+                          }
                         }
                       }
-                      // console.log(nameVideo);
+                        
+                      if(dataYx[i].ZiChanID){
                         for(var n=0;n<zichanData.length;n++){
                           if(dataYx[i].ZiChanID==zichanData[n].ZiChanID){
                             zichanName=zichanData[n].ZiChanName
                           }
                         }
-                      if(dataYx[i].inversion=="True"||dataYx[i].inversion=="true"){
+                      }
+                        
+                      if(dataYx[i].inversion=="True"||dataYx[i].inversion=="true"||dataYx[i].inversion){
                         this.negateArr.push("True")
                       }else{
                         this.negateArr.push("False")
@@ -1857,11 +1966,14 @@ this.Axios.all([this.Axios.post("/GWService.asmx/GetSystemConfig",{table_name:'y
                         }
                         // console.log(itemYx)
                         this.dataYx.push(itemYx);
-        }
-   })).catch(err => {})
-       this.Axios.post("/GWService.asmx/GetSystemConfig",{table_name:'SetParm',equip_no_list:id}).then(res4=>{//加载设置配置
-        let data4=res4.data.d;
-        let dataSet=JSON.parse(data4);
+             }
+     },loadSet(){
+//		if(this.tabsId==3){
+//			this.allNum=this.waitDataSet.length;
+//		}
+//			console.log(this.thisPage)
+     	let dataSet=this.waitDataSet.slice((this.thisPage-1)*20,this.thisPage*20);
+//   	console.log(dataSet)
         this.dataSet=[];
        
         for(var i=0;i<dataSet.length;i++){
@@ -1891,6 +2003,7 @@ this.Axios.all([this.Axios.post("/GWService.asmx/GetSystemConfig",{table_name:'y
                     this.isMarkSet =this.isMarkSetArr[index]
                     this.isExeSet =this.isExeSetArr[index]
                     this.equipId=dataSet[index].equip_no;
+                    this.isYx=false;
                     this.uploadInfor=[
                     {name:"设备号",value:dataSet[index].equip_no,listName:'equip_no'},
                     {name:"设置号",value:dataSet[index].set_no,listName:'set_no'},
@@ -1901,7 +2014,7 @@ this.Axios.all([this.Axios.post("/GWService.asmx/GetSystemConfig",{table_name:'y
                     {name:"操作命令",value:dataSet[index].main_instruction,listName:'main_instruction'},
                     {name:"操作参数",value:dataSet[index].minor_instruction,listName:'minor_instruction'},
                     ]
-                    this.leftNum=Math.floor(this.uploadInfor.length/2);
+//                  this.leftNum=Math.floor(this.uploadInfor.length/2);
                     this.configIndex=3;
                   }
                 }
@@ -1910,7 +2023,7 @@ this.Axios.all([this.Axios.post("/GWService.asmx/GetSystemConfig",{table_name:'y
            }
          })
           let record
-          if(dataSet[i].record=="True"||dataSet[i].record=="true"){
+          if(dataSet[i].record){
             record='<Icon type="ios-checkmark-outline"></Icon>'
             this.isMarkSetArr.push("True")
           }else{
@@ -1919,7 +2032,7 @@ this.Axios.all([this.Axios.post("/GWService.asmx/GetSystemConfig",{table_name:'y
          }
          let canexecution
               // console.log(dataSet[i].canexecution)
-              if(dataSet[i].canexecution=="true"||dataSet[i].canexecution=="True"){
+              if(dataSet[i].canexecution){
                 canexecution='<Icon type="ios-checkmark-outline"></Icon>'
                 this.isExeSetArr.push("True")
               }else{
@@ -1940,8 +2053,8 @@ this.Axios.all([this.Axios.post("/GWService.asmx/GetSystemConfig",{table_name:'y
               }
               this.dataSet.push(itemSet);
             }
-          });
-     },getPlanData(){
+     },
+     getPlanData(){
       this.Axios.post("/api/GWServiceWebAPI/get_DataByTableName",{TableName :"GWPlan"}).then(res=>{
         let datas=res.data.HttpData.data;
         this.planList=[];
@@ -2047,14 +2160,14 @@ this.Axios.all([this.Axios.post("/GWService.asmx/GetSystemConfig",{table_name:'y
             "id":this.equipId,
             "yc_no":this.uploadInfor[1].value,
             "listName":"curve_rcd",
-            "vlaue":"'"+this.curve_rcd+"'"
+            "vlaue":this.curve_rcd=="False"?false:true
           }
           updateJSON.push(curve_rcd);
           var scaleTran={
             "id":this.equipId,
             "yc_no":this.uploadInfor[1].value,
             "listName":"mapping",
-            "vlaue":"'"+this.scaleTran+"'"
+            "vlaue":this.scaleTran=="False"?false:true
           }
           updateJSON.push(scaleTran);
           this.Axios.post("/api/real/update_ycp",{update:JSON.stringify(updateJSON)}).then(res=>{
@@ -2115,9 +2228,11 @@ this.Axios.all([this.Axios.post("/GWService.asmx/GetSystemConfig",{table_name:'y
             "id":this.equipId,
             "yx_no":this.uploadInfor[1].value,
             "listName":"inversion",
-            "vlaue":"'"+this.negate+"'"
+            "vlaue":this.negate=="False"?false:true
           }
           updateJSON.push(negate);
+            console.log(updateJSON);
+
           this.Axios.post("/api/real/update_yxp",{update:JSON.stringify(updateJSON)}).then(res=>{
            var int=res.data.HttpData.data;
            if(int!=0&&res.data.HttpStatus==200){
@@ -2148,17 +2263,18 @@ this.Axios.all([this.Axios.post("/GWService.asmx/GetSystemConfig",{table_name:'y
               "id":this.equipId,
               "yx_no":this.uploadInfor[1].value,
               "listName":"[record]",
-              "vlaue":this.isMarkSet
+              "vlaue":this.isMarkSet=="False"?false:true
             }//是否记录,
             updateJSON.push(record);
             var canexecution={
               "id":this.equipId,
               "yx_no":this.uploadInfor[1].value,
               "listName":"[canexecution]",
-              "vlaue":this.isExeSet
+              "vlaue":this.isExeSet=="False"?false:true
             }//是否可执行
             updateJSON.push(canexecution);
             this.Axios.post("/api/real/update_setparm",{update:JSON.stringify(updateJSON)}).then(res=>{
+              console.log(res);
              var int=res.data.HttpData.data;
              if(int!=0&&res.data.HttpStatus==200){
               this.$Message.success('修改成功');
