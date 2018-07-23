@@ -80,10 +80,10 @@ export default {
     },
     getProjectNmae: function(){
       var dt = this;
-      let urlna = "/api/real/equip_tree";
-      this.Axios.post(urlna).then(response => {
+      let urlna = "/api/server/auth_name";
+      this.Axios.get(urlna).then(response => {
             if(response.data.HttpData.code == 200)
-              dt.projectName =response.data.HttpData.data.Name;
+              dt.projectName =response.data.HttpData.data;
             else
               dt.getProjectNmae();
         })
