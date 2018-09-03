@@ -9,7 +9,7 @@
               <!-- homeMenuClick 临时，按照左侧菜单方法调用 -->
               <a @click="homeMenuClick(rootSave,item_child_in)" v-for="item_child_in in rootSave" v-show="item_child_in.node.title==item_child.menuName"><i :class="item_child.iconName"></i>{{item_child.menuName}}</a>
             </span>
-            <span @click.stop="openModal(item)" class="alertBtn"></span>
+            <!-- <span @click.stop="openModal(item)" class="alertBtn"></span> -->
         </div>
       </li>               
     </ul>

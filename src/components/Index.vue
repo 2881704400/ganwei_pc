@@ -55,7 +55,7 @@ export default {
             "selected": false
         },
         {
-            "title": "设备数据",
+            "title": "设备管理",
             "href": "equips",
             "iconClass": " iconfont icon-MenuEquips",
             "loading": false,
