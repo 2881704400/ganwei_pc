@@ -23,8 +23,8 @@
             flex-grow: 0;
             .logo{
                 width: $headerLogoSize;
-               
                 text-align: center;
+                margin-left: -15px;
             }
             .txt{
                 display: flex;
