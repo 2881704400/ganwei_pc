@@ -1,7 +1,7 @@
 <template>
   <div class="gw-index">
     <header class="header">
-      <a class="header-logo" href="/#/index/home" @click="setNav">
+      <a class="header-logo" href="javascript:void(0)" @click="logoClickEvent">
         <img class="logo" src="@assets/img/logos0.png" alt="logo">
       </a>
       <div class="header-opt">
@@ -660,6 +660,10 @@ export default {
           this.dealSumState(item.children)
         }
       })
+    },
+    logoClickEvent(){
+      this.$router.push("home")
+      this.setNav()
     }
   },
   created () {
