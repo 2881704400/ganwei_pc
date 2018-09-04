@@ -196,24 +196,24 @@ $num0:0px;
       <Tabs type="card" :animated="false" @on-click="changeTabs" v-model="tabsId">
 
         <TabPane label="设备配置" class="ycp">
-
-          <Table :loading="loading" :columns="columnsEq" :data="dataEq" :height="tableHeight"  :row-class-name="rowClassName"></Table>
+					<!--<gwLoading ></gwLoading>-->
+          <Table :loading="loading" :columns="columnsEq" :data="dataEq" :height="tableHeight"  :row-class-name="rowClassName" no-data-text=""></Table>
           
         </TabPane>
 
         <TabPane label="遥测量配置" class="ycp">
 
-          <Table :loading="loading" :columns="columnsYc" :data="dataYc"  :height="tableHeight"  :row-class-name="rowClassName"></Table>
+          <Table :loading="loading" :columns="columnsYc" :data="dataYc"  :height="tableHeight"  :row-class-name="rowClassName" no-data-text=""></Table>
           
         </TabPane>
         <TabPane label="遥信量配置" class="ycp">
 
-          <Table :loading="loading" :columns="columnsYx" :data="dataYx" :height="tableHeight"  :row-class-name="rowClassName"></Table>
+          <Table :loading="loading" :columns="columnsYx" :data="dataYx" :height="tableHeight"  :row-class-name="rowClassName" no-data-text=""></Table>
 
         </TabPane>
         <TabPane label="设置配置" class="ycp">
 
-          <Table :loading="loading" :columns="columnsSet" :data="dataSet" :height="tableHeight" :row-class-name="rowClassName" ></Table>
+          <Table :loading="loading" :columns="columnsSet" :data="dataSet" :height="tableHeight" :row-class-name="rowClassName" no-data-text=""></Table>
 
         </TabPane>
       </Tabs>
@@ -227,29 +227,18 @@ $num0:0px;
               <p class="moreInforWord" v-for="(key,val) in moreInfor" :key="val" >
                 <span class="lableName" style="width:170px;display:inline-block;text-align:right;">{{key.name}}</span>:<span class="labelVal">{{key.value}}</span> 
               </p>
-        
-        <!--<Col span="12">
-            <p class="moreInforWord" v-for="(key,val) in moreInfor" :key="val" v-if="val>10">
-              <span class="lableName" style="width:170px;display:inline-block;text-align:right;">{{key.name}}</span>:<span class="labelVal">{{key.value}}</span> 
-            </p>
-        </Col>-->
+
     
 </Modal>
 <Modal title="编辑信息" v-model="modal2" class-name="vertical-center-modal"  :styles="{top: '50px',width:'800px'}"  class="uploadWrap"  @on-ok="configData(configIndex)">
 <Row>
-    <!--<Col span="12">-->
+
           <p v-for="(item,index) in uploadInfor"   style="margin-top:10px;">
             <span  style="width:125px;display:inline-block;text-align:right;">{{item.name}}:</span>
             <Input v-model="item.value"  v-if="index==0||item.name=='模拟量编号'||item.name=='状态量编号'||item.name=='设置号'" disabled placeholder="请输入对应值" style="width: 200px;margin-left:20px;"></Input>
             <Input v-model="item.value"  v-else="index!=0" placeholder="请输入对应值" style="width: 200px;margin-left:20px;"></Input>
           </p>
-    <!--</Col>-->
-<!--<Col span="12">-->
-        <!--<p v-for="(item,index) in uploadInfor" v-if="index>(leftNum+chazhiNum)"  style="margin-top:10px;">
-          <span  style="width:125px;display:inline-block;text-align:right;">{{item.name}}:</span>
-          <Input v-model="item.value"  v-if="index==0||item.name=='模拟量编号'||item.name=='状态量编号'||item.name=='设置号'" disabled placeholder="请输入对应值" style="width: 200px;margin-left:20px;"></Input>
-          <Input v-model="item.value"  v-else="index!=0" placeholder="请输入对应值" style="width: 200px;margin-left:20px;"></Input>
-        </p>-->
+
         <p style="margin-top:10px;" v-show="isSet_P">
           <span style="width:125px;display:inline-block;text-align:right;">关联视频:</span>
           <Select style="width:200px;margin-left:20px;" clearable v-model="loadDefVideo"  placement="bottom" filterable  transfer>
@@ -328,7 +317,9 @@ $num0:0px;
 </template>
 
 <script>
+//	import gwLoading from "../public/GwLoading"
 export default {
+
   data () {
     return {
       loading:false,
@@ -1120,7 +1111,13 @@ isMarkAmarm:"",
       
   },mounted (){
       this.init();
-  },methods:{
+  },watch:{
+  		tabsId(){
+//				console.log(this.tabsId)
+  				this.selectEvent()
+  		}
+  },
+  methods:{
    rowClassName (row, index) {
     if (index%2== 0) {
       return 'demo-table-info-row';
@@ -1154,9 +1151,9 @@ isMarkAmarm:"",
   changePage(page){
   	this.thisPage=page;
   	this.loadSet();
-	this.loadYx();
-	this.loadYc();
-	this.loadEq()
+		this.loadYx();
+		this.loadYc();
+		this.loadEq()
 //		console.log(page)
   },
   init(){
@@ -1165,7 +1162,6 @@ isMarkAmarm:"",
         this.Axios.post("/api/real/equip_state",{userName:window.localStorage.login_msg}).then(res=>{
           let response=res.data.HttpData.data;
           this.itemList=response;
-        //* this.loadInformation(response[0].m_iEquipNo,0)
       })
       },loadInformation(id,index){
         let nameStr=this.$refs.mybox[index].className;
@@ -1187,7 +1183,6 @@ isMarkAmarm:"",
             this.allSelect=true;
           }
         }
-        // console.log(this.searchArr)
       },selectAll(){
         
         if(!this.allSelect){
@@ -1206,65 +1201,70 @@ isMarkAmarm:"",
           
         }
      },selectEvent(){
-//   	this.allNum=0;
-//		this.thisPage=1;
-//    	this.loading=true;
-        // id,index
-         // 布局完成,js尚未
-        let id=this.searchArr.toString();
-        // console.log(id)
+     	  let id=this.searchArr.toString();
         this.getPlanData()
-        // this.active=index;
         this.equipId=id;
-        this.Axios.all([this.Axios.post("/api/Real/get_equip",{equip_nos:id})]).then(this.Axios.spread((res) => {
-//      this.waitDataEq=[];
-        this.waitDataEq=res.data.HttpData.data;
-        	if(this.tabsId==0){
-				this.allNum=this.waitDataEq.length;
-			}
-        	this.loadEq();
-         
+        let tabsId=this.tabsId;
+        
+     		switch (tabsId)
+     		{
+     			case 0:
+     				this.loading=true
+     				 this.Axios.all([this.Axios.post("/api/Real/get_equip",{equip_nos:id})]).then(this.Axios.spread((res) => {
+			        	this.waitDataEq=res.data.HttpData.data;
+			        	if(this.tabsId==0){
+									this.allNum=this.waitDataEq.length;
+								}
+			        	this.loadEq();
+			         
            })).catch(err => {})
-//加载模拟量配置
-this.Axios.all([this.Axios.post("/api/real/get_ycp",{equip_nos:id})]).then(this.Axios.spread((res) => {
-//			this.waitDataYc=[];
-			this.waitDataYc=res.data.HttpData.data;
-			if(this.tabsId==1){
-				this.allNum=this.waitDataYc.length;
-			}
-			this.loadYc()
-	
- 
-            })).catch(err => {})
-this.Axios.all([this.Axios.post("/api/Real/get_yxp",{equip_nos:id})]).then(this.Axios.spread((res) => {
-//			this.waitDataYx=[];
-			this.waitDataYx=res.data.HttpData.data;
-			if(this.tabsId==2){
-				this.allNum=this.waitDataYx.length;
-			}
-			
-  			this.loadYx()
-  
+     			break;
+     			case 1:
+     				//加载模拟量配置
+     				this.loading=true
+						this.Axios.all([this.Axios.post("/api/real/get_ycp",{equip_nos:id})]).then(this.Axios.spread((res) => {
+									this.waitDataYc=res.data.HttpData.data;
+									if(this.tabsId==1){
+										this.allNum=this.waitDataYc.length;
+									}
+									this.loadYc()
+							
+	 
+	          })).catch(err => {})
+     			break;
+     			case 2:
+     			this.loading=true
+     				this.Axios.all([this.Axios.post("/api/Real/get_yxp",{equip_nos:id})]).then(this.Axios.spread((res) => {
 
-       
-   })).catch(err => {})
-       this.Axios.post("/api/Real/get_setparm",{equip_nos:id}).then(res=>{//加载设置配置
-       	
-//      this.loading=false;
-//      this.waitDataSet=[]
+								this.waitDataYx=res.data.HttpData.data;
+								if(this.tabsId==2){
+									this.allNum=this.waitDataYx.length;
+								}
+								
+					  			this.loadYx()
+					  
+					
+					       
+					   })).catch(err => {})
+     			break;
+     			case 3:
+     			this.loading=true
+     				this.Axios.post("/api/Real/get_setparm",{equip_nos:id}).then(res=>{//加载设置配置
 
-        // let data4=res4.data.d;
-		this.waitDataSet=res.data.HttpData.data;
-		if(this.tabsId==3){
-				this.allNum=this.waitDataSet.length;
-			}
-		
+								this.waitDataSet=res.data.HttpData.data;
+								if(this.tabsId==3){
+										this.allNum=this.waitDataSet.length;
+									}
+						
+								this.loadSet();
+			      	
+			        });
+     			break;
+     		}
+//				console.log(this.tabsId)
 
-//		console.log(this.waitDataSet)
-		this.loadSet();
-      	
-          });
-     },loadEq(){
+     },
+     loadEq(){
      	
      	let eqData= this.waitDataEq.slice((this.thisPage-1)*20,this.thisPage*20);
         let arlarData=this.alrmData;
@@ -1489,6 +1489,7 @@ this.Axios.all([this.Axios.post("/api/Real/get_yxp",{equip_nos:id})]).then(this.
                 }
                 this.dataEq.push(itemEq);
               }
+            this.loading=false
      },loadYc(){
      	let dataYc=this.waitDataYc.slice((this.thisPage-1)*20,this.thisPage*20)
  		let arlarData=this.alrmData;
@@ -1745,6 +1746,7 @@ let curve_rcd;
                 this.dataYc.push(itemYc)
                 // console.log( this.dataYc)
               }
+this.loading=false
      },loadYx(){
 
      	let dataYx=this.waitDataYx.slice((this.thisPage-1)*20,this.thisPage*20);
@@ -1967,6 +1969,7 @@ let curve_rcd;
                         // console.log(itemYx)
                         this.dataYx.push(itemYx);
              }
+      	this.loading=false
      },loadSet(){
 //		if(this.tabsId==3){
 //			this.allNum=this.waitDataSet.length;
@@ -2053,6 +2056,7 @@ let curve_rcd;
               }
               this.dataSet.push(itemSet);
             }
+        this.loading=false
      },
      getPlanData(){
       this.Axios.post("/api/GWServiceWebAPI/get_DataByTableName",{TableName :"GWPlan"}).then(res=>{

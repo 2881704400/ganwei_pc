@@ -123,7 +123,7 @@
   .dateSelect{
     width: auto;
     position: absolute;
-    top: -20px;
+    top: -10px;
     right:30px;
     z-index: 99;
   }
@@ -153,12 +153,12 @@
          
           
           <div class="common-tabEve">
-              <Tabs type="card"  :animated="false">
-                <div class="dateSelect">
+          			<div class="dateSelect">
                     <Button type="primary" style="margin-right:10px;border-radius:0;background:#2d8cf0;padding:8.5px 21.5px;font-size:14px;line-height:inherit;color:#fff;" @click="selectEvent()">查询</Button >
                     <DatePicker class="dataSelect" type="datetimerange" format="yyyy/MM/dd HH:mm" :options="option1" placeholder="请选择日期时间" style="width: 500px" @on-change="dateVale"></DatePicker>
-                    
-                  </div>
+                </div>
+              <Tabs type="card"  :animated="false">
+                
                 <TabPane  label="设备事件" >
                    
                    <Table :columns="equipTh" :data="equipEvent" :height="tableHeight" :row-class-name="rowClassName" :loading="loading"></Table>
