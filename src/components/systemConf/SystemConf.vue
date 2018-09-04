@@ -1093,7 +1093,8 @@ isMarkAmarm:"",
 	waitDataSet:[],
 	thisPage:1,
 	tabsId:0,
-	allNum:0
+	allNum:0,
+	hasFun:false
     }
   },beforeCreate(){
       this.Axios.post("/api/GWServiceWebAPI/get_DataByTableName",{TableName:'GWZiChanTable'}).then(res=>{
@@ -1114,7 +1115,10 @@ isMarkAmarm:"",
   },watch:{
   		tabsId(){
 //				console.log(this.tabsId)
-  				this.selectEvent()
+				if(this.hasFun){
+					this.selectEvent()
+				}
+  				
   		}
   },
   methods:{
@@ -1202,10 +1206,13 @@ isMarkAmarm:"",
         }
      },selectEvent(){
      	  let id=this.searchArr.toString();
+     	  if(id==""){
+     	  	return
+     	  }
         this.getPlanData()
         this.equipId=id;
         let tabsId=this.tabsId;
-        
+        this.hasFun=true;
      		switch (tabsId)
      		{
      			case 0:
