@@ -3,6 +3,7 @@
 *{
   font-family: "微软雅黑",
 }
+/*提交测试*/
 /*sss*/
  ::-webkit-scrollbar {/*滚动条整体样式*/
     width: 4px;     /*高宽分别对应横竖滚动条的尺寸*/
@@ -18,7 +19,7 @@
     border-radius: 0;
     background: rgba(0,0,0,0.1);
   }
-.event-query{width:100%;height:100%;}
+.event-query{width:100%;height:100%;min-width:1080px ;}
 .event-query .wrap{width:100%;height:100%;}
 .event-query .wrap .itemDetail{height:100%;overflow: hidden;padding-left: 15px;}
 .event-query .wrap .itemList{height:100%;overflow-y: scroll;}
@@ -122,7 +123,7 @@
   .dateSelect{
     width: auto;
     position: absolute;
-    top: -20px;
+    top: -10px;
     right:30px;
     z-index: 99;
   }
@@ -152,8 +153,7 @@
          
           
           <div class="common-tabEve">
-              <Tabs type="card"  :animated="false">
-                <div class="dateSelect">
+          			<div class="dateSelect">
                     <Button type="primary" style="margin-right:10px;border-radius:0;background:#2d8cf0;padding:8.5px 21.5px;font-size:14px;line-height:inherit;color:#fff;" @click="selectEvent()">查询</Button >
                     <DatePicker class="dataSelect" v-model="dateValue" type="datetimerange" format="yyyy/MM/dd HH:mm" :options="option1" placeholder="请选择日期时间" style="width: 500px"  ></DatePicker>
                     
