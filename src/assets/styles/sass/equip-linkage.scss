@@ -50,6 +50,7 @@
                 tbody{
                     td{
                         width: 11%;
+                        white-space: nowrap;text-overflow: ellipsis;overflow: hidden;
                         &:nth-child(5){
                             width: 12%;
                         }
@@ -134,3 +135,4 @@
     }
 
 }
+.ivu-modal .ivu-modal-content > .ivu-modal-body{overflow: inherit;}

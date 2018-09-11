@@ -14,9 +14,7 @@ Vue.config.productionTip = false
 
 Vue.use(iView)
 Vue.prototype.Axios = Axios
-
-   Vue.prototype.$echart = Echarts
-
+Vue.prototype.$echart = Echarts
 
 /* eslint-disable no-new */
 new Vue({

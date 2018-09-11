@@ -18,7 +18,7 @@
     border-radius: 0;
     background: rgba(0,0,0,0.1);
   }
-.event-query{width:100%;height:100%;}
+.event-query{width:100%;height:100%;min-width:1080px;}
 .event-query .wrap{width:100%;height:100%;}
 .event-query .wrap .itemDetail{height:100%;overflow: hidden;padding-left: 15px;}
 .event-query .wrap .itemList{height:100%;overflow-y: scroll;}
@@ -143,7 +143,7 @@
      <Row class="wrap">
         <Col span="3" class="itemList">
           <p title="全选" @click="selectAll()" :class="allSelect?'clickActive':''">全选</p>
-          <p  v-for="(item,$index) in itemList" @click="selectId(item.m_iEquipNo,$index)" ref="mybox" :title="item.m_EquipNm">
+          <p  v-for="(item,$index) in itemList" @click="selectId(item.m_iEquipNo,$index)" ref="mybox" :title="item.m_EquipNm" v-bind:class="{'clickActive':$index == 0}" >
             <!-- :class="$index==activeClass?'clickActive':'' -->
                 {{item.m_EquipNm}}{{item.m_iEquipNo}}
           </p>
@@ -155,7 +155,7 @@
               <Tabs type="card"  :animated="false">
                 <div class="dateSelect">
                     <Button type="primary" style="margin-right:10px;border-radius:0;background:#2d8cf0;padding:8.5px 21.5px;font-size:14px;line-height:inherit;color:#fff;" @click="selectEvent()">查询</Button >
-                    <DatePicker class="dataSelect" type="datetimerange" format="yyyy/MM/dd HH:mm" :options="option1" placeholder="请选择日期时间" style="width: 500px" @on-change="dateVale"></DatePicker>
+                    <DatePicker class="dataSelect" v-model="dateValue" type="datetimerange" format="yyyy/MM/dd HH:mm" :options="option1" placeholder="请选择日期时间" style="width: 500px"  ></DatePicker>
                     
                   </div>
                 <TabPane  label="设备事件" >
@@ -178,6 +178,7 @@
 </template>
 
 <script>
+import { formatDate } from "../../assets/js/date.js";
 export default {
    data () {
     return {
@@ -186,7 +187,7 @@ export default {
       equipEvent:[],//右侧设备事件
       setEvent:[],//右侧设置事件
       sysEvent:[],//右侧系统事件
-      dateValue:[],
+      dateValue:"",
       equipId:0,
       loading:false,
       allSelect:false,
@@ -247,7 +248,12 @@ export default {
                         text: '今天',
                         value () {
                             const end=new Date();
-                            const start=new Date().toLocaleDateString();
+                            const year=end.getFullYear();
+                            const	mon=end.getMonth()+1;
+                            const	day=end.getDate();
+                            const start=year+"/"+mon+"/"+day+" 00:00";
+//                          const start=new Date().toLocaleDateString();
+                            
                             return [start, end];
                         }
                       },{
@@ -290,6 +296,7 @@ export default {
       this.Axios.post("/api/real/equip_state",{userName:window.localStorage.login_msg}).then(res=>{
         let response=res.data.HttpData.data;
         this.itemList=response;
+        this.searchArr.push(response[0].m_iEquipNo);
       })
      },
      selectId(id,index){
@@ -332,23 +339,24 @@ export default {
      selectEvent(){
         this.loadEventList();
      },
-     dateVale(val){
-        this.dateValue=val;
-     },
+    //  dateVale(val){
+    //   this.dateValue=val;
+    //  },
      loadEventList(){
       let id=this.searchArr.toString();
-       console.log(id);
+      //  console.log(id);
       let dates=this.dateValue;
-      
-      if(dates.length==0){
+
+      if(dates.toString().length<=1){
         this.$Message.warning('请选择日期时间');
         return
       }
-      let timeStr="";
-      if(this.dateValue[0]==""){
-        this.dateValue[0]=this.dateValue[1].split(" ")[0];
-      }
-      timeStr=this.dateValue.toString();
+      // let timeStr="";
+      // if(this.dateValue[0]==""){
+      //   this.dateValue[0]=this.dateValue[1].split(" ")[0];
+      // }
+      let timeStr=this.dateValue.toString();
+      timeStr=formatDate(new Date(timeStr.split(",")[0]),"yyyy/MM/dd hh:mm:ss")+","+formatDate(new Date(timeStr.split(",")[1]),"yyyy/MM/dd hh:mm:ss");
       //this.loading=true;
      this.Axios.post("/api/event/get_equip_evt",{times:timeStr,equip_nos:id}).then(res=>{//加载模拟量配置
           if(res.data.HttpStatus==200&&res.data.HttpData.data.length!=0){

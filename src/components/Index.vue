@@ -1,9 +1,9 @@
 <template>
   <div class="gw-index">
     <header class="header">
-      <div class="header-logo">
+      <a class="header-logo" href="javascript:void(0)" @click="logoClickEvent">
         <img class="logo" src="@assets/img/logos0.png" alt="logo">
-      </div>
+      </a>
       <div class="header-opt">
         <span class="user" title="当前登陆用户">
           <span class="iconfont">&#xe62e;</span>{{$store.state.loginMsg}}</span>
@@ -55,7 +55,7 @@ export default {
             "selected": false
         },
         {
-            "title": "设备数据",
+            "title": "设备管理",
             "href": "equips",
             "iconClass": " iconfont icon-MenuEquips",
             "loading": false,
@@ -660,6 +660,10 @@ export default {
           this.dealSumState(item.children)
         }
       })
+    },
+    logoClickEvent(){
+      this.$router.push("home")
+      this.setNav()
     }
   },
   created () {
