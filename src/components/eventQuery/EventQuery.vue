@@ -19,7 +19,7 @@
     background: rgba(0,0,0,0.1);
   }
 .event-query{width:100%;height:100%;}
-.event-query .wrap{width:100%;height:100%;}
+.event-query .wrap{width:100%;height:100%;min-width: 1080px;}
 .event-query .wrap .itemDetail{height:100%;overflow: hidden;padding-left: 15px;}
 .event-query .wrap .itemList{height:100%;overflow-y: scroll;}
 .dateSelect{padding:20px  0;}
