@@ -24,7 +24,7 @@ $num0:0px;
 .ivu-table-cell{padding-left: $num0;padding-right: $num0;width: $width;text-align: center;white-space: nowrap;overflow: hidden;word-break: keep-all;}
 .ivu-modal{
   .ivu-modal-content>.ivu-modal-body{
-     max-height:600px;overflow:auto;
+     max-height:600px;overflow:auto !important;
   }
 }
 .moreInforWord{margin-top:10px;font-size:15px;float: left;width: 49%;}
