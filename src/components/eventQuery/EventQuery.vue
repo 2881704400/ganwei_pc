@@ -144,7 +144,6 @@
         <Col span="3" class="itemList">
           <p title="全选" @click="selectAll()" :class="allSelect?'clickActive':''">全选</p>
           <p  v-for="(item,$index) in itemList" @click="selectId(item.m_iEquipNo,$index)" ref="mybox" :title="item.m_EquipNm" v-bind:class="{'clickActive':$index == 0}" >
-            <!-- :class="$index==activeClass?'clickActive':'' -->
                 {{item.m_EquipNm}}{{item.m_iEquipNo}}
           </p>
         </Col>
