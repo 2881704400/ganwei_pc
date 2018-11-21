@@ -148,23 +148,20 @@
           </p>
         </Col>
         <Col span="21" class="itemDetail">
-         
-          
           <div class="common-tabEve">
-              <Tabs type="card"  :animated="false">
+              <Tabs type="card"  :animated="false" v-model="selMenu" :value="selMenu">
                 <div class="dateSelect">
                     <Button type="primary" style="margin-right:10px;border-radius:0;background:#2d8cf0;padding:8.5px 21.5px;font-size:14px;line-height:inherit;color:#fff;" @click="selectEvent()">查询</Button >
                     <DatePicker class="dataSelect" v-model="dateValue" type="datetimerange" format="yyyy/MM/dd HH:mm" :options="option1" placeholder="请选择日期时间" style="width: 500px"  ></DatePicker>
-                    
                   </div>
-                <TabPane  label="设备事件" >
+                <TabPane  label="设备事件" name="equip">
                    
-                   <Table :columns="equipTh" :data="equipEvent" :height="tableHeight" :row-class-name="rowClassName" :loading="loading"></Table>
+                   <Table :columns="equipTh" :data="equipEvent" :height="tableHeight" :row-class-name="rowClassName" :loading="loading" ></Table>
                 </TabPane>
-                <TabPane label="设置事件">
-                   <Table :columns="sysTh" :data="setEvent" :height="tableHeight" :row-class-name="rowClassName" :loading="loading"></Table>
+                <TabPane label="设置事件" name="setEvent">
+                   <Table :columns="sysTh" :data="setEvent" :height="tableHeight" :row-class-name="rowClassName" :loading="loading"  ></Table>
                 </TabPane>
-                <TabPane label="系统事件">
+                <TabPane label="系统事件" name="sysEvent">
                    <Table :columns="sysEventTh" :data="sysEvent" :height="tableHeight" :row-class-name="rowClassName"  :loading="loading" ></Table>
                 </TabPane>
 
@@ -186,6 +183,7 @@ export default {
       equipEvent:[],//右侧设备事件
       setEvent:[],//右侧设置事件
       sysEvent:[],//右侧系统事件
+      selMenu:'equip',
       dateValue:"",
       equipId:0,
       loading:false,
@@ -251,8 +249,6 @@ export default {
                             const	mon=end.getMonth()+1;
                             const	day=end.getDate();
                             const start=year+"/"+mon+"/"+day+" 00:00";
-//                          const start=new Date().toLocaleDateString();
-                            
                             return [start, end];
                         }
                       },{
@@ -279,9 +275,7 @@ export default {
   },mounted (){
     this.init()
   },methods:{
-     
      rowClassName (row, index) {
-      // console.log(2)
                 if (index%2== 0) {
                     return 'demo-table-info-row';
                 } else if (index%2== 1) {
@@ -290,9 +284,9 @@ export default {
                 return '';
             },
     init(){
-       var h = document.documentElement.clientHeight || document.body.clientHeight;
+        var h = document.documentElement.clientHeight || document.body.clientHeight;
         this.tableHeight=h-170;
-      this.Axios.post("/api/real/equip_state",{userName:window.localStorage.login_msg}).then(res=>{
+        this.Axios.post("/api/real/equip_state",{userName:window.localStorage.login_msg}).then(res=>{
         let response=res.data.HttpData.data;
         this.itemList=response;
         this.searchArr.push(response[0].m_iEquipNo);
@@ -301,7 +295,7 @@ export default {
      selectId(id,index){
         let nameStr=this.$refs.mybox[index].className;
         if(nameStr=="clickActive"){
-          this.$refs.mybox[index].className=""
+           this.$refs.mybox[index].className= "";
            this.allSelect=false;
            var that = this;
            for (var i = 0;i <that.searchArr.length;i++) {
@@ -338,25 +332,17 @@ export default {
      selectEvent(){
         this.loadEventList();
      },
-    //  dateVale(val){
-    //   this.dateValue=val;
-    //  },
      loadEventList(){
       let id=this.searchArr.toString();
-      //  console.log(id);
       let dates=this.dateValue;
-
       if(dates.toString().length<=1){
         this.$Message.warning('请选择日期时间');
         return
       }
-      // let timeStr="";
-      // if(this.dateValue[0]==""){
-      //   this.dateValue[0]=this.dateValue[1].split(" ")[0];
-      // }
       let timeStr=this.dateValue.toString();
       timeStr=formatDate(new Date(timeStr.split(",")[0]),"yyyy/MM/dd hh:mm:ss")+","+formatDate(new Date(timeStr.split(",")[1]),"yyyy/MM/dd hh:mm:ss");
-      //this.loading=true;
+     this.loading=true;
+     if(this.selMenu == "equip")
      this.Axios.post("/api/event/get_equip_evt",{times:timeStr,equip_nos:id}).then(res=>{//加载模拟量配置
           if(res.data.HttpStatus==200&&res.data.HttpData.data.length!=0){
             this.equipEvent=[];
@@ -369,10 +355,16 @@ export default {
               }
               this.equipEvent.push(item);
             }
-            
+            this.$Message.success('设备事件查询成功')
           }
+          else
+            this.$Message.warning('没有设备事件')
           this.loading=false;
-     });
+          
+     }).catch(e=>{this.loading=false;
+        this.$Message.warning('请选择设备');
+      });
+     if(this.selMenu == "setEvent")
      this.Axios.post("/api/event/get_set_evt",{times:timeStr,equip_nos:id}).then(res=>{
           if(res.data.HttpStatus==200&&res.data.HttpData.data.length!=0){
             this.setEvent=[];
@@ -384,49 +376,53 @@ export default {
                 person:respon[i].operator,
                 time:respon[i].time.replace("T"," ")
               }
-              this.setEvent.push(item);
+              this.setEvent.push(item);this.$Message.success('设置事件查询成功');
             }
           }
+          else
+              this.$Message.warning('没有设置事件')
            this.loading=false;
+      }).catch(e=>{this.loading=false;
+        this.$Message.warning('请选择设备');
       });
+
+       
+      if(this.selMenu == "sysEvent")
       this.Axios.post("/api/event/get_sys_evt",{times:timeStr}).then(res=>{
-        
           if(res.data.HttpStatus==200&&res.data.HttpData.data.length!=0){
             this.sysEvent=[];
             let respon=res.data.HttpData.data
-          //   // console.log(respon)
             for(var i=0;i<respon.length;i++){
-              
               let item={
-                
                 event:respon[i].event,
                 time:respon[i].time.replace("T"," ")
               }
-              this.sysEvent.push(item)
+              this.sysEvent.push(item);
             }
+            this.$Message.success('系统事件查询成功');
           }
+          else
+             this.$Message.warning('没有系统事件');
            this.loading=false;
+      }).catch(e=>{this.loading=false;
+        this.$Message.warning('请选择设备');
       });
      }
    
   },
-  watch:{
-       equipEvent:function(val){
-         // console.log(val)
-         if(val.length!=0)this.$Message.success('设备事件查询成功');
+  // watch:{
+  //      equipEvent:function(val){
+  //        if(val.length!=0)this.$Message.success('设备事件查询成功');
+  //      },
+  //      setEvent:function(val){
+  //        if(val.length!=0)this.$Message.success('设置事件查询成功');
           
-       },
-       setEvent:function(val){
-         // console.log(val)
-         if(val.length!=0)this.$Message.success('设置事件查询成功');
+  //      },
+  //      sysEvent:function(val){
+  //        if(val.length!=0)this.$Message.success('系统事件查询成功');
           
-       },
-       sysEvent:function(val){
-         // console.log(val)
-         if(val.length!=0)this.$Message.success('系统事件查询成功');
-          
-       }
-     }
+  //      }
+  //    }
 }
 </script>
 
