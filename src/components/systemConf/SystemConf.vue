@@ -24,8 +24,9 @@ $num0:0px;
 .ivu-table-cell{padding-left: $num0;padding-right: $num0;width: $width;text-align: center;white-space: nowrap;overflow: hidden;word-break: keep-all;}
 .ivu-modal{
   .ivu-modal-content>.ivu-modal-body{
-     max-height:600px;overflow:auto !important;
+     max-height:600px;
   }
+  .ivu-modal-content>.ivu-modal-body:after{content: "";width: 100%;height: 1px;border: 0;opacity: 0;display: inline-block;clear: both;}
 }
 .moreInforWord{margin-top:10px;font-size:15px;float: left;width: 49%;}
 .uploadWrap{
@@ -1097,15 +1098,15 @@ isMarkAmarm:"",
 	hasFun:false
     }
   },beforeCreate(){
-      this.Axios.post("/api/GWServiceWebAPI/get_DataByTableName",{TableName:'GWZiChanTable'}).then(res=>{
+      this.Axios.post("/api/GWServiceWebAPI/get_DataByTableName",{getDataTable:'GWZiChanTable'}).then(res=>{
           this.zcData=res.data.HttpData.data;
           // console.log(this.zcData)
       });
-      this.Axios.post("/api/GWServiceWebAPI/get_DataByTableName",{TableName :"GW_VideoInfo"}).then(res=>{
+      this.Axios.post("/api/GWServiceWebAPI/get_DataByTableName",{getDataTable :"GW_VideoInfo"}).then(res=>{
           this.viData=res.data.HttpData.data;
       });
 
-      this.Axios.post("/api/GWServiceWebAPI/get_DataByTableName",{TableName:'AlarmProc'}).then(res=>{
+      this.Axios.post("/api/GWServiceWebAPI/get_DataByTableName",{getDataTable:'AlarmProc'}).then(res=>{
         // console.log(res);
           this.alrmData=res.data.HttpData.data;
       })
@@ -2066,7 +2067,7 @@ this.loading=false
         this.loading=false
      },
      getPlanData(){
-      this.Axios.post("/api/GWServiceWebAPI/get_DataByTableName",{TableName :"GWPlan"}).then(res=>{
+      this.Axios.post("/api/GWServiceWebAPI/get_DataByTableName",{getDataTable :"GWPlan"}).then(res=>{
         let datas=res.data.HttpData.data;
         this.planList=[];
         for(var i=0;i<datas.length;i++){

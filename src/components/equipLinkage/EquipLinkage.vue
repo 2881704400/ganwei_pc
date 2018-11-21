@@ -333,6 +333,7 @@ export default {
         optCode: data.optCode,
         remarks: data.remarks.replace(/'/g, '\'\'')
       }
+      
       if (!reqData.equipNo || !reqData.cType || !reqData.linkEquipNo || !reqData.linkNo) {
         this.$Message.info('配置不正确，请选择后操作!')
         return false
@@ -345,6 +346,7 @@ export default {
               if (rt.data === 1) {
                 this.$Message.success('添加成功')
                 this.initTableList(this.linkTable)
+                console.log(this.linkTable);
               } else {
                 this.$Message.warning('操作失败，请重试！')
               }
@@ -475,7 +477,7 @@ export default {
           console.log(err);
         });
     },
-    loadLinkageEquips (equip, callback) {
+    loadLinkageEquips (equip, callback) {  
       // 联动设备和操作级联
       equip.loading = true
       this.Axios.post('/api/real/get_setparm', {
@@ -679,13 +681,13 @@ export default {
 
                     } else if (item.iycyx_type === "x" || item.iycyx_type === "X") {
 
-                      yxpData_table == 'yxp'?yxpData_table += (' where (equip_no ='+ item.iequip_no+' and yc_no ='+ item.iycyx_no+')'):yxpData_table += (' or (equip_no ='+ item.iequip_no+' and yc_no ='+ item.iycyx_no+')');
+                      yxpData_table == 'yxp'?yxpData_table += (' where (equip_no ='+ item.iequip_no+' and yx_no ='+ item.iycyx_no+')'):yxpData_table += (' or (equip_no ='+ item.iequip_no+' and yx_no ='+ item.iycyx_no+')');
                       
                     }
                  
               });
              if(ycpData_table != "ycp" && yxpData_table != "yxp")
-              that.Axios.all([that.Axios.post('/api/GWServiceWebAPI/get_DataByTableName',{"TableName": ycpData_table}),that.Axios.post('/api/GWServiceWebAPI/get_DataByTableName',{"TableName": yxpData_table})])
+              that.Axios.all([that.Axios.post('/api/GWServiceWebAPI/get_DataByTableName',{"getDataTable": ycpData_table}),that.Axios.post('/api/GWServiceWebAPI/get_DataByTableName',{"getDataTable": yxpData_table})])
                 .then(that.Axios.spread((ycpRes, yxpRes) => {
                   let ycpRt = ycpRes.data.HttpData,yxpRt = yxpRes.data.HttpData
                   if (ycpRt.code === 200 && yxpRt.code === 200) {
@@ -698,7 +700,7 @@ export default {
                 })
               else if(ycpData_table != "ycp")
                 {
-                  that.Axios.all([that.Axios.post('/api/GWServiceWebAPI/get_DataByTableName',{"TableName": ycpData_table})])
+                  that.Axios.all([that.Axios.post('/api/GWServiceWebAPI/get_DataByTableName',{"getDataTable": ycpData_table})])
                     .then(that.Axios.spread((ycpRes) => {
                       let ycpRt = ycpRes.data.HttpData
                       if (ycpRt.code === 200) {
@@ -713,7 +715,7 @@ export default {
                 }  
               else if(yxpData_table != "yxp")
                 {
-                    that.Axios.all([that.Axios.post('/api/GWServiceWebAPI/get_DataByTableName',{"TableName": yxpData_table})])
+                    that.Axios.all([that.Axios.post('/api/GWServiceWebAPI/get_DataByTableName',{"getDataTable": yxpData_table})])
                       .then(that.Axios.spread((yxpRes) => {
                         let yxpRt = yxpRes.data.HttpData
                         if (yxpRt.code === 200) {
@@ -782,93 +784,6 @@ export default {
         .catch(err => {
           console.log(err)
         })
-
-
-        
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     },
     initAddList () {
       // 获取新增设置菜单相关数据
@@ -909,7 +824,6 @@ export default {
                     }
                 })
                 this.loadData = false
-                // console.log(this.formData.linkageEquips)
               }
               this.initTableList(this.linkTable)
           }))
@@ -979,7 +893,6 @@ export default {
               })
               return item
             })
-            // console.log(this.setList)
             this.insertForm.insertList = this.setList.map(equip => {
               equip.value = equip.equip_no + '-' + equip.set_no + '-' + equip.set_type
               this.$set(equip, 'label', equip.set_nm)

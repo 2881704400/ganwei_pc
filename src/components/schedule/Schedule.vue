@@ -474,7 +474,7 @@ export default {
     //人员
     getAdministrator: function() {
       var WeekAlmReport = this;
-      let url = "/api/GWServiceWebAPI/SelectData?tableName=Administrator";
+      let url = "/api/GWServiceWebAPI/SelectData?getDataTable=Administrator";
       this.XHRGet(url, _success_user_query);
       function _success_user_query(response) {
         WeekAlmReport.Alarm_user.length = 0;
@@ -505,7 +505,7 @@ export default {
     removeAdministrator: function(dt) {var msg = this.$Message;
       var WeekAlmReport = this.Alarm_user,dtThis = this,AlmReportDataLen = this.AlmReportData.length,
         deleteJson = {
-          tableName: "Administrator",
+          getDataTable: "Administrator",
           ifName: "Administrator",
           ifValue: dt.Administrator,
           type: "string"
@@ -522,15 +522,15 @@ export default {
             WeekAlmReport.splice(index1, 1);
           }
         });
-          var emptyAlmReport = {"tableName":"AlmReport","Administrator":dt.Administrator};
+          var emptyAlmReport = {"getDataTable":"AlmReport","Administrator":dt.Administrator};
           dtThis.XHRPost("nullTableCell",emptyAlmReport, _success_empty_AlmReport);
           function _success_empty_AlmReport() {}  
 
-          var emptyWeekAlmReport = {"tableName":"WeekAlmReport","Administrator":dt.Administrator};
+          var emptyWeekAlmReport = {"getDataTable":"WeekAlmReport","Administrator":dt.Administrator};
           dtThis.XHRPost("nullTableCell",emptyWeekAlmReport, _success_empty_WeekAlmReport);
           function _success_empty_WeekAlmReport() {}  
 
-          var emptySpeAlmReport = {"tableName":"SpeAlmReport","Administrator":dt.Administrator};
+          var emptySpeAlmReport = {"getDataTable":"SpeAlmReport","Administrator":dt.Administrator};
           dtThis.XHRPost("nullTableCell",emptySpeAlmReport, _success_empty_SpeAlmReport);
           function _success_empty_SpeAlmReport() {}   
           msg.success("操作成功");         
@@ -583,7 +583,7 @@ export default {
       };
       //数据库更新
       let AdministratorUpdate = {
-        tableName: "Administrator",
+        getDataTable: "Administrator",
         Administrator: this.user_admin,
         Telphone: document.getElementById("phoneAdmin").parentNode.id==""?this.user_telphone:"",
         MobileTel: document.getElementById("msphoneAdmin").parentNode.id==""?this.user_molphone:"",
@@ -646,7 +646,7 @@ export default {
             else if(dtThis.user_admin !="" && dtThis.Alarm_user.length ==0)
               {
                      dt.id = "";
-                     document.getElementById("user_ok").disabled="";
+                     document.getElementById("user_ok").disabled = "";
               }
             else
               document.getElementById("user_ok").disabled="disabled";        
@@ -683,7 +683,7 @@ export default {
     //设备分组范围
     getEquipGroup: function() {
       var WeekAlmReport = this;
-      let url = "/api/GWServiceWebAPI/SelectData?tableName=EquipGroup";
+      let url = "/api/GWServiceWebAPI/SelectData?getDataTable=EquipGroup";
       this.XHRGet(url, _success_equip_query);
       function _success_equip_query(response) {
         WeekAlmReport.equipUser.length = 0;
@@ -722,7 +722,7 @@ export default {
       var msg = this.$Message;
       var WeekAlmReport = this.equipUser,dtThis = this,AlmReportDataLen = this.AlmReportData.length,
         deleteJson = {
-          tableName: "EquipGroup",
+          getDataTable: "EquipGroup",
           ifName: "group_no",
           ifValue: dt.group_no,
           type: "number"
@@ -758,7 +758,7 @@ export default {
         isShow: false
       };
       var AdministratorUpdate = {
-        tableName: "EquipGroup",
+        getDataTable: "EquipGroup",
         groupName: AdministratorLocal.group_name,
         groupNo: AdministratorLocal.group_no
       };
@@ -773,7 +773,7 @@ export default {
     },
     saveEquipGroupName: function(dt) {var msg = this.$Message;
       let WeekAlmReportInsert = {
-        tableName: "EquipGroup",
+        getDataTable: "EquipGroup",
         equipcomb: dt.equipcomb,
         group_name: dt.group_name,
         ifValue: dt.group_no
@@ -790,7 +790,7 @@ export default {
     //设备分组右侧设备选择
     getEquip: function(groupNo) {
       var dthis = this;
-      let url = "/api/GWServiceWebAPI/SelectData?tableName=Equip";
+      let url = "/api/GWServiceWebAPI/SelectData?getDataTable=Equip";
       this.XHRGet(url, _success_equip1_query);
       function _success_equip1_query(response) {
         dthis.equipName.length = 0;
@@ -865,7 +865,7 @@ export default {
       });
 
       let WeekAlmReportInsert = {
-        tableName: "EquipGroup",
+        getDataTable: "EquipGroup",
         group_name: group_nameValue,
         equipcomb: equipcombString,
         ifValue: selectEquip
@@ -892,12 +892,9 @@ export default {
       equipUser.forEach(function(ele, index) {
         if (ele.group_no == selectEquip) {
           if (dt.equipNameShow) {
-           
             ele.equipcomb == null || ele.equipcomb == ""
               ? (ele.equipcomb = "#" + dt.equip_no + "#")
               : (ele.equipcomb += dt.equip_no + "#");
-             
-           
           } else {
 
             ele.equipcomb = ele.equipcomb.replace("#" + dt.equip_no + "#", "#");
@@ -914,7 +911,7 @@ export default {
       });
 
       let WeekAlmReportInsert = {
-        tableName: "EquipGroup",
+        getDataTable: "EquipGroup",
         group_name: group_nameValue,
         equipcomb: stringListEquip,
         ifValue: selectEquip
@@ -937,7 +934,7 @@ export default {
     //管理范围
     getAlmReport: function() {
       var dthis = this;
-      let url = "/api/GWServiceWebAPI/SelectData?tableName=AlmReport";
+      let url = "/api/GWServiceWebAPI/SelectData?getDataTable=AlmReport";
       this.XHRGet(url, _success_user_query);
       function _success_user_query(response) {
         dthis.AlmReportData.length = 0;
@@ -967,7 +964,7 @@ export default {
       var msg = this.$Message;
       var WeekAlmReport = this.AlmReportData,
         deleteJson = {
-          tableName: "AlmReport",
+          getDataTable: "AlmReport",
           ifName: "id",
           ifValue: dt.id,
           type: "number"
@@ -1017,7 +1014,7 @@ export default {
       };
       //数据库更新
       let WeekAlmReportInsert = {
-        tableName: "AlmReport",
+        getDataTable: "AlmReport",
         group_no: this.AlmReport_group_no,
         Administrator: this.AlmReport_Administrator,
         ifValue: weekID
@@ -1060,7 +1057,7 @@ export default {
     getWeekAlmReport: function() {
       var WeekAlmReport = this;
 
-      let url = "/api/GWServiceWebAPI/SelectData?tableName=WeekAlmReport";
+      let url = "/api/GWServiceWebAPI/SelectData?getDataTable=WeekAlmReport";
       this.XHRGet(url, _success_week_query);
       function _success_week_query(response) {
         WeekAlmReport.WeekAlmReport.length = 0;
@@ -1092,7 +1089,7 @@ export default {
       var dtID = dt.id,
         WeekAlmReport = this.WeekAlmReport,
         deleteJson = {
-          tableName: "WeekAlmReport",
+          getDataTable: "WeekAlmReport",
           ifName: "id",
           ifValue: dt.id,
           type: "number"
@@ -1153,7 +1150,7 @@ export default {
       };
       //数据库更新
       let WeekAlmReportInsert = {
-        tableName: "WeekAlmReport",
+        getDataTable: "WeekAlmReport",
         Administrator: this.Week_admin,
         week_day: weekIndex,
         begin_time: this.Week_stime,
@@ -1203,7 +1200,7 @@ export default {
     // 特定日期排表
     getSpeAlmReport: function() {
       var WeekAlmReport = this;
-      let url = "/api/GWServiceWebAPI/SelectData?tableName=SpeAlmReport";
+      let url = "/api/GWServiceWebAPI/SelectData?getDataTable=SpeAlmReport";
       this.XHRGet(url, _success_week_query);
       function _success_week_query(response) {
         WeekAlmReport.SpeAlmReport.length = 0;
@@ -1234,7 +1231,7 @@ export default {
       var dtID = dt.id,
         WeekAlmReport = this.SpeAlmReport,
         deleteJson = {
-          tableName: "SpeAlmReport",
+          getDataTable: "SpeAlmReport",
           ifName: "id",
           ifValue: dt.id,
           type: "number"
@@ -1286,7 +1283,7 @@ export default {
       //数据库更新
 
       let WeekAlmReportInsert = {
-        tableName: "SpeAlmReport",
+        getDataTable: "SpeAlmReport",
         Administrator: this.Spe_admin,
         begin_time: formatDate(this.Spe_begin_time,"yyyy/MM/dd hh:mm:ss"),
         end_time: formatDate(this.Spe_end_time,"yyyy/MM/dd hh:mm:ss"),
