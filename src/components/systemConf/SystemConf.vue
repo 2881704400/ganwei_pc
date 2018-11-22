@@ -28,7 +28,7 @@ $num0:0px;
   }
   .ivu-modal-content>.ivu-modal-body:after{content: "";width: 100%;height: 1px;border: 0;opacity: 0;display: inline-block;clear: both;}
 }
-.moreInforWord{margin-top:10px;font-size:15px;float: left;width: 49%;}
+.moreInforWord{margin-top:10px;font-size:15px;float: left;width: 49%;white-space: nowrap;}
 .uploadWrap{
 	p{
 		float: left;
