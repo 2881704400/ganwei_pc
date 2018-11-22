@@ -701,7 +701,7 @@ export default {
               	yc_yxp_nos=yc_yxp_nos.substring(0,yc_yxp_nos.length-1);
               }
              if(ycpData_table != "ycp" && yxpData_table != "yxp")
-              that.Axios.all([that.Axios.post('/api/GWServiceWebAPI/get_DataForListStr',{"tType": ycpData_table_type,"equip_nos": equip_ycp_nos,"yc_nos": yc_ycp_nos}),that.Axios.post('/api/GWServiceWebAPI/get_DataForListStr',{"tType": yxpData_table_type,"equip_nos": equip_ycp_nos,"yc_nos": yc_ycp_nos})])
+              that.Axios.all([that.Axios.post('/api/GWServiceWebAPI/get_DataForListStr',{"tType": ycpData_table_type,"equip_nos": equip_ycp_nos,"yc_nos": yc_ycp_nos}),that.Axios.post('/api/GWServiceWebAPI/get_DataForListStr',{"tType": yxpData_table_type,"equip_nos": equip_yxp_nos,"yc_nos": yc_yxp_nos})])
                 .then(that.Axios.spread((ycpRes, yxpRes) => {
                   let ycpRt = ycpRes.data.HttpData,yxpRt = yxpRes.data.HttpData
                   if (ycpRt.code === 200 && yxpRt.code === 200) {
@@ -729,7 +729,7 @@ export default {
                 }  
               else if(yxpData_table != "yxp")
                 {
-                    that.Axios.all([that.Axios.post('/api/GWServiceWebAPI/get_DataByTableName',{"getDataTable": yxpData_table})])
+                    that.Axios.all([that.Axios.post('/api/GWServiceWebAPI/get_DataForListStr',{"tType": yxpData_table_type,"equip_nos": equip_yxp_nos,"yc_nos": yc_yxp_nos})])
                       .then(that.Axios.spread((yxpRes) => {
                         let yxpRt = yxpRes.data.HttpData
                         if (yxpRt.code === 200) {
