@@ -52,8 +52,8 @@ export default {
       if (this.loading) return false
       this.loading = true
       if(!this.verificationCode){this.$Message.error("验证码不能为空");this.loading = false;return false;}
-      let reqData = 'username=' + this.userName + '&userpwd=' + this.userPwd + '&verificationCode=' + this.verificationCode.toUpperCase();
-      this.Axios.post('/api/server/getkey', reqData).then(rt => {
+      let reqData = 'username=' + this.userName + '&userpwd=' + this.userPwd + '&verificationCode=' + this.verificationCode.toUpperCase().replace(/(^\s*)|(\s*$)/g, "");
+      this.Axios.post('/api/server/getkey_pc', reqData).then(rt => {
         let data = rt.data.HttpData
         switch (data.code) {
           case 200:
@@ -69,32 +69,37 @@ export default {
             this.userName = ''
             this.userPwd = ''
             this.$router.replace('/index')
-            
             break
           case 1002:
             this.$Message.error(data.message)
             this.loading = false
             console.log(data)
+            this.drawCode();
             break
           case 1003:
             this.$Message.error('用户名和密码不能为空！')
             this.loading = false
             console.log(data)
+            this.drawCode();
             break
           case 1007:
             this.$Message.error(data.message)
             this.loading = false
             console.log(data)
+            this.drawCode();
             break
           case 1014:
             this.$Message.error('服务器错误，请检查服务是否正常运行')
             this.loading = false
             console.log(data)
+            this.drawCode();
            break
           default:
             this.$Message.error('服务器错误，请重试！')
             this.loading = false
             console.log(data)
+            this.drawCode();
+           break
         }
       }).catch(err => {
         this.$Message.error('网络错误，请重试！')
@@ -109,7 +114,7 @@ export default {
         });
     },
     drawCode() { //绘制验证码
-      this.Axios.post('api/GWgenerateCaptchaCode/CreateValidateGraphicCore').then(rt => {
+      this.Axios.get('/api/GWgenerateCaptchaCode/set_GenerateImageData').then(rt => {
         let data = rt.data.HttpData
         if (data.code == 200) {
               var image = document.getElementById("code_img");
