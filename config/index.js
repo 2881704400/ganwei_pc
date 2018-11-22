@@ -25,15 +25,10 @@ module.exports = {
        }
     },
     // Various Dev Server settings
-<<<<<<< HEAD
 
     host: '192.168.0.165', // can be overwritten by process.env.HOST
     port: 7006, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
 
-=======
-    host: '192.168.0.165', // can be overwritten by process.env.HOST
-    port: 8013, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
->>>>>>> zkx
     autoOpenBrowser: true,
     errorOverlay: true,
     notifyOnErrors: true,

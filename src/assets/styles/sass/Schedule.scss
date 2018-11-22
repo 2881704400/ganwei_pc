@@ -55,7 +55,9 @@
                 width: 25%;display: inline-block;position: absolute; left: 0;top: 0;bottom: 0;
                 h4{font-size: 0.9rem;font-weight: 200;}
                 button {color: #{$btnFontColor};width: #{$btnW};height: #{$btnH};background-color: #{$btnBackground};border-color: #{$btnBackground};border-radius: 0;padding: 0;}
-                &>div{height: #{$contentTop};line-height: #{$contentTop};text-indent: 10%;border-left: 1px solid #eee;
+                &>div{height: #{$contentTop};line-height: #{$contentTop};
+                h4{text-indent: 10%;}
+                border-left: 1px solid #eee;
                     &>.rightBtn{text-align: right;Button{font-size: 14px;cursor: pointer;outline: none;}}
                 }
                 &>ul{
@@ -82,7 +84,8 @@
                 width: 75%;display: inline-block;position: absolute; right: 0;top: 0;bottom: 0;
                 h4{font-size: 0.9rem;font-weight: 200;}
                 button {color: #{$btnFontColor};width: #{$btnW};height: #{$btnH};background-color: #{$btnBackground};border-color: #{$btnBackground};border-radius: 0;padding: 0;}
-                &>div{height: #{$contentTop};line-height: #{$contentTop};text-indent: 5%;
+                &>div{height: #{$contentTop};line-height: #{$contentTop};
+                     h4{text-indent: 5%;}
                      &>.rightBtn{text-align: right;padding-right: 2%;Button{font-size: 14px;margin-left: 20px;cursor: pointer;outline: none;}}
                 }
                 &>ul{ 
