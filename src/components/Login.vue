@@ -53,7 +53,7 @@ export default {
       this.loading = true
       if(!this.verificationCode){this.$Message.error("验证码不能为空");this.loading = false;return false;}
       let reqData = 'username=' + this.userName + '&userpwd=' + this.userPwd + '&verificationCode=' + this.verificationCode.toUpperCase().replace(/(^\s*)|(\s*$)/g, "");
-      this.Axios.post('/api/server/getkey', reqData).then(rt => {
+      this.Axios.post('/api/server/getkey_pc', reqData).then(rt => {
         let data = rt.data.HttpData
         switch (data.code) {
           case 200:
