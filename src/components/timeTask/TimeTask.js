@@ -352,9 +352,9 @@ export default {
 						})
 					} else {
 						//插入新计划
-						this.Axios.post('/api/GWServiceWebAPI/set_InsertNewTable', {
-							set_InsertNewTable: "GWProcSpecTable(DateName,BeginDate,EndDate,[TableID])",
-							tableVlue: " select '" + specTimePlanList[i].DateName.replace("'", "''") + "','" + this.formatTimeType(specTimePlanList[i].BeginDate).replace("'", "''") + "','" + this.formatTimeType(specTimePlanList[i].EndDate).replace("'", "''") + "','" + specTableID + "' "
+						this.Axios.post('/api/GWServiceWebAPI/set_InsertNewTableValues', {
+							getDataTable: "GWProcSpecTable(DateName,BeginDate,EndDate,[TableID])",
+							tableVlue: " '" + specTimePlanList[i].DateName.replace("'", "''") + "','" + this.formatTimeType(specTimePlanList[i].BeginDate).replace("'", "''") + "','" + this.formatTimeType(specTimePlanList[i].EndDate).replace("'", "''") + "','" + specTableID + "' "
 						}).then(res => {
 							let data = res.data.HttpData;
 							if(data.code == 200 && data.data != null) {
@@ -601,9 +601,9 @@ export default {
 					let data = res.data.HttpData;
 					if(data.code == 200 && data.data != null) {
 						//插入新计划
-						this.Axios.post('/api/GWServiceWebAPI/set_InsertNewTable', {
+						this.Axios.post('/api/GWServiceWebAPI/set_InsertNewTableValues', {
 							getDataTable: "GWProcWeekTable(Mon, Tues, Wed, Thurs, Fri, Sat, Sun)",
-							tableVlue: " select '" + WeekAllTaskArr[0] + "', '" + WeekAllTaskArr[1] + "', '" + WeekAllTaskArr[2] + "','" + WeekAllTaskArr[3] + "', '" + WeekAllTaskArr[4] + "', '" + WeekAllTaskArr[5] + "', '" + WeekAllTaskArr[6] + "' ",
+							tableVlue: " '" + WeekAllTaskArr[0] + "', '" + WeekAllTaskArr[1] + "', '" + WeekAllTaskArr[2] + "','" + WeekAllTaskArr[3] + "', '" + WeekAllTaskArr[4] + "', '" + WeekAllTaskArr[5] + "', '" + WeekAllTaskArr[6] + "' ",
 						}).then(res => {
 							let data = res.data.HttpData;
 							if(data.code == 200 && data.data != null) {
@@ -981,9 +981,9 @@ export default {
 								}
 								this.MaxDoOrder = this.MaxDoOrder + 1;
 								if(loopActionType == "E") {
-									this.Axios.post('/api/GWServiceWebAPI/set_InsertNewTable', {
+									this.Axios.post('/api/GWServiceWebAPI/set_InsertNewTableValues', {
 										getDataTable: "GWProcCycleTable([TableID],DoOrder,[Type],set_no,equip_no,proc_code)",
-										tableVlue: " select " + LoopTaskList[selecteLoop].TableID + "," + this.MaxDoOrder + ",'E'," + loopCycleList[i].set_no + "," + loopCycleList[i].equip_no + ",0 ",
+										tableVlue: " " + LoopTaskList[selecteLoop].TableID + "," + this.MaxDoOrder + ",'E'," + loopCycleList[i].set_no + "," + loopCycleList[i].equip_no + ",0 ",
 									}).then(res => {
 										let data = res.data.HttpData;
 										if(data.code == 200 && data.data != null) {
@@ -999,9 +999,9 @@ export default {
 										console.log(err)
 									})
 								} else if(loopActionType == "S") {
-									this.Axios.post('/api/GWServiceWebAPI/set_InsertNewTable', {
+									this.Axios.post('/api/GWServiceWebAPI/set_InsertNewTableValues', {
 										getDataTable: "GWProcCycleTable([TableID],DoOrder,[Type],set_no,proc_code,cmd_nm)",
-										tableVlue: " select " + LoopTaskList[selecteLoop].TableID + "," + this.MaxDoOrder + ",'S',0," + loopCycleList[i].proc_code + ",'" + loopCycleList[i].cmd_nm.replace("'", "''") + "' ",
+										tableVlue: " " + LoopTaskList[selecteLoop].TableID + "," + this.MaxDoOrder + ",'S',0," + loopCycleList[i].proc_code + ",'" + loopCycleList[i].cmd_nm.replace("'", "''") + "' ",
 									}).then(res => {
 										let data = res.data.HttpData;
 										if(data.code == 200 && data.data != null) {
@@ -1017,9 +1017,9 @@ export default {
 										console.log(err)
 									})
 								} else if(loopActionType == "T") {
-									this.Axios.post('/api/GWServiceWebAPI/set_InsertNewTable', {
+									this.Axios.post('/api/GWServiceWebAPI/set_InsertNewTableValues', {
 										getDataTable: "GWProcCycleTable([TableID],DoOrder,[Type],set_no,proc_code,SleepTime,SleepUnit)",
-										tableVlue: " select " + LoopTaskList[selecteLoop].TableID + "," + this.MaxDoOrder + ",'T',0,0,'" + loopCycleList[i].SleepTime + "','" + SleepUnit + "' ",
+										tableVlue: " " + LoopTaskList[selecteLoop].TableID + "," + this.MaxDoOrder + ",'T',0,0,'" + loopCycleList[i].SleepTime + "','" + SleepUnit + "' ",
 									}).then(res => {
 										let data = res.data.HttpData;
 										if(data.code == 200 && data.data != null) {
@@ -1067,9 +1067,9 @@ export default {
 					}
 				}
 
-				this.Axios.post('/api/GWServiceWebAPI/set_InsertNewTable', {
+				this.Axios.post('/api/GWServiceWebAPI/set_InsertNewTableValues', {
 					getDataTable: "GWProcCycleTList([TableID],TableName,BeginTime,EndTime,ZhenDianDo,ZhidingDo,CycleMustFinish,ZhidingTime,MaxCycleNum)",
-					tableVlue: " select " + newTableID + ", '" + loopName.replace("'", "''") + "', '" + this.formatTimeType(loopStartTime).replace("'", "''") + "'," +
+					tableVlue: " " + newTableID + ", '" + loopName.replace("'", "''") + "', '" + this.formatTimeType(loopStartTime).replace("'", "''") + "'," +
 						"'" + this.formatTimeType(loopEndTime).replace("'", "''") + "', '" + ZhenDianDo + "'," +
 						"'" + ZhidingDo + "', '" + CycleMustFinish + "'," +
 						"'" + this.formatTimeType(AppointTime).replace("'", "''") + "', '" + MaxCycleNum + "' ",
@@ -1113,9 +1113,9 @@ export default {
 									SleepUnit = "S"
 								}
 								if(loopActionType == "E") {
-									this.Axios.post('/api/GWServiceWebAPI/set_InsertNewTable', {
+									this.Axios.post('/api/GWServiceWebAPI/set_InsertNewTableValues', {
 										getDataTable: "GWProcCycleTable([TableID],DoOrder,[Type],set_no,equip_no,proc_code)",
-										tableVlue: " select " + newTableID + "," + (i + 1) + ",'E'," + loopCycleList[i].set_no + "," + loopCycleList[i].equip_no + ",0 ",
+										tableVlue: " " + newTableID + "," + (i + 1) + ",'E'," + loopCycleList[i].set_no + "," + loopCycleList[i].equip_no + ",0 ",
 									}).then(res => {
 										let data = res.data.HttpData;
 										if(data.code == 200 && data.data != null) {
@@ -1131,9 +1131,9 @@ export default {
 										console.log(err)
 									})
 								} else if(loopActionType == "S") {
-									this.Axios.post('/api/GWServiceWebAPI/set_InsertNewTable', {
+									this.Axios.post('/api/GWServiceWebAPI/set_InsertNewTableValues', {
 										getDataTable: "GWProcCycleTable([TableID],DoOrder,[Type],set_no,proc_code,cmd_nm)",
-										tableVlue: " select " + newTableID + "," + (i + 1) + ",'S',0," + loopCycleList[i].proc_code + ",'" + loopCycleList[i].cmd_nm.replace("'", "''") + "' ",
+										tableVlue: " " + newTableID + "," + (i + 1) + ",'S',0," + loopCycleList[i].proc_code + ",'" + loopCycleList[i].cmd_nm.replace("'", "''") + "' ",
 									}).then(res => {
 										let data = res.data.HttpData;
 										if(data.code == 200 && data.data != null) {
@@ -1149,9 +1149,9 @@ export default {
 										console.log(err)
 									})
 								} else if(loopActionType == "T") {
-									this.Axios.post('/api/GWServiceWebAPI/set_InsertNewTable', {
+									this.Axios.post('/api/GWServiceWebAPI/set_InsertNewTableValues', {
 										getDataTable: "GWProcCycleTable([TableID],DoOrder,[Type],set_no,proc_code,SleepTime,SleepUnit)",
-										tableVlue: " select " + newTableID + "," + (i + 1) + ",'T',0,0,'" + loopCycleList[i].SleepTime + "','" + SleepUnit + "' ",
+										tableVlue: " " + newTableID + "," + (i + 1) + ",'T',0,0,'" + loopCycleList[i].SleepTime + "','" + SleepUnit + "' ",
 									}).then(res => {
 										let data = res.data.HttpData;
 										if(data.code == 200 && data.data != null) {
@@ -1736,9 +1736,9 @@ export default {
 					} else {
 						if(CommonTaskList[i].getDataTable != "") {
 							this.CommonTaskMaxTableID = this.CommonTaskMaxTableID + 1;
-							this.Axios.post('/api/GWServiceWebAPI/set_InsertNewTable', {
+							this.Axios.post('/api/GWServiceWebAPI/set_InsertNewTableValues', {
 								getDataTable: "GWProcTimeTList([TableID],TableName,Comment)",
-								tableVlue: " select " + this.CommonTaskMaxTableID + ",'" + CommonTaskList[i].getDataTable.replace("'", "''") + "','" + CommonTaskList[i].Comment.replace("'", "''") + "' "
+								tableVlue: " " + this.CommonTaskMaxTableID + ",'" + CommonTaskList[i].getDataTable.replace("'", "''") + "','" + CommonTaskList[i].Comment.replace("'", "''") + "' "
 							}).then(res => {
 								let data = res.data.HttpData;
 								if(data.code == 200 && data.data != null) {
@@ -1801,9 +1801,9 @@ export default {
 									cmd_nm=ProcCmdList[j].cmd_nm;
 								}
 							}
-							this.Axios.post('/api/GWServiceWebAPI/set_InsertNewTable', {
+							this.Axios.post('/api/GWServiceWebAPI/set_InsertNewTableValues', {
 								getDataTable: "GWProcTimeSysTable([TableID],[Time],TimeDur,proc_code,cmd_nm)",
-								tableVlue: " select " + newCommTaskID + ",'" + this.formatTimeType(CommonTaskSystemControl[i].Time) + "','" + this.formatTimeType(CommonTaskSystemControl[i].TimeDur) + "', " + CommonTaskSystemControl[i].proc_code + ", '" + cmd_nm + "' "
+								tableVlue: " " + newCommTaskID + ",'" + this.formatTimeType(CommonTaskSystemControl[i].Time) + "','" + this.formatTimeType(CommonTaskSystemControl[i].TimeDur) + "', " + CommonTaskSystemControl[i].proc_code + ", '" + cmd_nm + "' "
 							}).then(res => {
 								let data = res.data.HttpData;
 								if(data.code == 200 && data.data != null) {
@@ -1863,9 +1863,9 @@ export default {
 							if(this.CommonTaskTableID==""){
 								newCommTaskID=this.CommonTaskMaxTableID;
 							}
-							this.Axios.post('/api/GWServiceWebAPI/set_InsertNewTable', {
+							this.Axios.post('/api/GWServiceWebAPI/set_InsertNewTableValues', {
 								getDataTable: "GWProcTimeEqpTable([TableID],[Time],TimeDur,equip_no,set_no)",
-								tableVlue: " select " + newCommTaskID + ",'" + this.formatTimeType(CommonTaskEquipControl[i].Time) + "','" + this.formatTimeType(CommonTaskEquipControl[i].TimeDur) + "'," + equip_no + "," + set_no + " "
+								tableVlue: " " + newCommTaskID + ",'" + this.formatTimeType(CommonTaskEquipControl[i].Time) + "','" + this.formatTimeType(CommonTaskEquipControl[i].TimeDur) + "'," + equip_no + "," + set_no + " "
 
 							}).then(res => {
 								let data = res.data.HttpData;
