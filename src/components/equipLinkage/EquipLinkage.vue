@@ -687,8 +687,8 @@ export default {
                     } else if (item.iycyx_type === "x" || item.iycyx_type === "X") {
 
                       yxpData_table == 'yxp'?yxpData_table += (' where (equip_no ='+ item.iequip_no+' and yx_no ='+ item.iycyx_no+')'):yxpData_table += (' or (equip_no ='+ item.iequip_no+' and yx_no ='+ item.iycyx_no+')');
-                      equip_ycp_nos+=item.iequip_no+",";
-											yc_ycp_nos+=item.iequip_no+",";
+                      equip_yxp_nos+=item.iequip_no+",";
+											yc_yxp_nos+=item.iequip_no+",";
                     }
                  
               });
@@ -700,6 +700,8 @@ export default {
               	equip_yxp_nos=equip_yxp_nos.substring(0,equip_yxp_nos.length-1);
               	yc_yxp_nos=yc_yxp_nos.substring(0,yc_yxp_nos.length-1);
               }
+              console.log(equip_ycp_nos,yc_ycp_nos,ycpData_table,data);
+              console.log(equip_yxp_nos,yc_yxp_nos,yxpData_table,data);
              if(ycpData_table != "ycp" && yxpData_table != "yxp")
               that.Axios.all([that.Axios.post('/api/GWServiceWebAPI/get_DataForListStr',{"tType": ycpData_table_type,"equip_nos": equip_ycp_nos,"yc_nos": yc_ycp_nos}),that.Axios.post('/api/GWServiceWebAPI/get_DataForListStr',{"tType": yxpData_table_type,"equip_nos": equip_yxp_nos,"yc_nos": yc_yxp_nos})])
                 .then(that.Axios.spread((ycpRes, yxpRes) => {
@@ -714,7 +716,7 @@ export default {
                 })
               else if(ycpData_table != "ycp")
                 {
-                  that.Axios.all([that.Axios.post('/api/GWServiceWebAPI/get_DataForListStr',{"tType": yxpData_table_type,"equip_nos": equip_yxp_nos,"yc_nos": yc_yxp_nos})])
+                  that.Axios.all([that.Axios.post('/api/GWServiceWebAPI/get_DataForListStr',{"tType": ycpData_table_type,"equip_nos": equip_ycp_nos,"yc_nos": yc_ycp_nos})])
                     .then(that.Axios.spread((ycpRes) => {
                       let ycpRt = ycpRes.data.HttpData
                       if (ycpRt.code === 200) {

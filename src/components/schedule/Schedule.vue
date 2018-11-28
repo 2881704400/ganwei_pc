@@ -474,8 +474,8 @@ export default {
     //人员
     getAdministrator: function() {
       var WeekAlmReport = this;
-      let url = "/api/GWServiceWebAPI/SelectData?getDataTable=Administrator";
-      this.XHRGet(url, _success_user_query);
+      let url = "get_AdministratorData";
+      this.XHRPostAjax(url,{}, _success_user_query);
       function _success_user_query(response) {
         WeekAlmReport.Alarm_user.length = 0;
         let arrayLike = response.data.HttpData.data;
@@ -683,8 +683,8 @@ export default {
     //设备分组范围
     getEquipGroup: function() {
       var WeekAlmReport = this;
-      let url = "/api/GWServiceWebAPI/SelectData?getDataTable=EquipGroup";
-      this.XHRGet(url, _success_equip_query);
+      let url = "get_EquipGroupData";
+      this.XHRPostAjax(url,{}, _success_equip_query);
       function _success_equip_query(response) {
         WeekAlmReport.equipUser.length = 0;
         let arrayLike = response.data.HttpData.data;
@@ -790,8 +790,8 @@ export default {
     //设备分组右侧设备选择
     getEquip: function(groupNo) {
       var dthis = this;
-      let url = "/api/GWServiceWebAPI/SelectData?getDataTable=Equip";
-      this.XHRGet(url, _success_equip1_query);
+      let url = "get_EquipData";
+      this.XHRPostAjax(url,{}, _success_equip1_query);
       function _success_equip1_query(response) {
         dthis.equipName.length = 0;
         let arrayLike = response.data.HttpData.data;
@@ -934,8 +934,8 @@ export default {
     //管理范围
     getAlmReport: function() {
       var dthis = this;
-      let url = "/api/GWServiceWebAPI/SelectData?getDataTable=AlmReport";
-      this.XHRGet(url, _success_user_query);
+      let url = "get_AlmReportData";
+      this.XHRPostAjax(url,{}, _success_user_query);
       function _success_user_query(response) {
         dthis.AlmReportData.length = 0;
         let arrayLike = response.data.HttpData.data;
@@ -1057,8 +1057,8 @@ export default {
     getWeekAlmReport: function() {
       var WeekAlmReport = this;
 
-      let url = "/api/GWServiceWebAPI/SelectData?getDataTable=WeekAlmReport";
-      this.XHRGet(url, _success_week_query);
+      let url = "get_WeekAlmReportData";
+      this.XHRPostAjax(url,{}, _success_week_query);
       function _success_week_query(response) {
         WeekAlmReport.WeekAlmReport.length = 0;
         let arrayLike = response.data.HttpData.data;
@@ -1200,8 +1200,8 @@ export default {
     // 特定日期排表
     getSpeAlmReport: function() {
       var WeekAlmReport = this;
-      let url = "/api/GWServiceWebAPI/SelectData?getDataTable=SpeAlmReport";
-      this.XHRGet(url, _success_week_query);
+      let url = "get_SpeAlmReportData";
+      this.XHRPostAjax(url,{}, _success_week_query);
       function _success_week_query(response) {
         WeekAlmReport.SpeAlmReport.length = 0;
         let arrayLike = response.data.HttpData.data;
@@ -1339,6 +1339,21 @@ export default {
         .then(response => {
           // msg.success("操作成功");
           _success();
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },    
+    //发送请求
+    XHRPostAjax: function(api, updateJson, _success) {
+      var msg = this.$Message;
+      let urlna = "/api/GWServiceWebAPI/" + api;
+      this.Axios.post(urlna, updateJson, {
+        headers: { "Content-type": "application/json" }
+      })
+        .then(response => {
+          // msg.success("操作成功");
+          _success(response);
         })
         .catch(error => {
           console.log(error);
