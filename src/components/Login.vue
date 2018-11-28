@@ -13,7 +13,7 @@
           <Col span="20"><input type="password" v-model="userPwd" @keyup.enter="login" placeholder="密码" autocomplete="off"></Col>
         </Row>
         <Row>
-          <Col span="14"><input type="text" v-model="verificationCode" placeholder="验证码" autocomplete="off"></Col>
+          <Col span="14"><input type="text" v-model="verificationCode" @keyup.enter="login" placeholder="验证码" autocomplete="off"></Col>
           <Col span="10" style="height: 2rem;overflow: hidden;user-select: none;">
            <!-- <canvas width="100" height="40" id="verifyCanvas"></canvas> -->
            <img id="code_img" @click="drawCode()">

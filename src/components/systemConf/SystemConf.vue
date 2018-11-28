@@ -1098,15 +1098,15 @@ isMarkAmarm:"",
 	hasFun:false
     }
   },beforeCreate(){
-      this.Axios.post("/api/GWServiceWebAPI/get_DataByTableName",{getDataTable:'GWZiChanTable'}).then(res=>{
+      this.Axios.post("/api/GWServiceWebAPI/get_GWZiChanTableData",{}).then(res=>{
           this.zcData=res.data.HttpData.data;
           // console.log(this.zcData)
       });
-      this.Axios.post("/api/GWServiceWebAPI/get_DataByTableName",{getDataTable :"GW_VideoInfo"}).then(res=>{
+      this.Axios.post("/api/GWServiceWebAPI/get_VideoInfoData",{}).then(res=>{
           this.viData=res.data.HttpData.data;
       });
 
-      this.Axios.post("/api/GWServiceWebAPI/get_DataByTableName",{getDataTable:'AlarmProc'}).then(res=>{
+      this.Axios.post("/api/GWServiceWebAPI/get_AlarmProcData",{}).then(res=>{
         // console.log(res);
           this.alrmData=res.data.HttpData.data;
       })
@@ -2067,7 +2067,7 @@ this.loading=false
         this.loading=false
      },
      getPlanData(){
-      this.Axios.post("/api/GWServiceWebAPI/get_DataByTableName",{getDataTable :"GWPlan"}).then(res=>{
+      this.Axios.post("/api/GWServiceWebAPI/get_PlanData",{}).then(res=>{
         let datas=res.data.HttpData.data;
         this.planList=[];
         for(var i=0;i<datas.length;i++){

@@ -517,9 +517,7 @@ export default {
 		},
 		//------特殊日期安排：获取数据---------
 		getSpecTimePlan() {
-			this.Axios.post('/api/GWServiceWebAPI/get_DataByTableName', {
-				getDataTable: "GWProcSpecTable"
-			}).then(res => {
+			this.Axios.post('/api/GWServiceWebAPI/get_ProcSpecTableData', {}).then(res => {
 				let data = res.data.HttpData;
 				if(data.code == 200 && data.data != null) {
 					let resultData = data.data;
@@ -670,9 +668,7 @@ export default {
 		},
 		//------每周任务安排：获取数据---------
 		getWeekTaskPlan() {
-			this.Axios.post('/api/GWServiceWebAPI/get_DataByTableName', {
-				getDataTable: "GWProcWeekTable"
-			}).then(res => {
+			this.Axios.post('/api/GWServiceWebAPI/get_ProcWeekTableData', {}).then(res => {
 				let data = res.data.HttpData;
 				if(data.code == 200 && data.data != null) {
 					let resultData = data.data;
@@ -1375,9 +1371,7 @@ export default {
 
 		//------获取循环任务---------
 		getLoopTaskList() {
-			this.Axios.post('/api/GWServiceWebAPI/get_DataByTableName', {
-				getDataTable: "GWProcCycleTList"
-			}).then(res => {
+			this.Axios.post('/api/GWServiceWebAPI/get_ProcCycleTListData', {}).then(res => {
 				let data = res.data.HttpData;
 				if(data.code == 200 && data.data != null) {
 					let resultData = data.data;
@@ -1414,9 +1408,7 @@ export default {
 		},
 		//------设备控制：获取下拉数据---------
 		getCommonTaskSetParm() {
-			this.Axios.post('/api/GWServiceWebAPI/get_DataByTableName', {
-				getDataTable: "SetParm"
-			}).then(res => {
+			this.Axios.post('/api/GWServiceWebAPI/get_SetParmData', {}).then(res => {
 				let data = res.data.HttpData;
 				if(data.code == 200 && data.data != null) {
 					let resultData = data.data;
@@ -1557,9 +1549,7 @@ export default {
 		},
 		//------系统控制：获取下拉数据---------
 		getCommonTaskProcCmd() {
-			this.Axios.post('/api/GWServiceWebAPI/get_DataByTableName', {
-				getDataTable: "GWExProcCmd"
-			}).then(res => {
+			this.Axios.post('/api/GWServiceWebAPI/get_ExProcCmdData', {}).then(res => {
 				let data = res.data.HttpData;
 				if(data.code == 200 && data.data != null) {
 					let resultData = data.data;
@@ -1999,9 +1989,7 @@ export default {
 		},
 		//------普通任务列表：获取数据---------
 		getCommonTaskList() {
-			this.Axios.post('/api/GWServiceWebAPI/get_DataByTableName', {
-				getDataTable: "GWProcTimeTList"
-			}).then(res => {
+			this.Axios.post('/api/GWServiceWebAPI/get_ProcTimeTListData', {}).then(res => {
 				let data = res.data.HttpData;
 				if(data.code == 200 && data.data != null) {
 					let resultData = data.data;
