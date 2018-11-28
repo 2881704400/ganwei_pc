@@ -222,7 +222,7 @@ $num0:0px;
     </div>
   </Col>
 </Row>
-<Modal title="查看其他信息" v-model="modal1" class-name="vertical-center-modal" :styles="{top: '50px',width:'800px'}" >
+<Modal title="查看其他信息" v-model="modal1" class-name="vertical-center-modal" :styles="{top: '50%',width:'800px',transform: 'translateY(-50%)'}" >
     
         
               <p class="moreInforWord" v-for="(key,val) in moreInfor" :key="val" >
@@ -231,7 +231,7 @@ $num0:0px;
 
     
 </Modal>
-<Modal title="编辑信息" v-model="modal2" class-name="vertical-center-modal"  :styles="{top: '50px',width:'800px'}"  class="uploadWrap"  @on-ok="configData(configIndex)">
+<Modal title="编辑信息" v-model="modal2" class-name="vertical-center-modal"  :styles="{top: '50%',width:'800px',transform: 'translateY(-50%)'}"  class="uploadWrap"  @on-ok="configData(configIndex)">
 <Row>
 
           <p v-for="(item,index) in uploadInfor"   style="margin-top:10px;">
