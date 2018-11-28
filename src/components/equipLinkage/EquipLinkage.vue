@@ -673,21 +673,37 @@ export default {
           let rt = res.data.HttpData,parmRt = parmRes.data.HttpData
           if (rt.code === 200  && parmRt.code === 200) {
             var data = rt.data,parmData = parmRt.data
-              var ycpData_table = 'ycp',yxpData_table = 'yxp'
+              var ycpData_table = 'ycp',yxpData_table = 'yxp';
+              var ycpData_table_type = 'ycp',yxpData_table_type = 'yxp';
+              var equip_ycp_nos="";
+              var yc_ycp_nos="";
+              var equip_yxp_nos="";
+              var yc_yxp_nos="";
               data.forEach(function(item,index){
                     if (item.iycyx_type === "c" || item.iycyx_type === "C"){
-
                       ycpData_table == 'ycp'?ycpData_table += (' where (equip_no ='+ item.iequip_no+' and yc_no ='+ item.iycyx_no+')'):ycpData_table += (' or (equip_no ='+ item.iequip_no+' and yc_no ='+ item.iycyx_no+')');
-
+											equip_ycp_nos+=item.iequip_no+",";
+											yc_ycp_nos+=item.iequip_no+",";
                     } else if (item.iycyx_type === "x" || item.iycyx_type === "X") {
 
                       yxpData_table == 'yxp'?yxpData_table += (' where (equip_no ='+ item.iequip_no+' and yx_no ='+ item.iycyx_no+')'):yxpData_table += (' or (equip_no ='+ item.iequip_no+' and yx_no ='+ item.iycyx_no+')');
-                      
+                      equip_ycp_nos+=item.iequip_no+",";
+											yc_ycp_nos+=item.iequip_no+",";
                     }
                  
               });
+              if(equip_ycp_nos.length>0){
+              	equip_ycp_nos=equip_ycp_nos.substring(0,equip_ycp_nos.length-1);
+              	yc_ycp_nos=yc_ycp_nos.substring(0,yc_ycp_nos.length-1);
+              }
+              if(equip_yxp_nos.length>0){
+              	equip_yxp_nos=equip_yxp_nos.substring(0,equip_yxp_nos.length-1);
+              	yc_yxp_nos=yc_yxp_nos.substring(0,yc_yxp_nos.length-1);
+              }
+              console.log(equip_ycp_nos,yc_ycp_nos,ycpData_table,data);
+              console.log(equip_yxp_nos,yc_yxp_nos);
              if(ycpData_table != "ycp" && yxpData_table != "yxp")
-              that.Axios.all([that.Axios.post('/api/GWServiceWebAPI/get_DataByTableName',{"getDataTable": ycpData_table}),that.Axios.post('/api/GWServiceWebAPI/get_DataByTableName',{"getDataTable": yxpData_table})])
+              that.Axios.all([that.Axios.post('/api/GWServiceWebAPI/get_DataForListStr',{"tType": ycpData_table_type,"equip_nos": equip_ycp_nos,"yc_nos": yc_ycp_nos}),that.Axios.post('/api/GWServiceWebAPI/get_DataForListStr',{"tType": yxpData_table_type,"equip_nos": equip_yxp_nos,"yc_nos": yc_yxp_nos})])
                 .then(that.Axios.spread((ycpRes, yxpRes) => {
                   let ycpRt = ycpRes.data.HttpData,yxpRt = yxpRes.data.HttpData
                   if (ycpRt.code === 200 && yxpRt.code === 200) {
@@ -700,7 +716,7 @@ export default {
                 })
               else if(ycpData_table != "ycp")
                 {
-                  that.Axios.all([that.Axios.post('/api/GWServiceWebAPI/get_DataByTableName',{"getDataTable": ycpData_table})])
+                  that.Axios.all([that.Axios.post('/api/GWServiceWebAPI/get_DataForListStr',{"tType": yxpData_table_type,"equip_nos": equip_ycp_nos,"yc_nos": yc_ycp_nos})])
                     .then(that.Axios.spread((ycpRes) => {
                       let ycpRt = ycpRes.data.HttpData
                       if (ycpRt.code === 200) {
@@ -715,7 +731,7 @@ export default {
                 }  
               else if(yxpData_table != "yxp")
                 {
-                    that.Axios.all([that.Axios.post('/api/GWServiceWebAPI/get_DataByTableName',{"getDataTable": yxpData_table})])
+                    that.Axios.all([that.Axios.post('/api/GWServiceWebAPI/get_DataForListStr',{"tType": yxpData_table_type,"equip_nos": equip_yxp_nos,"yc_nos": yc_yxp_nos})])
                       .then(that.Axios.spread((yxpRes) => {
                         let yxpRt = yxpRes.data.HttpData
                         if (yxpRt.code === 200) {

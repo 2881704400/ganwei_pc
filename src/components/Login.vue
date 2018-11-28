@@ -82,6 +82,11 @@ export default {
             console.log(data)
             this.drawCode();
             break
+          case 1015:
+            this.$Message.error('请输入正确验证码！')
+            this.loading = false
+            console.log(data)
+            break            
           case 1007:
             this.$Message.error(data.message)
             this.loading = false
