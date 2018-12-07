@@ -12,6 +12,13 @@
           <Col span="4"><i class="iconfont icon-schedulePASS"></i></Col>
           <Col span="20"><input type="password" v-model="userPwd" @keyup.enter="login" placeholder="密码" autocomplete="off"></Col>
         </Row>
+        <Row>
+          <Col span="14"><input type="text" v-model="verificationCode" @keyup.enter="login" placeholder="验证码" autocomplete="off"></Col>
+          <Col span="10" style="height: 2rem;overflow: hidden;user-select: none;">
+           <!-- <canvas width="100" height="40" id="verifyCanvas"></canvas> -->
+           <img id="code_img" @click="drawCode()">
+          </Col>
+        </Row>        
         <br>
         <button @click.stop="login" :class="{loading: loading}">
           登陆
@@ -29,20 +36,24 @@ export default {
     return {
       userName: '',
       userPwd: '',
-      loading: false
+      verificationCode:'',
+      loading: false,
     }
   },
   mounted () {
-    this.userName = ''
-    this.userPwd = ''
+    this.userName = '';
+    this.userPwd = '';
+    this.verificationCode = '';
+    this.drawCode();
   },
   methods: {
     login () {
       // 登录操作
       if (this.loading) return false
       this.loading = true
-      let reqData = 'username=' + this.userName + '&userpwd=' + this.userPwd
-      this.Axios.post('/api/server/getkey', reqData).then(rt => {
+      if(!this.verificationCode){this.$Message.error("验证码不能为空");this.loading = false;return false;}
+      let reqData = 'username=' + this.userName + '&userpwd=' + this.userPwd + '&verificationCode=' + this.verificationCode.toUpperCase().replace(/(^\s*)|(\s*$)/g, "");
+      this.Axios.post('/api/server/getkey_pc', reqData).then(rt => {
         let data = rt.data.HttpData
         switch (data.code) {
           case 200:
@@ -63,26 +74,37 @@ export default {
             this.$Message.error(data.message)
             this.loading = false
             console.log(data)
+            this.drawCode();
             break
           case 1003:
             this.$Message.error('用户名和密码不能为空！')
             this.loading = false
             console.log(data)
+            this.drawCode();
             break
+          case 1015:
+            this.$Message.error('请输入正确验证码！')
+            this.loading = false
+            console.log(data)
+            break            
           case 1007:
             this.$Message.error(data.message)
             this.loading = false
             console.log(data)
+            this.drawCode();
             break
           case 1014:
             this.$Message.error('服务器错误，请检查服务是否正常运行')
             this.loading = false
             console.log(data)
+            this.drawCode();
            break
           default:
             this.$Message.error('服务器错误，请重试！')
             this.loading = false
             console.log(data)
+            this.drawCode();
+           break
         }
       }).catch(err => {
         this.$Message.error('网络错误，请重试！')
@@ -95,7 +117,19 @@ export default {
             title: '登陆提示',
             desc: msg
         });
-    }
+    },
+    drawCode() { //绘制验证码
+      this.Axios.get('/api/GWgenerateCaptchaCode/set_GenerateImageData').then(rt => {
+        let data = rt.data.HttpData
+        if (data.code == 200) {
+              var image = document.getElementById("code_img");
+              image.src=data.data;
+        }
+      }).catch(err => {
+        this.$Message.warning('请重新刷新页面');
+      })
+    },
+       
 }
 
   

@@ -1,9 +1,9 @@
 <template>
   <div class="gw-index">
     <header class="header">
-      <div class="header-logo">
+      <a class="header-logo" href="javascript:void(0)" @click="logoClickEvent">
         <img class="logo" src="@assets/img/logos0.png" alt="logo">
-      </div>
+      </a>
       <div class="header-opt">
         <span class="user" title="当前登陆用户">
           <span class="iconfont">&#xe62e;</span>{{$store.state.loginMsg}}</span>
@@ -55,7 +55,7 @@ export default {
             "selected": false
         },
         {
-            "title": "设备数据",
+            "title": "设备管理",
             "href": "equips",
             "iconClass": " iconfont icon-MenuEquips",
             "loading": false,
@@ -120,7 +120,7 @@ export default {
         }
       ],
       loadCompleted: false,
-      isFold: false,
+      isFold: true,
       curPath22: "",
       rootSave: {},
       screenAll: false,//是否全屏
@@ -186,12 +186,16 @@ export default {
           .then(this.Axios.spread((treeRes, equipRes, stateRes) => {
             let treeRt = treeRes.data.HttpData,
               equipRt = equipRes.data.HttpData,
-              stateRt = stateRes.data.HttpData
+              stateRt = stateRes.data.HttpData;
+              // console.log(treeRt,"aaaa")
+              // console.log(equipRt,"aaaa")
+              // console.log(stateRt,"aaaa")
             if (treeRt.code === 200 && equipRt.code === 200 && stateRt.code === 200) {
               let treeData = []
               let equipData = equipRt.data
               let stateData = stateRt.data
               treeData = treeRt.data.GWEquipTreeItems
+              //获取下拉的内容
               let resultData = []
               this.dealNavList(treeData, equipData, resultData, stateData)
               callback(resultData)
@@ -247,6 +251,7 @@ export default {
           return true
         }
       })
+
       arrData.forEach((dt, index) => {
         if (dt.GWEquipTreeItems && dt.GWEquipTreeItems.length) {
           // 设置报警状态
@@ -626,6 +631,7 @@ export default {
             }
     },
     doNavState (equipNo, state) {
+      console.log(equipNo,state);
       if (this.navList[1].children.length) {
         this.dealNavState(this.navList[1].children, equipNo, state)
         this.dealSumState(this.navList[1].children)
@@ -633,6 +639,7 @@ export default {
     },
     dealNavState (list, equipNo, state) {
       list.forEach(item => {
+        console.log(item);
         if (item.children.length) {
           this.dealNavState(item.children, equipNo, state)
         } else {
@@ -653,6 +660,10 @@ export default {
           this.dealSumState(item.children)
         }
       })
+    },
+    logoClickEvent(){
+      this.$router.push("home")
+      this.setNav()
     }
   },
   created () {

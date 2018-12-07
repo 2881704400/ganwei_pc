@@ -28,10 +28,10 @@
 									<tr v-for="(item,index) of CommonTaskList" :class="{activeTable:index==selecteTable}" @click="SelecteTableFun(index)" :key="'common'+index">
 										<td>
 											<span class="spanContent" v-show="item.isCommonSpan">
-												{{item.TableName}}
+												{{item.getDataTable}}
 											</span>
 											<div class="inputContent" v-show="!item.isCommonSpan">
-												<input type="text" :value="item.TableName" @input="updateCommonFun(index,$event,'TableName')" />
+												<input type="text" :value="item.getDataTable" @input="updateCommonFun(index,$event,'TableName')" />
 											</div>
 										</td>
 										<td>
@@ -178,7 +178,7 @@
 								<tr v-for="(item,index) of LoopTaskList" :key="'loop'+index" :class="{activeTable:index==selecteLoop}" @click="SelecteLoopFun(index)">
 									<td>
 										<span class="spanContent">
-											{{item.TableName}}
+											{{item.getDataTable}}
 										</span>
 									</td>
 									<td>
@@ -255,25 +255,25 @@
 								</tr>
 								<tr v-for="(item,index) of WeekTaskPlanCommonList" :key="'weekcommon'+index">
 									<td>
-										<Checkbox :label="item.TableName" :value="WeekCommonTaskPlanList[0].indexOf(item.TableID)>-1" @on-change="checkCommonTaskChange(0,item.TableID,index,$event)">{{item.TableName}}</Checkbox>
+										<Checkbox :label="item.getDataTable" :value="WeekCommonTaskPlanList[0].indexOf(item.dataTableIndex)>-1" @on-change="checkCommonTaskChange(0,item.dataTableIndex,index,$event)">{{item.getDataTable}}</Checkbox>
 									</td>
 									<td>
-										<Checkbox :label="item.TableName" :value="WeekCommonTaskPlanList[1].indexOf(item.TableID)>-1" @on-change="checkCommonTaskChange(1,item.TableID,index,$event)">{{item.TableName}}</Checkbox>
+										<Checkbox :label="item.getDataTable" :value="WeekCommonTaskPlanList[1].indexOf(item.dataTableIndex)>-1" @on-change="checkCommonTaskChange(1,item.dataTableIndex,index,$event)">{{item.getDataTable}}</Checkbox>
 									</td>
 									<td>
-										<Checkbox :label="item.TableName" :value="WeekCommonTaskPlanList[2].indexOf(item.TableID)>-1" @on-change="checkCommonTaskChange(2,item.TableID,index,$event)">{{item.TableName}}</Checkbox>
+										<Checkbox :label="item.getDataTable" :value="WeekCommonTaskPlanList[2].indexOf(item.dataTableIndex)>-1" @on-change="checkCommonTaskChange(2,item.dataTableIndex,index,$event)">{{item.getDataTable}}</Checkbox>
 									</td>
 									<td>
-										<Checkbox :label="item.TableName" :value="WeekCommonTaskPlanList[3].indexOf(item.TableID)>-1" @on-change="checkCommonTaskChange(3,item.TableID,index,$event)">{{item.TableName}}</Checkbox>
+										<Checkbox :label="item.getDataTable" :value="WeekCommonTaskPlanList[3].indexOf(item.dataTableIndex)>-1" @on-change="checkCommonTaskChange(3,item.dataTableIndex,index,$event)">{{item.getDataTable}}</Checkbox>
 									</td>
 									<td>
-										<Checkbox :label="item.TableName" :value="WeekCommonTaskPlanList[4].indexOf(item.TableID)>-1" @on-change="checkCommonTaskChange(4,item.TableID,index,$event)">{{item.TableName}}</Checkbox>
+										<Checkbox :label="item.getDataTable" :value="WeekCommonTaskPlanList[4].indexOf(item.dataTableIndex)>-1" @on-change="checkCommonTaskChange(4,item.dataTableIndex,index,$event)">{{item.getDataTable}}</Checkbox>
 									</td>
 									<td>
-										<Checkbox :label="item.TableName" :value="WeekCommonTaskPlanList[5].indexOf(item.TableID)>-1" @on-change="checkCommonTaskChange(5,item.TableID,index,$event)">{{item.TableName}}</Checkbox>
+										<Checkbox :label="item.getDataTable" :value="WeekCommonTaskPlanList[5].indexOf(item.dataTableIndex)>-1" @on-change="checkCommonTaskChange(5,item.dataTableIndex,index,$event)">{{item.getDataTable}}</Checkbox>
 									</td>
 									<td>
-										<Checkbox :label="item.TableName" :value="WeekCommonTaskPlanList[6].indexOf(item.TableID)>-1" @on-change="checkCommonTaskChange(6,item.TableID,index,$event)">{{item.TableName}}</Checkbox>
+										<Checkbox :label="item.getDataTable" :value="WeekCommonTaskPlanList[6].indexOf(item.dataTableIndex)>-1" @on-change="checkCommonTaskChange(6,item.dataTableIndex,index,$event)">{{item.getDataTable}}</Checkbox>
 									</td>
 								</tr>
 								<tr>
@@ -301,25 +301,25 @@
 								</tr>
 								<tr v-for="(itemLoop,indexLoop) of WeekTaskPlanLoopList" :key="'weekloop'+indexLoop">
 									<td>
-										<Checkbox :label="itemLoop.TableName" :value="WeeLoopTaskPlanList[0].indexOf(itemLoop.TableID)>-1" @on-change="checkLoopTaskChange(0,itemLoop.TableID,indexLoop,$event)">{{itemLoop.TableName}}</Checkbox>
+										<Checkbox :label="itemLoop.getDataTable" :value="WeeLoopTaskPlanList[0].indexOf(itemLoop.dataTableIndex)>-1" @on-change="checkLoopTaskChange(0,itemLoop.dataTableIndex,indexLoop,$event)">{{itemLoop.getDataTable}}</Checkbox>
 									</td>
 									<td>
-										<Checkbox :label="itemLoop.TableName" :value="WeeLoopTaskPlanList[1].indexOf(itemLoop.TableID)>-1" @on-change="checkLoopTaskChange(1,itemLoop.TableID,indexLoop,$event)">{{itemLoop.TableName}}</Checkbox>
+										<Checkbox :label="itemLoop.getDataTable" :value="WeeLoopTaskPlanList[1].indexOf(itemLoop.dataTableIndex)>-1" @on-change="checkLoopTaskChange(1,itemLoop.dataTableIndex,indexLoop,$event)">{{itemLoop.getDataTable}}</Checkbox>
 									</td>
 									<td>
-										<Checkbox :label="itemLoop.TableName" :value="WeeLoopTaskPlanList[2].indexOf(itemLoop.TableID)>-1" @on-change="checkLoopTaskChange(2,itemLoop.TableID,indexLoop,$event)">{{itemLoop.TableName}}</Checkbox>
+										<Checkbox :label="itemLoop.getDataTable" :value="WeeLoopTaskPlanList[2].indexOf(itemLoop.dataTableIndex)>-1" @on-change="checkLoopTaskChange(2,itemLoop.dataTableIndex,indexLoop,$event)">{{itemLoop.getDataTable}}</Checkbox>
 									</td>
 									<td>
-										<Checkbox :label="itemLoop.TableName" :value="WeeLoopTaskPlanList[3].indexOf(itemLoop.TableID)>-1" @on-change="checkLoopTaskChange(3,itemLoop.TableID,indexLoop,$event)">{{itemLoop.TableName}}</Checkbox>
+										<Checkbox :label="itemLoop.getDataTable" :value="WeeLoopTaskPlanList[3].indexOf(itemLoop.dataTableIndex)>-1" @on-change="checkLoopTaskChange(3,itemLoop.dataTableIndex,indexLoop,$event)">{{itemLoop.getDataTable}}</Checkbox>
 									</td>
 									<td>
-										<Checkbox :label="itemLoop.TableName" :value="WeeLoopTaskPlanList[4].indexOf(itemLoop.TableID)>-1" @on-change="checkLoopTaskChange(4,itemLoop.TableID,indexLoop,$event)">{{itemLoop.TableName}}</Checkbox>
+										<Checkbox :label="itemLoop.getDataTable" :value="WeeLoopTaskPlanList[4].indexOf(itemLoop.dataTableIndex)>-1" @on-change="checkLoopTaskChange(4,itemLoop.dataTableIndex,indexLoop,$event)">{{itemLoop.getDataTable}}</Checkbox>
 									</td>
 									<td>
-										<Checkbox :label="itemLoop.TableName" :value="WeeLoopTaskPlanList[5].indexOf(itemLoop.TableID)>-1" @on-change="checkLoopTaskChange(5,itemLoop.TableID,indexLoop,$event)">{{itemLoop.TableName}}</Checkbox>
+										<Checkbox :label="itemLoop.getDataTable" :value="WeeLoopTaskPlanList[5].indexOf(itemLoop.dataTableIndex)>-1" @on-change="checkLoopTaskChange(5,itemLoop.dataTableIndex,indexLoop,$event)">{{itemLoop.getDataTable}}</Checkbox>
 									</td>
 									<td>
-										<Checkbox :label="itemLoop.TableName" :value="WeeLoopTaskPlanList[6].indexOf(itemLoop.TableID)>-1" @on-change="checkLoopTaskChange(6,itemLoop.TableID,indexLoop,$event)">{{itemLoop.TableName}}</Checkbox>
+										<Checkbox :label="itemLoop.getDataTable" :value="WeeLoopTaskPlanList[6].indexOf(itemLoop.dataTableIndex)>-1" @on-change="checkLoopTaskChange(6,itemLoop.dataTableIndex,indexLoop,$event)">{{itemLoop.getDataTable}}</Checkbox>
 									</td>
 								</tr>
 							</tbody>
@@ -368,9 +368,9 @@
 									<!--<td>
 										<i title="编辑" class="iconfont icon-scheduleMODIFY" @click="editTaskModal(itemSpec)"></i>
 										<font>配置</font>
-										<Checkbox v-for="(item,index) of WeekTaskPlanCommonList" :key="index" :label="item.TableName" :value="itemSpec.CommonTableID.indexOf(item.TableID)>-1"  @on-change="checkSpecCommonChange(0,item.TableID,indexSpec,$event)">{{item.TableName}}</Checkbox>
+										<Checkbox v-for="(item,index) of WeekTaskPlanCommonList" :key="index" :label="item.getDataTable" :value="itemSpec.CommonTableID.indexOf(item.TableID)>-1"  @on-change="checkSpecCommonChange(0,item.TableID,indexSpec,$event)">{{item.getDataTable}}</Checkbox>
 									    <font>循环任务</font>
-									    <Checkbox v-for="(itemLoop,indexLoop) of WeekTaskPlanLoopList" :key="itemLoop.TableName" :label="itemLoop.TableName" :value="itemSpec.LoopTableID.indexOf(itemLoop.TableID)>-1" @on-change="checkSpecLoopChange(0,itemLoop.TableID,indexSpec,$event)">{{itemLoop.TableName}}</Checkbox>
+									    <Checkbox v-for="(itemLoop,indexLoop) of WeekTaskPlanLoopList" :key="itemLoop.getDataTable" :label="itemLoop.getDataTable" :value="itemSpec.LoopTableID.indexOf(itemLoop.TableID)>-1" @on-change="checkSpecLoopChange(0,itemLoop.TableID,indexSpec,$event)">{{itemLoop.getDataTable}}</Checkbox>
 									</td>-->
 								</tr>
 							</tbody>
@@ -387,9 +387,9 @@
 								<tr>
 									<td v-for="(itemSpec,indexSpec) of specTimePlanList" v-if="indexSpec==selecteSpecPlan" :key="'specloop'+indexSpec">
 										<font>普通任务</font>
-										<Checkbox v-for="(item,index) of WeekTaskPlanCommonList" :key="index" :label="item.TableName" :value="itemSpec.CommonTableID.indexOf(item.TableID)>-1" @on-change="checkSpecCommonChange(0,item.TableID,indexSpec,$event)">{{item.TableName}}</Checkbox>
+										<Checkbox v-for="(item,index) of WeekTaskPlanCommonList" :key="index" :label="item.getDataTable" :value="itemSpec.CommonTableID.indexOf(item.dataTableIndex)>-1" @on-change="checkSpecCommonChange(0,item.dataTableIndex,indexSpec,$event)">{{item.getDataTable}}</Checkbox>
 										<font>循环任务</font>
-										<Checkbox v-for="itemLoop of WeekTaskPlanLoopList" :key="itemLoop.TableName" :label="itemLoop.TableName" :value="itemSpec.LoopTableID.indexOf(itemLoop.TableID)>-1" @on-change="checkSpecLoopChange(0,itemLoop.TableID,indexSpec,$event)">{{itemLoop.TableName}}</Checkbox>
+										<Checkbox v-for="itemLoop of WeekTaskPlanLoopList" :key="itemLoop.getDataTable" :label="itemLoop.getDataTable" :value="itemSpec.LoopTableID.indexOf(itemLoop.dataTableIndex)>-1" @on-change="checkSpecLoopChange(0,itemLoop.dataTableIndex,indexSpec,$event)">{{itemLoop.getDataTable}}</Checkbox>
 									</td>
 								</tr>
 							</tbody>

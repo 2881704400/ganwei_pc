@@ -1,15 +1,16 @@
 <template>
   <div class="home">
     <h1 v-text="projectName"></h1>
-    <ul class="homeContent">
+    <div class="homeContent">
+      
+    </div>
+    <!-- <ul class="homeContent">
       <li v-for="item in menuType">
         <h5 class="navigationTitle">{{item}}</h5>
         <div class="homeMenu">
             <span v-for="item_child in menuNameArray" v-if="(item == item_child.modulName)&&item_child.isSelect">
-              <!-- homeMenuClick 临时，按照左侧菜单方法调用 -->
               <a @click="homeMenuClick(rootSave,item_child_in)" v-for="item_child_in in rootSave" v-show="item_child_in.node.title==item_child.menuName"><i :class="item_child.iconName"></i>{{item_child.menuName}}</a>
             </span>
-            <span @click.stop="openModal(item)" class="alertBtn"></span>
         </div>
       </li>               
     </ul>
@@ -23,7 +24,7 @@
             <Button type="text" size="large" @click="cancalUpdateMenu">取消</Button>
             <Button type="primary" size="large" @click="saveUpdateMenu(alertTitle)" id="user_ok" :disabled="false">确定</Button>
         </div>                        
-    </Modal>
+    </Modal> -->
 
   </div>
 </template>
@@ -45,7 +46,7 @@ export default {
   },
   mounted() {
      this.getProjectNmae();
-     this.getMenu();
+    //  this.getMenu();
 		},
   methods:{
     homeMenuClick(root,item){
@@ -80,10 +81,10 @@ export default {
     },
     getProjectNmae: function(){
       var dt = this;
-      let urlna = "/api/real/equip_tree";
-      this.Axios.post(urlna).then(response => {
+      let urlna = "/api/server/auth_name";
+      this.Axios.get(urlna).then(response => {
             if(response.data.HttpData.code == 200)
-              dt.projectName =response.data.HttpData.data.Name;
+              dt.projectName =response.data.HttpData.data;
             else
               dt.getProjectNmae();
         })
@@ -107,7 +108,7 @@ export default {
       var url,data,dt = this; 
       url = "set_InsertNewTable";
       data = {
-      tableName: "GW_HOME_Menu_Status(userName,modulName,status)",
+      getDataTable: "GW_HOME_Menu_Status(userName,modulName,status)",
       tableVlue: " values('" + window.localStorage.getItem('login_msg') +"','"+ value +"','"+ dt.transformBoolean(value)+"')",
       };         
       this.XHRPost(url,data,_success);
@@ -127,7 +128,7 @@ export default {
       }
     },
     delMenu(value){
-      var url = "set_DeleteTableData",data={tableName: "GW_HOME_Menu_Status",tableVlue:" userName ='" + window.localStorage.getItem('login_msg') +"' and  modulName='"+ value + "'",};
+      var url = "set_DeleteTableData",data={getDataTable: "GW_HOME_Menu_Status",tableVlue:" userName ='" + window.localStorage.getItem('login_msg') +"' and  modulName='"+ value + "'",};
       this.XHRPost(url,data,_success);
       function _success(response) {
         
@@ -136,7 +137,7 @@ export default {
     //返回菜单
     getMenu: function() {
       var dt = this;
-      let url = "/api/GWServiceWebAPI/SelectData?tableName=GW_HOME_Menu";
+      let url = "/api/GWServiceWebAPI/get_HOME_MenuData";
       this.XHRGet(url, _success);
       function _success(response) {
         dt.menuNameArray.length = 0;
@@ -156,6 +157,7 @@ export default {
               dt.menuNameArray.push(menuNameArray_data);
               dt.menuType.push(arrayLike[i].modulName);
             }
+            console.log( dt.menuType);
             dt.getStatusMenu();
             dt.menuType=Array.from(new Set(dt.menuType));
         }
@@ -168,8 +170,8 @@ export default {
     //设置状态
     getStatusMenu: function() {
       var dt = this;
-      let url = "get_DataByTableName";
-      let data = {TableName: " GW_HOME_Menu_Status where userName='" + window.localStorage.getItem('login_msg') + "'",}
+      let url = "get_MenuDataByUserName";
+      let data = {getDataTable: window.localStorage.getItem('login_msg')}
       this.XHRPost(url, data,_success);
       function _success(response) {
         dt.menuStatusArray.length = 0;
