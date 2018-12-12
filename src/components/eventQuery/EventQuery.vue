@@ -122,7 +122,7 @@
   .dateSelect{
     width: auto;
     position: absolute;
-    top: -20px;
+    top: -10px;
     right:30px;
     z-index: 99;
   }
@@ -148,12 +148,12 @@
           </p>
         </Col>
         <Col span="21" class="itemDetail">
-          <div class="common-tabEve">
-              <Tabs type="card"  :animated="false" v-model="selMenu" :value="selMenu">
-                <div class="dateSelect">
+          <div class="common-tabEve"> <div class="dateSelect">
                     <Button type="primary" style="margin-right:10px;border-radius:0;background:#2d8cf0;padding:8.5px 21.5px;font-size:14px;line-height:inherit;color:#fff;" @click="selectEvent()">查询</Button >
                     <DatePicker class="dataSelect" v-model="dateValue" type="datetimerange" format="yyyy/MM/dd HH:mm" :options="option1" placeholder="请选择日期时间" style="width: 500px"  ></DatePicker>
                   </div>
+              <Tabs type="card"  :animated="false" v-model="selMenu" :value="selMenu">
+               
                 <TabPane  label="设备事件" name="equip">
                    
                    <Table :columns="equipTh" :data="equipEvent" :height="tableHeight" :row-class-name="rowClassName" :loading="loading" ></Table>
@@ -248,8 +248,11 @@ export default {
                             const year=end.getFullYear();
                             const	mon=end.getMonth()+1;
                             const	day=end.getDate();
-                            const start=year+"/"+mon+"/"+day+" 00:00";
-                            return [start, end];
+                            const start=year+"/"+mon+"/"+day+" 00:00:00";
+                            const endTime=year+"/"+mon+"/"+day+" "+end.getHours() + ":" + end.getMinutes() + ":" + end.getSeconds()
+                            console.log(new Date(start), new Date(endTime))
+                            return [new Date(start), new Date(endTime)];
+//                          return [end, end];
                         }
                       },{
                             text: '7天',
@@ -257,6 +260,7 @@ export default {
                                     const end = new Date();
                                     const start = new Date();
                                     start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+                                     console.log(start, end)
                                     return [start, end];
                                 
                             }
