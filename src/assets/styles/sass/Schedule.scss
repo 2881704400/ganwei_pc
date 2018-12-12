@@ -44,10 +44,10 @@
             //容器
             &>div{height: 100%;}
             //人员
-            .user-table{tr th,tr td{width: 16.666%;}}
-            .AlmReport-table{tr th,tr td{width: 33.33%;}}
-            .WeekAlmReport-table{tr th,tr td{width: 20%;}}
-            .SpeAlmReport-table{tr th,tr td{width: 25%;}}
+            .user-table{tr th,tr td{width: 16.666%;overflow: hidden;}}
+            .AlmReport-table{tr th,tr td{width: 33.33%;overflow: hidden;}}
+            .WeekAlmReport-table{tr th,tr td{width: 20%;overflow: hidden;}}
+            .SpeAlmReport-table{tr th,tr td{width: 25%;overflow: hidden;}}
             
             tbody tr td{i{font-size: #{ $IconFontSize/1.2};margin: 0 10px;color: #{$btnBackground};}}
             //设备分组范围
@@ -91,7 +91,7 @@
                 &>ul{ 
                     width: 100%;position: absolute; left: 0;top: #{$contentTop+20};right: 0;bottom: 0;overflow-y: auto;
                     &>li{font-size: 0.8rem;width: 160px;height: #{$scheduleLiHeight};line-height: #{$scheduleLiHeight};margin-left: 5%;display: inline-block;float: left; 
-                    white-space: nowrap;text-overflow: ellipsis;
+                    white-space: nowrap;text-overflow: ellipsis;overflow: hidden;
                        label{font-size: #{$btnfontSize};.ivu-checkbox-inner{margin-right: 10px;}} 
                        }
                 }

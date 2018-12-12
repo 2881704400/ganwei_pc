@@ -452,6 +452,9 @@
 	font-size: 15px;
 	font-weight: 500;
 	text-align: left;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
 
 .common-table table tbody tr td:first-child {
@@ -622,6 +625,9 @@
 .common-smalltable table tbody tr td {
 	/*padding: 11px 10px;*/
 	padding: 0px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
 	/*padding: 2px 1px;*/
 }
 
@@ -633,6 +639,9 @@
 	padding: 12px 10px;
 	/*padding: 2px 1px;*/
 	text-align: left;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
 
 .common-smalltable-checkbox table tbody tr td>font {
@@ -653,13 +662,13 @@
 	text-overflow: ellipsis;
 }
 
-
 .common-smalltable-checkboxgroup {
 	width: 75%;
-	height: 100%;float: left;
+	height: 100%;
+	float: left;
 }
 
-.common-smalltable-checkboxgroup-tasklist{
+.common-smalltable-checkboxgroup-tasklist {
 	width: 25%;
 	height: 100%;
 }
@@ -676,6 +685,9 @@
 
 .common-smalltable-checkboxgroup table tbody tr td {
 	text-align: center;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
 
 .common-smalltable-checkboxgroup-tasklist table thead tr th {
@@ -684,6 +696,9 @@
 
 .common-smalltable-checkboxgroup-tasklist table tbody tr td {
 	text-align: left;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
 
 .common-smalltable-checkboxgroup-tasklist table tbody tr td>font {
@@ -706,6 +721,9 @@
 	text-align: center;
 	padding: 0px 10px;
 	margin: 0px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
 
 .common-smalltable-checkboxgroup table tr td .ivu-date-picker {
@@ -739,6 +757,9 @@
 	display: block;
 	padding: 6px 9px;
 	font-size: 14px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
 
 .common-smalltable-checkboxgroup table tbody tr td i {
@@ -860,6 +881,9 @@
 	text-align: center;
 	padding: 0px;
 	margin: 0px;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
 }
 
 .common-smalltable table tr td .spanContent font {
@@ -1062,9 +1086,32 @@
 }
 
 .modalAlert .groupCheck {
+	max-height: 300px;
 	padding: 20px 0;
 	text-indent: 10px;
 	border: 1px solid #eee;
+	overflow-y: auto;
+}
+
+.modalAlert .groupCheck::-webkit-scrollbar {
+	/*滚动条整体样式*/
+	width: 4px;
+	/*高宽分别对应横竖滚动条的尺寸*/
+	height: 4px;
+}
+
+.modalAlert .groupCheck::-webkit-scrollbar-thumb {
+	/*滚动条里面小方块*/
+	border-radius: 5px;
+	-webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+	background: rgba(0, 0, 0, 0.2);
+}
+
+.modalAlert .groupCheck::-webkit-scrollbar-track {
+	/*滚动条里面轨道*/
+	-webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+	border-radius: 0;
+	background: rgba(0, 0, 0, 0.1);
 }
 
 .modalAlert .groupCheck>.groupCheckChild {
