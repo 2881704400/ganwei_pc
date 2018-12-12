@@ -160,7 +160,7 @@ export default {
 
         if (rt.code === 200) {
           let data = rt.data
-           console.log(data);
+          //  console.log(data);
           this.tabData[0].tbList.splice(0, this.tabData[0].tbList.length)
           this.tabData[1].tbList.splice(0, this.tabData[1].tbList.length)
           for (let key in data.YCItemDict) {
@@ -210,7 +210,7 @@ export default {
           if (rt.code === 200) {
             let data = rt.data
             if (data.length > 0) {
-              // console.log(data)
+              // console.log(this.tabData)
               this.tabData[2].hasSet = true
               this.tabData[2].isShow = true
               this.tabData[2].setList = data
@@ -238,7 +238,7 @@ export default {
         })
     },
     doSet (equip) {
-      console.log(equip)
+      // console.log(equip)
       if (equip.set_type === 'V') {
         this.setEquip = equip
         this.$set(this.setEquip, 'newVal', this.setEquip.value)
@@ -536,7 +536,6 @@ export default {
       })
     },
     updateNavAlarm (state) {
-      console.log(state);
       this.$emit('updateNavState', this.equipNo, state)
     }
   },
