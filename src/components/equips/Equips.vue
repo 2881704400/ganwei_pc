@@ -91,6 +91,8 @@
 import { mapState } from 'vuex'
 import gwTabs from "@page/public/GwTabs"
 import gwLoading from "@page/public/GwLoading"
+import { formatDate } from "../../assets/js/date.js";
+
 export default {
   name: 'equips',
   data () {
@@ -149,7 +151,6 @@ export default {
         nv.isActive = false
       })
       this.$set(nv, "isActive", true)
-      // console.log(nv)
     },
     getAllState () {
       this.isLoading = true
@@ -160,7 +161,6 @@ export default {
 
         if (rt.code === 200) {
           let data = rt.data
-          //  console.log(data);
           this.tabData[0].tbList.splice(0, this.tabData[0].tbList.length)
           this.tabData[1].tbList.splice(0, this.tabData[1].tbList.length)
           for (let key in data.YCItemDict) {
@@ -210,7 +210,6 @@ export default {
           if (rt.code === 200) {
             let data = rt.data
             if (data.length > 0) {
-              // console.log(this.tabData)
               this.tabData[2].hasSet = true
               this.tabData[2].isShow = true
               this.tabData[2].setList = data
@@ -238,7 +237,6 @@ export default {
         })
     },
     doSet (equip) {
-      // console.log(equip)
       if (equip.set_type === 'V') {
         this.setEquip = equip
         this.$set(this.setEquip, 'newVal', this.setEquip.value)
@@ -251,16 +249,13 @@ export default {
             const reqData = {
               equip_no: '' + equip.equip_no,
               main_instr: equip.main_instruction,
-              mino_instr: equip.minor_instruction || "",
+              mino_instr: equip.minor_instruction || "-",
               value: equip.value
             }
-            console.log(reqData);
             this.Axios.post('/api/real/setup', reqData)
               .then(res => {
-                console.log(reqData)
                 const rt = res.data.HttpData
                 if (rt.code === 201) {
-                  console.log(rt);
                   this.$Message.success(rt.message)
 
                   // this.getAllState()
@@ -303,12 +298,10 @@ export default {
       }
     },
     connectServer(equipNo) {
-      // console.log('conn')
       this.hubConn = null
       this.hubConn = $.hubConnection()
       this.hubProxy = this.hubConn.createHubProxy('ServerHub')
       this.hubProxy.on('sendConnect', data => {
-        console.log(data,"data0")
         //连接
       });
 
@@ -317,9 +310,6 @@ export default {
         // console.log('ycyxall--------------' + type, data)
         // 更新报警状态
         let rt = JSON.parse(data)
-        console.log(rt,"rt")
-        console.log(data,"data")
-        console.log(type,"type")
         if (type === 'ycp') {
           this.tabData[0].hasAlarm = rt.some(item => item.m_IsAlarm === 'True')
          
@@ -451,6 +441,14 @@ export default {
       this.realData.splice(0, this.realData.length)
       this.chartTitle = lineObj.m_YCNm
       this.showChart = !this.showChart
+      let xData=[];
+      let realChartData=[];
+      for(var i=0;i<this.realData.length;i++){
+      	let commonTime = formatDate(new Date(this.realData[i][0]),"hh:mm:ss");
+
+      	xData.push(commonTime);
+      	realChartData.push(this.realData[i][1]);
+      }
       // console.log(lineObj)
       this.chart.setOption({
         title: {
@@ -464,13 +462,14 @@ export default {
         },
         tooltip: {},
         xAxis: {
-          type: 'time',
+          type: 'category',
           splitLine: {
             show: false
           },
           axisLabel: {
             margin: 12
-          }
+          },
+          data: xData
         },
         yAxis: [{
           name: lineObj.m_Unit,
@@ -507,12 +506,12 @@ export default {
               show: true,
               distance: 8,
               color: '#333',
-              formatter: (item) => item.value[1] + lineObj.m_Unit
+              formatter: (item) => item.value + lineObj.m_Unit
             },
             lineStyle: {
               color: '#7BB4EB'
             },
-            data: this.realData
+            data: realChartData
         }]
       })
       if (this.timer) clearInterval(this.timer)
@@ -525,13 +524,24 @@ export default {
     },
     updateChart (newData) {
       this.realData.push(newData)
-      if (this.realData.length > 15) {
+      if (this.realData.length > 5) {
         this.realData.shift()
       }
-      // console.log(this.realData)
+      let xData=[];
+      let realChartData=[];
+      for(var i=0;i<this.realData.length;i++){
+      	let commonTime = formatDate(new Date(this.realData[i][0]),"hh:mm:ss");
+
+      	xData.push(commonTime);
+      	realChartData.push(this.realData[i][1]);
+      }
+      
       this.chart.setOption({
+      	xAxis: {
+      		data: xData
+      	},
         series: [{
-          data: this.realData
+          data: realChartData
         }]
       })
     },
