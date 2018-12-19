@@ -640,7 +640,7 @@ export default {
     },
     dealNavState (list, equipNo, state) {
       list.forEach(item => {
-        console.log(item);
+        // console.log(item);
         if (item.children.length) {
           this.dealNavState(item.children, equipNo, state)
         } else {

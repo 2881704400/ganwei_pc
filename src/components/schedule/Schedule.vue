@@ -6,9 +6,7 @@
             </Col>
             <Col class="schedule_bottom" span="24">
             <Tabs value="User" type="card" :animated="false" @on-click="tabsEvent">
-
                 <TabPane label="人员" name="User" class="publicSchedule">
-                   
                     <p class="Schedule_search">
                         <Button type="primary" class="AddLine" @click.stop="addAdministratorModal">添加</Button>
                        <span>
@@ -590,6 +588,11 @@ export default {
         ifName: "Administrator",
         ifValue: this.user_saveCell
       };
+      if(parseInt(this.user_level)>100)
+       {
+         this.$Message.warning("等级不能大于100且不为字符");
+         return;
+       }
       if (this.user_isjudege) {
         this.XHRPost(
           "insertEquipGroup",
@@ -621,7 +624,6 @@ export default {
       this.user_modal = false;
     },
     onValidate(old){
-     
       switch(old)
       {
         case "user": 
@@ -649,33 +651,33 @@ export default {
             else
               document.getElementById("user_ok").disabled="disabled";        
         break;
-        case "phone": 
-           var str = new RegExp("^((13[0-9])|(14[5|7])|(15([0-3]|[5-9]))|(18[0,5-9]))\\d{8}$",'g');   
-           var str1 = new RegExp("^0\\d{3}\\d{8}$",'g');
-           var value = document.getElementById("phoneAdmin").value;
-           if(str.test(value) || str1.test(value))
-             document.getElementById("phoneAdmin").parentNode.id = "";
-           else
-             document.getElementById("phoneAdmin").parentNode.id = "phoneInfo";
-        break;
-        case "msphone": 
-           var str = new RegExp("^((13[0-9])|(14[5|7])|(15([0-3]|[5-9]))|(18[0,5-9]))\\d{8}$",'g');   
-           var str1 = new RegExp("^0\\d{3}\\d{8}$",'g');
-           var value = document.getElementById("msphoneAdmin").value;
-           if(str.test(value) || str1.test(value))
-             document.getElementById("msphoneAdmin").parentNode.id = "";
-           else
-             document.getElementById("msphoneAdmin").parentNode.id = "phoneInfo";        
-        break;
-        case "eamil": 
-           var str = new RegExp("^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$",'g');   
-           var value = document.getElementById("eamilAdmin").value;
-           if(str.test(value))
-             document.getElementById("eamilAdmin").parentNode.id = "";
-           else
-             document.getElementById("eamilAdmin").parentNode.id = "emailInfo";        
-        break;
-        default: break;
+    //     case "phone": 
+    //        var str = new RegExp("^((13[0-9])|(14[5|7])|(15([0-3]|[5-9]))|(18[0,5-9]))\\d{8}$",'g');   
+    //        var str1 = new RegExp("^0\\d{3}\\d{8}$",'g');
+    //        var value = document.getElementById("phoneAdmin").value;
+    //        if(str.test(value) || str1.test(value))
+    //          document.getElementById("phoneAdmin").parentNode.id = "";
+    //        else
+    //          document.getElementById("phoneAdmin").parentNode.id = "phoneInfo";
+    //     break;
+    //     case "msphone": 
+    //        var str = new RegExp("^((13[0-9])|(14[5|7])|(15([0-3]|[5-9]))|(18[0,5-9]))\\d{8}$",'g');   
+    //        var str1 = new RegExp("^0\\d{3}\\d{8}$",'g');
+    //        var value = document.getElementById("msphoneAdmin").value;
+    //        if(str.test(value) || str1.test(value))
+    //          document.getElementById("msphoneAdmin").parentNode.id = "";
+    //        else
+    //          document.getElementById("msphoneAdmin").parentNode.id = "phoneInfo";        
+    //     break;
+    //     case "eamil": 
+    //        var str = new RegExp("^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$",'g');   
+    //        var value = document.getElementById("eamilAdmin").value;
+    //        if(str.test(value))
+    //          document.getElementById("eamilAdmin").parentNode.id = "";
+    //        else
+    //          document.getElementById("eamilAdmin").parentNode.id = "emailInfo";        
+    //     break;
+    //     default: break;
       }
     },
     //设备分组范围
@@ -1035,7 +1037,6 @@ export default {
         );
         function _success_Alm_update() {
           WeekAlmReport.forEach(function(ele, index) {
-             
             if (ele.id == WeekAlmReportLocal.id) {
               WeekAlmReport.splice(index, 1, WeekAlmReportLocal);msg.success("操作成功"); dthis.AlmReport_modal = false;
               return false;

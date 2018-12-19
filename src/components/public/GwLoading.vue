@@ -1,7 +1,7 @@
 <template>
   <div class="gw-loading">
     <Spin fix>
-        <Icon type="load-c" size=40 class="spin-icon-load"></Icon>
+        <Icon type="load-c" size=16 class="spin-icon-load"></Icon>
         <div class="txt" v-text="txt"></div>
     </Spin>
   </div>

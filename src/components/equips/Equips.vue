@@ -438,18 +438,18 @@ export default {
         this.chart = this.$echart.init(document.getElementById('realData'))
       }
       this.openEquip = lineObj.m_iYCNo
+      console.log(this.realData);
       this.realData.splice(0, this.realData.length)
+
       this.chartTitle = lineObj.m_YCNm
       this.showChart = !this.showChart
       let xData=[];
       let realChartData=[];
       for(var i=0;i<this.realData.length;i++){
       	let commonTime = formatDate(new Date(this.realData[i][0]),"hh:mm:ss");
-
       	xData.push(commonTime);
       	realChartData.push(this.realData[i][1]);
       }
-      // console.log(lineObj)
       this.chart.setOption({
         title: {
           show: false,

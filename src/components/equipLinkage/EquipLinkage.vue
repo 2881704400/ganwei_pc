@@ -700,8 +700,8 @@ export default {
               	equip_yxp_nos=equip_yxp_nos.substring(0,equip_yxp_nos.length-1);
               	yc_yxp_nos=yc_yxp_nos.substring(0,yc_yxp_nos.length-1);
               }
-              console.log(equip_ycp_nos,yc_ycp_nos,ycpData_table,data);
-              console.log(equip_yxp_nos,yc_yxp_nos,yxpData_table,data);
+              // console.log(equip_ycp_nos,yc_ycp_nos,ycpData_table,data);
+              // console.log(equip_yxp_nos,yc_yxp_nos,yxpData_table,data);
              if(ycpData_table != "ycp" && yxpData_table != "yxp")
               that.Axios.all([that.Axios.post('/api/GWServiceWebAPI/get_DataForListStr',{"tType": ycpData_table_type,"equip_nos": equip_ycp_nos,"yc_nos": yc_ycp_nos}),that.Axios.post('/api/GWServiceWebAPI/get_DataForListStr',{"tType": yxpData_table_type,"equip_nos": equip_yxp_nos,"yc_nos": yc_yxp_nos})])
                 .then(that.Axios.spread((ycpRes, yxpRes) => {
