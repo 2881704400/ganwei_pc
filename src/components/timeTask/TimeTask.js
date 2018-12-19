@@ -1335,7 +1335,7 @@ export default {
 							SleepTime: resultData[i].SleepTime,
 							SleepUnit: resultData[i].SleepUnit
 						});
-						loopCycleListDataArr.push(resultData[i].dataTableIndex);
+						loopCycleListDataArr.push(resultData[i].DoOrder);
 					}
 					this.loopCycleList = loopCycleListData;
 					this.MaxDoOrder = loopCycleListDataArr == "" ? 0 : Math.max.apply(null, loopCycleListDataArr);
