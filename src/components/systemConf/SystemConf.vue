@@ -28,7 +28,7 @@ $num0:0px;
   }
   .ivu-modal-content>.ivu-modal-body:after{content: "";width: 100%;height: 1px;border: 0;opacity: 0;display: inline-block;clear: both;}
 }
-.moreInforWord{margin-top:10px;font-size:15px;float: left;width: 49%;}
+.moreInforWord{margin-top:10px;font-size:15px;float: left;width: 49%;white-space: nowrap;}
 .uploadWrap{
 	p{
 		float: left;
@@ -222,7 +222,7 @@ $num0:0px;
     </div>
   </Col>
 </Row>
-<Modal title="查看其他信息" v-model="modal1" class-name="vertical-center-modal" :styles="{top: '50px',width:'800px'}" >
+<Modal title="查看其他信息" v-model="modal1" class-name="vertical-center-modal" :styles="{width:'800px'}" >
     
         
               <p class="moreInforWord" v-for="(key,val) in moreInfor" :key="val" >
@@ -231,7 +231,7 @@ $num0:0px;
 
     
 </Modal>
-<Modal title="编辑信息" v-model="modal2" class-name="vertical-center-modal"  :styles="{top: '50px',width:'800px'}"  class="uploadWrap"  @on-ok="configData(configIndex)">
+<Modal title="编辑信息" v-model="modal2" class-name="vertical-center-modal"  :styles="{width:'800px'}"  class="uploadWrap"  @on-ok="configData(configIndex)">
 <Row>
 
           <p v-for="(item,index) in uploadInfor"   style="margin-top:10px;">
@@ -1098,15 +1098,15 @@ isMarkAmarm:"",
 	hasFun:false
     }
   },beforeCreate(){
-      this.Axios.post("/api/GWServiceWebAPI/get_DataByTableName",{getDataTable:'GWZiChanTable'}).then(res=>{
+      this.Axios.post("/api/GWServiceWebAPI/get_GWZiChanTableData",{}).then(res=>{
           this.zcData=res.data.HttpData.data;
           // console.log(this.zcData)
       });
-      this.Axios.post("/api/GWServiceWebAPI/get_DataByTableName",{getDataTable :"GW_VideoInfo"}).then(res=>{
+      this.Axios.post("/api/GWServiceWebAPI/get_VideoInfoData",{}).then(res=>{
           this.viData=res.data.HttpData.data;
       });
 
-      this.Axios.post("/api/GWServiceWebAPI/get_DataByTableName",{getDataTable:'AlarmProc'}).then(res=>{
+      this.Axios.post("/api/GWServiceWebAPI/get_AlarmProcData",{}).then(res=>{
         // console.log(res);
           this.alrmData=res.data.HttpData.data;
       })
@@ -2067,7 +2067,7 @@ this.loading=false
         this.loading=false
      },
      getPlanData(){
-      this.Axios.post("/api/GWServiceWebAPI/get_DataByTableName",{getDataTable :"GWPlan"}).then(res=>{
+      this.Axios.post("/api/GWServiceWebAPI/get_PlanData",{}).then(res=>{
         let datas=res.data.HttpData.data;
         this.planList=[];
         for(var i=0;i<datas.length;i++){

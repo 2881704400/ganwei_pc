@@ -44,10 +44,10 @@
             //容器
             &>div{height: 100%;}
             //人员
-            .user-table{tr th,tr td{width: 16.666%;}}
-            .AlmReport-table{tr th,tr td{width: 33.33%;}}
-            .WeekAlmReport-table{tr th,tr td{width: 20%;}}
-            .SpeAlmReport-table{tr th,tr td{width: 25%;}}
+            .user-table{tr th,tr td{width: 16.666%;overflow: hidden;}}
+            .AlmReport-table{tr th,tr td{width: 33.33%;overflow: hidden;}}
+            .WeekAlmReport-table{tr th,tr td{width: 20%;overflow: hidden;}}
+            .SpeAlmReport-table{tr th,tr td{width: 25%;overflow: hidden;}}
             
             tbody tr td{i{font-size: #{ $IconFontSize/1.2};margin: 0 10px;color: #{$btnBackground};}}
             //设备分组范围
@@ -55,7 +55,9 @@
                 width: 25%;display: inline-block;position: absolute; left: 0;top: 0;bottom: 0;
                 h4{font-size: 0.9rem;font-weight: 200;}
                 button {color: #{$btnFontColor};width: #{$btnW};height: #{$btnH};background-color: #{$btnBackground};border-color: #{$btnBackground};border-radius: 0;padding: 0;}
-                &>div{height: #{$contentTop};line-height: #{$contentTop};text-indent: 10%;border-left: 1px solid #eee;
+                &>div{height: #{$contentTop};line-height: #{$contentTop};
+                h4{text-indent: 10%;}
+                border-left: 1px solid #eee;
                     &>.rightBtn{text-align: right;Button{font-size: 14px;cursor: pointer;outline: none;}}
                 }
                 &>ul{
@@ -82,13 +84,14 @@
                 width: 75%;display: inline-block;position: absolute; right: 0;top: 0;bottom: 0;
                 h4{font-size: 0.9rem;font-weight: 200;}
                 button {color: #{$btnFontColor};width: #{$btnW};height: #{$btnH};background-color: #{$btnBackground};border-color: #{$btnBackground};border-radius: 0;padding: 0;}
-                &>div{height: #{$contentTop};line-height: #{$contentTop};text-indent: 5%;
+                &>div{height: #{$contentTop};line-height: #{$contentTop};
+                     h4{text-indent: 5%;}
                      &>.rightBtn{text-align: right;padding-right: 2%;Button{font-size: 14px;margin-left: 20px;cursor: pointer;outline: none;}}
                 }
                 &>ul{ 
                     width: 100%;position: absolute; left: 0;top: #{$contentTop+20};right: 0;bottom: 0;overflow-y: auto;
                     &>li{font-size: 0.8rem;width: 160px;height: #{$scheduleLiHeight};line-height: #{$scheduleLiHeight};margin-left: 5%;display: inline-block;float: left; 
-                    white-space: nowrap;text-overflow: ellipsis;
+                    white-space: nowrap;text-overflow: ellipsis;overflow: hidden;
                        label{font-size: #{$btnfontSize};.ivu-checkbox-inner{margin-right: 10px;}} 
                        }
                 }

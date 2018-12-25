@@ -86,7 +86,7 @@ export default {
             if(response.data.HttpData.code == 200)
               dt.projectName =response.data.HttpData.data;
             else
-              dt.getProjectNmae();
+              this.$Message.success("获取授权名失败");
         })
         .catch(error => {
         });
@@ -137,7 +137,7 @@ export default {
     //返回菜单
     getMenu: function() {
       var dt = this;
-      let url = "/api/GWServiceWebAPI/SelectData?getDataTable=GW_HOME_Menu";
+      let url = "/api/GWServiceWebAPI/get_HOME_MenuData";
       this.XHRGet(url, _success);
       function _success(response) {
         dt.menuNameArray.length = 0;
@@ -170,8 +170,8 @@ export default {
     //设置状态
     getStatusMenu: function() {
       var dt = this;
-      let url = "get_DataByTableName";
-      let data = {getDataTable: " GW_HOME_Menu_Status where userName='" + window.localStorage.getItem('login_msg') + "'",}
+      let url = "get_MenuDataByUserName";
+      let data = {getDataTable: window.localStorage.getItem('login_msg')}
       this.XHRPost(url, data,_success);
       function _success(response) {
         dt.menuStatusArray.length = 0;

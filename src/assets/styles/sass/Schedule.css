@@ -1,0 +1,326 @@
+@charset "UTF-8";
+/* table */
+.schedule {
+  width: 100%;
+  min-width: 900px;
+  height: 100% !important; }
+  .schedule .ivu-icon {
+    color: #2d8cf0; }
+  .schedule .ivu-checkbox-checked .ivu-checkbox-inner {
+    border-color: #2d8cf0;
+    background-color: #2d8cf0; }
+  .schedule .schedule_bottom {
+    height: 100%; }
+    .schedule .schedule_bottom > .ivu-tabs.ivu-tabs-card {
+      height: 100%;
+      overflow: visible; }
+    .schedule .schedule_bottom > .ivu-tabs.ivu-tabs-card > .ivu-tabs-bar {
+      margin-bottom: 0;
+      border: 0; }
+    .schedule .schedule_bottom > .ivu-tabs.ivu-tabs-card > .ivu-tabs-bar .ivu-tabs-tab {
+      font-size: 15px;
+      min-width: 80px;
+      height: 40px;
+      margin-right: 0;
+      border-radius: 0;
+      border: 0;
+      text-align: center;
+      border-left: 1px solid #ddd;
+      background: #F9F9F9;
+      padding: 8px 16px; }
+    .schedule .schedule_bottom > .ivu-tabs.ivu-tabs-card > .ivu-tabs-bar .ivu-tabs-tab-active:before {
+      content: '';
+      display: block;
+      width: 100%;
+      height: 1px;
+      background: #3399ff;
+      position: absolute;
+      top: 0;
+      left: 0; }
+    .schedule .schedule_bottom > .ivu-tabs.ivu-tabs-card > .ivu-tabs-bar > .ivu-tabs-nav-container {
+      height: 40px; }
+    .schedule .schedule_bottom .ivu-tabs-nav {
+      border: 1px solid #ddd;
+      border-left: 0; }
+    .schedule .schedule_bottom .ivu-table th, .schedule .schedule_bottom .ivu-table-stripe .ivu-table-body tr:nth-child(2n) td, .schedule .schedule_bottom .ivu-table-stripe .ivu-table-stripe .ivu-table-fixed-body tr:nth-child(2n) td {
+      background: white; }
+    .schedule .schedule_bottom .ivu-table-stripe .ivu-table-body tr:nth-child(2n+1) td, .schedule .schedule_bottom .ivu-table-stripe .ivu-table-stripe .ivu-table-fixed-body tr:nth-child(2n+1) td {
+      background: #F9F9F9; }
+    .schedule .schedule_bottom .ivu-select {
+      width: 90%;
+      height: 100%; }
+    .schedule .schedule_bottom .ivu-select-single .ivu-select-selection {
+      border: 0;
+      background: transparent; }
+    .schedule .schedule_bottom .ivu-select-arrow {
+      display: none; }
+    .schedule .schedule_bottom .publicSchedule {
+      position: absolute;
+      left: 0;
+      top: 40px;
+      right: 0;
+      bottom: 0;
+      border-top: 1px solid #eee; }
+      .schedule .schedule_bottom .publicSchedule > .Schedule_search {
+        position: absolute;
+        right: 0;
+        top: -42px;
+        display: inline-block; }
+        .schedule .schedule_bottom .publicSchedule > .Schedule_search > span {
+          height: 32px;
+          display: inline-block;
+          position: relative;
+          border: 1px solid #ddd;
+          border-radius: 20px;
+          overflow: hidden;
+          vertical-align: middle;
+          margin: 0 10px; }
+          .schedule .schedule_bottom .publicSchedule > .Schedule_search > span i {
+            font-size: 18px;
+            position: absolute;
+            left: 12px;
+            top: 7px; }
+          .schedule .schedule_bottom .publicSchedule > .Schedule_search > span input {
+            font-size: 0.9rem;
+            height: 100%;
+            padding-left: 40px;
+            border: 0;
+            outline: none; }
+        .schedule .schedule_bottom .publicSchedule > .Schedule_search .btn_search {
+          font-size: 0.9rem;
+          color: #666;
+          display: inline-block;
+          height: 100%;
+          background-color: transparent;
+          border: 0;
+          cursor: pointer;
+          outline: none; }
+        .schedule .schedule_bottom .publicSchedule > .Schedule_search .AddLine {
+          font-size: 14px;
+          color: #DEF0F9;
+          width: 71px;
+          height: 31px;
+          background-color: #2d8cf0;
+          border-color: #2d8cf0;
+          border-radius: 0;
+          padding: 0; }
+      .schedule .schedule_bottom .publicSchedule > div {
+        height: 100%; }
+      .schedule .schedule_bottom .publicSchedule .user-table tr th, .schedule .schedule_bottom .publicSchedule .user-table tr td {
+        width: 16.666%;
+        overflow: hidden; }
+      .schedule .schedule_bottom .publicSchedule .AlmReport-table tr th, .schedule .schedule_bottom .publicSchedule .AlmReport-table tr td {
+        width: 33.33%;
+        overflow: hidden; }
+      .schedule .schedule_bottom .publicSchedule .WeekAlmReport-table tr th, .schedule .schedule_bottom .publicSchedule .WeekAlmReport-table tr td {
+        width: 20%;
+        overflow: hidden; }
+      .schedule .schedule_bottom .publicSchedule .SpeAlmReport-table tr th, .schedule .schedule_bottom .publicSchedule .SpeAlmReport-table tr td {
+        width: 25%;
+        overflow: hidden; }
+      .schedule .schedule_bottom .publicSchedule tbody tr td i {
+        font-size: 18.3333333333px;
+        margin: 0 10px;
+        color: #2d8cf0; }
+      .schedule .schedule_bottom .publicSchedule > .EquipmentLeft {
+        width: 25%;
+        display: inline-block;
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0; }
+        .schedule .schedule_bottom .publicSchedule > .EquipmentLeft h4 {
+          font-size: 0.9rem;
+          font-weight: 200; }
+        .schedule .schedule_bottom .publicSchedule > .EquipmentLeft button {
+          color: #DEF0F9;
+          width: 71px;
+          height: 31px;
+          background-color: #2d8cf0;
+          border-color: #2d8cf0;
+          border-radius: 0;
+          padding: 0; }
+        .schedule .schedule_bottom .publicSchedule > .EquipmentLeft > div {
+          height: 40px;
+          line-height: 40px;
+          border-left: 1px solid #eee; }
+          .schedule .schedule_bottom .publicSchedule > .EquipmentLeft > div h4 {
+            text-indent: 10%; }
+          .schedule .schedule_bottom .publicSchedule > .EquipmentLeft > div > .rightBtn {
+            text-align: right; }
+            .schedule .schedule_bottom .publicSchedule > .EquipmentLeft > div > .rightBtn Button {
+              font-size: 14px;
+              cursor: pointer;
+              outline: none; }
+        .schedule .schedule_bottom .publicSchedule > .EquipmentLeft > ul {
+          width: 100%;
+          position: absolute;
+          left: 0;
+          top: 40px;
+          right: 0;
+          bottom: 0;
+          overflow-y: auto;
+          border-right: 1px solid #eee; }
+          .schedule .schedule_bottom .publicSchedule > .EquipmentLeft > ul > li {
+            height: 40px;
+            line-height: 40px;
+            border-left: 1px solid #eee; }
+            .schedule .schedule_bottom .publicSchedule > .EquipmentLeft > ul > li:nth-child(2n+1) {
+              background: #f9f9f9; }
+            .schedule .schedule_bottom .publicSchedule > .EquipmentLeft > ul > li > a:hover {
+              color: #2d8cf0 !important;
+              background: #eee; }
+            .schedule .schedule_bottom .publicSchedule > .EquipmentLeft > ul > li.selectEquipName {
+              background: #eee; }
+              .schedule .schedule_bottom .publicSchedule > .EquipmentLeft > ul > li.selectEquipName a {
+                color: #2d8cf0 !important; }
+            .schedule .schedule_bottom .publicSchedule > .EquipmentLeft > ul > li > div {
+              width: 100%;
+              height: 100%;
+              border: 0;
+              position: relative;
+              overflow: hidden; }
+              .schedule .schedule_bottom .publicSchedule > .EquipmentLeft > ul > li > div > .alignCenter {
+                text-align: center; }
+              .schedule .schedule_bottom .publicSchedule > .EquipmentLeft > ul > li > div input {
+                width: 100%;
+                border: 0;
+                outline: none;
+                text-indent: 20px; }
+              .schedule .schedule_bottom .publicSchedule > .EquipmentLeft > ul > li > div a {
+                font-size: 0.8rem;
+                color: #666;
+                width: 100%;
+                height: 100%;
+                display: inline-block;
+                text-indent: 10%; }
+              .schedule .schedule_bottom .publicSchedule > .EquipmentLeft > ul > li > div i {
+                font-size: 18.3333333333px;
+                line-height: 40px;
+                cursor: pointer;
+                color: #2d8cf0; }
+      .schedule .schedule_bottom .publicSchedule > .EquipmentRight {
+        width: 75%;
+        display: inline-block;
+        position: absolute;
+        right: 0;
+        top: 0;
+        bottom: 0; }
+        .schedule .schedule_bottom .publicSchedule > .EquipmentRight h4 {
+          font-size: 0.9rem;
+          font-weight: 200; }
+        .schedule .schedule_bottom .publicSchedule > .EquipmentRight button {
+          color: #DEF0F9;
+          width: 71px;
+          height: 31px;
+          background-color: #2d8cf0;
+          border-color: #2d8cf0;
+          border-radius: 0;
+          padding: 0; }
+        .schedule .schedule_bottom .publicSchedule > .EquipmentRight > div {
+          height: 40px;
+          line-height: 40px; }
+          .schedule .schedule_bottom .publicSchedule > .EquipmentRight > div h4 {
+            text-indent: 5%; }
+          .schedule .schedule_bottom .publicSchedule > .EquipmentRight > div > .rightBtn {
+            text-align: right;
+            padding-right: 2%; }
+            .schedule .schedule_bottom .publicSchedule > .EquipmentRight > div > .rightBtn Button {
+              font-size: 14px;
+              margin-left: 20px;
+              cursor: pointer;
+              outline: none; }
+        .schedule .schedule_bottom .publicSchedule > .EquipmentRight > ul {
+          width: 100%;
+          position: absolute;
+          left: 0;
+          top: 60px;
+          right: 0;
+          bottom: 0;
+          overflow-y: auto; }
+          .schedule .schedule_bottom .publicSchedule > .EquipmentRight > ul > li {
+            font-size: 0.8rem;
+            width: 160px;
+            height: 40px;
+            line-height: 40px;
+            margin-left: 5%;
+            display: inline-block;
+            float: left;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden; }
+            .schedule .schedule_bottom .publicSchedule > .EquipmentRight > ul > li label {
+              font-size: 14px; }
+              .schedule .schedule_bottom .publicSchedule > .EquipmentRight > ul > li label .ivu-checkbox-inner {
+                margin-right: 10px; }
+
+.ivu-modal {
+  top: 20%; }
+
+.ModalUser .ivu-modal-body, .ModalWeek .ivu-modal-body {
+  padding: 30px 20%; }
+  .ModalUser .ivu-modal-body > div.ivu-row .ivu-col-span-7, .ModalWeek .ivu-modal-body > div.ivu-row .ivu-col-span-7 {
+    text-align: right; }
+  .ModalUser .ivu-modal-body > div.ivu-row #userAdmin, .ModalUser .ivu-modal-body > div.ivu-row #phoneAdmin, .ModalUser .ivu-modal-body > div.ivu-row #msphoneAdmin, .ModalUser .ivu-modal-body > div.ivu-row #eamilAdmin, .ModalUser .ivu-modal-body > div.ivu-row #levelAdmin, .ModalWeek .ivu-modal-body > div.ivu-row #userAdmin, .ModalWeek .ivu-modal-body > div.ivu-row #phoneAdmin, .ModalWeek .ivu-modal-body > div.ivu-row #msphoneAdmin, .ModalWeek .ivu-modal-body > div.ivu-row #eamilAdmin, .ModalWeek .ivu-modal-body > div.ivu-row #levelAdmin {
+    text-indent: 10%; }
+  .ModalUser .ivu-modal-body > div.ivu-row > div, .ModalWeek .ivu-modal-body > div.ivu-row > div {
+    height: 30px;
+    line-height: 30px;
+    margin: 10px 0;
+    position: relative; }
+    .ModalUser .ivu-modal-body > div.ivu-row > div span, .ModalWeek .ivu-modal-body > div.ivu-row > div span {
+      display: inline-block;
+      text-align: left;
+      white-space: nowrap; }
+    .ModalUser .ivu-modal-body > div.ivu-row > div input, .ModalWeek .ivu-modal-body > div.ivu-row > div input {
+      width: 100%;
+      border: 1px solid #eee; }
+    .ModalUser .ivu-modal-body > div.ivu-row > div > .tooltipError, .ModalWeek .ivu-modal-body > div.ivu-row > div > .tooltipError {
+      color: red;
+      position: absolute;
+      margin-left: 10px; }
+    .ModalUser .ivu-modal-body > div.ivu-row > div > .tooltipSuccess, .ModalWeek .ivu-modal-body > div.ivu-row > div > .tooltipSuccess {
+      color: green;
+      position: absolute;
+      margin-left: 10px; }
+  .ModalUser .ivu-modal-body > div.ivu-row .userParentDev:after, .ModalWeek .ivu-modal-body > div.ivu-row .userParentDev:after {
+    content: "*";
+    font-size: 16px;
+    color: red;
+    position: absolute;
+    right: -15px;
+    top: 5px; }
+  .ModalUser .ivu-modal-body > div.ivu-row #start_timeIcon, .ModalUser .ivu-modal-body > div.ivu-row #end_timeIcon, .ModalUser .ivu-modal-body > div.ivu-row #end_DateIcon, .ModalWeek .ivu-modal-body > div.ivu-row #start_timeIcon, .ModalWeek .ivu-modal-body > div.ivu-row #end_timeIcon, .ModalWeek .ivu-modal-body > div.ivu-row #end_DateIcon {
+    font-size: 16px;
+    color: red;
+    position: absolute;
+    right: -15px;
+    top: 5px; }
+  .ModalUser .ivu-modal-body > div.ivu-row #start_timeFont, .ModalUser .ivu-modal-body > div.ivu-row #end_timeFont, .ModalUser .ivu-modal-body > div.ivu-row #end_timeSize, .ModalWeek .ivu-modal-body > div.ivu-row #start_timeFont, .ModalWeek .ivu-modal-body > div.ivu-row #end_timeFont, .ModalWeek .ivu-modal-body > div.ivu-row #end_timeSize {
+    display: none;
+    font-size: 12px;
+    color: red;
+    position: absolute;
+    right: -80px;
+    top: 5px; }
+  .ModalUser .ivu-modal-body > div.ivu-row #end_DateSize, .ModalWeek .ivu-modal-body > div.ivu-row #end_DateSize {
+    font-size: 12px;
+    color: red;
+    position: absolute;
+    right: -80px;
+    top: 5px; }
+  .ModalUser .ivu-modal-body > div.ivu-row #msgInfo:after, .ModalUser .ivu-modal-body > div.ivu-row #phoneInfo:after, .ModalUser .ivu-modal-body > div.ivu-row #msphoneInfo:after, .ModalUser .ivu-modal-body > div.ivu-row #emailInfo:after, .ModalWeek .ivu-modal-body > div.ivu-row #msgInfo:after, .ModalWeek .ivu-modal-body > div.ivu-row #phoneInfo:after, .ModalWeek .ivu-modal-body > div.ivu-row #msphoneInfo:after, .ModalWeek .ivu-modal-body > div.ivu-row #emailInfo:after {
+    font-size: 14px;
+    color: red;
+    position: absolute;
+    right: -75px;
+    top: 2px; }
+  .ModalUser .ivu-modal-body > div.ivu-row #phoneInfo:after, .ModalUser .ivu-modal-body > div.ivu-row #msphoneInfo:after, .ModalUser .ivu-modal-body > div.ivu-row #emailInfo:after, .ModalWeek .ivu-modal-body > div.ivu-row #phoneInfo:after, .ModalWeek .ivu-modal-body > div.ivu-row #msphoneInfo:after, .ModalWeek .ivu-modal-body > div.ivu-row #emailInfo:after {
+    content: "格式不对"; }
+  .ModalUser .ivu-modal-body > div.ivu-row #msgInfo:after, .ModalWeek .ivu-modal-body > div.ivu-row #msgInfo:after {
+    content: "重复命名"; }
+
+.ModalWeek .ivu-modal-body > div.ivu-row > div input {
+  width: 100%; }
+
+/*# sourceMappingURL=Schedule.css.map */

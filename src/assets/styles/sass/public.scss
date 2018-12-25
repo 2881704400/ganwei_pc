@@ -78,6 +78,9 @@ html{
                     text-align: center;
                     color: #323232;
                     display: block;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
                 }
             }
         }

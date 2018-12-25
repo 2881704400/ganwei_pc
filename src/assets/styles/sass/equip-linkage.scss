@@ -68,7 +68,7 @@
         }
         
         .scene{
-            position: relative;
+            height: 100%;overflow-y: auto;position: relative;
             .ivu-collapse{
                 border-radius: 0;
                 border-top: 0;

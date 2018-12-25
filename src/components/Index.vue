@@ -188,7 +188,7 @@ export default {
               equipRt = equipRes.data.HttpData,
               stateRt = stateRes.data.HttpData;
               // console.log(treeRt,"aaaa")
-              // console.log(equipRt,"aaaa")
+              // console.log(equipRt,"aaaa") 
               // console.log(stateRt,"aaaa")
             if (treeRt.code === 200 && equipRt.code === 200 && stateRt.code === 200) {
               let treeData = []
@@ -251,7 +251,7 @@ export default {
           return true
         }
       })
-
+      
       arrData.forEach((dt, index) => {
         if (dt.GWEquipTreeItems && dt.GWEquipTreeItems.length) {
           // 设置报警状态
@@ -336,7 +336,8 @@ export default {
         } else {
           let equipNo = parseInt(dt.EquipNo)
           let alarmState = ''
-          let stateNum = stateList.filter(item => item.m_iEquipNo === equipNo)[0].m_State
+          var stateNum = stateList.filter(item => item.m_iEquipNo === equipNo)
+          stateNum.length>0?stateNum = stateNum[0].m_State:stateNum = 6;
           switch (stateNum) {
             case 0:
               alarmState = 'offline'
@@ -385,7 +386,7 @@ export default {
                   class: ["nav-item", data.selected ? "selected" : ""],
                   on: {
                     click: () => {
-                      // console.log(this.navList[1])
+                    //  if(data.alarmState === "fine"){
                       if (data.selected) return false
                       let obj = {
                         isHome: false,
@@ -402,8 +403,8 @@ export default {
                       this.$router.push({
                         path: "equips#" + data.equipNo
                       });
-                    }
-                  }
+                    }}
+                  //}
                 },
                 [
                   h(
@@ -631,7 +632,7 @@ export default {
             }
     },
     doNavState (equipNo, state) {
-      console.log(equipNo,state);
+      // console.log(equipNo,state);
       if (this.navList[1].children.length) {
         this.dealNavState(this.navList[1].children, equipNo, state)
         this.dealSumState(this.navList[1].children)
@@ -639,7 +640,7 @@ export default {
     },
     dealNavState (list, equipNo, state) {
       list.forEach(item => {
-        console.log(item);
+        // console.log(item);
         if (item.children.length) {
           this.dealNavState(item.children, equipNo, state)
         } else {

@@ -199,7 +199,7 @@
 				let btnInfoLevels = "";
 				for(let i = 0; i < this.btnInfo.length; i++) {
 					if(this.btnInfo[i].btnValue != "-1") {
-						btnInfoLevels += this.btnInfo[i].btnValue + ";"
+						btnInfoLevels += this.btnInfo[i].btnValue + "/"
 					}
 				}
 				btnInfoLevels = btnInfoLevels.substring(0, btnInfoLevels.length - 1);
@@ -269,9 +269,7 @@
 				})
 			},
 			atorMsgDataFun() {
-				this.Axios.post('/api/GWServiceWebAPI/get_DataByTableName', {
-					getDataTable: "Administrator"
-				}).then(res => {
+				this.Axios.post('/api/GWServiceWebAPI/get_AdministratorData', {}).then(res => {
 					let data = res.data.HttpData;
 					if(data.code == 200) {
 						let resultData = data.data;
@@ -302,7 +300,7 @@
 				let atorMobilesArr = [];
 				for(let i = 0; i < atorMobiles.length; i++) {
 					if(atorMobiles[i] != "" && atorMobiles[i] != null) {
-						atorMobilesArr.push(atorMobiles[i].split("&&")[1]);
+						atorMobilesArr.push(atorMobiles[i].split("&&")[0]);
 					}
 
 				}
@@ -322,7 +320,7 @@
 				this.Axios.post('/api/event/confirm_evt', {
 					msg: this.msgValue,
 					shortmsg: this.isSendSms,
-					tel: atorMobilesArr.toString(),
+					telUser: atorMobilesArr,
 					evtname: this.EventMsg,
 					time: TimeArr[0] + "." + strTimeArr,
 					userName: this.$store.state.loginMsg
