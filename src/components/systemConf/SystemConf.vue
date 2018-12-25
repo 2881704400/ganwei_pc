@@ -28,7 +28,7 @@ $num0:0px;
   }
   .ivu-modal-content>.ivu-modal-body:after{content: "";width: 100%;height: 1px;border: 0;opacity: 0;display: inline-block;clear: both;}
 }
-.moreInforWord{margin-top:10px;font-size:15px;float: left;width: 49%;white-space: nowrap;}
+.moreInforWord{margin-top:10px;font-size:15px;float: left;width: 49%;white-space: pre-wrap;}
 .uploadWrap{
 	p{
 		float: left;
@@ -36,7 +36,7 @@ $num0:0px;
 	}
 }
 .lableName{font-size: 16px;margin-right:10px;color:#989898;}
-.labelVal{font-size: 15px;color:#303030;display: inline-block;word-break: break-all;width: 50%;float: right;text-align: left;}
+.labelVal{font-size: 15px;color:#303030;display: inline-block;word-break: break-all;width: 50%;float: right;text-align: left; word-wrap:break-word;}
 .clickActive{
  border:1px solid $blueColor;
  box-sizing: border-box;

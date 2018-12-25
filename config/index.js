@@ -12,14 +12,14 @@ module.exports = {
     proxyTable: {
       '/api': {
 
-        target: 'http://localhost:8078',
+        target: 'http://localhost:8284',
         pathRewrite: {
           '^/api': '/api',
         }
       },
       '/': {
 
-        target: 'http://localhost:8078',
+        target: 'http://localhost:8284',
         pathRewrite: {
           '^/': '/',
         }
