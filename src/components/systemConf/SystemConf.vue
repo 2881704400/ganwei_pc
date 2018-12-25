@@ -36,7 +36,7 @@ $num0:0px;
 	}
 }
 .lableName{font-size: 16px;margin-right:10px;color:#989898;}
-.labelVal{font-size: 15px;margin-left:10px;color:#303030;}
+.labelVal{font-size: 15px;color:#303030;display: inline-block;word-break: break-all;width: 50%;float: right;text-align: left;}
 .clickActive{
  border:1px solid $blueColor;
  box-sizing: border-box;
@@ -2244,7 +2244,6 @@ this.loading=false
           }
           updateJSON.push(negate);
             console.log(updateJSON);
-
           this.Axios.post("/api/real/update_yxp",{update:JSON.stringify(updateJSON)}).then(res=>{
            var int=res.data.HttpData.data;
            if(int!=0&&res.data.HttpStatus==200){
