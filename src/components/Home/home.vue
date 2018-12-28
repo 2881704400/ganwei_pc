@@ -86,7 +86,7 @@ export default {
             if(response.data.HttpData.code == 200)
               dt.projectName =response.data.HttpData.data;
             else
-              dt.getProjectNmae();
+              this.$Message.success("获取授权名失败");
         })
         .catch(error => {
         });

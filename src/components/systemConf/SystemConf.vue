@@ -25,10 +25,11 @@ $num0:0px;
 .ivu-modal{
   .ivu-modal-content>.ivu-modal-body{
      max-height:600px;
+     overflow: auto;
   }
   .ivu-modal-content>.ivu-modal-body:after{content: "";width: 100%;height: 1px;border: 0;opacity: 0;display: inline-block;clear: both;}
 }
-.moreInforWord{margin-top:10px;font-size:15px;float: left;width: 49%;white-space: nowrap;}
+.moreInforWord{margin-top:10px;font-size:15px;float: left;width: 49%;white-space: pre-wrap;}
 .uploadWrap{
 	p{
 		float: left;
@@ -36,7 +37,7 @@ $num0:0px;
 	}
 }
 .lableName{font-size: 16px;margin-right:10px;color:#989898;}
-.labelVal{font-size: 15px;margin-left:10px;color:#303030;}
+.labelVal{font-size: 15px;color:#303030;display: inline-block;word-break: break-all;width: 50%;float: right;text-align: left; word-wrap:break-word;}
 .clickActive{
  border:1px solid $blueColor;
  box-sizing: border-box;
@@ -1095,7 +1096,8 @@ isMarkAmarm:"",
 	thisPage:1,
 	tabsId:0,
 	allNum:0,
-	hasFun:false
+	hasFun:false,
+	alarmCode:0
     }
   },beforeCreate(){
       this.Axios.post("/api/GWServiceWebAPI/get_GWZiChanTableData",{}).then(res=>{
@@ -1346,16 +1348,46 @@ isMarkAmarm:"",
                     class:"iconfont icon-scheduleMODIFY",
                     on: {
                       click: () => {
-                                          
+                                          	
                                               let ind=params.index;
+                                              console.log(eqData[ind])
                                               this.loadDefZic=eqData[ind].ZiChanID;
                                               this.loadDefVideo=eqData[ind].related_video;
                                               this.loadDefPlan=eqData[ind].PlanNo;
-                                              this.isAlarm=this.alarmArrIsShow[ind];
-                                              this.isMarkAmarm=this.alarmArrMark[ind];
-                                              this.checkAlarm=this.alarmWay[ind];
+                                              
+                                              this.alarmCode=eqData[ind].alarm_scheme;
+                                              if((parseInt(eqData[ind].alarm_scheme)  & 1)>0){
+																									this.isAlarm="True"
+																              }else{
+																									this.isAlarm="False"
+																              };
+																              if((parseInt(eqData[ind].alarm_scheme) & 2)>0){
+																                this.isMarkAmarm="True"
+																              }else{
+																              	this.isMarkAmarm="False"
+																              };
+																              this.checkAlarm=[];
+																              for(var j=0;j<arlarData.length;j++){
+														                      let itemalar;
+														                      var alays = parseInt(arlarData[j].Proc_Code);
+														                      if ((parseInt(eqData[ind].alarm_scheme) & alays) > 0) {
+														                        itemalar={
+														                          name:arlarData[j].Proc_name,
+														                          res:"True",
+														                          code:arlarData[j].Proc_Code
+														                        }
+														                      } else {
+														                       itemalar={
+															                        name:arlarData[j].Proc_name,
+															                        res:"False",
+															                        code:arlarData[j].Proc_Code
+															                      }
+														                    }
+														                    this.checkAlarm.push(itemalar)
+														                  }
                                               this.isSet_P=true;
                                               this.isYx=false;
+                                              
                                               this.equipId=eqData[ind].equip_no;
                                               this.uploadInfor=[
                                               {name:"设备号",value:eqData[ind].equip_no,listName:'equip_no'},
@@ -1556,11 +1588,41 @@ isMarkAmarm:"",
                                           this.loadDefZic=dataYc[index].ZiChanID;
                                           this.loadDefVideo=dataYc[index].related_video;
                                           this.loadDefPlan=dataYc[index].PlanNo;
-                                          this.isAlarm=this.alarmArrIsShowYc[index];
-                                          this.isMarkAmarm=this.alarmArrMarkYc[index];
-                                          this.checkAlarm=this.alarmWayYc[index];
+                                          if((parseInt(dataYc[index].alarm_scheme)  & 1)>0){
+																							this.isAlarm="True"
+														              }else{
+																							this.isAlarm="False"
+														              };
+														              if((parseInt(dataYc[index].alarm_scheme) & 2)>0){
+														                this.isMarkAmarm="True"
+														              }else{
+														              	this.isMarkAmarm="False"
+														              };
+														              this.checkAlarm=[];
+														              for(var j=0;j<arlarData.length;j++){
+												                      let itemalar;
+												                      var alays = parseInt(arlarData[j].Proc_Code);
+												                      if ((parseInt(dataYc[index].alarm_scheme) & alays) > 0) {
+												                        itemalar={
+												                          name:arlarData[j].Proc_name,
+												                          res:"True",
+												                          code:arlarData[j].Proc_Code
+												                        }
+												                      } else {
+												                       itemalar={
+													                        name:arlarData[j].Proc_name,
+													                        res:"False",
+													                        code:arlarData[j].Proc_Code
+													                      }
+												                    }
+												                    this.checkAlarm.push(itemalar)
+												                  }
+//                                        this.isAlarm=this.alarmArrIsShowYc[index];
+//                                        this.isMarkAmarm=this.alarmArrMarkYc[index];
+//                                        this.checkAlarm=this.alarmWayYc[index];
                                           this.curve_rcd=this.curve_rcdArr[index];
                                           this.scaleTran=this.scaleTranArr[index];
+                                          this.alarmCode=dataYc[index].alarm_scheme;
                                           this.isYc=true;
                                            this.equipId=dataYc[index].equip_no;
                                             // console.log(this.alarmWay[index])
@@ -1817,11 +1879,41 @@ this.loading=false
                                                                 this.loadDefZic=dataYx[index].ZiChanID;
                                                                 this.loadDefVideo=dataYx[index].related_video;
                                                                 this.loadDefPlan=dataYx[index].PlanNo;
-                                                                this.isAlarm=this.alarmArrIsShowYx[index];
+//                                                              this.isAlarm=this.alarmArrIsShowYx[index];
                                                                 this.equipId=dataYx[index].equip_no;
-                                                                this.isMarkAmarm=this.alarmArrMarkYx[index];
-                                                                this.checkAlarm=this.alarmWayYx[index];
+//                                                              this.isMarkAmarm=this.alarmArrMarkYx[index];
+//                                                              this.checkAlarm=this.alarmWayYx[index];
+                                                                 if((parseInt(dataYx[index].alarm_scheme)  & 1)>0){
+																																				this.isAlarm="True"
+																											              }else{
+																																				this.isAlarm="False"
+																											              };
+																											              if((parseInt(dataYx[index].alarm_scheme) & 2)>0){
+																											                this.isMarkAmarm="True"
+																											              }else{
+																											              	this.isMarkAmarm="False"
+																											              };
+																											              this.checkAlarm=[];
+																											              for(var j=0;j<arlarData.length;j++){
+																									                      let itemalar;
+																									                      var alays = parseInt(arlarData[j].Proc_Code);
+																									                      if ((parseInt(dataYx[index].alarm_scheme) & alays) > 0) {
+																									                        itemalar={
+																									                          name:arlarData[j].Proc_name,
+																									                          res:"True",
+																									                          code:arlarData[j].Proc_Code
+																									                        }
+																									                      } else {
+																									                       itemalar={
+																										                        name:arlarData[j].Proc_name,
+																										                        res:"False",
+																										                        code:arlarData[j].Proc_Code
+																										                      }
+																									                    }
+																									                    this.checkAlarm.push(itemalar)
+																									                  }
                                                                 this.negate=this.negateArr[index]
+                                                                this.alarmCode=dataYx[index].alarm_scheme;
                                                                 this.uploadInfor=[
                                                                 {name:"设备号",value:dataYx[index].equip_no,listName:'equip_no'},
                                                                 {name:"模拟量编号",value:dataYx[index].yx_no,listName:'yx_no'},
@@ -2098,6 +2190,8 @@ this.loading=false
              "listName":"alarm_scheme",
              "vlaue":"'"+this.getAlarmCode()+"'"
             };//报警字段
+//          console.log(this.alarmCode)
+//          console.log(this.getAlarmCode())
             updateJSON.push(alarCode)
             var lateVideo={
              "id":this.equipId,
@@ -2244,7 +2338,6 @@ this.loading=false
           }
           updateJSON.push(negate);
             console.log(updateJSON);
-
           this.Axios.post("/api/real/update_yxp",{update:JSON.stringify(updateJSON)}).then(res=>{
            var int=res.data.HttpData.data;
            if(int!=0&&res.data.HttpStatus==200){
@@ -2304,15 +2397,16 @@ this.loading=false
          
         },getAlarmCode(){
           var code=0;
+//        this.alarmCode
         // console.log(this.isAlarm,this.isMarkAmarm,this.checkAlarm)
-        if(this.isAlarm=="True")
-          this.isAlarm=="True"?code+=1:code+=0;
-        this.isMarkAmarm=="True"?code+=2:code+=0;
-        for(var i=0;i<this.checkAlarm.length;i++){
-          if(this.checkAlarm[i].res=="True"){
-            code+=parseInt(this.checkAlarm[i].code) 
-          }
-        }
+	        if(this.isAlarm=="True")
+	          this.isAlarm=="True"?code+=1:code+=0;
+	        this.isMarkAmarm=="True"?code+=2:code+=0;
+	        for(var i=0;i<this.checkAlarm.length;i++){
+	          if(this.checkAlarm[i].res=="True"){
+	            code+=parseInt(this.checkAlarm[i].code) 
+	          }
+	        }
         //获取报警代码
         return code;
       }
