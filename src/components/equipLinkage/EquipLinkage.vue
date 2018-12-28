@@ -613,7 +613,9 @@ export default {
             let reqData = {
               title: title,
               equipNo: equipNo,
-              setNo: setNo
+              setNo: setNo,
+              value: "",
+              
             }
             
             this.Axios.post('/api/GWServiceWebAPI/addScene', reqData)
