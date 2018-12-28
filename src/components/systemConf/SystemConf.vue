@@ -186,8 +186,8 @@ $num0:0px;
     <Row class="wrap">
       <Col span="3" class="itemList">
       <p title="全选" @click="selectAll()" :class="allSelect?'clickActive':''">全选</p>
-      <p  v-for="(item,$index) in itemList" @click="loadInformation(item.m_iEquipNo,$index)"   ref="mybox" :title="item.m_EquipNm">
-        <!-- :class="$index==active?'clickActive':''" -->
+      <p  v-for="(item,$index) in itemList" @click="loadInformation(item.m_iEquipNo,$index)"  :class="$index==active?'clickActive':''"  ref="mybox" :title="item.m_EquipNm">
+        <!-- -->
         {{item.m_EquipNm}}
       </p>
     </Col>
@@ -1169,6 +1169,11 @@ isMarkAmarm:"",
         this.Axios.post("/api/real/equip_state",{userName:window.localStorage.login_msg}).then(res=>{
           let response=res.data.HttpData.data;
           this.itemList=response;
+          if(response.length==0||response.length==1){
+          		this.allSelect=true
+          }
+//        console.log(response)
+          this.searchArr.push(response[0].m_iEquipNo)
       })
       },loadInformation(id,index){
         let nameStr=this.$refs.mybox[index].className;
