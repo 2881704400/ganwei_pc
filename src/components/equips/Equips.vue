@@ -135,7 +135,8 @@ export default {
       openEquip: -1,
       hubConn: null,
       hubProxy: null,
-      timer: null
+      timer: null,
+      isAlarmFlag: false
     }
   },
   components: {
@@ -315,11 +316,13 @@ export default {
 	          this.tabData[0].hasAlarm = rt.some(item => item.m_IsAlarm === 'True')
 	         
 	          if (this.tabData[0].hasAlarm) {
+	          	isAlarmFlag=true
 	            this.updateNavAlarm('alarm')
 	          } else {
+	          	isAlarmFlag=false
 	            this.updateNavAlarm('fine')
 	          }
-	        } else if (type === 'yxp') {
+	        } else if (type === 'yxp'&&!isAlarmFlag) {
 	          this.tabData[1].hasAlarm = rt.some(item => item.m_IsAlarm === 'True')
 	          if (this.tabData[1].hasAlarm) {
 	            this.updateNavAlarm('alarm')
