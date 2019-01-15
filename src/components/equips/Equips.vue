@@ -310,21 +310,23 @@ export default {
         // console.log('ycyxall--------------' + type, data)
         // 更新报警状态
         let rt = JSON.parse(data)
-        if (type === 'ycp') {
-          this.tabData[0].hasAlarm = rt.some(item => item.m_IsAlarm === 'True')
-         
-          if (this.tabData[0].hasAlarm) {
-            this.updateNavAlarm('alarm')
-          } else {
-            this.updateNavAlarm('fine')
-          }
-        } else if (type === 'yxp') {
-          this.tabData[1].hasAlarm = rt.some(item => item.m_IsAlarm === 'True')
-          if (this.tabData[1].hasAlarm) {
-            this.updateNavAlarm('alarm')
-          } else {
-            this.updateNavAlarm('fine')
-          }
+        if(rt.length>0){
+        	if (type === 'ycp') {
+	          this.tabData[0].hasAlarm = rt.some(item => item.m_IsAlarm === 'True')
+	         
+	          if (this.tabData[0].hasAlarm) {
+	            this.updateNavAlarm('alarm')
+	          } else {
+	            this.updateNavAlarm('fine')
+	          }
+	        } else if (type === 'yxp') {
+	          this.tabData[1].hasAlarm = rt.some(item => item.m_IsAlarm === 'True')
+	          if (this.tabData[1].hasAlarm) {
+	            this.updateNavAlarm('alarm')
+	          } else {
+	            this.updateNavAlarm('fine')
+	          }
+	        }
         }
       });
 
