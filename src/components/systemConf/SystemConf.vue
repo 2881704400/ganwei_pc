@@ -186,8 +186,8 @@ $num0:0px;
     <Row class="wrap">
       <Col span="3" class="itemList">
       <p title="全选" @click="selectAll()" :class="allSelect?'clickActive':''">全选</p>
-      <p  v-for="(item,$index) in itemList" @click="loadInformation(item.m_iEquipNo,$index)"   ref="mybox" :title="item.m_EquipNm">
-        <!-- :class="$index==active?'clickActive':''" -->
+      <p  v-for="(item,$index) in itemList" @click="loadInformation(item.m_iEquipNo,$index)"  :class="$index==active?'clickActive':''"  ref="mybox" :title="item.m_EquipNm">
+        <!-- -->
         {{item.m_EquipNm}}
       </p>
     </Col>
@@ -1169,6 +1169,11 @@ isMarkAmarm:"",
         this.Axios.post("/api/real/equip_state",{userName:window.localStorage.login_msg}).then(res=>{
           let response=res.data.HttpData.data;
           this.itemList=response;
+          if(response.length==0||response.length==1){
+          		this.allSelect=true
+          }
+//        console.log(response)
+          this.searchArr.push(response[0].m_iEquipNo)
       })
       },loadInformation(id,index){
         let nameStr=this.$refs.mybox[index].className;
@@ -1350,12 +1355,13 @@ isMarkAmarm:"",
                       click: () => {
                                           	
                                               let ind=params.index;
-                                              console.log(eqData[ind])
+//                                            console.log(eqData[ind])
                                               this.loadDefZic=eqData[ind].ZiChanID;
                                               this.loadDefVideo=eqData[ind].related_video;
                                               this.loadDefPlan=eqData[ind].PlanNo;
                                               
                                               this.alarmCode=eqData[ind].alarm_scheme;
+                                              
                                               if((parseInt(eqData[ind].alarm_scheme)  & 1)>0){
 																									this.isAlarm="True"
 																              }else{
@@ -1617,11 +1623,19 @@ isMarkAmarm:"",
 												                    }
 												                    this.checkAlarm.push(itemalar)
 												                  }
-//                                        this.isAlarm=this.alarmArrIsShowYc[index];
-//                                        this.isMarkAmarm=this.alarmArrMarkYc[index];
-//                                        this.checkAlarm=this.alarmWayYc[index];
-                                          this.curve_rcd=this.curve_rcdArr[index];
-                                          this.scaleTran=this.scaleTranArr[index];
+														              
+														              if(dataYc[index].curve_rcd){
+																							this.curve_rcd="True"
+														              }else{
+																							this.curve_rcd="False"
+														              }
+														              
+														              if(dataYc[index].mapping){
+																							this.scaleTran="True"
+														              }else{
+																							this.scaleTran="False"
+														              }
+
                                           this.alarmCode=dataYc[index].alarm_scheme;
                                           this.isYc=true;
                                            this.equipId=dataYc[index].equip_no;
@@ -1912,7 +1926,15 @@ this.loading=false
 																									                    }
 																									                    this.checkAlarm.push(itemalar)
 																									                  }
-                                                                this.negate=this.negateArr[index]
+//																											              console.log(this.negateArr[index])
+//																											              console.log(dataYx[index])
+																											              if(dataYx[index].inversion){
+																											              	this.negate="True"
+																											              }else{
+																											              	this.negate="False"
+																											              }
+																											              
+//                                                              this.negate=this.negateArr[index]
                                                                 this.alarmCode=dataYx[index].alarm_scheme;
                                                                 this.uploadInfor=[
                                                                 {name:"设备号",value:dataYx[index].equip_no,listName:'equip_no'},
@@ -2103,8 +2125,19 @@ this.loading=false
                     this.modal2=true;
                     this.isSet_P=false;
                     this.isYc=false;
-                    this.isMarkSet =this.isMarkSetArr[index]
-                    this.isExeSet =this.isExeSetArr[index]
+                    this.isMarkSet =this.isMarkSetArr[index];
+                    this.isExeSet =this.isExeSetArr[index];
+                   
+                    if(dataSet[index].record){
+                    	this.isMarkSet ="True"
+                    }else{
+                    	this.isMarkSet ="False"
+                    }
+                    if(dataSet[index].canexecution){
+                    	this.isExeSet ="True"
+                    }else{
+                    	this.isExeSet ="False"
+                    }
                     this.equipId=dataSet[index].equip_no;
                     this.isYx=false;
                     this.uploadInfor=[
@@ -2134,7 +2167,6 @@ this.loading=false
            this.isMarkSetArr.push("False")
          }
          let canexecution
-              // console.log(dataSet[i].canexecution)
               if(dataSet[i].canexecution){
                 canexecution='<Icon type="ios-checkmark-outline"></Icon>'
                 this.isExeSetArr.push("True")
@@ -2171,11 +2203,9 @@ this.loading=false
         }
       })
     },configData(num){
-        // console.log("点击确定"+num);
         switch (num)
         {
           case 0:
-            // console.log(this.uploadInfor);
             var updateJSON=[];
             for (var i=0;i<this.uploadInfor.length;i++){
               var item={
@@ -2337,7 +2367,7 @@ this.loading=false
             "vlaue":this.negate=="False"?false:true
           }
           updateJSON.push(negate);
-            console.log(updateJSON);
+//          console.log(updateJSON);
           this.Axios.post("/api/real/update_yxp",{update:JSON.stringify(updateJSON)}).then(res=>{
            var int=res.data.HttpData.data;
            if(int!=0&&res.data.HttpStatus==200){
@@ -2379,7 +2409,7 @@ this.loading=false
             }//是否可执行
             updateJSON.push(canexecution);
             this.Axios.post("/api/real/update_setparm",{update:JSON.stringify(updateJSON)}).then(res=>{
-              console.log(res);
+//            console.log(res);
              var int=res.data.HttpData.data;
              if(int!=0&&res.data.HttpStatus==200){
               this.$Message.success('修改成功');

@@ -150,7 +150,7 @@
         <Col span="21" class="itemDetail">
           <div class="common-tabEve"> <div class="dateSelect">
                     <Button type="primary" style="margin-right:10px;border-radius:0;background:#2d8cf0;padding:8.5px 21.5px;font-size:14px;line-height:inherit;color:#fff;" @click="selectEvent()">查询</Button >
-                    <DatePicker class="dataSelect" v-model="dateValue" type="datetimerange" format="yyyy/MM/dd HH:mm" :options="option1" placeholder="请选择日期时间" style="width: 500px"  ></DatePicker>
+                    <DatePicker class="dataSelect"   v-model="dateValue" type="datetimerange" format="yyyy/MM/dd HH:mm" :options="option1" placeholder="请选择日期时间" style="width: 500px"  ></DatePicker>
                   </div>
               <Tabs type="card"  :animated="false" v-model="selMenu" :value="selMenu">
                
@@ -250,7 +250,7 @@ export default {
                             const	day=end.getDate();
                             const start=year+"/"+mon+"/"+day+" 00:00:00";
                             const endTime=year+"/"+mon+"/"+day+" "+end.getHours() + ":" + end.getMinutes() + ":" + end.getSeconds()
-                            console.log(new Date(start), new Date(endTime))
+//                          console.log(new Date(start), new Date(endTime))
                             return [new Date(start), new Date(endTime)];
 //                          return [end, end];
                         }
@@ -294,6 +294,17 @@ export default {
         let response=res.data.HttpData.data;
         this.itemList=response;
         this.searchArr.push(response[0].m_iEquipNo);
+        
+        const end=new Date();
+        const year=end.getFullYear();
+        const	mon=end.getMonth()+1;
+        const	day=end.getDate();
+        const start=year+"/"+mon+"/"+day+" 00:00:00";
+        const endTime=year+"/"+mon+"/"+day+" "+end.getHours() + ":" + end.getMinutes() + ":" + end.getSeconds()
+        this.dateValue=[start,endTime]
+
+        
+        
       })
      },
      selectId(id,index){
