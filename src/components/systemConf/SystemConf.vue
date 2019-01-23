@@ -25,7 +25,7 @@ $num0:0px;
 .ivu-modal{
   .ivu-modal-content>.ivu-modal-body{
      max-height:600px;
-     overflow: auto;
+     overflow: auto !important;
   }
   .ivu-modal-content>.ivu-modal-body:after{content: "";width: 100%;height: 1px;border: 0;opacity: 0;display: inline-block;clear: both;}
 }

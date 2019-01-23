@@ -316,13 +316,13 @@ export default {
 	          this.tabData[0].hasAlarm = rt.some(item => item.m_IsAlarm === 'True')
 	         
 	          if (this.tabData[0].hasAlarm) {
-	          	isAlarmFlag=true
+	          	this.isAlarmFlag=true
 	            this.updateNavAlarm('alarm')
 	          } else {
-	          	isAlarmFlag=false
+	          	this.isAlarmFlag=false
 	            this.updateNavAlarm('fine')
 	          }
-	        } else if (type === 'yxp'&&!isAlarmFlag) {
+	        } else if (type === 'yxp'&&!this.isAlarmFlag) {
 	          this.tabData[1].hasAlarm = rt.some(item => item.m_IsAlarm === 'True')
 	          if (this.tabData[1].hasAlarm) {
 	            this.updateNavAlarm('alarm')
