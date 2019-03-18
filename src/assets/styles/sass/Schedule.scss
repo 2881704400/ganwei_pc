@@ -44,10 +44,38 @@
             //容器
             &>div{height: 100%;}
             //人员
-            .user-table{tr th,tr td{width: 16.666%;overflow: hidden;}}
-            .AlmReport-table{tr th,tr td{width: 33.33%;overflow: hidden;}}
-            .WeekAlmReport-table{tr th,tr td{width: 20%;overflow: hidden;}}
-            .SpeAlmReport-table{tr th,tr td{width: 25%;overflow: hidden;}}
+            .user-table{tr th,tr td{width: 16.666%;
+                        overflow : hidden;
+                        display: -webkit-box;
+                        -webkit-box-pack: center;
+                        -webkit-line-clamp:3;
+                        word-wrap: break-word;
+                        word-break: normal;
+                        -webkit-box-orient: vertical;}}
+            .AlmReport-table{tr th,tr td{width: 33.33%;
+                        overflow : hidden;
+                        display: -webkit-box;
+                        -webkit-box-pack: center;
+                        -webkit-line-clamp:3;
+                        word-wrap: break-word;
+                        word-break: normal;
+                        -webkit-box-orient: vertical;}}
+            .WeekAlmReport-table{tr th,tr td{width: 20%;
+                        overflow : hidden;
+                        display: -webkit-box;
+                        -webkit-box-pack: center;
+                        -webkit-line-clamp:3;
+                        word-wrap: break-word;
+                        word-break: normal;
+                        -webkit-box-orient: vertical;}}
+            .SpeAlmReport-table{tr th,tr td{width: 25%;
+                        overflow : hidden;
+                        display: -webkit-box;
+                        -webkit-box-pack: center;
+                        -webkit-line-clamp:3;
+                        word-wrap: break-word;
+                        word-break: normal;
+                        -webkit-box-orient: vertical;}}
             
             tbody tr td{i{font-size: #{ $IconFontSize/1.2};margin: 0 10px;color: #{$btnBackground};}}
             //设备分组范围
@@ -90,8 +118,7 @@
                 }
                 &>ul{ 
                     width: 100%;position: absolute; left: 0;top: #{$contentTop+20};right: 0;bottom: 0;overflow-y: auto;
-                    &>li{font-size: 0.8rem;width: 160px;height: #{$scheduleLiHeight};line-height: #{$scheduleLiHeight};margin-left: 5%;display: inline-block;float: left; 
-                    white-space: nowrap;text-overflow: ellipsis;overflow: hidden;
+                    &>li{font-size: 0.8rem;width: 30%;line-height: #{$scheduleLiHeight};margin-left: 3%;display: inline-block;float: left; 
                        label{font-size: #{$btnfontSize};.ivu-checkbox-inner{margin-right: 10px;}} 
                        }
                 }
@@ -107,9 +134,10 @@
                 &>div.ivu-row{
                     .ivu-col-span-7{text-align: right;}
                     #userAdmin,#phoneAdmin,#msphoneAdmin,#eamilAdmin,#levelAdmin{text-indent: 10%;}
+                    #levelAdmin{text-indent: calc(5% - 4px);}
                     &>div{height: 30px;line-height: 30px;margin: 10px 0;position: relative;
-                        span{display: inline-block;text-align: left;    white-space: nowrap;}
-                        input{width: 100%;border: 1px solid #eee;}
+                        span{text-align: left;}
+                        input{width: 100%;border: 1px solid #dddee1;border-radius: 4px;}
                         &>.tooltipError{color: red;position: absolute; margin-left: 10px;}
                         &>.tooltipSuccess{color: green;position: absolute; margin-left: 10px;}
                     }

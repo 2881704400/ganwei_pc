@@ -1,157 +1,206 @@
-
 <style lang="css">
-*{
-  font-family: "微软雅黑",
-}
-/*sss*/
- ::-webkit-scrollbar {/*滚动条整体样式*/
-    width: 4px;     /*高宽分别对应横竖滚动条的尺寸*/
-    height: 4px;
-  }
-::-webkit-scrollbar-thumb {/*滚动条里面小方块*/
-    border-radius: 5px;
-    -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
-    background: rgba(0,0,0,0.2);
-  }
-::-webkit-scrollbar-track {/*滚动条里面轨道*/
-    -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
-    border-radius: 0;
-    background: rgba(0,0,0,0.1);
-  }
-.event-query{width:100%;height:100%;min-width:1080px;}
-.event-query .wrap{width:100%;height:100%;}
-.event-query .wrap .itemDetail{height:100%;overflow: hidden;padding-left: 15px;}
-.event-query .wrap .itemList{height:100%;overflow-y: scroll;}
-.dateSelect{padding:20px  0;}
-.event-query .itemList p{
-  width:95%;
-  height:50px;
-  line-height: 50px;
-  background: #f9f9f9 !important;
-  margin:10px auto;
-  font-size:15px;
-  text-align: center;
+	* {
+		font-family: "微软雅黑",
+	}
+	
+	.event-query {
+		width: 100%;
+		height: 100%;
+		/*min-width: 1080px;*/
+	}
+	
+	.event-query .wrap {
+		width: 100%;
+		height: 100%;
+	}
+	
+	.event-query .wrap .itemDetail {
+		height: 100%;
+		overflow: hidden;
+		padding-left: 15px;
+	}
+	
+	.event-query .wrap .itemList {
+		height: 100%;
+		overflow-y: scroll;
+	}
+	
+	.dateSelect {
+		padding: 10px 0;
+	}
+	
+	.event-query .itemList p {
+		width: 95%;
+		height: 50px;
+		line-height: 22px;
+		background: #f9f9f9 !important;
+		margin: 10px auto;
+		font-size: 14px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		text-align: center;
+		/*text-align: center;
   overflow: hidden;
   white-space: nowrap;
-  text-overflow: ellipsis;
-}
-.event-query .itemList p:hover{
-  border:1px solid #2d8cf0;
-  box-sizing: border-box;
-  color:#2d8cf0;
-  cursor:pointer;
-}
-.clickActive{
-   border:1px solid #2d8cf0;
-  box-sizing: border-box;
-  color:#2d8cf0;
-}
-.common-tabEve{padding:12px 0 12px 0;}
-.event-query .ivu-tabs-bar{margin-bottom: 0;height: 40px;}
-.event-query .ivu-tabs-nav-container{height: 40px !important;}
-.event-query .ivu-table-wrapper{
-  border:none;
-}
-.event-query .ivu-tabs.ivu-tabs-card>.ivu-tabs-bar .ivu-tabs-tab{
-  margin-right: 0;
-  border-radius: 0;
-  border-right: none;
-  font-size:1rem;
-  height:40px;
-  border-bottom: 1px solid #dddee1;
-}
-.event-query .ivu-tabs.ivu-tabs-card>.ivu-tabs-bar .ivu-tabs-tab:last-child{
-   border-right:1px solid #dddee1;
-}
-.event-query .ivu-tabs.ivu-tabs-card>.ivu-tabs-bar .ivu-tabs-tab-active{
-  border-top:1px solid #2d8cf0;
-  box-sizing: border-box;
-  background: #F9F9F9;
-}
-.event-query .ivu-table .ivu-table-header table .ivu-table-cell{
-  padding-left: 0;
-  padding-right: 0;
-  width: 100%;
-  font-weight: 200;
-  font-size: 0.9rem;
-  text-align: center;
-  color:#858585;
-  width: 100%;
-  height: 100%;
-  line-height: 40px;
-}
-.event-query  .ivu-table th{
-  background: #fff;
-}
-.event-query .ivu-table td,.event-query  .ivu-table th{
-  border:none 0;
-}
-.event-query .ivu-table td{
-  font-size:1rem;
-}
-.event-query .ivu-table:after{
-  height: 0;
-}
-.event-query .ivu-table .demo-table-info-row td{
-        background-color: #f9f9f9;
-    }
-.event-query .ivu-table .demo-table-error-row td{
-    background-color: #fff; 
-  }
-.event-query   .ivu-table-row:hover{
-      background-color: #ff0 !important; 
-  }
-.event-query   .common-tabEve .ivu-tabs-card>.ivu-tabs-content{
-    margin-top: 0;
-  }
-.event-query   .common-tabEve .ivu-tabs-card>.ivu-tabs-content>.ivu-tabs-tabpane{
-    border:none 0;
-  }
-.event-query   .ivu-table:before{
-    height:0;
-  }
-.event-query     .ivu-table-row:hover td{
-      background: #ebf7ff !important; 
-  }
-.event-query   .ivu-date-picker-cells span em{
-    font-size: 15px !important;
-  }
-.event-query   .ivu-btn-small{
-    font-size: 14px;
-  }
-  .dateSelect{
-    width: auto;
-    position: absolute;
-    top: -10px;
-    right:30px;
-    z-index: 99;
-  }
-.dataSelect i{
-  font-size: 20px;
-  color:#777;
-}
-.ivu-input::-webkit-input-placeholder{
-  color:#777;
-}
-#placeholder{
-  color:#777;
-}
+  text-overflow: ellipsis;*/
+	}
+	
+	.event-query .itemList p:hover {
+		border: 1px solid #2d8cf0;
+		box-sizing: border-box;
+		color: #2d8cf0;
+		cursor: pointer;
+	}
+	
+	.clickActive {
+		border: 1px solid #2d8cf0;
+		box-sizing: border-box;
+		color: #2d8cf0;
+	}
+	
+	.common-tabEve {
+		padding-bottom: 12px;
+	}
+	
+	.event-query .ivu-tabs-bar {
+		margin-bottom: 0;
+		height: 40px;
+	}
+	
+	.event-query .ivu-tabs-nav-container {
+		height: 40px !important;
+	}
+	
+	.event-query .ivu-table-wrapper {
+		border: none;
+	}
+	
+	.event-query .ivu-tabs.ivu-tabs-card>.ivu-tabs-bar .ivu-tabs-tab {
+		margin-right: 0;
+		border-radius: 0;
+		border-right: none;
+		font-size: 15px;
+		height: 40px;
+		line-height: 2;
+		border-bottom: 1px solid #dddee1;
+	}
+	
+	.event-query .ivu-tabs.ivu-tabs-card>.ivu-tabs-bar .ivu-tabs-tab:last-child {
+		border-right: 1px solid #dddee1;
+	}
+	
+	.event-query .ivu-tabs.ivu-tabs-card>.ivu-tabs-bar .ivu-tabs-tab-active {
+		border-top: 1px solid #2d8cf0;
+		box-sizing: border-box;
+		background: #F9F9F9;
+	}
+	
+	.event-query .ivu-table .ivu-table-header table .ivu-table-cell {
+		padding-left: 0;
+		padding-right: 0;
+		width: 100%;
+		font-weight: 200;
+		font-size: 0.9rem;
+		text-align: center;
+		color: #858585;
+		width: 100%;
+		height: 100%;
+		line-height: 40px;
+	}
+	
+	.event-query .ivu-table th {
+		background: #fff;
+	}
+	
+	.event-query .ivu-table td,
+	.event-query .ivu-table th {
+		border: none 0;
+	}
+	
+	.event-query .ivu-table td {
+		font-size: 0.875rem;
+		line-height: 20px;
+	}
+	
+	.event-query .ivu-table:after {
+		height: 0;
+	}
+	
+	.event-query .ivu-table .demo-table-info-row td {
+		background-color: #f9f9f9;
+	}
+	
+	.event-query .ivu-table .demo-table-error-row td {
+		background-color: #fff;
+	}
+	
+	.event-query .ivu-table-row:hover {
+		background-color: #ff0 !important;
+	}
+	
+	.event-query .common-tabEve .ivu-tabs-card>.ivu-tabs-content {
+		margin-top: 0;
+	}
+	
+	.event-query .common-tabEve .ivu-tabs-card>.ivu-tabs-content>.ivu-tabs-tabpane {
+		border: none 0;
+	}
+	
+	.event-query .ivu-table:before {
+		height: 0;
+	}
+	
+	.event-query .ivu-table-row:hover td {
+		background: #ebf7ff !important;
+	}
+	
+	.event-query .ivu-date-picker-cells span em {
+		font-size: 15px !important;
+	}
+	
+	.event-query .ivu-btn-small {
+		font-size: 14px;
+	}
+	
+	.dateSelect {
+		width: auto;
+		position: absolute;
+		top: -10px;
+		right: 0px;
+		z-index: 99;
+	}
+	
+	.dataSelect i {
+		font-size: 20px;
+		color: #777;
+	}
+	
+	.ivu-input::-webkit-input-placeholder {
+		color: #777;
+	}
+	
+	#placeholder {
+		color: #777;
+	}
 </style>
 
 <template>
-  <div class="event-query">
-     <Row class="wrap">
-        <Col span="3" class="itemList">
-          <p title="全选" @click="selectAll()" :class="allSelect?'clickActive':''">全选</p>
-          <p  v-for="(item,$index) in itemList" @click="selectId(item.m_iEquipNo,$index)" ref="mybox" :title="item.m_EquipNm" v-bind:class="{'clickActive':$index == 0}" >
-                {{item.m_EquipNm}}{{item.m_iEquipNo}}
-          </p>
-        </Col>
-        <Col span="21" class="itemDetail">
-          <div class="common-tabEve"> <div class="dateSelect">
-                    <Button type="primary" style="margin-right:10px;border-radius:0;background:#2d8cf0;padding:8.5px 21.5px;font-size:14px;line-height:inherit;color:#fff;" @click="selectEvent()">查询</Button >
-                    <DatePicker class="dataSelect"   v-model="dateValue" type="datetimerange" format="yyyy/MM/dd HH:mm" :options="option1" placeholder="请选择日期时间" style="width: 500px"  ></DatePicker>
-                  </div>
+	<div class="event-query">
+		<Row class="wrap">
+			<Col span="4" class="itemList">
+			<Input size="large" v-model="searchEquipName" @on-change="searchEquipNameFun" icon="ios-search" placeholder="请输入设备名称" style="width: 95%;margin-left: 2.5%;" />
+			<p title="所有设备" @click="selectAll()" :class="allSelect?'clickActive':''">所有设备</p>
+			<p v-for="(item,$index) in itemList" @click="selectId(item.m_iEquipNo,$index)" ref="mybox" :title="item.m_EquipNm" v-bind:class="{'clickActive':$index == 0}">
+				{{item.m_EquipNm}}
+			</p>
+			</Col>
+			<Col span="20" class="itemDetail">
+			<div class="common-tabEve">
+				<div class="dateSelect">
+					<DatePicker class="dataSelect" :editable="false" v-model="dateValue" type="datetimerange" format="yyyy/MM/dd HH:mm" :options="option1" placeholder="请选择日期时间" style="margin-right:10px;width: 300px"  ></DatePicker>
+                	<Button type="primary" style="margin-right:0px;border-radius:0;background:#2d8cf0;padding:8px 21.5px;font-size:14px;line-height:inherit;color:#fff;" @click="selectEvent()">查询</Button >
+                </div>
               <Tabs type="card"  :animated="false" v-model="selMenu" :value="selMenu">
                
                 <TabPane  label="设备事件" name="equip">
@@ -178,6 +227,8 @@ import { formatDate } from "../../assets/js/date.js";
 export default {
    data () {
     return {
+    	searchEquipName: "",
+    	allEquipListBySearch: [],
       tableHeight:650,
       itemList:[],//左侧列表
       equipEvent:[],//右侧设备事件
@@ -279,7 +330,24 @@ export default {
   },mounted (){
     this.init()
   },methods:{
-     rowClassName (row, index) {
+  	searchEquipNameFun(){
+  		let searchEquipName=this.searchEquipName;
+  		let allEquipListBySearch=this.allEquipListBySearch;
+  		let strArr=[];
+  		for(let i=0;i<allEquipListBySearch.length;i++){
+  			let m_iEquipNameNo=allEquipListBySearch[i].m_EquipNm
+  			if(m_iEquipNameNo.indexOf(searchEquipName)>-1){
+  				strArr.push(allEquipListBySearch[i]);
+  			}
+  		}
+  		let myboxLength=this.$refs.mybox.length;
+  		for(var i=0;i<myboxLength;i++){
+  			this.$refs.mybox[i].className="";
+  		}
+  		this.searchArr=[];
+  		this.itemList=strArr;
+  	},
+    rowClassName (row, index) {
                 if (index%2== 0) {
                     return 'demo-table-info-row';
                 } else if (index%2== 1) {
@@ -292,7 +360,7 @@ export default {
         this.tableHeight=h-170;
         this.Axios.post("/api/real/equip_state",{userName:window.localStorage.login_msg}).then(res=>{
         let response=res.data.HttpData.data;
-        this.itemList=response;
+        this.itemList=this.allEquipListBySearch=response;
         this.searchArr.push(response[0].m_iEquipNo);
         
         const end=new Date();
@@ -348,6 +416,7 @@ export default {
         this.loadEventList();
      },
      loadEventList(){
+      this.$Message.destroy();
       let id=this.searchArr.toString();
       let dates=this.dateValue;
       if(dates.toString().length<=1){
@@ -357,10 +426,10 @@ export default {
       let timeStr=this.dateValue.toString();
       timeStr=formatDate(new Date(timeStr.split(",")[0]),"yyyy/MM/dd hh:mm:ss")+","+formatDate(new Date(timeStr.split(",")[1]),"yyyy/MM/dd hh:mm:ss");
      this.loading=true;
-     if(this.selMenu == "equip")
-     this.Axios.post("/api/event/get_equip_evt",{times:timeStr,equip_nos:id}).then(res=>{//加载模拟量配置
+     if(this.selMenu == "equip"){
+     	this.Axios.post("/api/event/get_equip_evt",{times:timeStr,equip_nos:id}).then(res=>{//加载模拟量配置
+          this.equipEvent=[];
           if(res.data.HttpStatus==200&&res.data.HttpData.data.length!=0){
-            this.equipEvent=[];
             let respon=res.data.HttpData.data
             for(var i=0;i<respon.length;i++){
               let item={
@@ -372,17 +441,20 @@ export default {
             }
             this.$Message.success('设备事件查询成功')
           }
-          else
-            this.$Message.warning('没有设备事件')
+          else{
+          	this.$Message.warning('没有设备事件')
+          }
           this.loading=false;
           
      }).catch(e=>{this.loading=false;
         this.$Message.warning('请选择设备');
       });
-     if(this.selMenu == "setEvent")
-     this.Axios.post("/api/event/get_set_evt",{times:timeStr,equip_nos:id}).then(res=>{
+     }
+     
+     if(this.selMenu == "setEvent"){
+     	this.Axios.post("/api/event/get_set_evt",{times:timeStr,equip_nos:id}).then(res=>{
+          this.setEvent=[];
           if(res.data.HttpStatus==200&&res.data.HttpData.data.length!=0){
-            this.setEvent=[];
             let respon=res.data.HttpData.data
             for(var i=0;i<respon.length;i++){
               let item={
@@ -391,21 +463,23 @@ export default {
                 person:respon[i].operator,
                 time:respon[i].time.replace("T"," ")
               }
-              this.setEvent.push(item);this.$Message.success('设置事件查询成功');
+              this.setEvent.push(item);
             }
+            this.$Message.success('设置事件查询成功');
           }
-          else
-              this.$Message.warning('没有设置事件')
-           this.loading=false;
+          else{
+          	this.$Message.warning('没有设置事件')
+          }
+          this.loading=false;
       }).catch(e=>{this.loading=false;
         this.$Message.warning('请选择设备');
       });
-
-       
-      if(this.selMenu == "sysEvent")
-      this.Axios.post("/api/event/get_sys_evt",{times:timeStr}).then(res=>{
+     }
+     
+      if(this.selMenu == "sysEvent"){
+      	this.Axios.post("/api/event/get_sys_evt",{times:timeStr}).then(res=>{
+          this.sysEvent=[];
           if(res.data.HttpStatus==200&&res.data.HttpData.data.length!=0){
-            this.sysEvent=[];
             let respon=res.data.HttpData.data
             for(var i=0;i<respon.length;i++){
               let item={
@@ -416,12 +490,15 @@ export default {
             }
             this.$Message.success('系统事件查询成功');
           }
-          else
-             this.$Message.warning('没有系统事件');
-           this.loading=false;
+          else{
+          	this.$Message.warning('没有系统事件');
+          }
+          this.loading=false;
       }).catch(e=>{this.loading=false;
         this.$Message.warning('请选择设备');
       });
+      }
+      
      }
    
   },
@@ -440,4 +517,3 @@ export default {
   //    }
 }
 </script>
-

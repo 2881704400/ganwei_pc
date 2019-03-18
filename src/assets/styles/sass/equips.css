@@ -1,0 +1,204 @@
+/* table */
+.dateSelect {
+  padding: 20px 0; }
+
+.equips {
+  width: 100%;
+  height: 100%;
+  min-width: 1080px; }
+  .equips .wrap {
+    width: 100%;
+    height: 100%; }
+    .equips .wrap .itemDetail {
+      height: 100%;
+      overflow: hidden;
+      padding-left: 15px; }
+    .equips .wrap .itemList {
+      height: 100%; }
+      .equips .wrap .itemList p {
+        width: 95%;
+        height: 50px;
+        line-height: 22px;
+        background: #f9f9f9 !important;
+        margin: 10px auto;
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center; }
+        .equips .wrap .itemList p:hover {
+          border: 1px solid #2d8cf0;
+          box-sizing: border-box;
+          color: #2d8cf0;
+          cursor: pointer; }
+
+.equips {
+  height: 100%; }
+  .equips .visual,
+  .equips .state {
+    height: 100%; }
+  #realData {
+    width: 480px;
+    margin: 0 auto;
+    height: 360px; }
+
+  .set-form .ivu-form-item {
+    width: 80%;
+    margin: 0 auto; }
+
+  .gw-tabs .tab-alarm {
+    color: #eb303a; }
+  .equips .gw-table.yc thead th {
+    width: 10%; }
+    .equips .gw-table.yc thead th:nth-child(3) {
+      width: 20%; }
+    .equips .gw-table.yc thead th:nth-child(4) {
+      width: 40%; }
+  .equips .gw-table.yc tbody td {
+    width: 10%; }
+    .equips .gw-table.yc tbody td:nth-child(3) {
+      width: 20%;
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-box-pack: center;
+      -webkit-line-clamp: 3;
+      word-wrap: break-word;
+      word-break: normal;
+      -webkit-box-orient: vertical; }
+    .equips .gw-table.yc tbody td:nth-child(4) {
+      width: 40%;
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-box-pack: center;
+      -webkit-line-clamp: 3;
+      word-wrap: break-word;
+      word-break: normal;
+      -webkit-box-orient: vertical; }
+  .equips .gw-table.yx thead th {
+    width: 15%; }
+    .equips .gw-table.yx thead th:nth-child(3) {
+      width: 20%; }
+    .equips .gw-table.yx thead th:nth-child(4) {
+      width: 35%; }
+  .equips .gw-table.yx tbody td {
+    width: 15%; }
+    .equips .gw-table.yx tbody td:nth-child(3) {
+      width: 20%;
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-box-pack: center;
+      -webkit-line-clamp: 3;
+      word-wrap: break-word;
+      word-break: normal;
+      -webkit-box-orient: vertical; }
+    .equips .gw-table.yx tbody td:nth-child(4) {
+      width: 35%;
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-box-pack: center;
+      -webkit-line-clamp: 3;
+      word-wrap: break-word;
+      word-break: normal;
+      -webkit-box-orient: vertical; }
+  .equips .gw-table td.status {
+    display: flex;
+    justify-content: center;
+    align-items: center; }
+    .equips .gw-table td.status span {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background-color: #A0A0A0; }
+      .equips .gw-table td.status span.warning {
+        background-color: #eb303a; }
+  .equips .gw-table td.chart button {
+    width: 50px;
+    height: 26px; }
+  .equips .tab-set .ivu-card-body .ivu-btn {
+    font-size: 0.9rem;
+    width: auto;
+    height: auto;
+    padding: 6px 15px;
+    margin: 12px 10px; }
+  .equips .ivu-btn-primary i {
+    font-size: 1.5rem; }
+
+.main {
+  position: absolute;
+  top: 55px;
+  bottom: 0;
+  left: 0;
+  right: 0; }
+  .main .equip-left {
+    flex-shrink: 0;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background-color: #f1f2f3;
+    transition: margin 600ms;
+    box-shadow: -1px 0px 2px 0px rgba(0, 0, 0, 0.1) inset; }
+    .main .equip-left.close {
+      margin-left: -100%; }
+    .main .equip-left.open {
+      margin-left: 0px; }
+    .main .equip-left nav.equip-list {
+      height: 100%;
+      overflow-y: auto;
+      overflow-x: auto; }
+      .main .equip-left nav.equip-list .ivu-tree {
+        padding-bottom: 70px; }
+        .main .equip-left nav.equip-list .ivu-tree .ivu-tree-children {
+          width: 100%;
+          padding-left: 0; }
+          .main .equip-left nav.equip-list .ivu-tree .ivu-tree-children .ivu-tree-children {
+            padding-left: 30px; }
+          .main .equip-left nav.equip-list .ivu-tree .ivu-tree-children li {
+            transition: all 0.4s; }
+          .main .equip-left nav.equip-list .ivu-tree .ivu-tree-children .nav-item {
+            color: #333;
+            color: #000; }
+            .main .equip-left nav.equip-list .ivu-tree .ivu-tree-children .nav-item.selected {
+              background-color: #fff; }
+            .main .equip-left nav.equip-list .ivu-tree .ivu-tree-children .nav-item:hover {
+              background-color: #fafafa; }
+            .main .equip-left nav.equip-list .ivu-tree .ivu-tree-children .nav-item .alarm-state.offline {
+              background-color: #A0A0A0; }
+            .main .equip-left nav.equip-list .ivu-tree .ivu-tree-children .nav-item .alarm-state.fine {
+              background-color: #35b468; }
+            .main .equip-left nav.equip-list .ivu-tree .ivu-tree-children .nav-item .alarm-state.alarm {
+              background-color: #eb303a; }
+            .main .equip-left nav.equip-list .ivu-tree .ivu-tree-children .nav-item .alarm-state.setting {
+              background-color: #FEFF56; }
+            .main .equip-left nav.equip-list .ivu-tree .ivu-tree-children .nav-item .alarm-state.initial {
+              background-color: #44C0EC; }
+            .main .equip-left nav.equip-list .ivu-tree .ivu-tree-children .nav-item .alarm-state.withdrawing {
+              background-color: #FFA500; }
+            .main .equip-left nav.equip-list .ivu-tree .ivu-tree-children .nav-item .alarm-state.unknown {
+              background-color: #D3D3D3; }
+          .main .equip-left nav.equip-list .ivu-tree .ivu-tree-children li {
+            margin: 0 auto; }
+            .main .equip-left nav.equip-list .ivu-tree .ivu-tree-children li .ivu-tree-arrow {
+              display: none; }
+
+.offline {
+  background-color: #A0A0A0 !important; }
+
+.fine {
+  background-color: #35b468 !important; }
+
+.alarm {
+  background-color: #eb303a !important; }
+
+.setting {
+  background-color: #FEFF56 !important; }
+
+.initial {
+  background-color: #44C0EC !important; }
+
+.withdrawing {
+  background-color: #FFA500 !important; }
+
+.unknown {
+  background-color: #D3D3D3 !important; }
+
+/*# sourceMappingURL=equips.css.map */

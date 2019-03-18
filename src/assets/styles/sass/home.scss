@@ -43,3 +43,17 @@
 &::after{content: "";display: block;clear: both;}
 }
 // .Modalmenu .ivu-modal-footer{border-top: 0;}
+
+    @media (max-width: 1280px) {
+        .home > .homeContent {
+            background: url(/static/img/homeImg.a25fe82.png) center/auto 75% no-repeat;
+        }
+    }
+    
+    @media (min-width: 1366px) {
+        
+    }
+    
+    @media (min-width: 1920px) {
+        
+    }

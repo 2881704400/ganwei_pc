@@ -5,7 +5,7 @@
 				<TabPane label="普通任务" name="0">
 					<div class="three-content">
 						<div class="table-toolbar">
-							<span>普通任务列表</span>
+							<span>普通任务</span>
 							<button @click="saveCommonTaskFun()">保存</button>
 							<button @click="delCommonTask()">删除</button>
 							<button @click="addCommonTask()">增加</button>
@@ -53,7 +53,7 @@
 							<button @click="delSystemFun()" :class="{bg_disabled:SystemStatus}">删除</button>
 							<button @click="addSystemTask()">增加</button>
 						</div>
-						<div class="common-smalltable three-smalltable">
+						<div class="common-smalltable three-smalltable config-common-smalltable">
 							<table>
 								<thead>
 									<tr>
@@ -75,7 +75,8 @@
 									<tr v-for="(item,index) of CommonTaskSystemControl" :key="'system'+index" :class="{activeTable:index==selecteSystem}" @click="SelecteSystemFun(index)">
 										<td>
 											<span class="spanContent" v-show="item.isCommonSpan">{{item.Time.indexOf("T")==-1?item.Time.split(" ")[1]:item.Time.split("T")[1]}}</span>
-											<Input size="large" v-show="!item.isCommonSpan" :value="formatDate(item.Time)" @input="updateCommonSystemFun(index,$event,'Time')" />
+											<!--<Input size="large" v-show="!item.isCommonSpan" :value="formatDate(item.Time)" @input="updateCommonSystemFun(index,$event,'Time')" />-->
+											<TimePicker v-show="!item.isCommonSpan" :value="formatDate(item.Time)" @on-change="updateCommonSystemFun(index,$event,'Time')" type="time" transfer placeholder="设置时间" :editable="false"></TimePicker>
 										</td>
 										<td>
 											<span class="spanContent" v-show="item.isCommonSpan">
@@ -87,7 +88,8 @@
 										</td>
 										<td>
 											<span class="spanContent" v-show="item.isCommonSpan">{{item.TimeDur.indexOf("T")==-1?item.TimeDur.split(" ")[1]:item.TimeDur.split("T")[1]}}</span>
-											<Input size="large" v-show="!item.isCommonSpan" :value="formatDate(item.TimeDur)" @input="updateCommonSystemFun(index,$event,'TimeDur')" />
+											<!--<Input size="large" v-show="!item.isCommonSpan" :value="formatDate(item.TimeDur)" @input="updateCommonSystemFun(index,$event,'TimeDur')" />-->
+											<TimePicker v-show="!item.isCommonSpan" :value="formatDate(item.TimeDur)" @on-change="updateCommonSystemFun(index,$event,'TimeDur')" type="time" transfer placeholder="有效时段" :editable="false"></TimePicker>
 										</td>
 									</tr>
 								</tbody>
@@ -100,7 +102,7 @@
 							<button @click="delEquipFun()" :class="{bg_disabled:EquipStatus}">删除</button>
 							<button @click="addEquipFun()">增加</button>
 						</div>
-						<div class="common-smalltable three-smalltable">
+						<div class="common-smalltable three-smalltable config-common-smalltable">
 							<table>
 								<thead>
 									<tr>
@@ -122,19 +124,22 @@
 									<tr v-for="(item,index) of CommonTaskEquipControl" :key="'equip'+index" :class="{activeTable:index==selecteEquip}" @click="SelecteEquipFun(index)">
 										<td>
 											<span class="spanContent" v-show="item.isCommonSpan">{{item.Time.indexOf("T")==-1?item.Time.split(" ")[1]:item.Time.split("T")[1]}}</span>
-											<Input v-show="!item.isCommonSpan" :value="formatDate(item.Time)" @input="updateCommonEquipFun(index,$event,'Time')" />
+											<!--<Input v-show="!item.isCommonSpan" :value="formatDate(item.Time)" @input="updateCommonEquipFun(index,$event,'Time')" />-->
+											<TimePicker v-show="!item.isCommonSpan" :value="formatDate(item.Time)" @on-change="updateCommonSystemFun(index,$event,'Time')" type="time" transfer placeholder="设置时间" :editable="false"></TimePicker>
 										</td>
 										<td>
 											<span class="spanContent" v-show="item.isCommonSpan">
-												<font v-for="(itemEquip,indexEquip) in EquipControlList" v-show="item.set_nom==itemEquip.set_nom" :key="'equipspan'+indexEquip">{{ itemEquip.set_nm }}</font>
+												<font v-for="(itemEquip,indexEquip) in EquipControlList" v-show="item.set_no==itemEquip.set_no&&item.equip_no==itemEquip.equip_no" :key="'equipspan'+indexEquip">{{ itemEquip.equip_nm+" "+itemEquip.set_nm }}</font>
 											</span>
-											<Select v-model="item.set_nom" v-show="!item.isCommonSpan" filterable @on-change="updateCommonEquipFun(index,$event,'set_no')">
+											<!--<Select v-model="item.set_nom" v-show="!item.isCommonSpan" filterable @on-change="updateCommonEquipFun(index,$event,'set_no')">
 												<Option v-for="(itemEquip,indexEquip) in EquipControlList" :value="itemEquip.set_nom" :key="'equipselect'+indexEquip">{{ itemEquip.set_nm }}</Option>
-											</Select>
+											</Select>   :render-format="EquipControlListFormat" -->
+											<Cascader :data="EquipControlLists" v-model="item.set_nom?item.set_nom.toString().split(','):item.set_nom" v-show="!item.isCommonSpan" transfer filterable :render-format="EquipControlListFormat" @on-change="updateCommonEquipFun(index,$event,'set_no')"></Cascader>
 										</td>
 										<td>
 											<span class="spanContent" v-show="item.isCommonSpan">{{item.TimeDur.indexOf("T")==-1?item.TimeDur.split(" ")[1]:item.TimeDur.split("T")[1]}}</span>
-											<Input v-show="!item.isCommonSpan" :value="formatDate(item.TimeDur)" @input="updateCommonEquipFun(index,$event,'TimeDur')" />
+											<!--<Input v-show="!item.isCommonSpan" :value="formatDate(item.TimeDur)" @input="updateCommonEquipFun(index,$event,'TimeDur')" />-->
+											<TimePicker v-show="!item.isCommonSpan" :value="formatDate(item.TimeDur)" @on-change="updateCommonEquipFun(index,$event,'Time')" type="time" transfer placeholder="有效时段" :editable="false"></TimePicker>
 										</td>
 									</tr>
 								</tbody>
@@ -398,21 +403,22 @@
 				</TabPane>
 			</Tabs>
 		</div>
-		<Modal v-model="sureModal" :title="loopModalTitle" width="800" @on-ok="saveLoopCycle" @on-cancel="cancel" class="task-modal">
+		<Modal v-model="sureModal" :title="loopModalTitle" width="800" class="task-modal">
 			<div class="one-third-modal">
 				<p class="content-title">循环任务属性设置</p>
 				<div class="content">
 					<p class="input-title">循环任务名称：</p>
 					<Input v-model="loopName" size="large" placeholder="请输入任务名称" />
 					<p class="input-title">有效起始时间：</p>
-					<TimePicker v-model="loopStartTime" size="large" type="time" placeholder="请输入起始时间"></TimePicker>
+					<!--<el-time-picker v-model="loopStartTime" placeholder="请选择起始时间"></el-time-picker>-->
+					<TimePicker v-model="loopStartTime" size="large" type="time" :editable="false" @on-change="loopStartTimeFun" placeholder="请选择起始时间"></TimePicker>
 					<p class="input-title">有效结束时间：</p>
-					<TimePicker v-model="loopEndTime" size="large" type="time" placeholder="请输入结束时间"></TimePicker>
+					<TimePicker v-model="loopEndTime" size="large" type="time" :editable="false" @on-change="loopEndTimeFun" placeholder="请选择结束时间"></TimePicker>
 					<RadioGroup v-model="loopType" class="execute-type">
 						<Radio label="立即开始执行"></Radio><br />
 						<Radio label="整点开始执行"></Radio><br />
 						<Radio label="指定开始时间："></Radio>
-						<TimePicker v-show="loopType=='指定开始时间：'" type="time" v-model="AppointTime"></TimePicker>
+						<TimePicker v-show="loopType=='指定开始时间：'" type="time" :editable="false" :disabled-hours="AppointTimedisbH1.concat(AppointTimedisbH2)" :disabled-minutes="AppointTimedisbM1.concat(AppointTimedisbM2)" :disabled-seconds="AppointTimedisbS1.concat(AppointTimedisbS2)" v-model="AppointTime"></TimePicker>
 					</RadioGroup>
 					<CheckboxGroup v-model="loopTypeCheck" class="execute-type">
 						<Checkbox label="限制最大循环次数？"></Checkbox>
@@ -434,9 +440,10 @@
 				<div class="half-content">
 					<RadioGroup v-model="loopActionType" class="action-type">
 						<Radio label="设备控制"></Radio>
-						<Select v-model="loopTypeS" transfer filterable :disabled="loopActionType!='设备控制'">
-							<Option v-for="(item,index) in EquipControlList" :value="item.set_nom" :key="'loopequip'+index">{{ item.set_nm }}</Option>
-						</Select>
+						<!--<Select v-model="loopTypeS" transfer filterable :disabled="loopActionType!='设备控制'">
+							<Option v-for="(item,index) in EquipControlList" :value="item.set_nom.toString()" :key="'loopequip'+index">{{ item.set_nm }}</Option>
+						</Select>-->
+						<Cascader :data="EquipControlLists" transfer v-model="loopTypeS" :disabled="loopActionType!='设备控制'" filterable :render-format="EquipControlListFormat"></Cascader>
 						<br />
 						<Radio label="系统任务"></Radio>
 						<Select v-model="loopTypeE" transfer filterable :disabled="loopActionType!='系统任务'">
@@ -453,6 +460,10 @@
 					</RadioGroup>
 					<Button type="info" class="insertBtn" @click="insertCycle()">插入</Button>
 				</div>
+			</div>
+			<div slot="footer">
+				<Button type="text" @click="cancel()">取消</Button>
+				<Button type="primary"  @click="saveLoopCycle()" :style="isSureModalFlag?'background-color: #f7f7f7;':''" :disabled="isSureModalFlag">确定</Button>
 			</div>
 		</Modal>
 	</div>

@@ -13,6 +13,7 @@ export default {
 			ProcCmdList: [], //系统控制下拉数据：数据数组
 			CommonTaskEquipControl: [], //设备列表：数据数组
 			EquipControlList: [], //设备列表下拉数据：数据数组
+			EquipControlLists: [], //设备列表下拉数据：数据数组
 			LoopTaskList: [], //循环任务：数据数组
 			MaxDoOrder: 0, //循环任务：最大order
 			WeekTaskPlanCommonList: [], //每周任务安排：普通任务列表勾选数组
@@ -22,13 +23,21 @@ export default {
 			loopStartTime: "00:00:00", //循环任务模态框：起始时间
 			loopEndTime: "23:59:59", //循环任务模态框：结束时间
 			AppointTime: "00:00:00", //循环任务模态框：指定开始时间
+			AppointTimedisbH1: [],
+			AppointTimedisbM1: [],
+			AppointTimedisbS1: [],
+			AppointTimedisbH2: [],
+			AppointTimedisbM2: [],
+			AppointTimedisbS2: [],
+			/*taskModalLoading: true,*/
+			isSureModalFlag: true,
 			selecteLoop: -1, //循环任务选中行值
 			LoopStatus: true, //循环任务是否选中
 			loopCycleList: [], //一个循环周期内容
 			loopMaxCycleNum: 1, //最大循环次数
 			loopBtnType: "", //modal框类型 0增加 1修改
 			loopModalTitle: "", //modal框标题
-			loopTypeS: "", //modal框 设备控制选中值
+			loopTypeS: [], //modal框 设备控制选中值
 			loopTypeE: "", //modal框 系统任务选中值
 			loopTypeDay: 0, //modal框  时间间隔-天
 			loopTypeHour: 0, //modal框  时间间隔-小时
@@ -52,16 +61,16 @@ export default {
 
 			commTableSortType: 0, //普通列表当前排序类型
 			commTableSortDirection: [0, 0], //普通列表当前排序类型方向
-			
+
 			systemTableSortType: 0, //普通列表当前排序类型
 			systemTableSortDirection: [0, 0, 0], //普通列表当前排序类型方向
-			
+
 			equipTableSortType: 0, //普通列表当前排序类型
 			equipTableSortDirection: [0, 0, 0], //普通列表当前排序类型方向
-			
+
 			loopTableSortType: 0, //普通列表当前排序类型
 			loopTableSortDirection: [0, 0, 0, 0, 0, 0], //普通列表当前排序类型方向
-			
+
 			specTableSortType: 0, //普通列表当前排序类型
 			specTableSortDirection: [0, 0, 0], //普通列表当前排序类型方向
 		}
@@ -78,8 +87,8 @@ export default {
 	methods: {
 		//------设置特殊日期安排排序---------
 		specTableSortFunc(num) {
-			let selecteSpecPlan=this.selecteSpecPlan;
-			let specTimePlanListSelect=this.specTimePlanList[selecteSpecPlan];
+			let selecteSpecPlan = this.selecteSpecPlan;
+			let specTimePlanListSelect = this.specTimePlanList[selecteSpecPlan];
 			let specTableSortType = this.specTableSortType = num;
 			let specTableSortDirection = this.specTableSortDirection;
 			this.specTimePlanList.sort(function(a, b) {
@@ -106,13 +115,13 @@ export default {
 			} else {
 				this.specTableSortDirection.splice(specTableSortType, 1, 0)
 			}
-			let nowSelectdNum=this.specTimePlanList.indexOf(specTimePlanListSelect);
-			this.selecteSpecPlan=nowSelectdNum;
+			let nowSelectdNum = this.specTimePlanList.indexOf(specTimePlanListSelect);
+			this.selecteSpecPlan = nowSelectdNum;
 		},
 		//------设置循环任务排序---------
 		loopTableSortFunc(num) {
-			let selecteLoop=this.selecteLoop;
-			let LoopTaskListSelect=this.LoopTaskList[selecteLoop];
+			let selecteLoop = this.selecteLoop;
+			let LoopTaskListSelect = this.LoopTaskList[selecteLoop];
 			let loopTableSortType = this.loopTableSortType = num;
 			let loopTableSortDirection = this.loopTableSortDirection;
 			this.LoopTaskList.sort(function(a, b) {
@@ -126,9 +135,9 @@ export default {
 					} else if(loopTableSortType == "3") {
 						return a.ExecuteTime.localeCompare(b.ExecuteTime);
 					} else if(loopTableSortType == "4") {
-						return a.CycleMustFinish-b.CycleMustFinish;
+						return a.CycleMustFinish - b.CycleMustFinish;
 					} else if(loopTableSortType == "5") {
-						return a.MaxCycleNum-b.MaxCycleNum;
+						return a.MaxCycleNum - b.MaxCycleNum;
 					}
 				} else {
 					if(loopTableSortType == "0") {
@@ -140,9 +149,9 @@ export default {
 					} else if(loopTableSortType == "3") {
 						return b.ExecuteTime.localeCompare(a.ExecuteTime);
 					} else if(loopTableSortType == "4") {
-						return b.CycleMustFinish-a.CycleMustFinish;
+						return b.CycleMustFinish - a.CycleMustFinish;
 					} else if(loopTableSortType == "5") {
-						return b.MaxCycleNum-a.MaxCycleNum;
+						return b.MaxCycleNum - a.MaxCycleNum;
 					}
 				}
 			});
@@ -151,13 +160,13 @@ export default {
 			} else {
 				this.loopTableSortDirection.splice(loopTableSortType, 1, 0)
 			}
-			let nowSelectdNum=this.LoopTaskList.indexOf(LoopTaskListSelect);
-			this.selecteLoop=nowSelectdNum;
+			let nowSelectdNum = this.LoopTaskList.indexOf(LoopTaskListSelect);
+			this.selecteLoop = nowSelectdNum;
 		},
 		//------设置设备列表排序---------
 		equipTableSortFunc(num) {
-			let selecteEquip=this.selecteEquip;
-			let CommonTaskEquipControlSelect=this.CommonTaskEquipControl[selecteEquip];
+			let selecteEquip = this.selecteEquip;
+			let CommonTaskEquipControlSelect = this.CommonTaskEquipControl[selecteEquip];
 			let equipTableSortType = this.equipTableSortType = num;
 			let equipTableSortDirection = this.equipTableSortDirection;
 			this.CommonTaskEquipControl.sort(function(a, b) {
@@ -184,13 +193,13 @@ export default {
 			} else {
 				this.equipTableSortDirection.splice(equipTableSortType, 1, 0)
 			}
-			let nowSelectdNum=this.CommonTaskEquipControl.indexOf(CommonTaskEquipControlSelect);
-			this.selecteEquip=nowSelectdNum;
+			let nowSelectdNum = this.CommonTaskEquipControl.indexOf(CommonTaskEquipControlSelect);
+			this.selecteEquip = nowSelectdNum;
 		},
 		//------设置系统控制排序---------
 		systemTableSortFunc(num) {
-			let selecteSystem=this.selecteSystem;
-			let CommonTaskSystemControlSelect=this.CommonTaskSystemControl[selecteSystem];
+			let selecteSystem = this.selecteSystem;
+			let CommonTaskSystemControlSelect = this.CommonTaskSystemControl[selecteSystem];
 			let systemTableSortType = this.systemTableSortType = num;
 			let systemTableSortDirection = this.systemTableSortDirection;
 			this.CommonTaskSystemControl.sort(function(a, b) {
@@ -198,7 +207,7 @@ export default {
 					if(systemTableSortType == "0") {
 						return a.Time.localeCompare(b.Time);
 					} else if(systemTableSortType == "1") {
-						return a.proc_code-b.proc_code;
+						return a.proc_code - b.proc_code;
 					} else if(systemTableSortType == "2") {
 						return a.TimeDur.localeCompare(b.TimeDur);
 					}
@@ -206,7 +215,7 @@ export default {
 					if(systemTableSortType == "0") {
 						return b.Time.localeCompare(a.Time);
 					} else if(systemTableSortType == "1") {
-						return b.proc_code-a.proc_code;
+						return b.proc_code - a.proc_code;
 					} else if(systemTableSortType == "2") {
 						return b.TimeDur.localeCompare(a.TimeDur);
 					}
@@ -217,13 +226,13 @@ export default {
 			} else {
 				this.systemTableSortDirection.splice(systemTableSortType, 1, 0)
 			}
-			let nowSelectdNum=this.CommonTaskSystemControl.indexOf(CommonTaskSystemControlSelect);
-			this.selecteSystem=nowSelectdNum;
+			let nowSelectdNum = this.CommonTaskSystemControl.indexOf(CommonTaskSystemControlSelect);
+			this.selecteSystem = nowSelectdNum;
 		},
 		//------设置普通表格排序---------
 		commTableSortFunc(num) {
-			let selecteTable=this.selecteTable;
-			let CommonTaskListSelect=this.CommonTaskList[selecteTable];
+			let selecteTable = this.selecteTable;
+			let CommonTaskListSelect = this.CommonTaskList[selecteTable];
 			let commTableSortType = this.commTableSortType = num;
 			let commTableSortDirection = this.commTableSortDirection;
 			this.CommonTaskList.sort(function(a, b) {
@@ -250,8 +259,8 @@ export default {
 			} else {
 				this.commTableSortDirection.splice(commTableSortType, 1, 0)
 			}
-			var nowSelectdNum=this.CommonTaskList.indexOf(CommonTaskListSelect);
-			this.selecteTable=nowSelectdNum;
+			var nowSelectdNum = this.CommonTaskList.indexOf(CommonTaskListSelect);
+			this.selecteTable = nowSelectdNum;
 		},
 		//------tab页点击事件：获取相应子内容---------
 		updateCardInfo() {
@@ -301,35 +310,36 @@ export default {
 					specTableID.push(newCommonArr + newLoopArr)
 				}
 
+				this.$Message.destroy();
+				if(specTimePlanList[i].DateName == "") {
+					this.$Message.warning("日期名称不能为空");
+					return false;
+				}
+				if(specTimePlanList[i].BeginDate == "") {
+					this.$Message.warning("请选择起始日期");
+					return false;
+				}
+				if(specTimePlanList[i].EndDate == "") {
+					this.$Message.warning("请选择结束日期");
+					return false;
+				}
+				if(specTimePlanList[i].BeginDate > specTimePlanList[i].EndDate) {
+					this.$Message.warning("起始日期不能大于结束日期");
+					return false;
+				}
+
+				if(specTimePlanList[i].DateName == "") {
+					this.$Message.warning("任务名称不能为空");
+					return false;
+				}
+				for(let m = 0; m < specTimePlanList.length; m++) {
+					if(m != i && specTimePlanList[i].DateName == specTimePlanList[m].DateName && specTimePlanList[m].ID != "") {
+						this.$Message.warning("该任务名称已存在");
+						return false;
+					}
+				}
+
 				if(specTimePlanList[i].isUpdateFlag) {
-					if(specTimePlanList[i].DateName == "") {
-						alert("日期名称不能为空");
-						return false;
-					}
-					if(specTimePlanList[i].BeginDate == "") {
-						alert("请选择起始日期");
-						return false;
-					}
-					if(specTimePlanList[i].EndDate == "") {
-						alert("请选择结束日期");
-						return false;
-					}
-					if(specTimePlanList[i].BeginDate > specTimePlanList[i].EndDate) {
-						alert("起始日期不能大于结束日期");
-						return false;
-					}
-
-					if(specTimePlanList[i].DateName == "") {
-						this.$Message.warning("任务名称不能为空");
-						return false;
-					}
-					for(let m = 0; m < specTimePlanList.length; m++) {
-						if(m != i && specTimePlanList[i].DateName == specTimePlanList[m].DateName && specTimePlanList[m].ID != "") {
-							this.$Message.warning("该任务名称已存在");
-							return false;
-						}
-					}
-
 					if(specTimePlanList[i].ID != "") {
 						this.Axios.post('/api/GWServiceWebAPI/set_BatchUpdate', {
 							getDataTable: "GWProcSpecTable",
@@ -378,47 +388,55 @@ export default {
 		},
 		//------特殊日期安排：删除---------
 		delSpecPlanTask: function(api, json, _success) {
-			this.$Modal.confirm({
-				title: "提示",
-				content: '<p style="font-size: 18px;position: relative;top: -6px;">确认要删除所选的1行吗?</p>',
-				okText: "确认",
-				onOk: () => {
-					this.delSpecPlanTaskSure();
-				},
-				cancelText: "取消"
-			});
+			if(this.selecteSpecPlan != -1) {
+				this.$Modal.confirm({
+					title: "提示",
+					content: '<p style="font-size: 18px;position: relative;top: -6px;">确认要删除所选的1行吗?</p>',
+					okText: "确认",
+					onOk: () => {
+						this.delSpecPlanTaskSure();
+					},
+					cancelText: "取消"
+				});
+			}
 		},
 		//------特殊日期安排：确认删除---------
 		delSpecPlanTaskSure() {
 			let selecteSpecPlan = this.selecteSpecPlan;
 			let specTimePlanList = this.specTimePlanList;
 			let newArr = [];
-			for(let i = 0; i < specTimePlanList.length; i++) {
-				if(i !== selecteSpecPlan) {
-					newArr.push(specTimePlanList[i])
-				} else {
-					if(specTimePlanList[i].getDataTable != "") {
-						this.Axios.post('/api/GWServiceWebAPI/set_DeleteTableData', {
-							getDataTable: "GWProcSpecTable",
-							tableVlue: " ID=" + specTimePlanList[i].ID + ""
-						}).then(res => {
-							let data = res.data.HttpData;
-							if(data.code == 200 && data.data != null) {
-								let resultData = data.data;
-								if(resultData == "1") {
-									this.$Message.success("删除成功");
-								} else {
-									this.$Message.error("删除失败");
-								}
+			if(selecteSpecPlan != -1) {
+				for(let i = 0; i < specTimePlanList.length; i++) {
+					if(i != selecteSpecPlan) {
+						newArr.push(specTimePlanList[i])
+					} else {
+						if(specTimePlanList[i].getDataTable != "" && specTimePlanList[i].ID) {
+							this.Axios.post('/api/GWServiceWebAPI/set_DeleteTableData', {
+								getDataTable: "GWProcSpecTable",
+								tableVlue: " ID=" + specTimePlanList[i].ID + ""
+							}).then(res => {
+								let data = res.data.HttpData;
+								if(data.code == 200 && data.data != null) {
+									let resultData = data.data;
+									if(resultData == "1") {
+										this.$Message.success("删除成功");
+										this.selecteSpecPlan = 0;
+									} else {
+										this.$Message.error("删除失败");
+									}
 
-							}
-						}).catch(err => {
-							console.log(err)
-						})
+								}
+							}).catch(err => {
+								console.log(err)
+							})
+						}
 					}
 				}
+				this.specTimePlanList = newArr;
+				if(selecteSpecPlan > newArr.length - 1) {
+					this.selecteSpecPlan = newArr.length - 1;
+				}
 			}
-			this.specTimePlanList = newArr;
 		},
 		//------特殊日期安排：增加---------
 		addSpecPlanTask() {
@@ -433,6 +451,7 @@ export default {
 				isCommonSpan: true,
 				isUpdateFlag: false
 			});
+			this.selecteSpecPlan = this.specTimePlanList.length - 1;
 		},
 		//------特殊日期安排：勾选普通任务列表---------
 		checkSpecCommonChange(day, item, index, e) {
@@ -606,6 +625,7 @@ export default {
 							let data = res.data.HttpData;
 							if(data.code == 200 && data.data != null) {
 								let resultData = data.data;
+								this.$Message.destroy();
 								if(resultData == "1") {
 									this.$Message.success("更新成功");
 								} else {
@@ -732,15 +752,17 @@ export default {
 		},
 		//------循环任务：删除---------
 		delLoopTask: function(api, json, _success) {
-			this.$Modal.confirm({
-				title: "提示",
-				content: '<p style="font-size: 18px;position: relative;top: -6px;">确认要删除所选的1行吗?</p>',
-				okText: "确认",
-				onOk: () => {
-					this.delLoopTaskSure();
-				},
-				cancelText: "取消"
-			});
+			if(this.selecteLoop != -1) {
+				this.$Modal.confirm({
+					title: "提示",
+					content: '<p style="font-size: 18px;position: relative;top: -6px;">确认要删除所选的1行吗?</p>',
+					okText: "确认",
+					onOk: () => {
+						this.delLoopTaskSure();
+					},
+					cancelText: "取消"
+				});
+			}
 		},
 		//------循环任务：确认删除---------
 		delLoopTaskSure() {
@@ -771,7 +793,7 @@ export default {
 										});
 										this.getLoopTaskList();
 										this.selecteLoop = -1;
-
+										this.LoopStatus = true;
 									} else {
 										this.$Message.error("删除失败");
 									}
@@ -792,6 +814,12 @@ export default {
 			this.loopStartTime = "00:00:00";
 			this.loopEndTime = "23:59:59";
 			this.AppointTime = "00:00:00";
+			this.AppointTimedisbH1 = [];
+			this.AppointTimedisbM1 = [];
+			this.AppointTimedisbS1 = [];
+			this.AppointTimedisbH2 = [];
+			this.AppointTimedisbM2 = [];
+			this.AppointTimedisbS2 = [];
 			this.loopType = "指定开始时间：";
 			this.loopTypeCheck = [];
 			this.loopActionType = "设备控制";
@@ -799,7 +827,7 @@ export default {
 			this.loopMaxCycleNum = 1;
 			this.loopBtnType = ""; //模态框变更为修改模式
 			this.loopModalTitle = "增加";
-			this.loopTypeS = "";
+			this.loopTypeS = [];
 			this.loopTypeE = "";
 			this.loopTypeDay = 0;
 			this.loopTypeHour = 0;
@@ -807,6 +835,60 @@ export default {
 			this.loopTypeSecond = 0;
 			this.selecteLoopCycle = -1;
 			this.LoopCycleStatus = true;
+		},
+		loopStartTimeFun(value) {
+			if(value) {
+				let loopEndTime = this.loopEndTime;
+				if(value > loopEndTime) {
+					this.$Message.error("起始时间不能大于结束时间");
+					this.loopStartTime = "00:00:00";
+				} else {
+					let valueArr = value.split(":");
+					let AppointTimedisbH1 = [];
+					for(let i = 0; i < valueArr[0]; i++) {
+						AppointTimedisbH1.push(i);
+					}
+					this.AppointTimedisbH1 = AppointTimedisbH1;
+
+					let AppointTimedisbM1 = [];
+					for(let i = 0; i < valueArr[1]; i++) {
+						AppointTimedisbM1.push(i);
+					}
+					this.AppointTimedisbM1 = AppointTimedisbM1;
+
+					let AppointTimedisbS1 = [];
+					for(let i = 0; i < valueArr[2]; i++) {
+						AppointTimedisbS1.push(i);
+					}
+					this.AppointTimedisbS1 = AppointTimedisbS1;
+				}
+			}
+		},
+		loopEndTimeFun(value) {
+			let loopStartTime = this.loopStartTime;
+			if(value < loopStartTime) {
+				this.$Message.error("结束时间不能小于起始时间");
+				this.loopEndTime = "23:59:59";
+			} else {
+				let valueArr = value.split(":");
+				let AppointTimedisbH2 = [];
+				for(let i = 23; i > valueArr[0]; i--) {
+					AppointTimedisbH2.push(i);
+				}
+				this.AppointTimedisbH2 = AppointTimedisbH2;
+
+				let AppointTimedisbM2 = [];
+				for(let i = 60; i > valueArr[1]; i--) {
+					AppointTimedisbM2.push(i);
+				}
+				this.AppointTimedisbM2 = AppointTimedisbM2;
+
+				let AppointTimedisbS2 = [];
+				for(let i = 60; i > valueArr[2]; i--) {
+					AppointTimedisbS2.push(i);
+				}
+				this.AppointTimedisbS2 = AppointTimedisbS2;
+			}
 		},
 		//------循环周期内容：下移---------
 		downLoopCycleList() {
@@ -898,6 +980,11 @@ export default {
 			if(loopTypeCheck.indexOf("是否必须执行完整？") > -1) {
 				CycleMustFinish = 1;
 			}
+
+			/*this.taskModalLoading = false;
+			setTimeout(() => {
+				this.taskModalLoading = true;
+			}, 100);*/
 			//------循环任务：修改模式---------
 			if(loopBtnType == 1) {
 				let selecteLoop = this.selecteLoop;
@@ -912,6 +999,19 @@ export default {
 						this.$Message.warning("该任务名称已存在");
 						return false;
 					}
+				}
+
+				let loopCycleTimeFlag = false;
+				let loopCycleLists = this.loopCycleList;
+				for(let i = 0; i < loopCycleLists.length; i++) {
+					let loopActionType = loopCycleLists[i].Type;
+					if(loopActionType == "T") {
+						loopCycleTimeFlag = true;
+					}
+				}
+				if(!loopCycleTimeFlag) {
+					this.$Message.warning("请插入时间间隔");
+					return;
 				}
 
 				this.Axios.post('/api/GWServiceWebAPI/set_BatchUpdate', {
@@ -949,10 +1049,11 @@ export default {
 						} else {
 							this.$Message.error("循环任务更新失败");
 						}
-
+						this.sureModal = false;
 					}
 				}).catch(err => {
 					console.log(err)
+					this.sureModal = false;
 				})
 
 				let loopCycleList = this.loopCycleList;
@@ -1037,9 +1138,11 @@ export default {
 							} else {
 								this.$Message.error("循环任务内容安排更新失败");
 							}
+							this.sureModal = false;
 						}
 					}).catch(err => {
-						console.log(err)
+						console.log(err);
+						this.sureModal = false;
 					})
 
 				}
@@ -1049,7 +1152,7 @@ export default {
 				let LoopTaskList = this.LoopTaskList;
 				let newTableID = 1;
 				if(LoopTaskList.length > 0) {
-					newTableID = LoopTaskList.length + 1;
+					newTableID = this.LoopTaskList[LoopTaskList.length - 1].dataTableIndex + 1;
 				}
 
 				if(loopName == "") {
@@ -1061,6 +1164,19 @@ export default {
 						this.$Message.warning("该任务名称已存在");
 						return false;
 					}
+				}
+
+				let loopCycleTimeFlag = false;
+				let loopCycleLists = this.loopCycleList;
+				for(let i = 0; i < loopCycleLists.length; i++) {
+					let loopActionType = loopCycleLists[i].Type;
+					if(loopActionType == "T") {
+						loopCycleTimeFlag = true;
+					}
+				}
+				if(!loopCycleTimeFlag) {
+					this.$Message.warning("请插入时间间隔");
+					return;
 				}
 
 				this.Axios.post('/api/GWServiceWebAPI/set_InsertNewTableValues', {
@@ -1172,10 +1288,11 @@ export default {
 						} else {
 							this.$Message.error("新增循环任务操作失败");
 						}
-
+						this.sureModal = false;
 					}
 				}).catch(err => {
-					console.log(err)
+					console.log(err);
+					this.sureModal = false;
 				})
 			}
 		},
@@ -1184,13 +1301,14 @@ export default {
 			let loopActionType = this.loopActionType;
 			if(loopActionType == "设备控制") {
 				let loopTypeS = this.loopTypeS;
-				if(loopTypeS != "") {
-					let setnomArr = loopTypeS.split(",");
+				if(loopTypeS != [] && loopTypeS.length > 0) {
+					let setnomArr = loopTypeS;
 					let EquipControlList = this.EquipControlList;
 					let set_nm = "";
 					for(let i = 0; i < EquipControlList.length; i++) {
 						if(EquipControlList[i].equip_no == setnomArr[0] && EquipControlList[i].set_no == setnomArr[1]) {
-							set_nm = EquipControlList[i].set_nm;
+							set_nm = EquipControlList[i].equip_nm + " " + EquipControlList[i].set_nm;
+							break;
 						}
 					}
 					this.loopCycleList.push({
@@ -1263,6 +1381,7 @@ export default {
 						SleepTime: SleepTime,
 						SleepUnit: SleepUnit
 					});
+					this.isSureModalFlag = false;
 				}
 			}
 		},
@@ -1277,6 +1396,7 @@ export default {
 			this.loopName = LoopTaskList.getDataTable;
 			this.loopStartTime = this.formatDate(LoopTaskList.BeginTime);
 			this.loopEndTime = this.formatDate(LoopTaskList.EndTime);
+			this.isSureModalFlag = false;
 
 			let zDo = LoopTaskList.ZhenDianDo + "," + LoopTaskList.ZhidingDo;
 			if(zDo == "0,0") {
@@ -1285,6 +1405,8 @@ export default {
 				this.loopType = "整点开始执行";
 			} else {
 				this.loopType = "指定开始时间：";
+				this.loopStartTimeFun(this.loopStartTime);
+				this.loopEndTimeFun(this.loopEndTime);
 				this.AppointTime = this.formatDate(LoopTaskList.ZhidingTime);
 			}
 
@@ -1350,6 +1472,7 @@ export default {
 			this.loopBtnType = 0; //模态框变更为增加模式
 			this.loopModalTitle = "增加";
 			this.sureModal = true;
+			this.isSureModalFlag = true;
 		},
 		//------循环任务:选中行---------
 		SelecteLoopFun(index) {
@@ -1411,33 +1534,95 @@ export default {
 			this.Axios.post('/api/GWServiceWebAPI/get_SetParmData', {}).then(res => {
 				let data = res.data.HttpData;
 				if(data.code == 200 && data.data != null) {
-					let resultData = data.data;
+					/*let resultData = data.data;
 					let EquipControlListData = [];
 					for(var i = 0; i < resultData.length; i++) {
 						EquipControlListData.push({
 							equip_no: resultData[i].equip_no,
+							equip_nm: resultData[i].equip_nm,
 							set_no: resultData[i].set_no,
 							set_nm: resultData[i].set_nm,
 							set_nom: resultData[i].equip_no + "," + resultData[i].set_no,
 						});
 					}
-					this.EquipControlList = EquipControlListData;
+					this.EquipControlList = EquipControlListData;*/
+					let resultData = data.data;
+					this.EquipControlLists = [];
+					let strEquipControlData = [];
+					let EquipControlListData = {
+						"value": "",
+						"label": "",
+						"children": []
+					};
+					let EquipControlListChildrenData = [];
+					let strEquipNo = "";
+					let strSetNo = "";
+					for(var i = 0; i < resultData.length; i++) {
+						if(i == 0) {
+							strEquipNo = resultData[i].equip_no;
+							strSetNo = resultData[i].set_no;
+							EquipControlListData.value = resultData[i].equip_no.toString();
+							EquipControlListData.label = resultData[i].equip_nm;
+						} else {
+							if(strEquipNo != resultData[i].equip_no) {
+								EquipControlListData.children = EquipControlListChildrenData;
+								this.EquipControlLists.push(EquipControlListData);
+								EquipControlListData = {
+									value: "",
+									label: "",
+									children: []
+								};
+								EquipControlListChildrenData = [];
+								strEquipNo = resultData[i].equip_no;
+								strSetNo = resultData[i].set_no;
+								EquipControlListData.value = resultData[i].equip_no.toString();
+								EquipControlListData.label = resultData[i].equip_nm;
+							}
+						}
+						EquipControlListChildrenData.push({
+							"value": resultData[i].set_no.toString(),
+							"label": resultData[i].set_nm
+						});
+						if(i == resultData.length - 1) {
+							EquipControlListData.children = EquipControlListChildrenData;
+							this.EquipControlLists.push(EquipControlListData);
+						}
+						strEquipControlData.push({
+							equip_no: resultData[i].equip_no,
+							equip_nm: resultData[i].equip_nm,
+							set_no: resultData[i].set_no,
+							set_nm: resultData[i].set_nm,
+							set_nom: [resultData[i].equip_no, resultData[i].set_no],
+						});
+					}
+					this.EquipControlList = strEquipControlData;
 				}
 			}).catch(err => {
 				console.log(err)
 			})
 		},
+		//------设备控制：选中事件---------
+		EquipControlListFormat(labels, selectedData) {
+			const index = labels.length - 1;
+			if(index == 1) {
+				return labels[0] + ' ' + labels[index];
+			}
+			return labels[0];
+		},
 		//------设备控制：删除---------
 		delEquipFun: function(api, json, _success) {
-			this.$Modal.confirm({
-				title: "提示",
-				content: '<p style="font-size: 18px;position: relative;top: -6px;">确认要删除所选的1行吗?</p>',
-				okText: "确认",
-				onOk: () => {
-					this.delEquipFunSure();
-				},
-				cancelText: "取消"
-			});
+			let EquipStatus = this.EquipStatus;
+			if(!EquipStatus) {
+				this.$Modal.confirm({
+					title: "提示",
+					content: '<p style="font-size: 18px;position: relative;top: -6px;">确认要删除所选的1行吗?</p>',
+					okText: "确认",
+					onOk: () => {
+						this.delEquipFunSure();
+					},
+					cancelText: "取消"
+				});
+			}
 		},
 		//------设备控制：确认删除---------
 		delEquipFunSure() {
@@ -1449,7 +1634,7 @@ export default {
 					if(i !== selecteEquip) {
 						newArr.push(CommonTaskEquipControl[i])
 					} else {
-						if(CommonTaskEquipControl[i].getDataTable != "") {
+						if(CommonTaskEquipControl[i].getDataTable != "" && CommonTaskEquipControl[i].ID) {
 							this.Axios.post('/api/GWServiceWebAPI/set_DeleteTableData', {
 								getDataTable: "GWProcTimeEqpTable",
 								tableVlue: " ID=" + CommonTaskEquipControl[i].ID + ""
@@ -1470,6 +1655,8 @@ export default {
 						}
 					}
 				}
+				this.EquipStatus=true;
+				this.selecteEquip = -1;
 				this.CommonTaskEquipControl = newArr;
 			}
 
@@ -1483,7 +1670,7 @@ export default {
 				Time: date,
 				set_no: "",
 				set_nm: "",
-				set_nom: "",
+				set_nom: [],
 				TimeDur: "1900-01-01 00:00:04",
 				isCommonSpan: false,
 				isUpdateFlag: true
@@ -1495,11 +1682,17 @@ export default {
 			if(TableType == "Time") {
 				this.CommonTaskEquipControl[index].Time = this.CommonTaskEquipControl[index].Time.substring(0, 10) + " " + newContent;
 			} else if(TableType == "set_no") {
-				this.CommonTaskEquipControl[index].set_no = newContent;
+				this.CommonTaskEquipControl[index].equip_no = newContent[0];
+				this.CommonTaskEquipControl[index].set_no = newContent[1];
+				this.CommonTaskEquipControl[index].set_nom = newContent;
 			} else {
 				this.CommonTaskEquipControl[index].TimeDur = this.CommonTaskEquipControl[index].TimeDur.substring(0, 10) + " " + newContent;
 			}
 			this.CommonTaskEquipControl[index].isUpdateFlag = true;
+			/*setTimeout(() => {
+	        	this.CommonTaskEquipControl[index].isCommonSpan = true;
+	        }, 500);*/
+
 		},
 		//------设备控制:选中行---------
 		SelecteEquipFun(index) {
@@ -1535,7 +1728,7 @@ export default {
 							set_no: resultData[i].set_no,
 							set_nm: resultData[i].set_nm,
 							equip_no: resultData[i].equip_no,
-							set_nom: resultData[i].equip_no + "," + resultData[i].set_no,
+							set_nom: [resultData[i].equip_no, resultData[i].set_no],
 							TimeDur: resultData[i].TimeDur,
 							isCommonSpan: true,
 							isUpdateFlag: false
@@ -1560,7 +1753,7 @@ export default {
 							cmd_nm: resultData[i].cmd_nm
 						});
 					}
-					this.ProcCmdList = ProcCmdListData;console.log(ProcCmdListData)
+					this.ProcCmdList = ProcCmdListData;
 				}
 			}).catch(err => {
 				console.log(err)
@@ -1568,15 +1761,18 @@ export default {
 		},
 		//------系统控制:删除---------
 		delSystemFun: function(api, json, _success) {
-			this.$Modal.confirm({
-				title: "提示",
-				content: '<p style="font-size: 18px;position: relative;top: -6px;">确认要删除所选的1行吗?</p>',
-				okText: "确认",
-				onOk: () => {
-					this.delSystemFunSure();
-				},
-				cancelText: "取消"
-			});
+			let SystemStatus = this.SystemStatus;
+			if(!SystemStatus) {
+				this.$Modal.confirm({
+					title: "提示",
+					content: '<p style="font-size: 18px;position: relative;top: -6px;">确认要删除所选的1行吗?</p>',
+					okText: "确认",
+					onOk: () => {
+						this.delSystemFunSure();
+					},
+					cancelText: "取消"
+				});
+			}
 		},
 		//------系统控制:删除---------
 		delSystemFunSure() {
@@ -1588,7 +1784,7 @@ export default {
 					if(i !== selecteSystem) {
 						newArr.push(CommonTaskSystemControl[i])
 					} else {
-						if(CommonTaskSystemControl[i].getDataTable != "") {
+						if(CommonTaskSystemControl[i].getDataTable != "" && CommonTaskSystemControl[i].ID) {
 							this.Axios.post('/api/GWServiceWebAPI/set_DeleteTableData', {
 								getDataTable: "GWProcTimeSysTable",
 								tableVlue: " ID=" + CommonTaskSystemControl[i].ID + ""
@@ -1609,6 +1805,8 @@ export default {
 						}
 					}
 				}
+				this.SystemStatus=true;
+				this.selecteSystem = -1;
 				this.CommonTaskSystemControl = newArr;
 			}
 
@@ -1640,7 +1838,6 @@ export default {
 			this.CommonTaskSystemControl[index].isUpdateFlag = true;
 			let tempObj = this.CommonTaskSystemControl[index];
 			this.CommonTaskSystemControl.splice(index, 1, tempObj);
-			console.log(this.CommonTaskSystemControl[index])
 		},
 		//------系统控制:选中行---------
 		SelecteSystemFun(index) {
@@ -1682,7 +1879,7 @@ export default {
 							isUpdateFlag: false
 						});
 					}
-					this.CommonTaskSystemControl = CommonTaskSystemControlData;console.log(CommonTaskSystemControlData)
+					this.CommonTaskSystemControl = CommonTaskSystemControlData;
 				}
 			}).catch(err => {
 				console.log(err)
@@ -1692,6 +1889,7 @@ export default {
 		saveCommonTaskFun() {
 			//普通任务列表
 			let CommonTaskList = this.CommonTaskList;
+			this.$Message.destroy();
 			for(let i = 0; i < CommonTaskList.length; i++) {
 				if(CommonTaskList[i].isUpdateFlag) {
 					if(CommonTaskList[i].getDataTable == "") {
@@ -1700,10 +1898,38 @@ export default {
 					}
 					for(let m = 0; m < CommonTaskList.length; m++) {
 						if(m != i && CommonTaskList[i].getDataTable == CommonTaskList[m].getDataTable && CommonTaskList[m].dataTableIndex != "") {
-							this.$Message.warning("该任务名称已存在");
+							this.$Message.warning("任务名称不能重复");
 							return false;
 						}
 					}
+				}
+			}
+
+			//系统控制
+			let CommonTaskSystemControl = this.CommonTaskSystemControl;
+			for(let i = 0; i < CommonTaskSystemControl.length; i++) {
+				if(CommonTaskSystemControl[i].isUpdateFlag) {
+					if(CommonTaskSystemControl[i].proc_code == "") {
+						this.$Message.warning("请选择系统控制类型");
+						return false;
+					}
+				}
+			}
+
+			//设备列表
+			let CommonTaskEquipControl = this.CommonTaskEquipControl;
+			for(let i = 0; i < CommonTaskEquipControl.length; i++) {
+				if(CommonTaskEquipControl[i].isUpdateFlag) {
+					if(CommonTaskEquipControl[i].set_nom == []) {
+						this.$Message.warning("请选择设备控制类型");
+						return false;
+					}
+				}
+			}
+
+			let CommonTaskNum = 0;
+			for(let i = 0; i < CommonTaskList.length; i++) {
+				if(CommonTaskList[i].isUpdateFlag) {
 					if(CommonTaskList[i].dataTableIndex != "") {
 						this.Axios.post('/api/GWServiceWebAPI/set_BatchUpdate', {
 							getDataTable: "GWProcTimeTList",
@@ -1714,10 +1940,16 @@ export default {
 							if(data.code == 200 && data.data != null) {
 								let resultData = data.data;
 								if(resultData == "1") {
-									this.$Message.success('更新成功');
+									CommonTaskNum++;
 									this.CommonTaskList[i].isCommonSpan = true;
-								} else {
-									this.$Message.error("更新失败");
+								}
+								this.$Message.destroy();
+								if(i == CommonTaskList.length - 1) {
+									if(CommonTaskNum > 0) {
+										this.$Message.success("普通任务保存成功");
+									} else {
+										this.$Message.error("普通任务保存失败");
+									}
 								}
 							}
 						}).catch(err => {
@@ -1734,10 +1966,17 @@ export default {
 								if(data.code == 200 && data.data != null) {
 									let resultData = data.data;
 									if(resultData == "1") {
-										this.$Message.success("增加成功");
-										this.getCommonTaskList();
-									} else {
-										this.$Message.error("增加失败");
+										CommonTaskNum++;
+									}
+									this.$Message.destroy();
+
+									if(i == CommonTaskList.length - 1) {
+										if(CommonTaskNum > 0) {
+											this.$Message.success("普通任务保存成功");
+											this.getCommonTaskList();
+										} else {
+											this.$Message.error("普通任务保存失败");
+										}
 									}
 								}
 							}).catch(err => {
@@ -1750,14 +1989,10 @@ export default {
 					this.CommonTaskList[i].isUpdateFlag = false;
 				}
 			}
+
 			//系统控制
-			let CommonTaskSystemControl = this.CommonTaskSystemControl;
 			for(let i = 0; i < CommonTaskSystemControl.length; i++) {
 				if(CommonTaskSystemControl[i].isUpdateFlag) {
-					if(CommonTaskSystemControl[i].proc_code == "") {
-						alert("请选择控制类型");
-						return false;
-					}
 					if(CommonTaskSystemControl[i].ID != "") {
 						this.Axios.post('/api/GWServiceWebAPI/set_BatchUpdate', {
 							getDataTable: "GWProcTimeSysTable",
@@ -1767,28 +2002,28 @@ export default {
 							let data = res.data.HttpData;
 							if(data.code == 200 && data.data != null) {
 								let resultData = data.data;
+								this.$Message.destroy();
 								if(resultData == "1") {
-									this.$Message.success("更新成功");
 									this.CommonTaskSystemControl[i].isCommonSpan = true;
+									this.$Message.success("系统控制保存成功");
 								} else {
-									this.$Message.error("更新失败");
+									this.$Message.success("系统控制保存失败");
 								}
-
 							}
 						}).catch(err => {
 							console.log(err)
 						})
 					} else {
 						if(CommonTaskSystemControl[i].proc_code != "") {
-							var newCommTaskID=this.CommonTaskTableID;
-							if(this.CommonTaskTableID==""){
-								newCommTaskID=this.CommonTaskMaxTableID;
+							var newCommTaskID = this.CommonTaskTableID;
+							if(this.CommonTaskTableID == "") {
+								newCommTaskID = this.CommonTaskMaxTableID;
 							}
-							let ProcCmdList=this.ProcCmdList;
+							let ProcCmdList = this.ProcCmdList;
 							let cmd_nm;
-							for(let j=0;j<ProcCmdList.length;j++){
-								if(ProcCmdList[j].proc_code==CommonTaskSystemControl[i].proc_code){
-									cmd_nm=ProcCmdList[j].cmd_nm;
+							for(let j = 0; j < ProcCmdList.length; j++) {
+								if(ProcCmdList[j].proc_code == CommonTaskSystemControl[i].proc_code) {
+									cmd_nm = ProcCmdList[j].cmd_nm;
 								}
 							}
 							this.Axios.post('/api/GWServiceWebAPI/set_InsertNewTableValues', {
@@ -1798,13 +2033,13 @@ export default {
 								let data = res.data.HttpData;
 								if(data.code == 200 && data.data != null) {
 									let resultData = data.data;
+									this.$Message.destroy();
 									if(resultData == "1") {
-										this.$Message.success("增加成功");
 										this.getCommonTaskSystemControl();
+										this.$Message.success("系统控制保存成功");
 									} else {
-										this.$Message.error("增加失败");
+										this.$Message.success("系统控制保存失败");
 									}
-
 								}
 							}).catch(err => {
 								console.log(err)
@@ -1816,17 +2051,13 @@ export default {
 					this.CommonTaskSystemControl[i].isUpdateFlag = false;
 				}
 			}
+
 			//设备列表
-			let CommonTaskEquipControl = this.CommonTaskEquipControl;
 			for(let i = 0; i < CommonTaskEquipControl.length; i++) {
 				if(CommonTaskEquipControl[i].isUpdateFlag) {
-					if(CommonTaskEquipControl[i].set_nom == "") {
-						alert("请选择控制类型");
-						return false;
-					}
 					let set_nom = CommonTaskEquipControl[i].set_nom;
-					let equip_no = set_nom.split(",")[0];
-					let set_no = set_nom.split(",")[1];
+					let equip_no = set_nom[0];
+					let set_no = set_nom[1];
 					if(CommonTaskEquipControl[i].ID != "") {
 						this.Axios.post('/api/GWServiceWebAPI/set_BatchUpdate', {
 							getDataTable: "GWProcTimeEqpTable",
@@ -1836,22 +2067,22 @@ export default {
 							let data = res.data.HttpData;
 							if(data.code == 200 && data.data != null) {
 								let resultData = data.data;
+								this.$Message.destroy();
 								if(resultData == "1") {
-									this.$Message.success("更新成功");
 									this.CommonTaskEquipControl[i].isCommonSpan = true;
+									this.$Message.success("设备列表保存成功");
 								} else {
-									this.$Message.error("更新失败");
+									this.$Message.success("设备列表保存失败");
 								}
-
 							}
 						}).catch(err => {
 							console.log(err)
 						})
 					} else {
 						if(CommonTaskEquipControl[i].set_no != "") {
-							var newCommTaskID=this.CommonTaskTableID;
-							if(this.CommonTaskTableID==""){
-								newCommTaskID=this.CommonTaskMaxTableID;
+							var newCommTaskID = this.CommonTaskTableID;
+							if(this.CommonTaskTableID == "") {
+								newCommTaskID = this.CommonTaskMaxTableID;
 							}
 							this.Axios.post('/api/GWServiceWebAPI/set_InsertNewTableValues', {
 								getDataTable: "GWProcTimeEqpTable([TableID],[Time],TimeDur,equip_no,set_no)",
@@ -1861,13 +2092,13 @@ export default {
 								let data = res.data.HttpData;
 								if(data.code == 200 && data.data != null) {
 									let resultData = data.data;
+									this.$Message.destroy();
 									if(resultData == "1") {
-										this.$Message.success("增加成功");
 										this.getCommonTaskEquipControl();
+										this.$Message.success("设备列表保存成功");
 									} else {
-										this.$Message.error("增加失败");
+										this.$Message.success("设备列表保存失败");
 									}
-
 								}
 							}).catch(err => {
 								console.log(err)
@@ -1899,7 +2130,7 @@ export default {
 				if(i !== selecteTable) {
 					newArr.push(CommonTaskList[i])
 				} else {
-					if(CommonTaskList[i].getDataTable != "") {
+					if(CommonTaskList[i].dataTableIndex != "") {
 						this.Axios.post('/api/GWServiceWebAPI/set_DeleteTableData', {
 							getDataTable: "GWProcTimeTList",
 							tableVlue: " TableID=" + CommonTaskList[i].dataTableIndex + ""
@@ -1931,6 +2162,8 @@ export default {
 						}).catch(err => {
 							console.log(err)
 						})
+					} else {
+						this.SelecteTableFun(0);
 					}
 				}
 			}
@@ -1944,8 +2177,8 @@ export default {
 				Comment: "",
 				isCommonSpan: false,
 				isUpdateFlag: true
-			});console.log(this.CommonTaskList)
-			this.selecteTable = this.CommonTaskList.length-1;
+			});
+			this.selecteTable = this.CommonTaskList.length - 1;
 			this.SystemStatus = true;
 			this.EquipStatus = true;
 			this.selecteSystem = -1;
@@ -1965,7 +2198,7 @@ export default {
 			this.CommonTaskList[index].isUpdateFlag = true;
 		},
 		//------普通任务列表:选中行---------
-		SelecteTableFun(index) {console.log(index)
+		SelecteTableFun(index) {
 			let dataTableIndex;
 			for(var i = 0; i < this.CommonTaskList.length; i++) {
 				dataTableIndex = this.CommonTaskList[i].dataTableIndex;
@@ -1996,7 +2229,7 @@ export default {
 					let CommonTaskListData = [];
 					let CommonTaskListDataArr = [];
 					for(var i = 0; i < resultData.length; i++) {
-						if(i == 0) {
+						if(i == 0 && !this.CommonTaskTableID) {
 							this.CommonTaskTableID = resultData[i].TableID;
 						}
 						CommonTaskListData.push({
@@ -2010,8 +2243,8 @@ export default {
 					}
 					this.CommonTaskList = CommonTaskListData;
 					this.CommonTaskMaxTableID = CommonTaskListDataArr == "" ? 0 : Math.max.apply(null, CommonTaskListDataArr);
-					this.getCommonTaskSystemControl(),
-						this.getCommonTaskEquipControl()
+					this.getCommonTaskSystemControl();
+					this.getCommonTaskEquipControl()
 				}
 			}).catch(err => {
 				console.log(err)
@@ -2082,7 +2315,7 @@ export default {
 
 		},
 		cancel() {
-
+			this.sureModal = false;
 		}
 	}
 }

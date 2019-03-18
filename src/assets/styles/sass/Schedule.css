@@ -108,16 +108,40 @@
         height: 100%; }
       .schedule .schedule_bottom .publicSchedule .user-table tr th, .schedule .schedule_bottom .publicSchedule .user-table tr td {
         width: 16.666%;
-        overflow: hidden; }
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-box-pack: center;
+        -webkit-line-clamp: 3;
+        word-wrap: break-word;
+        word-break: normal;
+        -webkit-box-orient: vertical; }
       .schedule .schedule_bottom .publicSchedule .AlmReport-table tr th, .schedule .schedule_bottom .publicSchedule .AlmReport-table tr td {
         width: 33.33%;
-        overflow: hidden; }
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-box-pack: center;
+        -webkit-line-clamp: 3;
+        word-wrap: break-word;
+        word-break: normal;
+        -webkit-box-orient: vertical; }
       .schedule .schedule_bottom .publicSchedule .WeekAlmReport-table tr th, .schedule .schedule_bottom .publicSchedule .WeekAlmReport-table tr td {
         width: 20%;
-        overflow: hidden; }
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-box-pack: center;
+        -webkit-line-clamp: 3;
+        word-wrap: break-word;
+        word-break: normal;
+        -webkit-box-orient: vertical; }
       .schedule .schedule_bottom .publicSchedule .SpeAlmReport-table tr th, .schedule .schedule_bottom .publicSchedule .SpeAlmReport-table tr td {
         width: 25%;
-        overflow: hidden; }
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-box-pack: center;
+        -webkit-line-clamp: 3;
+        word-wrap: break-word;
+        word-break: normal;
+        -webkit-box-orient: vertical; }
       .schedule .schedule_bottom .publicSchedule tbody tr td i {
         font-size: 18.3333333333px;
         margin: 0 10px;
@@ -240,15 +264,11 @@
           overflow-y: auto; }
           .schedule .schedule_bottom .publicSchedule > .EquipmentRight > ul > li {
             font-size: 0.8rem;
-            width: 160px;
-            height: 40px;
+            width: 30%;
             line-height: 40px;
-            margin-left: 5%;
+            margin-left: 3%;
             display: inline-block;
-            float: left;
-            white-space: nowrap;
-            text-overflow: ellipsis;
-            overflow: hidden; }
+            float: left; }
             .schedule .schedule_bottom .publicSchedule > .EquipmentRight > ul > li label {
               font-size: 14px; }
               .schedule .schedule_bottom .publicSchedule > .EquipmentRight > ul > li label .ivu-checkbox-inner {
@@ -263,18 +283,19 @@
     text-align: right; }
   .ModalUser .ivu-modal-body > div.ivu-row #userAdmin, .ModalUser .ivu-modal-body > div.ivu-row #phoneAdmin, .ModalUser .ivu-modal-body > div.ivu-row #msphoneAdmin, .ModalUser .ivu-modal-body > div.ivu-row #eamilAdmin, .ModalUser .ivu-modal-body > div.ivu-row #levelAdmin, .ModalWeek .ivu-modal-body > div.ivu-row #userAdmin, .ModalWeek .ivu-modal-body > div.ivu-row #phoneAdmin, .ModalWeek .ivu-modal-body > div.ivu-row #msphoneAdmin, .ModalWeek .ivu-modal-body > div.ivu-row #eamilAdmin, .ModalWeek .ivu-modal-body > div.ivu-row #levelAdmin {
     text-indent: 10%; }
+  .ModalUser .ivu-modal-body > div.ivu-row #levelAdmin, .ModalWeek .ivu-modal-body > div.ivu-row #levelAdmin {
+    text-indent: calc(5% - 4px); }
   .ModalUser .ivu-modal-body > div.ivu-row > div, .ModalWeek .ivu-modal-body > div.ivu-row > div {
     height: 30px;
     line-height: 30px;
     margin: 10px 0;
     position: relative; }
     .ModalUser .ivu-modal-body > div.ivu-row > div span, .ModalWeek .ivu-modal-body > div.ivu-row > div span {
-      display: inline-block;
-      text-align: left;
-      white-space: nowrap; }
+      text-align: left; }
     .ModalUser .ivu-modal-body > div.ivu-row > div input, .ModalWeek .ivu-modal-body > div.ivu-row > div input {
       width: 100%;
-      border: 1px solid #eee; }
+      border: 1px solid #dddee1;
+      border-radius: 4px; }
     .ModalUser .ivu-modal-body > div.ivu-row > div > .tooltipError, .ModalWeek .ivu-modal-body > div.ivu-row > div > .tooltipError {
       color: red;
       position: absolute;

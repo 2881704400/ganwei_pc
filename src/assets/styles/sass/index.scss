@@ -24,7 +24,7 @@
             .logo{
                 width: $headerLogoSize;
                 text-align: center;
-                margin-left: -15px;
+                margin-left: -40px;
             }
             .txt{
                 display: flex;
@@ -259,4 +259,42 @@
             }
         }
     }
+    .demo-auto-complete-item{
+        padding: 4px 0;
+        border-bottom: 1px solid #F6F6F6;
+    }
+    .demo-auto-complete-title{
+        padding: 4px 0px 4px 20px;
+    }
+    .demo-auto-complete-group{
+        font-size: 12px;
+        padding: 4px 0px 4px 20px;
+    }
+    .demo-auto-complete-group span{
+        color: #666;
+        font-weight: bold;
+    }
+    .demo-auto-complete-group a{
+        float: right;
+    }
+    .demo-auto-complete-count{
+        float: right;
+        color: #999;
+    }
+    .demo-auto-complete-more{
+        display: block;
+        margin: 0 auto;
+        padding: 4px;
+        text-align: center;
+        font-size: 12px;
+    }
+}
+.ivu-auto-complete.ivu-select-dropdown {
+    min-width: 250px !important;
+    max-height: 430px !important;
+    width: auto !important;
+}
+
+.ivu-cascader-menu{
+    max-width: 200px;
 }
