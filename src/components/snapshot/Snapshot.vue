@@ -9,34 +9,35 @@
 								<thead>
 									<tr>
 										<th @click="setTableSortFunc(0)">类型
-											<i v-if="tableSortType==0" v-show="tableSortDirection[0]==0" class="iconfont icon-triangle-bottom"></i>
-											<i v-if="tableSortType==0" v-show="tableSortDirection[0]==1" class="iconfont icon-triangle-top"></i></th>
+											<i v-if="tableSortType==0" v-show="tableSortDirection[0]==0" class="iconfont icon-triangle-bottom2"></i>
+											<i v-if="tableSortType==0" v-show="tableSortDirection[0]==1" class="iconfont icon-triangle-top2"></i></th>
 										<th @click="setTableSortFunc(1)">时间
-											<i v-if="tableSortType==1" v-show="tableSortDirection[1]==0" class="iconfont icon-triangle-bottom"></i>
-											<i v-if="tableSortType==1" v-show="tableSortDirection[1]==1" class="iconfont icon-triangle-top"></i></th>
+											<i v-if="tableSortType==1" v-show="tableSortDirection[1]==0" class="iconfont icon-triangle-bottom2"></i>
+											<i v-if="tableSortType==1" v-show="tableSortDirection[1]==1" class="iconfont icon-triangle-top2"></i></th>
 										</th>
 										<th @click="setTableSortFunc(2)">事件
-											<i v-if="tableSortType==2" v-show="tableSortDirection[2]==0" class="iconfont icon-triangle-bottom"></i>
-											<i v-if="tableSortType==2" v-show="tableSortDirection[2]==1" class="iconfont icon-triangle-top"></i></th>
+											<i v-if="tableSortType==2" v-show="tableSortDirection[2]==0" class="iconfont icon-triangle-bottom2"></i>
+											<i v-if="tableSortType==2" v-show="tableSortDirection[2]==1" class="iconfont icon-triangle-top2"></i></th>
 										</th>
 										<th @click="setTableSortFunc(3)">确认
-											<i v-if="tableSortType==3" v-show="tableSortDirection[3]==0" class="iconfont icon-triangle-bottom"></i>
-											<i v-if="tableSortType==3" v-show="tableSortDirection[3]==1" class="iconfont icon-triangle-top"></i></th>
+											<i v-if="tableSortType==3" v-show="tableSortDirection[3]==0" class="iconfont icon-triangle-bottom2"></i>
+											<i v-if="tableSortType==3" v-show="tableSortDirection[3]==1" class="iconfont icon-triangle-top2"></i></th>
 										</th>
 										<th @click="setTableSortFunc(4)">处理意见
-											<i v-if="tableSortType==4" v-show="tableSortDirection[4]==0" class="iconfont icon-triangle-bottom"></i>
-											<i v-if="tableSortType==4" v-show="tableSortDirection[4]==1" class="iconfont icon-triangle-top"></i></th>
+											<i v-if="tableSortType==4" v-show="tableSortDirection[4]==0" class="iconfont icon-triangle-bottom2"></i>
+											<i v-if="tableSortType==4" v-show="tableSortDirection[4]==1" class="iconfont icon-triangle-top2"></i></th>
 										</th>
 									</tr>
 								</thead>
 								<tbody>
 									<tr v-for="(item,index) of tableInfo" :key="index">
 										<td>
-											<img v-if="item.Level=='故障'" src="@assets/img/infor/Errors.png" alt="" style="vertical-align: middle;" />
+											<!--<img v-if="item.Level=='故障'" src="@assets/img/infor/Errors.png" alt="" style="vertical-align: middle;" />
 											<img v-if="item.Level=='警告'" src="@assets/img/infor/Warnings.png" alt="" style="vertical-align: middle;" />
 											<img v-if="item.Level=='信息'" src="@assets/img/infor/Informations.png" alt="" style="vertical-align: middle;" />
 											<img v-if="item.Level=='设置'" src="@assets/img/infor/Settings.png" alt="" style="vertical-align: middle;" />
-											<img v-if="item.Level=='资产'" src="@assets/img/infor/Assets.png" alt="" style="vertical-align: middle;" /> {{item.Level}}
+											<img v-if="item.Level=='资产'" src="@assets/img/infor/Assets.png" alt="" style="vertical-align: middle;" /> {{item.Level}}-->
+											<img :src="item.IconRes" alt="item.Level" style="vertical-align: middle;" /> {{item.Level}}
 										</td>
 										<td>{{item.formatTime}}</td>
 										<td>
@@ -54,15 +55,25 @@
 			</Tabs>
 		</div>
 
-		<Modal v-model="sureModal" title="确认处理该事件吗？" @on-ok="sureModalFun" @on-cancel="cancel" class="modalAlert">
+		<Modal v-model="sureModal" title="确认处理该事件吗？" class="modalAlert">
 			<h1 v-model="EventMsg" :title="EventMsg">事件：<span>{{EventMsg}}</span></h1>
 			<input type="hidden" v-model="Time" />
-			<p>请输入处理意见（100字以内）：</p>
-			<Input type="textarea" :rows="4" v-model="msgValue"></Input>
-			<Checkbox label="是" style="margin: 10px 0;" v-model="isSendSms">是否发送短信？</Checkbox>
+			
+			<Form ref="formValidate" :model="formValidate" :rules="ruleValidate" style="margin-top: 10px;">
+				<FormItem label="请输入处理意见（100字以内）：" prop="desc">
+		            <Input v-model="formValidate.desc" type="textarea" clearable :autosize="{minRows: 4,maxRows: 5}" placeholder="请输入处理意见..."></Input>
+		        </FormItem>
+		    </Form>
+			<!--<p>请输入处理意见（100字以内）：</p>
+			<Input type="textarea" :rows="4" v-model="msgValue"></Input>-->
+			<Checkbox label="是" v-model="isSendSms">是否发送短信？</Checkbox>
 			<CheckboxGroup class="groupCheck" v-show="isSendSms" v-model="atorMobiles">
 				<Checkbox v-for="(item,index) of atorMsgInfo" :key="index" class="groupCheckChild" :label="item.allInfo">{{item.MobileTel}}({{item.Administrator}})</Checkbox>
 			</CheckboxGroup>
+			<div slot="footer">
+				<Button type="text" @click="cancel()">取消</Button>
+				<Button type="primary"  @click="sureModalFun()" :style="isSureModalFlag?'background-color: #f7f7f7;border-color: #dddee1;color: #bbbec4;':''" :disabled="isSureModalFlag">确定</Button>
+			</div>
 		</Modal>
 	</div>
 </template>
@@ -70,6 +81,14 @@
 <script>
 	export default {
 		data() {
+			const validateDesc = (rule, value, callback) => {
+                if (value.length > 100) {
+                	this.isSureModalFlag=true;
+                    callback(new Error('处理意见不可超过100字'));
+                }else{
+                	this.isSureModalFlag=false;
+                }
+            };
 			return {
 				btnInfo: [],
 				tableInfo: [],
@@ -84,7 +103,16 @@
 				tabPaneValue: '-1',
 				timeInterval: null,
 				tableSortType: 0,
-				tableSortDirection: [0,0,0,0,0]
+				tableSortDirection: [0,0,0,0,0],
+				isSureModalFlag: false,
+				formValidate: {
+					desc: ''
+                },
+                ruleValidate: {
+                	desc: [
+                        { validator: validateDesc, trigger: 'change' }
+                    ]
+                }
 			}
 		},
 		mounted() {
@@ -112,12 +140,14 @@
 			//设置表格排序
 			setTableSortFunc(num) {
 				let tableSortType = this.tableSortType= num;
-				this.tableInfo.sort(this.tableSort);
 				if(this.tableSortDirection[tableSortType]==0){
+					this.tableSortDirection = [0,0,0,0,0]
 					this.tableSortDirection.splice(tableSortType,1,1)
 				}else{
+					this.tableSortDirection = [0,0,0,0,0]
 					this.tableSortDirection.splice(tableSortType,1,0)
 				}
+				this.tableInfo.sort(this.tableSort);
 			},
 			tableSort: function(a, b) {
 				let tableSortType = this.tableSortType;
@@ -132,7 +162,7 @@
 					} else if(tableSortType == "3") {
 						return a.bConfirmed-b.bConfirmed;
 					} else if(tableSortType == "4") {
-						return a.Proc_advice_Msg-b.Proc_advice_Msg;
+						return a.Proc_advice_Msg.localeCompare(b.Proc_advice_Msg);
 					} else {
 						return a.Level.localeCompare(b.Level);
 					}
@@ -146,12 +176,11 @@
 					} else if(tableSortType == "3") {
 						return b.bConfirmed-a.bConfirmed;
 					} else if(tableSortType == "4") {
-						return b.Proc_advice_Msg-a.Proc_advice_Msg;
+						return b.Proc_advice_Msg.localeCompare(a.Proc_advice_Msg);
 					} else {
 						return b.Level.localeCompare(a.Level);
 					}
 				}
-				
 			},
 			//获取事件的报警配置
 			getAlarmConfig() {
@@ -165,6 +194,7 @@
 								spanName: "全部",
 								btnStatus: true,
 								btnValue: "-1",
+								IconRes: "./static/img/infor/all.png",
 								btnCount: "",
 								isActive: true
 							}];
@@ -181,6 +211,7 @@
 									spanName: resultData[i].SnapshotName,
 									btnStatus: btnStatus,
 									btnValue: btnValue,
+									IconRes: "./static/img/"+resultData[i].IconRes,
 									btnCount: "",
 									isActive: false
 								});
@@ -199,7 +230,7 @@
 				let btnInfoLevels = "";
 				for(let i = 0; i < this.btnInfo.length; i++) {
 					if(this.btnInfo[i].btnValue != "-1") {
-						btnInfoLevels += this.btnInfo[i].btnValue + ";"
+						btnInfoLevels += this.btnInfo[i].btnValue + "/"
 					}
 				}
 				btnInfoLevels = btnInfoLevels.substring(0, btnInfoLevels.length - 1);
@@ -240,12 +271,14 @@
 						let tableListData = [];
 						for(var i = 0; i < resultData.length; i++) {
 							var strLevel = "";
+							var strIconRes = "";
 							var btnInfo = this.btnInfo;
 							for(var j = 0; j < btnInfo.length; j++) {
 								var btnInfoArr = btnInfo[j].btnValue.split(",");
 								for(var m = 0; m < btnInfoArr.length; m++) {
 									if(btnInfoArr[m] == resultData[i].Level) {
 										strLevel = btnInfo[j].spanName;
+										strIconRes = btnInfo[j].IconRes;
 										break;
 									}
 								}
@@ -256,12 +289,16 @@
 								Time: resultData[i].Time.replace("T", " "),
 								formatTime: this.formatDate(resultData[i].Time),
 								Level: strLevel,
+								IconRes: strIconRes,
 								bConfirmed: resultData[i].bConfirmed,
 								Equipno: resultData[i].Equipno,
 								Ycyxno: resultData[i].Ycyxno
 							});
 						}
 						this.tableInfo = tableListData;
+						//排序
+						this.tableInfo.sort(this.tableSort);
+						
 						this.atorMsgDataFun();
 					}
 				}).catch(err => {
@@ -269,9 +306,7 @@
 				})
 			},
 			atorMsgDataFun() {
-				this.Axios.post('/api/GWServiceWebAPI/get_DataByTableName', {
-					TableName: "Administrator"
-				}).then(res => {
+				this.Axios.post('/api/GWServiceWebAPI/get_AdministratorData', {}).then(res => {
 					let data = res.data.HttpData;
 					if(data.code == 200) {
 						let resultData = data.data;
@@ -292,17 +327,27 @@
 			showModalFun(EventMsg, Time) {
 				this.EventMsg = EventMsg;
 				this.Time = Time;
-				this.msgValue = "";
+				this.formValidate.desc = "";
 				this.isSendSms = false;
 				this.atorMobiles = [];
 				this.sureModal = true;
 			},
 			sureModalFun() {
+				this.$refs["formValidate"].validate((valid) => {
+                    if (valid) {
+                        this.$Message.success('Success!');
+                        this.isSureModalFlag=false;
+                    } else {
+                        this.$Message.error('Fail!');
+                        return;
+                    }
+                    
+                });
 				let atorMobiles = this.atorMobiles;
 				let atorMobilesArr = [];
 				for(let i = 0; i < atorMobiles.length; i++) {
 					if(atorMobiles[i] != "" && atorMobiles[i] != null) {
-						atorMobilesArr.push(atorMobiles[i].split("&&")[1]);
+						atorMobilesArr.push(atorMobiles[i].split("&&")[0]);
 					}
 
 				}
@@ -320,9 +365,9 @@
 				}
 
 				this.Axios.post('/api/event/confirm_evt', {
-					msg: this.msgValue,
+					msg: this.formValidate.desc,
 					shortmsg: this.isSendSms,
-					tel: atorMobilesArr.toString(),
+					telUser: atorMobilesArr,
 					evtname: this.EventMsg,
 					time: TimeArr[0] + "." + strTimeArr,
 					userName: this.$store.state.loginMsg
@@ -333,6 +378,7 @@
 						this.getRealTimeEvent();
 						this.cancel();
 						this.$Message.success("操作成功");
+						this.sureModal = false;
 					} else {
 						this.$Message.error("操作失败");
 					}
@@ -348,7 +394,7 @@
 
 			},
 			cancel() {
-
+				this.sureModal=false;
 			}
 		},
 		beforeDestroy() {

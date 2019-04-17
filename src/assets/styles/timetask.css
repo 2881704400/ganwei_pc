@@ -4,7 +4,7 @@
 
 .three-content {
 	width: 32%;
-	min-width: 356px;
+	/*min-width: 356px;*/
 	height: 100%;
 	float: left;
 	margin-right: 2%;
@@ -51,6 +51,10 @@
 	cursor: pointer;
 }
 
+.table-toolbar button:last-child{
+	margin-left: 0px;
+}
+
 .task-modal .ivu-modal-content {
 	border-radius: 0px;
 }
@@ -75,15 +79,21 @@
 .task-modal .ivu-btn {
 	font-weight: 500;
 	padding: 5px 20px;
+	width: 71px;
+    height: 31px;
 	font-size: 14px;
 	border-radius: 0px;
 }
 
+.task-modal .ivu-btn span{
+	vertical-align: top !important; 
+}
+
 .task-modal .ivu-btn-text {
-	color: #fff;
+	/*color: #fff;
 	background-color: #B5B5B5;
 	border-color: #B5B5B5;
-	font-size: 14px;
+	font-size: 14px;*/
 }
 
 .one-third-modal {
@@ -199,27 +209,6 @@
 	width: 100%;
 	height: 80%;
 	overflow-y: auto;
-}
-
-.half-modal .half-content .loopCycleUl::-webkit-scrollbar {
-	/*滚动条整体样式*/
-	width: 4px;
-	/*高宽分别对应横竖滚动条的尺寸*/
-	height: 4px;
-}
-
-.half-modal .half-content .loopCycleUl::-webkit-scrollbar-thumb {
-	/*滚动条里面小方块*/
-	border-radius: 5px;
-	-webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
-	background: rgba(0, 0, 0, 0.2);
-}
-
-.half-modal .half-content .loopCycleUl::-webkit-scrollbar-track {
-	/*滚动条里面轨道*/
-	-webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
-	border-radius: 0;
-	background: rgba(0, 0, 0, 0.1);
 }
 
 .half-modal .half-content .loopCycleUl li {
@@ -418,27 +407,6 @@
 	overflow-y: auto;
 }
 
-.common-table table tbody::-webkit-scrollbar {
-	/*滚动条整体样式*/
-	width: 4px;
-	/*高宽分别对应横竖滚动条的尺寸*/
-	height: 4px;
-}
-
-.common-table table tbody::-webkit-scrollbar-thumb {
-	/*滚动条里面小方块*/
-	border-radius: 5px;
-	-webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
-	background: rgba(0, 0, 0, 0.2);
-}
-
-.common-table table tbody::-webkit-scrollbar-track {
-	/*滚动条里面轨道*/
-	-webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
-	border-radius: 0;
-	background: rgba(0, 0, 0, 0.1);
-}
-
 .common-table table thead,
 .common-table tbody tr {
 	display: table;
@@ -449,9 +417,12 @@
 .common-table table tbody tr td {
 	padding: 6px 10px;
 	color: #2e2e2e;
-	font-size: 15px;
+	font-size: 14px;
 	font-weight: 500;
 	text-align: left;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
 
 .common-table table tbody tr td:first-child {
@@ -566,27 +537,6 @@
 	height: 92.5%;
 }
 
-.common-smalltable table tbody::-webkit-scrollbar {
-	/*滚动条整体样式*/
-	width: 4px;
-	/*高宽分别对应横竖滚动条的尺寸*/
-	height: 4px;
-}
-
-.common-smalltable table tbody::-webkit-scrollbar-thumb {
-	/*滚动条里面小方块*/
-	border-radius: 5px;
-	-webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
-	background: rgba(0, 0, 0, 0.2);
-}
-
-.common-smalltable table tbody::-webkit-scrollbar-track {
-	/*滚动条里面轨道*/
-	-webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
-	border-radius: 0;
-	background: rgba(0, 0, 0, 0.1);
-}
-
 .common-smalltable table thead,
 .common-smalltable tbody tr {
 	display: table;
@@ -610,6 +560,15 @@
 	background: #fff;
 	border-bottom: 1px solid #ddd;
 	cursor: pointer;
+	width: 20%;
+}
+
+.config-common-smalltable table thead tr th,.config-common-smalltable table tbody tr td{
+	width: 20%;
+}
+
+.config-common-smalltable table thead tr th:nth-child(2),.config-common-smalltable table tbody tr td:nth-child(2){
+	width: 60%;
 }
 
 .common-smalltable table tbody {
@@ -622,6 +581,9 @@
 .common-smalltable table tbody tr td {
 	/*padding: 11px 10px;*/
 	padding: 0px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
 	/*padding: 2px 1px;*/
 }
 
@@ -633,6 +595,9 @@
 	padding: 12px 10px;
 	/*padding: 2px 1px;*/
 	text-align: left;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
 
 .common-smalltable-checkbox table tbody tr td>font {
@@ -653,13 +618,13 @@
 	text-overflow: ellipsis;
 }
 
-
 .common-smalltable-checkboxgroup {
 	width: 75%;
-	height: 100%;float: left;
+	height: 100%;
+	float: left;
 }
 
-.common-smalltable-checkboxgroup-tasklist{
+.common-smalltable-checkboxgroup-tasklist {
 	width: 25%;
 	height: 100%;
 }
@@ -676,6 +641,9 @@
 
 .common-smalltable-checkboxgroup table tbody tr td {
 	text-align: center;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
 
 .common-smalltable-checkboxgroup-tasklist table thead tr th {
@@ -684,6 +652,9 @@
 
 .common-smalltable-checkboxgroup-tasklist table tbody tr td {
 	text-align: left;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
 
 .common-smalltable-checkboxgroup-tasklist table tbody tr td>font {
@@ -706,6 +677,9 @@
 	text-align: center;
 	padding: 0px 10px;
 	margin: 0px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
 
 .common-smalltable-checkboxgroup table tr td .ivu-date-picker {
@@ -739,6 +713,9 @@
 	display: block;
 	padding: 6px 9px;
 	font-size: 14px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
 
 .common-smalltable-checkboxgroup table tbody tr td i {
@@ -860,6 +837,9 @@
 	text-align: center;
 	padding: 0px;
 	margin: 0px;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
 }
 
 .common-smalltable table tr td .spanContent font {
@@ -905,7 +885,7 @@
 	height: 100%;
 	-webkit-box-shadow: 0px 0px 0px 0px #dadada;
 	box-shadow: 0px 0px 0px 0px #dadada;
-	min-width: 1140px;
+	/*min-width: 1140px;*/
 }
 
 .common-tab {
@@ -957,7 +937,8 @@
 .common-tab .ivu-tabs-card>.ivu-tabs-content>.ivu-tabs-tabpane {
 	background: #fff;
 	border-top: 1px solid #EEEEEE;
-	min-width: 1115px;
+	width: 100%;
+	/*min-width: 1115px;*/
 	height: 100%;
 }
 
@@ -1022,6 +1003,7 @@
 	background-position: 0% 0%;
 	background-size: 100% auto;
 	background-repeat: no-repeat;
+	background: url(../img/infor/Informations.png);
 }
 
 .common-tab .ivu-tabs.ivu-tabs-card>.ivu-tabs-bar .ivu-tabs-nav .ivu-tabs-tab:nth-of-type(2) .ivu-icon {
@@ -1052,9 +1034,9 @@
 .modalAlert h1 {
 	font-size: 1rem;
 	font-weight: 200;
-	white-space: nowrap;
+	/*white-space: nowrap;
 	overflow: hidden;
-	text-overflow: ellipsis;
+	text-overflow: ellipsis;*/
 }
 
 .modalAlert p {
@@ -1062,9 +1044,11 @@
 }
 
 .modalAlert .groupCheck {
+	max-height: 300px;
 	padding: 20px 0;
 	text-indent: 10px;
 	border: 1px solid #eee;
+	overflow-y: auto;
 }
 
 .modalAlert .groupCheck>.groupCheckChild {

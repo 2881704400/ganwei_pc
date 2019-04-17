@@ -36,22 +36,47 @@
             }
         }
         .linkage{
+            width: 100%;
             position: relative;
             height: 100%;
             table{
                 thead{
                     th{
                         width: 11%;
+                        &:nth-child(1){
+                            width: 15%;
+                        }
+                        &:nth-child(4){
+                            width: 8%;
+                        }
                         &:nth-child(5){
-                            width: 12%;
+                            width: 15%;
+                        }
+                        &:nth-child(9){
+                            width: 7%;
                         }
                     }
                 }
                 tbody{
                     td{
                         width: 11%;
+//                      white-space: nowrap;text-overflow: ellipsis;overflow: hidden;
+                        overflow : hidden;
+                        display: -webkit-box;
+                        -webkit-box-pack: center;
+                        -webkit-line-clamp:3;
+                        -webkit-box-orient: vertical;
+                        &:nth-child(1){
+                            width: 15%;
+                        }
+                        &:nth-child(4){
+                            width: 8%;
+                        }
                         &:nth-child(5){
-                            width: 12%;
+                            width: 15%;
+                        }
+                        &:nth-child(9){
+                            width: 7%;
                         }
                     }
                 }
@@ -60,14 +85,14 @@
                     font-size: 18px;
                     i{
                         cursor: pointer;
-                        margin: 0 10px;
+                        margin: 0 5px;
                     }
                 }
             }
         }
         
         .scene{
-            position: relative;
+            height: 100%;overflow-y: auto;position: relative;
             .ivu-collapse{
                 border-radius: 0;
                 border-top: 0;
@@ -81,6 +106,9 @@
                 }
                 .ivu-collapse-header{
                     font-size: 15px;
+                    overflow: hidden;
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
                 }
                 .form{
                     .ivu-form-item-label{
@@ -134,3 +162,4 @@
     }
 
 }
+.ivu-modal .ivu-modal-content > .ivu-modal-body{overflow: inherit;}

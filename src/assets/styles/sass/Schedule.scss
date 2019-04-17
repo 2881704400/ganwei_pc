@@ -4,8 +4,7 @@
     $contentTop: 40px;
     $IconFontSize: 22px;
     $searchHeight: 32px;
-
-    width: 100%;min-width: 700px;height: 100% !important;
+    width: 100%;min-width: 900px;height: 100% !important;
     .ivu-icon{color: #{$btnBackground};}
     .ivu-checkbox-checked .ivu-checkbox-inner{border-color: #{$btnBackground};background-color: #{$btnBackground};}
 
@@ -45,10 +44,38 @@
             //容器
             &>div{height: 100%;}
             //人员
-            .user-table{tr th,tr td{width: 16.666%;}}
-            .AlmReport-table{tr th,tr td{width: 33.33%;}}
-            .WeekAlmReport-table{tr th,tr td{width: 20%;}}
-            .SpeAlmReport-table{tr th,tr td{width: 25%;}}
+            .user-table{tr th,tr td{width: 16.666%;
+                        overflow : hidden;
+                        display: -webkit-box;
+                        -webkit-box-pack: center;
+                        -webkit-line-clamp:3;
+                        word-wrap: break-word;
+                        word-break: normal;
+                        -webkit-box-orient: vertical;}}
+            .AlmReport-table{tr th,tr td{width: 33.33%;
+                        overflow : hidden;
+                        display: -webkit-box;
+                        -webkit-box-pack: center;
+                        -webkit-line-clamp:3;
+                        word-wrap: break-word;
+                        word-break: normal;
+                        -webkit-box-orient: vertical;}}
+            .WeekAlmReport-table{tr th,tr td{width: 20%;
+                        overflow : hidden;
+                        display: -webkit-box;
+                        -webkit-box-pack: center;
+                        -webkit-line-clamp:3;
+                        word-wrap: break-word;
+                        word-break: normal;
+                        -webkit-box-orient: vertical;}}
+            .SpeAlmReport-table{tr th,tr td{width: 25%;
+                        overflow : hidden;
+                        display: -webkit-box;
+                        -webkit-box-pack: center;
+                        -webkit-line-clamp:3;
+                        word-wrap: break-word;
+                        word-break: normal;
+                        -webkit-box-orient: vertical;}}
             
             tbody tr td{i{font-size: #{ $IconFontSize/1.2};margin: 0 10px;color: #{$btnBackground};}}
             //设备分组范围
@@ -56,13 +83,16 @@
                 width: 25%;display: inline-block;position: absolute; left: 0;top: 0;bottom: 0;
                 h4{font-size: 0.9rem;font-weight: 200;}
                 button {color: #{$btnFontColor};width: #{$btnW};height: #{$btnH};background-color: #{$btnBackground};border-color: #{$btnBackground};border-radius: 0;padding: 0;}
-                &>div{height: #{$contentTop};line-height: #{$contentTop};text-indent: 10%;border-left: 1px solid #eee;
+                &>div{height: #{$contentTop};line-height: #{$contentTop};
+                h4{text-indent: 10%;}
+                border-left: 1px solid #eee;
                     &>.rightBtn{text-align: right;Button{font-size: 14px;cursor: pointer;outline: none;}}
                 }
                 &>ul{
                         width: 100%;position: absolute; left: 0;top: #{$contentTop};right: 0;bottom: 0;overflow-y: auto; border-right: 1px solid #eee;
                         &>li{
                             height: #{$scheduleLiHeight};line-height: #{$scheduleLiHeight};    border-left: 1px solid #eee;
+
                             // &:nth-child(2n){background: #{$doubleColor};}
                             &:nth-child(2n+1){background: #{$tbTRBgc};}
                             &>a:hover{color: #{$btnBackground} !important;background: #{$tbRowHover};}
@@ -82,12 +112,13 @@
                 width: 75%;display: inline-block;position: absolute; right: 0;top: 0;bottom: 0;
                 h4{font-size: 0.9rem;font-weight: 200;}
                 button {color: #{$btnFontColor};width: #{$btnW};height: #{$btnH};background-color: #{$btnBackground};border-color: #{$btnBackground};border-radius: 0;padding: 0;}
-                &>div{height: #{$contentTop};line-height: #{$contentTop};text-indent: 5%;
+                &>div{height: #{$contentTop};line-height: #{$contentTop};
+                     h4{text-indent: 5%;}
                      &>.rightBtn{text-align: right;padding-right: 2%;Button{font-size: 14px;margin-left: 20px;cursor: pointer;outline: none;}}
                 }
                 &>ul{ 
                     width: 100%;position: absolute; left: 0;top: #{$contentTop+20};right: 0;bottom: 0;overflow-y: auto;
-                    &>li{font-size: 0.8rem;width: 160px;height: #{$scheduleLiHeight};line-height: #{$scheduleLiHeight};margin-left: 5%;display: inline-block;float: left; 
+                    &>li{font-size: 0.8rem;width: 30%;line-height: #{$scheduleLiHeight};margin-left: 3%;display: inline-block;float: left; 
                        label{font-size: #{$btnfontSize};.ivu-checkbox-inner{margin-right: 10px;}} 
                        }
                 }
@@ -103,16 +134,17 @@
                 &>div.ivu-row{
                     .ivu-col-span-7{text-align: right;}
                     #userAdmin,#phoneAdmin,#msphoneAdmin,#eamilAdmin,#levelAdmin{text-indent: 10%;}
+                    #levelAdmin{text-indent: calc(5% - 4px);}
                     &>div{height: 30px;line-height: 30px;margin: 10px 0;position: relative;
-                        span{display: inline-block;text-align: left;    white-space: nowrap;}
-                        input{width: 100%;border: 1px solid #eee;}
+                        span{text-align: left;}
+                        input{width: 100%;border: 1px solid #dddee1;border-radius: 4px;}
                         &>.tooltipError{color: red;position: absolute; margin-left: 10px;}
                         &>.tooltipSuccess{color: green;position: absolute; margin-left: 10px;}
                     }
                     .userParentDev:after{content: "*";font-size: 16px;color: red;position: absolute;right: -15px;top: 5px;}
                     #start_timeIcon,#end_timeIcon,#end_DateIcon{font-size: 16px;color: red;position: absolute;right: -15px;top: 5px;}
                     #start_timeFont,#end_timeFont,#end_timeSize{display: none;font-size: 12px;color: red;position: absolute;right: -80px;top: 5px;}
-                    #end_DateSize{font-size: 12px;color: red;position: absolute;right: -80px;top: 5px;}
+                    #end_DateSize{font-size: 12px;color: red;position: absolute;right: -80px;top: 15px;}
                     #msgInfo:after,#phoneInfo:after,#msphoneInfo:after,#emailInfo:after{font-size: 14px;color: red;position: absolute;right: -75px;top: 2px;}     
                     #phoneInfo:after,#msphoneInfo:after,#emailInfo:after{content: "格式不对";}
                     #msgInfo:after{content: "重复命名";}

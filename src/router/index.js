@@ -7,6 +7,8 @@ const Index = r => require.ensure([], () => r(require('@page/Index')), 'index')
 // 首页组件
 const Home = r => require.ensure([], () => r(require('@page/home/Home')), 'page')
 // 设备数据组件
+const Projects = r => require.ensure([], () => r(require('@page/projects/Projects')), 'page')
+// 设备数据组件
 const Equips = r => require.ensure([], () => r(require('@page/equips/Equips')), 'page')
 // 实时快照组件
 const Snapshot = r => require.ensure([], () => r(require('@page/snapshot/Snapshot')), 'page')
@@ -47,6 +49,11 @@ export default new Router({
         {
           path: 'home',
           component: Home
+        },
+        {
+          name: 'projects',
+          path: 'projects',
+          component: Projects
         },
         {
           name: 'equip',
